@@ -7,6 +7,13 @@ public class Health : MonoBehaviour {
 	public float HealthLevel = 100;
 	public Texture DeathScreen;
 	public Texture bloodSplatter;
+	GUIStyle style;
+	
+	public void Start() {
+		style = new GUIStyle();
+		//style.normal.background = (Texture2D)bloodSplatter;
+		style.normal.background = new Texture2D(Screen.width, Screen.height);
+	}
 	
 	public bool Damage(float damage) {
 		if (damage < HealthLevel) {
@@ -21,9 +28,6 @@ public class Health : MonoBehaviour {
 	}
 	
 	public void OnGUI() {
-		GUIStyle style = new GUIStyle();
-		style.normal.background = (Texture2D)bloodSplatter;
-		style.normal.background = new Texture2D(Screen.width, Screen.height);
 		if (HealthLevel < 1) {
 			GUI.Box(new Rect(0, 0, Screen.width, Screen.height), DeathScreen);
 		}
