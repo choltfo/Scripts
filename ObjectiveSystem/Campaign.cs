@@ -25,6 +25,7 @@ public class Campaign {
 		}
 		//If not all missions are completed, load objectives for next mission
 		missions[lastCompleted+1].updateObjectives();
+		currentMission = lastCompleted + 1
 		return false;
 	}
 	
