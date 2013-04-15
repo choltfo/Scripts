@@ -19,7 +19,6 @@ public class Mission {
 			if (!objectives[i].complete) {
 				complete = false;
 				objectives[i].Activate(i);
-				break;
 			}
 		}
 		return complete;
