@@ -23,10 +23,6 @@ public class Objective : MonoBehaviour {
 	
 	void Update () {}
 	
-	public bool checkCompletion(){
-		return complete;
-	}
-	
 	public void Complete(){
 		complete = true;
 	}
@@ -47,7 +43,7 @@ public class Objective : MonoBehaviour {
 		Active = true;
 	}
 	
-	public void Disactivate() {
+	public void Deactivate() {
 		textMesh.text = "";
 		Active = false;
 	}
