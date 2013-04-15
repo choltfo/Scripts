@@ -11,7 +11,7 @@ public class Campaign {
 	//public Vector3 displayCoords;
 	
 	public bool updateMissions() {
-		bool notDone = false;
+		/*bool notDone = false;
 		foreach (Mission mission in missions) {
 			if (!mission.checkCompletion()) {
 				notDone = true;
@@ -33,7 +33,18 @@ public class Campaign {
 			}
 			missions[lastCompleted+1].Begin();
 			return false;
+		}*/
+		int lastCompleted = 0;
+		for (int i = 0; i < missions.Length; i ++) {
+			if (missions[i].complete) {
+				lastCompleted = i;
+			}
 		}
+		if (lastCompleted+1 == missions.Length) {
+			return true;
+		}
+		missions[lastCompleted+1].updateObjectives();
+		return false;
 	}
 	
 	public void drawGUI() {
@@ -43,6 +54,7 @@ public class Campaign {
 	public void applyStyles (GUIStyle headingStyle, GUIStyle contentStyle) {
 		foreach (Mission mission in missions) {
 			mission.applyStyles (headingStyle, contentStyle);
+			Debug.Log("Set style for mission " + mission.missionName);
 		}
 	}
 	

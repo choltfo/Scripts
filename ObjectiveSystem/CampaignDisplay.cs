@@ -7,9 +7,11 @@ public class CampaignDisplay : MonoBehaviour {
 	
 	public Campaign campaign;
 	bool DONE = false;
+	public GUIStyle headingStyle;
+	public GUIStyle contentStyle;
 	
-	void start () {
-		campaign.applyStyles();
+	void Start () {
+		campaign.applyStyles(headingStyle, contentStyle);
 	}
 	
 	void Update () {

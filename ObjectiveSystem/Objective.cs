@@ -12,6 +12,7 @@ public class Objective : MonoBehaviour {
 	TextMesh textMesh;
 	public bool Active = false;
 	int position = 0;
+	public GUIStyle labelStyle;
 	
 	public Objective() {}
 	
@@ -32,7 +33,7 @@ public class Objective : MonoBehaviour {
 	
 	void OnGUI() {
 		if (Active && !complete) {
-			GUI.Label (new Rect(50,50+(20*position),300,20),objectiveName);
+			GUI.Label (new Rect(50,50+(20*position),300,20),objectiveName, labelStyle);
 		}
 	}
 	
