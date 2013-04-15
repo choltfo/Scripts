@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Charger : Enemy {
+public class Enemy : MonoBehaviour {
 	
 	public GameObject player;
 	CharacterController motor;
