@@ -15,16 +15,11 @@ public class Mission {
 	public bool updateObjectives() {
 		complete = true; //Probably not a good idea
 		//Checks if any of the objectives are incomplete
-		foreach (Objective objective in objectives) {
-			if (!objective.complete) {
+		for (int i = 0; i < objectives.Length; i++) {
+			if (!objectives[i].complete) {
 				complete = false;
-				break;
-			}
-		}
-		
-		if (!complete) {
-			for (int i = 0; i < objectives.Length; i++) {
 				objectives[i].Activate(i);
+				break;
 			}
 		}
 		return complete;
