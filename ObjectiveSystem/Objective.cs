@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 [System.Serializable]
-[RequireComponent (typeof (TextMesh))]
+//[RequireComponent (typeof (TextMesh))]
 
 public class Objective : MonoBehaviour {
 	
@@ -39,12 +39,12 @@ public class Objective : MonoBehaviour {
 			return;
 		}
 		//Debug.Log("STARTING OBJECTIVE " + objectiveName);
-		textMesh.text = description;
+		//textMesh.text = description;
 		Active = true;
 	}
 	
 	public void Deactivate() {
-		textMesh.text = "";
+		//textMesh.text = "";
 		Active = false;
 	}
 }
