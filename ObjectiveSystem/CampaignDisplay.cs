@@ -17,6 +17,7 @@ public class CampaignDisplay : MonoBehaviour {
 	void Update () {
 		if (DONE) return;
 		//Debug.Log("Checking missions");
+		//
 		if (campaign.updateMissions()) {
 			Debug.Log("YOU HAVE BEATEN ALL MISSIONS BY updateMissions");
 			DONE = true;

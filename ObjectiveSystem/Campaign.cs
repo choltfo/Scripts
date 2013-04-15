@@ -34,15 +34,20 @@ public class Campaign {
 			missions[lastCompleted+1].Begin();
 			return false;
 		}*/
+
+		//Number of the last completed mission
 		int lastCompleted = 0;
-		for (int i = 0; i < missions.Length; i ++) {
+		//Updates lastCompleted 
+		for (int i = 0; i < missions.Length; i++) {
 			if (missions[i].complete) {
-				lastCompleted = i;
+				lastCompleted = 
 			}
 		}
+		//Returns true if all missions are completed
 		if (lastCompleted+1 == missions.Length) {
 			return true;
 		}
+		//If not all missions are completed, load objectives for next mission
 		missions[lastCompleted+1].updateObjectives();
 		return false;
 	}
