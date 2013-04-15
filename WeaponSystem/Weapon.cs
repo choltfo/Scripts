@@ -6,6 +6,9 @@ public class Weapon {
 	
 	public GameObject InstantiableObject;
 	public GameObject InstantiablePickup;
+	public GameObject BulletHole;
+	public GameObject DirtSpray;
+	public GameObject BloodSpray;
 	public Vector3 Position;
 	public Vector3 ScopedPosition;
 	public bool CanScope;
@@ -148,17 +151,17 @@ public class Weapon {
 						enemyHealth.Health -= Damage;
 						MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
 					}
-					/*TODO: Modify: GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(bloodSpray, hit.point, hitRotation);
+					Modify: GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(BloodSpray, hit.point, hitRotation);
 					Modify: newBlood.transform.parent = hit.transform;
-					Modify: newBlood.transform.Translate(0,(float)0.05,0);*/
+					Modify: newBlood.transform.Translate(0,(float)0.05,0);
 				} else {
-					/* TODO: GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(bulletHole, hit.point, hitRotation);
+					GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(BulletHole, hit.point, hitRotation);
 					newBulletHole.transform.parent = hit.transform;
 					newBulletHole.transform.Translate(0,(float)0.05,0);
 					hitRotation.x = hitRotation.x + 270;
-					GameObject newDust = (GameObject)MonoBehaviour.Instantiate(dust, hit.point, hitRotation);
+					GameObject newDust = (GameObject)MonoBehaviour.Instantiate(DirtSpray, hit.point, hitRotation);
 					newDust.transform.parent = hit.transform;
-					newDust.transform.Translate(0,(float)0.05,0);*/
+					newDust.transform.Translate(0,(float)0.05,0);
 				}
 			}
 			return true;
