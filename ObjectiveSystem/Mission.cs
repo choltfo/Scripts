@@ -37,7 +37,7 @@ public class Mission {
 	public void Begin () {
 		//Debug.Log("STARTING MISSION");
 		for (int i = 0; i < objectives.Length; i++) {
-			objectives[i].Activate(i);
+			objectives[i-1].Activate(i-1);
 		}
 	}
 	
