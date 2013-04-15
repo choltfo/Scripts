@@ -21,9 +21,7 @@ public class Mission {
 				break;
 			}
 		}
-		if (complete) {
-			return true;
-		}
+		
 		if (!complete) {
 			for (int i = 0; i < objectives.Length; i++) {
 				objectives[i].Activate(i);
