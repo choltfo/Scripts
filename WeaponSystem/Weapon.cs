@@ -130,7 +130,7 @@ public class Weapon {
 			isFiring = true;
 			
 			if( Physics.Raycast( ray, out hit, 100 ) ){
-				//PART OF BULLET HOLES			var hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+				var hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
 				
 				if (hit.transform.tag == "Explosive") {
 					if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
@@ -151,9 +151,9 @@ public class Weapon {
 						enemyHealth.Health -= Damage;
 						MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
 					}
-					Modify: GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(BloodSpray, hit.point, hitRotation);
-					Modify: newBlood.transform.parent = hit.transform;
-					Modify: newBlood.transform.Translate(0,(float)0.05,0);
+					GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(BloodSpray, hit.point, hitRotation);
+					newBlood.transform.parent = hit.transform;
+					newBlood.transform.Translate(0,(float)0.05,0);
 				} else {
 					GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(BulletHole, hit.point, hitRotation);
 					newBulletHole.transform.parent = hit.transform;
