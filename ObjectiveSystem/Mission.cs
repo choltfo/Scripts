@@ -15,10 +15,14 @@ public class Mission {
 	public bool updateObjectives() {
 		complete = true; //Probably not a good idea
 		//Checks if any of the objectives are incomplete
+		int completedCount = 0;
 		for (int i = 0; i < objectives.Length; i++) {
 			if (!objectives[i].complete) {
 				complete = false;
-				objectives[i].Activate(i);
+				objectives[i].Activate(completedCount);
+				completedCount++;
+			} else {
+				objectives[i].Deactivate();
 			}
 		}
 		return complete;

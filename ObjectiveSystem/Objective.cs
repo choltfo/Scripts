@@ -11,7 +11,7 @@ public class Objective : MonoBehaviour {
 	public bool complete = false;
 	TextMesh textMesh;
 	public bool Active = false;
-	int position = 0;
+	public int position = 0;
 	public GUIStyle labelStyle;
 	
 	public Objective() {}
@@ -34,12 +34,12 @@ public class Objective : MonoBehaviour {
 	}
 	
 	public void Activate (int number) {
+		position = number;
 		if (Active) {
 			return;
 		}
 		//Debug.Log("STARTING OBJECTIVE " + objectiveName);
 		textMesh.text = description;
-		position = number;
 		Active = true;
 	}
 	
