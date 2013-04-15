@@ -18,7 +18,7 @@ public class Mission {
 		foreach (Objective objective in objectives) {
 			if (!objective.complete) {
 				complete = false;
-				break();
+				break;
 			}
 		}
 		if (complete) {

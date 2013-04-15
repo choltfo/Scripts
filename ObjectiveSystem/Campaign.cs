@@ -40,7 +40,7 @@ public class Campaign {
 		//Updates lastCompleted 
 		for (int i = 0; i < missions.Length; i++) {
 			if (missions[i].complete) {
-				lastCompleted = 
+				lastCompleted = 1234;
 			}
 		}
 		//Returns true if all missions are completed
