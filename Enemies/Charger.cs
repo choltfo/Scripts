@@ -14,7 +14,7 @@ public class Charger : MonoBehaviour {
 	
 	void OnCollisionStay(Collision collision) {
 		//Debug.Log ("Hit something, specifically "+collision.gameObject.name);
-		/*if ((Time.time - recentEffectTime) >= effectDelay) {
+		if ((Time.time - recentEffectTime) >= effectDelay) {
 			Debug.Log ("Time is valid");
 			if (collision.gameObject.transform.FindChild("Camera").GetComponent<DrugDosage>() != null) {
 				collision.transform.FindChild("Camera").gameObject.GetComponent<DrugDosage>().addEffect(collideEffect.Duplicate());
@@ -22,7 +22,7 @@ public class Charger : MonoBehaviour {
 				Debug.Log ("Applying effect to player");
 				recentEffectTime = Time.time;
 			}
-		}*/
+		}
 	}	
 	
 	void Start() {

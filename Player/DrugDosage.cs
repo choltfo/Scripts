@@ -27,10 +27,11 @@ public class DrugDosage : MonoBehaviour{
 			print("Applying " + effect.ToString());
 			switch (effect.effect) {
 			case NegativeEffect.Recoil :
-				Recoil += effect.effectCurve[100-(int)effect.timeRemaining].value;
+				//Recoil += effect.effectCurve[100-(int)effect.timeRemaining].value;
 				break;
 			case NegativeEffect.Slowness :
-				Slowness += effect.effectCurve.Evaluate((effect.timeRemaining/effect.totalTime)*100);
+				//Slowness += effect.effectCurve.Evaluate((effect.timeRemaining/effect.totalTime)*100);
+				Slowness += effect.baseStrength * effect.multiplier / 100;
 				break;
 			default:
 				print("HOW DID THIS EVEN HAPPEN?!");
@@ -46,7 +47,7 @@ public class DrugDosage : MonoBehaviour{
 			effects.RemoveAt(index);
 		}
 		
-		controls.speed = (originalSpeed/(1/Slowness))+1;
+		controls.speed = (originalSpeed/(1/Slowness))+1;                                                           
 	}
 	
 	public void addEffect(DrugEffect effect) {
@@ -55,5 +56,8 @@ public class DrugDosage : MonoBehaviour{
 
 	void OnGUI () {}
 }
+                       
+                                               
 
-
+                                                
+                                          

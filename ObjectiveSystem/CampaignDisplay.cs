@@ -8,7 +8,9 @@ public class CampaignDisplay : MonoBehaviour {
 	public Campaign campaign;
 	bool DONE = false;
 	
-	void start () {}
+	void start () {
+		campaign.applyStyles();
+	}
 	
 	void Update () {
 		if (DONE) return;
@@ -20,7 +22,8 @@ public class CampaignDisplay : MonoBehaviour {
 	}
 	
 	void OnGUI () {
-		if (GUI.Button(new Rect(50,0,200,50), "RELOAD WORLD")) {
+		campaign.drawGUI();
+		if (GUI.Button(new Rect(50,Screen.height-75,200,50), "RELOAD WORLD")) {
 			Application.LoadLevel(Application.loadedLevel);
 		}	
 	}

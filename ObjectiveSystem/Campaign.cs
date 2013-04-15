@@ -32,14 +32,17 @@ public class Campaign {
 				return true;
 			}
 			missions[lastCompleted+1].Begin();
-			
-			//if (missions[lastCompleted+1].active == false) {
-			//	missions[lastCompleted+1].Activate();
-			//}
-			//if (missions[lastCompleted] != null) {
-			//	missions[lastCompleted].Disactivate();
-			//}
 			return false;
+		}
+	}
+	
+	public void drawGUI() {
+		missions[currentMission].draw();
+	}
+	
+	public void applyStyles (GUIStyle headingStyle, GUIStyle contentStyle) {
+		foreach (Mission mission in missions) {
+			mission.applyStyles (headingStyle, contentStyle);
 		}
 	}
 	

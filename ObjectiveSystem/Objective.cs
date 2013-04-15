@@ -16,7 +16,7 @@ public class Objective : MonoBehaviour {
 	public Objective() {}
 	
 	void Start () {
-		textMesh = (TextMesh)gameObject.GetComponent("TextMesh");
+		textMesh = gameObject.GetComponent<TextMesh>();
 		textMesh.text = "";
 	}
 	

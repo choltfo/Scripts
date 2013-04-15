@@ -13,7 +13,6 @@ public class DrugEffect {
 	public int baseStrength;
 	public float timeRemaining;
 	public float totalTime;
-	public AnimationCurve effectCurve;
 	[HideInInspector]
 	public int multiplier;
 	static int lastUID = 1;
@@ -24,7 +23,7 @@ public class DrugEffect {
 	}
 	
 	public DrugEffect (NegativeEffect l_effect, int l_multiplier,
-		int l_baseStrength, float l_timeRemaining, float l_totalTime, AnimationCurve l_effectCurve) {
+		int l_baseStrength, float l_timeRemaining, float l_totalTime) {
 		
 		UID = generateUID ();
 		effect = l_effect;
@@ -32,7 +31,6 @@ public class DrugEffect {
 		baseStrength = l_baseStrength;
 		timeRemaining = l_timeRemaining;
 		totalTime = l_totalTime;
-		effectCurve = l_effectCurve;
 	}
 
 	public override string ToString () {	
@@ -42,7 +40,7 @@ public class DrugEffect {
 	}
 	
 	public DrugEffect Duplicate(){
-		return new DrugEffect(effect, multiplier, baseStrength, timeRemaining, totalTime, effectCurve);
+		return new DrugEffect(effect, multiplier, baseStrength, timeRemaining, totalTime);
 	}
 }
 
