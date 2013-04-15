@@ -13,26 +13,28 @@ public class Mission {
 	//public Vector3 displayCoords;
 	
 	public bool updateObjectives() {
-		bool notDone = false;
+		complete = true; //Probably not a good idea
+		//Checks if any of the objectives are incomplete
 		foreach (Objective objective in objectives) {
-			if (!objective.checkCompletion()) {
-				notDone = true;
+			if (!objective.complete) {
+				complete = false;
+				break();
 			}
 		}
-		if (!notDone) {
-			complete = true;
+		if (complete) {
 			return true;
 		}
-		
-		for (int i = 0; i < objectives.Length; i++) {
-			objectives[i].Activate(i);
+		if (!complete) {
+			for (int i = 0; i < objectives.Length; i++) {
+				objectives[i].Activate(i);
+			}
 		}
-		return false;
+		return complete;
 	}
 
 	public bool checkCompletion() {
 		foreach (Objective objective in objectives) {
-			if (!objective.checkCompletion()) {
+			if (!objective.complete) {
 				return false;
 			}
 		}
