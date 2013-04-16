@@ -7,11 +7,8 @@ public class ShootObjects : MonoBehaviour {
 	
 	public Controls controls;
 
-	public GameObject bulletHole;
-	public GameObject dust;
-	public GameObject bloodSpray;
-	public AudioSource GunSoundFX;
 	public EnterKey vehicle;
+	public float pickupDistance = 5;
 	public Weapon[] weapons = {new Weapon(), new Weapon()};
 	public int currentWeapon = 0;
 	
@@ -84,9 +81,8 @@ public class ShootObjects : MonoBehaviour {
 	public bool interact() {
 		Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2,0));
 		RaycastHit hit;
-		//if (!vehicle.riding){
-			if (Physics.Raycast(ray, out hit, 100)){
-				if (hit.transform.gameObject.GetComponent("WeaponPickup") != null) {
+			if (Physics.Raycast(ray, out hit, pickupDistance)){
+				if (hit.transform.gameObject.GetComponent<WeaponPickup>() != null) {
 					int secondaryWeapon = 1;
 					if (currentWeapon == 1) {
 						secondaryWeapon = 0;
@@ -123,8 +119,10 @@ public class ShootObjects : MonoBehaviour {
 						return true;
 					}
 				}
+				if (hit.transform.gameObject.GetComponent<PickupObjective>() != null) {
+					
+				}
 			}
-		//}
 		return false;
 	}
 	

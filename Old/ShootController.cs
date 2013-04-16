@@ -167,7 +167,7 @@ public void SelectWeapon (int number) {
 	Trigger = Triggers[number];
 	Muzzle_Flash = Flashes[number];
 	maxClip = maxClips[number];
-	shootObjects.GunSoundFX = SoundFXs[number];
+	//shootObjects.GunSoundFX = SoundFXs[number];
 	gun.localPosition = ModelHoldLocations[number];
 	ShotClock = 0;
 }
