@@ -13,6 +13,7 @@ public class Weapon {
 	public Vector3 ScopedPosition;
 	public bool CanScope;
 	public int Damage;
+	public float HitStrength = 50;
 	public int FireRateAsPercent;
 	double fireRate;
 	public int MaxAmmo;
@@ -22,7 +23,6 @@ public class Weapon {
 	public string Path = ".../";
 	public bool IsValid = true;
 	public bool Automatic;
-	//TODO: Add things for making blood splatters, dirt sprays, and bullet holes. 
 	
 	GameObject camera; 
 	bool isAimed = false;
@@ -124,13 +124,18 @@ public class Weapon {
 			//	", or " + (30/(7.5*FireRateAsPercent / 100)));
 			//Debug.Log("Acheived via (30/(7.5*(" + FireRateAsPercent + "/100)))" );
 			//Debug.Log("Acheived via " + 30/(7.5*FireRateAsPercent/100));
+			
 			AnimClock = (int)(30/(7.5 * FireRateAsPercent / 100));
 			ShotDelay = (int)(30/(7.5 * FireRateAsPercent / 100));
 			
 			isFiring = true;
 			
 			if( Physics.Raycast( ray, out hit, 100 ) ){
-				var hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+				Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);	
+				
+				if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
+					hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
+				}
 				
 				if (hit.transform.tag == "Explosive") {
 					if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
