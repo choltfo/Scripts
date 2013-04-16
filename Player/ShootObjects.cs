@@ -120,7 +120,7 @@ public class ShootObjects : MonoBehaviour {
 					}
 				}
 				if (hit.transform.gameObject.GetComponent<PickupObjective>() != null) {
-					
+					hit.transform.gameObject.GetComponent<PickupObjective>().Interact();
 				}
 			}
 		return false;

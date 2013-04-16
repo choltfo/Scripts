@@ -6,7 +6,7 @@ public class PickupObjective : Objective {
 	void Update () {}
 	
 	public void Interact () {
-		if (Complete())
+		if (Complete()) {
 			foreach( Transform trans in gameObject.transform) {
 				Destroy(trans.gameObject);
 			}
