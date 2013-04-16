@@ -6,11 +6,10 @@ public class PickupObjective : Objective {
 	void Update () {}
 	
 	public void Interact () {
-		foreach( Transform trans in gameObject.transform) {
-			Destroy(trans.gameObject);
-		}
-		if (!complete) {
-			complete = true;
+		if (Complete())
+			foreach( Transform trans in gameObject.transform) {
+				Destroy(trans.gameObject);
+			}
 		}
 	}
 }

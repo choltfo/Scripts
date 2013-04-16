@@ -23,8 +23,12 @@ public class Objective : MonoBehaviour {
 	
 	void Update () {}
 	
-	public void Complete(){
-		complete = true;
+	public bool Complete(){
+		if (!complete && Active) {
+			complete = true;
+			return true;
+		}
+		return false;
 	}
 	
 	void OnGUI() {
