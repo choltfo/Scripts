@@ -10,9 +10,6 @@ public class PickupObjective : Objective {
 			foreach( Transform trans in gameObject.transform) {
 				Destroy(trans.gameObject);
 			}
-			Destroy(gameObject.GetComponent<MeshCollider>());
-			Destroy(gameObject.GetComponent<MeshRenderer>());
-			Destroy(gameObject.GetComponent<MeshFilter>());
 		}
 	}
 }
