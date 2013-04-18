@@ -13,6 +13,5 @@ public class WeaponPickup : Objective {
 		Destroy(gameObject.GetComponent<MeshRenderer>());
 		Destroy(gameObject.GetComponent<MeshFilter>());
 		return thisGun;
-		return thisGun;
 	}
 }

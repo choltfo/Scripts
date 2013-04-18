@@ -23,6 +23,8 @@ public class Weapon {
 	/// The blood spray that is placed when you shoot something.
 	/// </summary>
 	public GameObject BloodSpray;
+	public GameObject LaserRenderer;
+	public Vector3 LaserOrigin;
 	/// <summary>
 	/// The position, relative to the camera,
 	/// that the gun is held at when not scoping.
@@ -157,6 +159,8 @@ public class Weapon {
 	[HideInInspector]
 	public int ShotDelay;
 	
+	//public UnderbarrelAttachment underbarrel;
+	
 	//TODO Add reloading animations.
 	
 	public Weapon(GameObject MainObject, Vector3 Position, Vector3 ScopedPosition,
@@ -250,6 +254,10 @@ public class Weapon {
 						hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
 					}
 					
+							LineRenderer laser = LaserRenderer.GetComponent<LineRenderer>();
+		
+							laser.SetPosition(1,hit.point);
+					
 					if (hit.transform.tag == "Explosive") {
 						if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
 							Detonator target = (Detonator)hit.transform.gameObject.GetComponent("Detonator");
@@ -304,6 +312,7 @@ public class Weapon {
 		Hammer = GameObject.Find(mainObject.name + "/" + Path + "Hammer").transform;
 		Slide = GameObject.Find(mainObject.name + "/" + Path + "Slide").transform;
 		Trigger = GameObject.Find(mainObject.name + "/" + Path + "Trigger").transform;
+		LaserRenderer = GameObject.Find(mainObject.name + "/" + Path + "Laser");
 		/* 						DEBUG
 		if (Hammer != null) {
 			Debug.Log("Found Hammer for " + WeaponName + " at default location.");
@@ -333,17 +342,24 @@ public class Weapon {
 	}
 	
 	public void AnimUpdate() {
+		if (!Exists){
+			return;
+		}
+		
+		LineRenderer laser = LaserRenderer.GetComponent<LineRenderer>();
+		
+		laser.SetPosition(0,LaserOrigin);
+		
 		if(isAimed == true){
-			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.fieldOfView,ScopeZoom,Time.deltaTime*smooth);
+			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
+				ScopeZoom,Time.deltaTime*zoomSmoothing);
 		} else {
-			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.fieldOfView,NormalZoom,Time.deltaTime*smooth);
+			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
+				NormalZoom,Time.deltaTime*zoomSmoothing);
 		}
 		if (isFiring) {
 			//Debug.Log("AnimClock Reads " + AnimClock.ToString());
 			//Debug.Log("ShotDelay Reads " + ShotDelay.ToString());
-			if (!Exists){
-				return;
-			}
 			//Debug.Log("Animating " + mainObject.name);
 			
 			if (Slide == null ||  Hammer == null || Trigger == null) {

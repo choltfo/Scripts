@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-
-public class ShootObjects : MonoBehaviour {
+[System.Serializable]
+public class ShootObjects : MonoBehaviour{
 	
 	public Controls controls;
 
@@ -27,6 +27,9 @@ public class ShootObjects : MonoBehaviour {
 				shoot();
 			}
 		}
+		//if (Input.GetMouseButtonDown(controls.aim)) {
+		//	aim();
+		//}
 		if (Input.GetMouseButtonDown(controls.aim)) {
 			aim();
 		}
@@ -77,6 +80,13 @@ public class ShootObjects : MonoBehaviour {
 		}
 		return false;
 	}
+	
+	/*public bool shootUnderbarrel() {
+		if (weapons[currentWeapon].underbarrel.IsValid) {
+			return weapons[currentWeapon].underbarrel.Shoot(weapons[currentWeapon].mainObject);
+		}
+		return false;	
+	}*/
 	
 	public bool interact() {
 		Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2,0));
