@@ -38,6 +38,15 @@ public class Weapon {
 	/// </summary>
 	public bool CanScope;
 	/// <summary>
+	/// The scope zoom.
+	/// </summary>
+	public float ScopeZoom;
+	/// <summary>
+	/// The zoom smoothing.
+	/// </summary>
+	public float NormalZoom;
+	public float zoomSmoothing;
+	/// <summary>
 	/// The damage per bullet imparted to enemies when shot.
 	/// </summary>
 	public int Damage;
@@ -323,7 +332,12 @@ public class Weapon {
 		//}
 	}
 	
-	public void AnimUpdate() {		
+	public void AnimUpdate() {
+		if(isAimed == true){
+			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.fieldOfView,ScopeZoom,Time.deltaTime*smooth);
+		} else {
+			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.fieldOfView,NormalZoom,Time.deltaTime*smooth);
+		}
 		if (isFiring) {
 			//Debug.Log("AnimClock Reads " + AnimClock.ToString());
 			//Debug.Log("ShotDelay Reads " + ShotDelay.ToString());
