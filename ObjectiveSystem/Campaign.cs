@@ -36,7 +36,7 @@ public class Campaign {
 	public void applyStyles (GUIStyle headingStyle, GUIStyle contentStyle) {
 		foreach (Mission mission in missions) {
 			mission.applyStyles (headingStyle, contentStyle);
-			Debug.Log("Set style for mission " + mission.missionName);
+			//Debug.Log("Set style for mission " + mission.missionName);
 		}
 	}
 	

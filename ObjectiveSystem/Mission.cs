@@ -48,7 +48,7 @@ public class Mission {
 		headingStyle = l_headingStyle;
 		foreach (Objective objective in objectives) {
 			objective.labelStyle = l_contentStyle;
-			Debug.Log("Set style for objective " + objective.name);
+			//Debug.Log("Set style for objective " + objective.name);
 		}
 	}
 	

@@ -9,7 +9,7 @@ public class ShootObjects : MonoBehaviour {
 
 	public EnterKey vehicle;
 	public float pickupDistance = 5;
-	public Weapon[] weapons = {new Weapon(), new Weapon()};
+	public  Weapon[] weapons = {new Weapon(), new Weapon()};
 	public int currentWeapon = 0;
 	
 	public void start () {}

@@ -10,7 +10,7 @@ public class AreaObjective : Objective {
 	void Start () {}
 	void Update () {}
 	void OnTriggerEnter (Collider other){
-		Debug.Log ("Object "+ other.gameObject.name + " entered '" + objectiveName+ "'.");
+		//Debug.Log ("Object "+ other.gameObject.name + " entered '" + objectiveName+ "'.");
 		if (other.gameObject == player && Active) {
 			Complete();
 		}
