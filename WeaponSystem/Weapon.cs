@@ -23,8 +23,6 @@ public class Weapon {
 	/// The blood spray that is placed when you shoot something.
 	/// </summary>
 	public GameObject BloodSpray;
-	public GameObject LaserRenderer;
-	public Vector3 LaserOrigin;
 	/// <summary>
 	/// The position, relative to the camera,
 	/// that the gun is held at when not scoping.
@@ -252,12 +250,7 @@ public class Weapon {
 					
 					if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
 						hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
-					}
-					
-							LineRenderer laser = LaserRenderer.GetComponent<LineRenderer>();
-		
-							laser.SetPosition(1,hit.point);
-					
+					}					
 					if (hit.transform.tag == "Explosive") {
 						if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
 							Detonator target = (Detonator)hit.transform.gameObject.GetComponent("Detonator");
@@ -312,7 +305,6 @@ public class Weapon {
 		Hammer = GameObject.Find(mainObject.name + "/" + Path + "Hammer").transform;
 		Slide = GameObject.Find(mainObject.name + "/" + Path + "Slide").transform;
 		Trigger = GameObject.Find(mainObject.name + "/" + Path + "Trigger").transform;
-		LaserRenderer = GameObject.Find(mainObject.name + "/" + Path + "Laser");
 		/* 						DEBUG
 		if (Hammer != null) {
 			Debug.Log("Found Hammer for " + WeaponName + " at default location.");
@@ -345,10 +337,6 @@ public class Weapon {
 		if (!Exists){
 			return;
 		}
-		
-		LineRenderer laser = LaserRenderer.GetComponent<LineRenderer>();
-		
-		laser.SetPosition(0,LaserOrigin);
 		
 		if(isAimed == true){
 			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,

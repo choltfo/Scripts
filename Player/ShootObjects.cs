@@ -16,6 +16,10 @@ public class ShootObjects : MonoBehaviour{
 	
 	public void Update () {
 		
+		if (Time.timeScale == 0) {
+			return;
+		}
+		
 		weapons[currentWeapon].AnimUpdate();
 		if (weapons[currentWeapon].Automatic == true) {
 			if (Input.GetMouseButton(controls.fire)) {
@@ -27,9 +31,6 @@ public class ShootObjects : MonoBehaviour{
 				shoot();
 			}
 		}
-		//if (Input.GetMouseButtonDown(controls.aim)) {
-		//	aim();
-		//}
 		if (Input.GetMouseButtonDown(controls.aim)) {
 			aim();
 		}

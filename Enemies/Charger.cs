@@ -11,6 +11,7 @@ public class Charger : Enemy {
 	public float TIME;
 	public DrugEffect collideEffect;
 	public float damage;
+	public bool isPaused = false;
 	
 	void OnCollisionStay(Collision collision) {
 		//Debug.Log ("Hit something, specifically "+collision.gameObject.name);
@@ -51,6 +52,9 @@ public class Charger : Enemy {
 		Vector3 Movement = new Vector3(x,0,z);
 		//Movement = new Vector3 (Vector3.Angle(transform.position, player.transform.position),0,0)*0.1f;
 		//transform.rotation = new Quaternion (Vector3.Angle(transform.position, player.transform.position),0,0,0);
+		if (Time.timeScale == 0) {
+			Movement = new Vector3(0,0,0);
+		}
 		motor.Move(Movement);
 	}
 }

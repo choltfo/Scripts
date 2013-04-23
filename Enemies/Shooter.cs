@@ -8,6 +8,7 @@ public class Shooter : Enemy {
 	public GameObject player;
 	CharacterController motor;
 	EnemyHealth health;
+	public bool isPaused = false;
 	//public float effectDelay;
 	//public float recentEffectTime = 0;
 	public float TIME;
@@ -55,7 +56,9 @@ public class Shooter : Enemy {
 			}
 		}
 		Vector3 Movement = new Vector3(x,0,z);
-		
+		if (Time.timeScale == 0) {
+			Movement = new Vector3(0,0,0);
+		}
 		motor.Move(Movement);
 	}
 }
