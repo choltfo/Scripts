@@ -25,6 +25,9 @@ public class CampaignDisplay : MonoBehaviour {
 	}
 	
 	void OnGUI () {
+		if (Time.timeScale == 0) {
+			return;
+		}
 		campaign.drawGUI();
 		if (GUI.Button(new Rect(50,Screen.height-75,200,50), "RELOAD WORLD")) {
 			Application.LoadLevel(Application.loadedLevel);

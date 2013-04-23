@@ -37,6 +37,9 @@ public class Health : MonoBehaviour {
 	}
 	
 	public void OnGUI() {
+		if (Time.timeScale == 0) {
+			return;
+		}
 		if (HealthLevel < 1) {
 			GUI.Box(new Rect(0, 0, Screen.width, Screen.height), DeathScreen);
 		}
