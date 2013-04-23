@@ -12,14 +12,8 @@ public class Mainmenu : MonoBehaviour {
 	void Update () {}
 	
 	void OnGUI () {
-		if (GUI.Button(new Rect(100, 300, 100, 100), "Level 1")) {
+		if (GUI.Button(new Rect(100, 300, 100, 100), "New Game")) {
 			Application.LoadLevel(1);
-		}
-		if (GUI.Button(new Rect(200, 300, 100, 100), "Level 2")) {
-			Application.LoadLevel(2);
-		}
-		if (GUI.Button(new Rect(300, 300, 100, 100), "Another Button")) {
-			
 		}
 	}
 }
