@@ -19,7 +19,9 @@ public class Health : MonoBehaviour {
 	
 	public void Update() {
 		if (Time.time - lastInjury > healDelay) {
-			
+			if (HealthLevel < MaxHealth/* && HealthLevel > 0*/) {
+				HealthLevel += healRate;
+			}
 		}
 	}
 	
@@ -31,7 +33,6 @@ public class Health : MonoBehaviour {
 		} else {
 			HealthLevel = HealthLevel - damage;
 			print("Debug: Dead.");
-			
 			return false;
 		}
 	}
@@ -40,9 +41,9 @@ public class Health : MonoBehaviour {
 		if (Time.timeScale == 0) {
 			return;
 		}
-		if (HealthLevel < 1) {
-			GUI.Box(new Rect(0, 0, Screen.width, Screen.height), DeathScreen);
-		}
+		/*if (HealthLevel < 1) {
+		//	GUI.Box(new Rect(0, 0, Screen.width, Screen.height), DeathScreen);
+		//}*/
 		//style. color = new Color (0,0,0,(HealthLevel/MaxHealth)*255);
 		//style.normal.background.
 		if (HealthLevel < (0.25*MaxHealth)) {
