@@ -55,7 +55,7 @@ public class DrugDosage : MonoBehaviour{
 			effects.RemoveAt(index);
 		}
 		
-		//controls.speed = (originalSpeed/(1/Slowness))+1;                                                           
+		controls.speed = (originalSpeed/(1/Slowness))+1;                                                           
 	}
 	
 	public void addEffect(DrugEffect effect) {
@@ -64,8 +64,3 @@ public class DrugDosage : MonoBehaviour{
 
 	void OnGUI () {}
 }
-                       
-                                               
-
-                                                
-                                          
