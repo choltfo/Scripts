@@ -2,7 +2,18 @@ using UnityEngine;
 using System.Collections;
 
 public class Bed : Interact {
+	//Staticy bits
+	public static int timeOfDay = 0;
+	public static bool Day = true;
+	public static float lastSwitch = 0;
+	public static float interval = 15;
+	public static void UpdateTOD() {
+		if (Time.time > lastSwitch + interval && Time.time != lastSwitch) {
+			Day = !Day;
+		}
+	}
 	
+	//Per-bed bits
 	public Material dayMaterial;
 	public Material nightMaterial;
 	public CameraFade fader;
@@ -35,6 +46,7 @@ public class Bed : Interact {
 	}
 
 	void FixedUpdate () {
+		UpdateTOD();
 		if (Time.realtimeSinceStartup > fadeTime + lastFade && !faded) {
 			//fader.SetScreenOverlayColor(fadeColor);
 			fader.StartFade(clearColor, fadeTime);

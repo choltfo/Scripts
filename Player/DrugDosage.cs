@@ -8,8 +8,8 @@ public class DrugDosage : MonoBehaviour{
 	public CharacterControls controls;
 	float originalSpeed = 0;
 	
-	public float Slowness;
-	public float Recoil;
+	public float Slowness = 0;
+	public float Recoil = 0;
 	public float SlownessLevel; //Max is 100 = dead.
 	public Health healthManager;
 	public List<int> condemn;
@@ -36,7 +36,7 @@ public class DrugDosage : MonoBehaviour{
 			print("Applying " + effect.ToString());
 			switch (effect.effect) {
 			case NegativeEffect.Recoil :
-				Reccoil += effect.baseStrength/100 * effect.multiplier/100;
+				Recoil += effect.baseStrength/100 * effect.multiplier/100;
 				break;
 			case NegativeEffect.Slowness :
 				Slowness += effect.baseStrength/100 * effect.multiplier/100;
@@ -62,5 +62,10 @@ public class DrugDosage : MonoBehaviour{
 		effects.Add(effect);
 	}
 
-	void OnGUI () {}
+	void OnGUI () {
+		GUI.Box(new Rect(Screen.width-320,40,300,20),"");
+		GUI.Box(new Rect(Screen.width-320,40,300*(SlownessLevel/100),20),"");
+		GUI.Box(new Rect(Screen.width-320,60,300,20),"");
+		GUI.Box(new Rect(Screen.width-320,60,300*(Slowness/100),20),"");
+	}
 }

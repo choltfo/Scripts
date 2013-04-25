@@ -8,7 +8,6 @@ public class Charger : Enemy {
 	EnemyHealth health;
 	public float effectDelay;
 	public float recentEffectTime = 0;
-	public float TIME;
 	public DrugEffect collideEffect;
 	public float damage;
 	public bool isPaused = false;
@@ -33,7 +32,6 @@ public class Charger : Enemy {
 	}
 	
 	void Update () {
-		TIME = Time.time;
 		
 		float x = 0;
 		float z = 0;

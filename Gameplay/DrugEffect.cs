@@ -13,7 +13,7 @@ public class DrugEffect {
 	public int baseStrength;
 	public float timeRemaining;
 	public float totalTime;
-	[HideInInspector]
+	//[HideInInspector]
 	public int multiplier;
 	static int lastUID = 1;
 	
