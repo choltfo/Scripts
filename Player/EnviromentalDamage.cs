@@ -4,11 +4,22 @@ using System.Collections;
 public class EnviromentalDamage : MonoBehaviour {
 	
 	public Health health;
+	public float lastDamageTime;
+	public float damageOccurDelay = 5;
 	
 	void OnCollisionEnter(Collision collision) {
-		if (collision.gameObject.name == "Red Goo") {
+		if (Time.time - lastDamageTime < damageOccurDelay) {
+			return;
+		}
+		if (collision.gameObject.name == "Water Table") {
 			print ("You Died");
 			health.Damage(100);
+			lastDamageTime = Time.time;
+		}
+		if (collision.gameObject.name == "campfire" && collision.gameObject.transform.FindChild("fire") != null) {
+			print ("OW!");
+			health.Damage(5);
+			lastDamageTime = Time.time;
 		}
 	}
 }

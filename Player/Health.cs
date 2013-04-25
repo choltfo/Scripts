@@ -18,11 +18,11 @@ public class Health : MonoBehaviour {
 	}
 	
 	public void Update() {
-		if (Time.time - lastInjury > healDelay) {
-			if (HealthLevel < MaxHealth/* && HealthLevel > 0*/) {
+		/*if (Time.time - lastInjury > healDelay) {
+			if (HealthLevel < MaxHealth && HealthLevel > 0) {
 				HealthLevel += healRate;
 			}
-		}
+		}*/
 	}
 	
 	public bool Damage(float damage) {
