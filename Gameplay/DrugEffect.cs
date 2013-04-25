@@ -14,15 +14,15 @@ public class DrugEffect {
 	public float timeRemaining;
 	public float totalTime;
 	//[HideInInspector]
-	public int multiplier;
-	static int lastUID = 1;
+	public float multiplier;
+	static int lastUID = 0;
 	
 	public static int generateUID() {
 		lastUID ++;
 		return lastUID - 1;
 	}
 	
-	public DrugEffect (NegativeEffect l_effect, int l_multiplier,
+	public DrugEffect (NegativeEffect l_effect, float l_multiplier,
 		int l_baseStrength, float l_timeRemaining, float l_totalTime) {
 		
 		UID = generateUID ();

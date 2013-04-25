@@ -26,6 +26,7 @@ public class Charger : Enemy {
 	}	
 	
 	void Start() {
+		recentEffectTime = -effectDelay;
 		collideEffect.UID = DrugEffect.generateUID();
 		motor = (CharacterController)gameObject.GetComponent("CharacterController");
 		health = GetComponent<EnemyHealth>();
@@ -35,6 +36,7 @@ public class Charger : Enemy {
 		
 		float x = 0;
 		float z = 0;
+		float y = 0;
 		if (player.transform.position.x > transform.position.x) {
 			x = 0.05f;
 		}
@@ -47,7 +49,10 @@ public class Charger : Enemy {
 		if (player.transform.position.z < transform.position.z) {
 			z = -0.05f;
 		}
-		Vector3 Movement = new Vector3(x,0,z);
+		if (!motor.isGrounded) {
+			y = -0.1f;
+		}
+		Vector3 Movement = new Vector3(x,y,z);
 		//Movement = new Vector3 (Vector3.Angle(transform.position, player.transform.position),0,0)*0.1f;
 		//transform.rotation = new Quaternion (Vector3.Angle(transform.position, player.transform.position),0,0,0);
 		if (Time.timeScale == 0) {

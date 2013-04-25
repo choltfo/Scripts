@@ -11,24 +11,25 @@ public class DrugDosage : MonoBehaviour{
 	public float Slowness = 0;
 	public float Recoil = 0;
 	public float SlownessLevel; //Max is 100 = dead.
+	public AnimationCurve SlownessLevelVSSlowness;
 	public Health healthManager;
 	public List<int> condemn;
 	
 	void Start(){
 		effects = new List<DrugEffect>();
-		originalSpeed = controls.speed;
+		originalSpeed = controls.speed - 1;
 	}
 	
 	void Update(){
 		if (Recoil > 0) {
-			Recoil -= 1;
+			Recoil -= 0.5f;
 		} else {
 			Recoil = 0;
 		}
-		if (Slowness > 0) {
-			Slowness -= 1;
+		if (SlownessLevel > 0) {
+			SlownessLevel -= 0.5f;
 		} else {
-			Slowness = 0;
+			SlownessLevel = 0;
 		}
 		condemn = new List<int>();
 		int currentIndex = 0;
@@ -36,10 +37,10 @@ public class DrugDosage : MonoBehaviour{
 			print("Applying " + effect.ToString());
 			switch (effect.effect) {
 			case NegativeEffect.Recoil :
-				Recoil += effect.baseStrength/100 * effect.multiplier/100;
+				Recoil += effect.baseStrength * effect.multiplier/100;
 				break;
 			case NegativeEffect.Slowness :
-				Slowness += effect.baseStrength/100 * effect.multiplier/100;
+				SlownessLevel += (effect.baseStrength * effect.multiplier) /100;
 				break;
 			default:
 				print("HOW DID THIS EVEN HAPPEN?!");
@@ -55,7 +56,9 @@ public class DrugDosage : MonoBehaviour{
 			effects.RemoveAt(index);
 		}
 		
-		controls.speed = (originalSpeed/(1/Slowness))+1;                                                           
+		Slowness = SlownessLevelVSSlowness.Evaluate(SlownessLevel);
+		
+		controls.speed = (originalSpeed/(Slowness+1))+1;                                                           
 	}
 	
 	public void addEffect(DrugEffect effect) {
