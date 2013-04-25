@@ -30,6 +30,14 @@ public class Pause : MonoBehaviour {
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Videos")) {
 						pane = "/Pause/Videos";
 					}
+					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,125,itemWidth,itemHeight), "Controls")) {
+						pane = "/Pause/Controls";
+					}
+					break;
+				case "/Pause/Controls":
+					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Back")) {
+						pane = "/Pause";
+					}
 					break;
 				case "/Pause/Videos":
 					string [] fileEntries = Directory.GetFiles(Application.dataPath+"/Cutscenes/");
