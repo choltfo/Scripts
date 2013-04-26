@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Bed : Interact {
+public class Sleep : Interact {
 	//Staticy bits
 	public static int timeOfDay = 0;
 	public static bool Day = true;
