@@ -28,15 +28,15 @@ public class Health : MonoBehaviour {
 	
 	public bool Damage(float damage) {
 		lastInjury = Time.time;
-		if (damage < HealthLevel) {
-			HealthLevel = HealthLevel - damage;
-			return true;
-		} else {
+		if (damage >= HealthLevel) {
 			HealthLevel = HealthLevel - damage;
 			print("Debug: Dead.");
-			pauseController.Pane = "/Dead/";
+			pauseController.pane = "/Dead";
 			Time.timeScale = 0;
 			return false;
+		} else {
+			HealthLevel = HealthLevel - damage;
+			return true;
 		}
 	}
 	
