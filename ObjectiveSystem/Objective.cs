@@ -16,12 +16,10 @@ public class Objective : MonoBehaviour {
 	
 	public Objective() {}
 	
-	void Start () {
+	///void Start () {
 		//textMesh = gameObject.GetComponent<TextMesh>();
 		//textMesh.text = "";
-	}
-	
-	void Update () {}
+	///}
 	
 	public bool Complete(){
 		if (!complete && Active) {

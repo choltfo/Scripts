@@ -10,6 +10,7 @@ public class Mission {
 	public Objective[] objectives;
 	public bool complete = false;
 	public GUIStyle headingStyle;
+	int activeObjectives;
 	//public Vector3 displayCoords;
 	
 	public bool updateObjectives() {
@@ -53,6 +54,7 @@ public class Mission {
 	}
 	
 	public void draw() {
-		GUI.Label(new Rect(50f,10,300f,30f),missionName,headingStyle);
+		GUI.Label(new Rect(50,10,300,30),missionName,headingStyle);
+		GUI.Box(new Rect(50,10,300, 80+(50*activeObjectives)), "");
 	}
 }
