@@ -11,6 +11,7 @@ public class Health : MonoBehaviour {
 	public float healRate;
 	GUIStyle style;
 	float lastInjury = 0;
+	public Pause pauseController;
 	
 	public void Start() {
 		style = new GUIStyle();
@@ -33,11 +34,15 @@ public class Health : MonoBehaviour {
 		} else {
 			HealthLevel = HealthLevel - damage;
 			print("Debug: Dead.");
+			pauseController.Pane = "/Dead/";
+			Time.timeScale = 0;
 			return false;
 		}
 	}
 	
 	public void OnGUI() {
+		GUI.Box(new Rect(Screen.width-320,20,300,20),"");
+		GUI.Box(new Rect(Screen.width-320,20,300*(HealthLevel/MaxHealth),20),"");
 		if (Time.timeScale == 0) {
 			return;
 		}
@@ -47,10 +52,9 @@ public class Health : MonoBehaviour {
 		//style. color = new Color (0,0,0,(HealthLevel/MaxHealth)*255);
 		//style.normal.background.
 		if (HealthLevel < (0.25*MaxHealth)) {
-			GUI.Box(new Rect(0,0, Screen.width, Screen.height), bloodSplatter, style);
+			//GUI.Box(new Rect(0,0, Screen.width, Screen.height), bloodSplatter, style);
+			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), bloodSplatter);
 		}
-		GUI.Box(new Rect(Screen.width-320,20,300,20),"");
-		GUI.Box(new Rect(Screen.width-320,20,300*(HealthLevel/MaxHealth),20),"");
 	}
 }
 

@@ -8,7 +8,7 @@ public class Pause : MonoBehaviour {
 	public int itemWidth = 200;
 	public int itemHeight = 50;
 	public GUIStyle paneLabelStyle;
-	string pane = "/Pause";
+	public string pane = "/Pause";
 	
 	void Update () {
 		if (Input.GetKeyDown(controls.pause)) {
@@ -34,8 +34,11 @@ public class Pause : MonoBehaviour {
 						pane = "/Pause/Controls";
 					}
 					break;
+				case "/Dead/":																					//MAYBE
+					GUI.Label(new Rect((Screen.width/2) - 200,(Screen.height/2) - 20, 400 ,40), "YOU ARE DEAD!", paneLabelStyle);
+					break;
 				case "/Pause/Controls":
-					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Back")) {
+					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Back") {
 						pane = "/Pause";
 					}
 					break;
