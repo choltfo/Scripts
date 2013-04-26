@@ -48,7 +48,7 @@ public class Pause : MonoBehaviour {
 				case "/Pause/Videos":
 					string [] fileEntries = Directory.GetFiles(Application.dataPath+"/Resources/Cutscenes/");
 					int i = 1;
-					foreach(string fileName in fileEntries){
+					foreach(string fileName in fileEntries) {
 						if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50+75*i,itemWidth,itemHeight),
 						"Video " + i.ToString())) {
 							print(fileName);
