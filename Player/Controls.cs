@@ -4,6 +4,7 @@ using System.Collections;
 public class Controls : MonoBehaviour {
 	public string jump;
 	public KeyCode pause;
+	public KeyCode objectiveDetails;
 	public int aim;
 	public int fire;
 	public string minimap;

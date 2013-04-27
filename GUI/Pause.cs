@@ -15,6 +15,7 @@ public class Pause : MonoBehaviour {
 	
 	void Update () {
 		if (Input.GetKeyDown(controls.pause)) {
+			pane = "/Pause";
 			if (Time.timeScale != 0) {
 				Time.timeScale = 0f;
 			} else {
@@ -36,6 +37,13 @@ public class Pause : MonoBehaviour {
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,125,itemWidth,itemHeight), "Controls")) {
 						pane = "/Pause/Controls";
 					}
+					break;
+				case "/Objective":
+					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Close")) {
+						pane = "/Pause";
+						Time.timeScale = 1f;
+					}
+					Debug.Log("DOSOME\nSHITMOTHERF***ER".Split("\n".ToCharArray()).Length-1);
 					break;
 				case "/Dead":																					//MAYBE
 					GUI.Label(new Rect((Screen.width/2) - 200,(Screen.height/2) - 20, 400 ,40), "YOU ARE DEAD!", deathScreenStyle);
@@ -59,6 +67,10 @@ public class Pause : MonoBehaviour {
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Back")) {
 						pane = "/Pause";
 					}
+					break;
+				default:
+					Debug.Log("Invalid switch - " + pane);
+					pane = "/Pause";
 					break;
 			}
 		}

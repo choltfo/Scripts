@@ -6,6 +6,8 @@ using System.Collections;
 public class CampaignDisplay : MonoBehaviour {
 	
 	public Campaign campaign;
+	public Pause pauseScreen;
+	public Controls controls;
 	bool DONE = false;
 	public GUIStyle headingStyle;
 	public GUIStyle contentStyle;
@@ -16,12 +18,17 @@ public class CampaignDisplay : MonoBehaviour {
 	
 	void Update () {
 		if (DONE) return;
+		if (Input.GetKeyDown(controls.objectiveDetails)) {
+			pauseScreen.pane = "/Objective";
+			Time.timeScale = 0f;
+		}
 		//Debug.Log("Checking missions");
 		//
 		if (campaign.updateMissions()) {
 			Debug.Log("YOU HAVE BEATEN ALL MISSIONS BY updateMissions");
 			DONE = true;
 		}
+		
 	}
 	
 	void OnGUI () {
