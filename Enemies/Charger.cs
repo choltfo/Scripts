@@ -24,7 +24,7 @@ public class Charger : Enemy {
 				recentEffectTime = Time.time;
 			}
 		}
-	}	
+	}
 	
 	void Start() {
 		recentEffectTime = -effectDelay;
@@ -62,7 +62,7 @@ public class Charger : Enemy {
 		if (Vector3.Distance(transform.position, player.transform.position) > activationDistance) {
 			Movement = new Vector3(0,0,0);
 		}
-		print(Vector3.Distance(transform.position, player.transform.position));
+		//print(Vector3.Distance(transform.position, player.transform.position));
 		motor.Move(Movement);
 	}
 }

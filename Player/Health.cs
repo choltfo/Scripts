@@ -4,7 +4,11 @@ using System.Collections;
 public class Health : MonoBehaviour {
 	
 	public AudioSource painSoundSource;
+	public CameraFade fader;
 	public AudioClip[] painSounds;
+	public Color fadeColor;
+	public Color transparent;
+	public float fadeTime = 0.5f;
 	
 	public int MaxHealth = 100;
 	public float HealthLevel = 100;
@@ -35,7 +39,10 @@ public class Health : MonoBehaviour {
 	
 	public bool Damage(float damage) {
 		lastInjury = Time.time;
-		painSoundSource.PlayOneShot(painSounds[(int)(Random.value * painSounds.Length)]);
+		painSoundSource.PlayOneShot(painSounds[(int)(Random.value * painSounds.Length)-1]);
+		fader.SetScreenOverlayColor(fadeColor);
+		fader.StartFade(transparent, fadeTime);
+		
 		if (damage >= HealthLevel) {
 			HealthLevel = HealthLevel - damage;
 			print("Debug: Dead.");
