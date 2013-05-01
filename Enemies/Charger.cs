@@ -7,6 +7,7 @@ public class Charger : Enemy {
 	CharacterController motor;
 	EnemyHealth health;
 	public float effectDelay;
+	public float activationDistance = 5;
 	public float recentEffectTime = 0;
 	public DrugEffect collideEffect;
 	public float damage;
@@ -58,6 +59,10 @@ public class Charger : Enemy {
 		if (Time.timeScale == 0) {
 			Movement = new Vector3(0,0,0);
 		}
+		if (Vector3.Distance(transform.position, player.transform.position) > activationDistance) {
+			Movement = new Vector3(0,0,0);
+		}
+		print(Vector3.Distance(transform.position, player.transform.position));
 		motor.Move(Movement);
 	}
 }

@@ -298,7 +298,7 @@ public class Weapon {
 		pickup.AddComponent("Rigidbody");
 		//((WeaponPickup)pickup.GetComponent("WeaponPickup")).thisGun = this;
 		MonoBehaviour.Destroy(mainObject);
-		//Debug.Log(this.ToString());
+		Debug.Log(this.ToString());
 	}
 	
 	public void AnimIdentify() {

@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Health : MonoBehaviour {
 	
+	public AudioSource painSoundSource;
+	public AudioClip[] painSounds;
+	
 	public int MaxHealth = 100;
 	public float HealthLevel = 100;
 	public Texture DeathScreen;
@@ -26,8 +29,13 @@ public class Health : MonoBehaviour {
 		}*/
 	}
 	
+	public bool Damage(float damage, bool force) {
+		return true;
+	}
+	
 	public bool Damage(float damage) {
 		lastInjury = Time.time;
+		painSoundSource.PlayOneShot(painSounds[(int)(Random.value * painSounds.Length)]);
 		if (damage >= HealthLevel) {
 			HealthLevel = HealthLevel - damage;
 			print("Debug: Dead.");
