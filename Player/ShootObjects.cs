@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 [System.Serializable]
-public class ShootObjects : MonoBehaviour{
+public class ShootObjects : MonoBehaviour {
 	
 	public Controls controls;
 
@@ -150,5 +150,14 @@ public class ShootObjects : MonoBehaviour{
 		}
 		currentWeapon = original;
 		return false;
+	}
+
+	public void OnGUI () {
+		if (weapons[currentWeapon].IsValid) {
+			GUI.Box(new Rect(Screen.width-200,Screen.height-100,200,100),"");
+			GUI.Label(new Rect(Screen.width-200, Screen.height-100, 200, 40), weapons[currentWeapon].WeaponName);
+			GUI.Label(new Rect(Screen.width-200, Screen.height-50, 200, 40),
+				weapons[currentWeapon].CurAmmo + "/" + weapons[currentWeapon].MaxAmmo);
+		}
 	}
 }
