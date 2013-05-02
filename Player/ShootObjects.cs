@@ -72,7 +72,7 @@ public class ShootObjects : MonoBehaviour {
 	}
 	
 	public void reload() {
-		weapons[currentWeapon].CurAmmo = weapons[currentWeapon].MaxAmmo;	//TODO: Add proper reload mechanics to Weapons.
+		weapons[currentWeapon].Reload();
 	}
 	
 	public bool shoot() {
@@ -157,7 +157,7 @@ public class ShootObjects : MonoBehaviour {
 			GUI.Box(new Rect(Screen.width-200,Screen.height-100,200,100),"");
 			GUI.Label(new Rect(Screen.width-200, Screen.height-100, 200, 40), weapons[currentWeapon].WeaponName);
 			GUI.Label(new Rect(Screen.width-200, Screen.height-50, 200, 40),
-				weapons[currentWeapon].CurAmmo + "/" + weapons[currentWeapon].MaxAmmo);
+				weapons[currentWeapon].CurAmmo + "/" + weapons[currentWeapon].MaxAmmo + "/" + weapons[currentWeapon].ReserveAmmo);
 		}
 	}
 }

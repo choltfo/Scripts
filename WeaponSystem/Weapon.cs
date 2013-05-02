@@ -68,6 +68,10 @@ public class Weapon {
 	[HideInInspector]
 	public double fireRate;
 	/// <summary>
+	/// The amount of ammo for this gun that is not in the current clip.
+	/// </summary>
+	public int ReserveAmmo;
+	/// <summary>
 	/// The maximum number of bullets in a clip of this gun.
 	/// </summary>
 	public int MaxAmmo;
@@ -144,6 +148,7 @@ public class Weapon {
 	/// The animation clock. Not visible in Inspector.
 	/// </summary>
 	public int AnimClock = 0;
+	weaponAnimType curAnim = weaponAnimType.None;
 	
 	[HideInInspector]
 	/// <summary>
@@ -321,7 +326,7 @@ public class Weapon {
 	/// Camera to aim from.
 	/// </param>
 	public bool Shoot(Camera camera) {
-		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && !isFiring){
+		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && !isFiring && curAnim == weaponAnimType.None){
 			CurAmmo -= 1;
 			((AudioSource)mainObject.GetComponent("AudioSource")).Play();
 			
@@ -332,8 +337,9 @@ public class Weapon {
 			
 			AnimClock = (int)(30/(7.5 * FireRateAsPercent / 100));
 			ShotDelay = (int)(30/(7.5 * FireRateAsPercent / 100));
-			
 			isFiring = true;
+			curAnim = weaponAnimType.Firing;
+			
 			for (int i = 0; i<numOfShots; i++) {
 				Vector2 position = Random.insideUnitCircle;
   				int x = (int)(position.x * xSpread);
@@ -382,6 +388,14 @@ public class Weapon {
 			return true;
 		}
 		return false;
+	}
+	
+	public int Reload() {
+		if (CurAmmo < MaxAmmo && !isFiring && curAnim == weaponAnimType.None){
+			AnimClock = 15;
+			curAnim = weaponAnimType.Reloading;
+		}
+		return 1234; //~!~!~!~!~!~!~!
 	}
 	
 	/// <summary>
@@ -452,7 +466,10 @@ public class Weapon {
 			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
 				NormalZoom,Time.deltaTime*zoomSmoothing);
 		}
-		if (isFiring) {
+		switch (curAnim) {
+		case weaponAnimType.None :
+			break;
+		case weaponAnimType.Firing :
 			//Debug.Log("AnimClock Reads " + AnimClock.ToString());
 			//Debug.Log("ShotDelay Reads " + ShotDelay.ToString());
 			//Debug.Log("Animating " + mainObject.name);
@@ -509,10 +526,45 @@ public class Weapon {
 			}
 			if (AnimClock == 0) {
 				isFiring = false;
+				curAnim = weaponAnimType.None;
 			}
 			if (AnimClock > 0){
 				AnimClock--;
 			}
+			break;
+		case weaponAnimType.Reloading :
+			if (AnimClock > 0){
+				AnimClock--;
+			}
+			if (AnimClock == 0) {
+				if (ReserveAmmo == 0) {
+					Debug.Log ("Out of bullets!");
+				}
+				ReserveAmmo += CurAmmo;
+				CurAmmo = 0;
+				if (ReserveAmmo >= MaxAmmo) {
+					CurAmmo = MaxAmmo;
+					ReserveAmmo -= MaxAmmo;
+				} else {
+					CurAmmo = ReserveAmmo;
+					ReserveAmmo = 0;
+				}
+				isFiring = false;
+				curAnim = weaponAnimType.None;
+			}
+			break;
+		default :
+			Debug.LogError("INVALID weaponAnimType! AH!");
+			break;
 		}
 	}
+}
+
+/// <summary>
+/// Weapon animation type.
+/// </summary>
+public enum weaponAnimType {
+	None,
+	Firing,
+	Reloading
 }
