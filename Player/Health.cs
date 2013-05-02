@@ -62,7 +62,7 @@ public class Health : MonoBehaviour {
 		fader.StartFade(transparent, fadeTime);
 		
 		if (damage > HealthLevel) {
-			HealthLevel = 0
+			HealthLevel = 0;
 			print("Debug: Dead.");
 			pauseController.pane = "/Dead";
 			Time.timeScale = 0;
