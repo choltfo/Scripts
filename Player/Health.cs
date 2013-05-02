@@ -37,14 +37,24 @@ public class Health : MonoBehaviour {
 		return true;
 	}
 	
+	
+	/// <summary>
+	/// Deal damage to player.ss
+	/// </summary>
+	/// <param name='damage'>
+	/// the amount of damage received.
+	/// </param>
+	/// <returns>
+	/// Whether the player survived.
+	/// </returns>
 	public bool Damage(float damage) {
 		lastInjury = Time.time;
-		painSoundSource.PlayOneShot(painSounds[(int)(Random.value * painSounds.Length)-1]);
+		painSoundSource.PlayOneShot(painSounds[(int)(Random.value * (painSounds.Length-1))]);
 		fader.SetScreenOverlayColor(fadeColor);
 		fader.StartFade(transparent, fadeTime);
 		
-		if (damage >= HealthLevel) {
-			HealthLevel = HealthLevel - damage;
+		if (damage > HealthLevel) {
+			HealthLevel = 0
 			print("Debug: Dead.");
 			pauseController.pane = "/Dead";
 			Time.timeScale = 0;
@@ -53,6 +63,7 @@ public class Health : MonoBehaviour {
 			HealthLevel = HealthLevel - damage;
 			return true;
 		}
+		
 	}
 	
 	public void OnGUI() {
