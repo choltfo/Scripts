@@ -4,7 +4,9 @@
  
 using UnityEngine;
  
- 
+/// <summary>
+/// A camera fader written by someone on the unity forums.
+/// </summary>
 public class CameraFade : MonoBehaviour
 {   
 	private GUIStyle m_BackgroundStyle = new GUIStyle();		// Style for background tiling

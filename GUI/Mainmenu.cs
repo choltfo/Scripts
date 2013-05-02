@@ -1,8 +1,12 @@
 using UnityEngine;
 using System.Collections;
-
+/// <summary>
+/// The main menu.
+/// </summary>
 public class Mainmenu : MonoBehaviour {
-	
+	/// <summary>
+	/// The button style.
+	/// </summary>
 	public GUIStyle button;
 	
 	// Use this for initialization

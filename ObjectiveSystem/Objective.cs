@@ -3,7 +3,9 @@ using System.Collections;
 
 [System.Serializable]
 //[RequireComponent (typeof (TextMesh))]
-
+/// <summary>
+/// Represents an Objective inside a <see cref="Mission"/>, inside a <see cref="Campaign"/>.
+/// </summary>
 public class Objective : MonoBehaviour {
 	
 	public string objectiveName = "Objective name";

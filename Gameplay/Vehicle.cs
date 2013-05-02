@@ -1,6 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
+
+/// <summary>
+/// Represents a vehicle that one may drive.
+/// Broken.
+/// </summary>
 public class Vehicle : MonoBehaviour {
 	
 	public bool isOccupied = false;

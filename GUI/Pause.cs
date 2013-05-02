@@ -2,15 +2,46 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 
+/// <summary>
+/// The pause screen.
+/// </summary>
+
 public class Pause : MonoBehaviour {
+	/// <summary>
+	/// The controls layout to use.
+	/// </summary>
 	public Controls controls;
+	/// <summary>
+	/// The audio to play through.
+	/// </summary>
 	public AudioListener audio;
+	/// <summary>
+	/// The width of the items.
+	/// </summary>
 	public int itemWidth = 200;
+	/// <summary>
+	/// The height of the items.
+	/// </summary>
 	public int itemHeight = 50;
+	/// <summary>
+	/// The pane label style.
+	/// </summary>
 	public GUIStyle paneLabelStyle;
+	/// <summary>
+	/// The death screen style.
+	/// </summary>
 	public GUIStyle deathScreenStyle;
+	/// <summary>
+	/// The color of the death screen.
+	/// </summary>
 	public Color deathScreenColor;
+	/// <summary>
+	/// The <see cref="CamerFader"/> to fade to death with.
+	/// </summary>
 	public CameraFade fader;
+	/// <summary>
+	/// The current pane.
+	/// </summary>
 	public string pane = "/Pause";
 	
 	void Update () {

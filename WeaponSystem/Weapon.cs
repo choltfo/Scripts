@@ -2,6 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 [System.Serializable]
+
+/// <summary>
+/// Represents a weapon that can be fired by <see cref="Shootobjects"/>.
+/// </summary>
 public class Weapon {
 	/// <summary>
 	/// The prefab that should be created when this gun is pulled out.
@@ -45,6 +49,9 @@ public class Weapon {
 	/// The zoom smoothing.
 	/// </summary>
 	public float NormalZoom;
+	/// <summary>
+	/// The amount, in degrees, to (in/de)crease the the FOV per update when (un)scoping 
+	/// </summary>
 	public float zoomSmoothing;
 	/// <summary>
 	/// The damage per bullet imparted to enemies when shot.
@@ -81,6 +88,9 @@ public class Weapon {
 	/// </summary>
 	public string Path = ".../";
 	[HideInInspector]
+	/// <summary>
+	/// Whether or not the gun is valid. Not visible in Inspector.
+	/// </summary>
 	public bool IsValid = true;
 	/// <summary>
 	/// Whether or not the gun is automatic (pewpewpew!) or semi automatic (pew! pew!).
@@ -101,24 +111,54 @@ public class Weapon {
 	
 	
 	[HideInInspector]
+	/// <summary>
+	/// The camera gameobject.
+	/// </summary>
 	public GameObject camera;
 	[HideInInspector]
+	/// <summary>
+	/// Whether the gun is aimed.
+	/// </summary>
 	public bool isAimed = false;
+	/// <summary>
+	/// Whether the gun exists.
+	/// </summary>
 	public bool Exists = false;
 	[HideInInspector]
+	/// <summary>
+	/// Whether the gun is firing. Not visible in Inspector.
+	/// </summary>
 	public bool isFiring = false;
 	[HideInInspector]
+	/// <summary>
+	/// The main object of the gun. Not visible in Inspector.
+	/// </summary>
 	public GameObject mainObject = null;
 	[HideInInspector]
+	/// <summary>
+	/// The flash gameobject. Not visible in Inspector.
+	/// </summary>
 	public GameObject flash = null;
 	[HideInInspector]
+	/// <summary>
+	/// The animation clock. Not visible in Inspector.
+	/// </summary>
 	public int AnimClock = 0;
 	
 	[HideInInspector]
+	/// <summary>
+	/// The hammer transform. Not visible in Inspector.
+	/// </summary>
 	public Transform Hammer;
 	[HideInInspector]
+	/// <summary>
+	/// The Slide transform. Not visible in Inspector.
+	/// </summary>
 	public Transform Slide;
 	[HideInInspector]
+	/// <summary>
+	/// The Trigger transform. Not visible in Inspector.
+	/// </summary>
 	public Transform Trigger;
 	/// <summary>
 	/// The angle, in degrees, that the camera moves up after each shot.
@@ -155,12 +195,48 @@ public class Weapon {
 	/// </summary>
 	public int SlideDelay;
 	[HideInInspector]
+	/// <summary>
+	/// The delay, in updates, between shots. Not visible in Inspector.
+	/// </summary>
 	public int ShotDelay;
 	
 	//public UnderbarrelAttachment underbarrel;
 	
 	//TODO Add reloading animations.
 	
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Weapon"/> class with the specified attrtibutes.
+	/// </summary>
+	/// <param name='MainObject'>
+	/// Main object to instantiate.
+	/// </param>
+	/// <param name='Position'>
+	/// Position when holding at hip.
+	/// </param>
+	/// <param name='ScopedPosition'>
+	/// Scoped position.
+	/// </param>
+	/// <param name='CanScope'>
+	/// Can scope?
+	/// </param>
+	/// <param name='MaxAmmo'>
+	/// Max ammo in clip.
+	/// </param>
+	/// <param name='WeaponName'>
+	/// Weapon name.
+	/// </param>
+	/// <param name='Damage'>
+	/// Damage.
+	/// </param>
+	/// <param name='Path'>
+	/// Path to animated components.
+	/// </param>
+	/// <param name='FireRate'>
+	/// Fire rate in rounds per 30 updates.
+	/// </param>
+	/// <param name='Automatic'>
+	/// Automatic?
+	/// </param>
 	public Weapon(GameObject MainObject, Vector3 Position, Vector3 ScopedPosition,
 		bool CanScope, int MaxAmmo, string WeaponName, int Damage, string Path, float FireRate, bool Automatic) {
 		
@@ -178,12 +254,18 @@ public class Weapon {
 		this.Automatic = Automatic;
 	}
 	
+	/// <summary>
+	/// Initializes a blank instance of the <see cref="Weapon"/> class.
+	/// </summary>
 	public Weapon() {}
 	
-	
-	/*
-	 * Instantiates the gun in front of the player (camera), so that is can be usefully animated.
-	 */
+
+	/// <summary>
+	/// Instantiates the gun in front of the player (camera), so that is can be usefully animated.
+	/// </summary>
+	/// <param name='player'>
+	/// The camera gameobject to put the gun in front of.
+	/// </param>
 	public void activate(GameObject player){
 		camera = player;
 		GameObject Gun = (GameObject)MonoBehaviour.Instantiate(InstantiableObject, new Vector3 (0,0,0), player.transform.rotation);
@@ -204,6 +286,10 @@ public class Weapon {
 		Exists = true;
 	}
 	
+	
+	/// <summary>
+	/// Disactivate this instance.
+	/// </summary>
 	public void disactivate() {
 		if (mainObject != null) {
 			MonoBehaviour.Destroy(mainObject);
@@ -212,6 +298,9 @@ public class Weapon {
 		}
 	}
 	
+	/// <summary>
+	/// Aim this instance.
+	/// </summary>
 	public void aim() {
 		if (!IsValid || !Exists) {
 			return;
@@ -225,6 +314,12 @@ public class Weapon {
 		}
 	}
 	
+	/// <summary>
+	/// Shoot this gun.
+	/// </summary>
+	/// <param name='camera'>
+	/// Camera to aim from.
+	/// </param>
 	public bool Shoot(Camera camera) {
 		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && !isFiring){
 			CurAmmo -= 1;
@@ -288,7 +383,10 @@ public class Weapon {
 		}
 		return false;
 	}
-
+	
+	/// <summary>
+	/// Instantiate the weapon pickup for this gun, and let it go.
+	/// </summary>
 	public void Drop() {
 		if (!IsValid) {
 			return;
@@ -301,6 +399,9 @@ public class Weapon {
 		Debug.Log(this.ToString());
 	}
 	
+	/// <summary>
+	/// Identify the animatable parts.
+	/// </summary>
 	public void AnimIdentify() {
 		Hammer = GameObject.Find(mainObject.name + "/" + Path + "Hammer").transform;
 		Slide = GameObject.Find(mainObject.name + "/" + Path + "Slide").transform;
@@ -323,6 +424,9 @@ public class Weapon {
 		}*/
 	}
 	
+	/// <summary>
+	/// Finds the flash.
+	/// </summary>
 	void findFlash() {
 		flash = GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
 		//if (flash != null) {
@@ -333,6 +437,9 @@ public class Weapon {
 		//}
 	}
 	
+	/// <summary>
+	/// Update animations.
+	/// </summary>
 	public void AnimUpdate() {
 		if (!Exists){
 			return;

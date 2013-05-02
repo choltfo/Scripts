@@ -3,7 +3,12 @@ using System.Collections;
  
 [RequireComponent (typeof (Rigidbody))]
 [RequireComponent (typeof (Collider))]
- 
+
+
+/// <summary>
+/// Vehicle controls.
+/// Broken.
+/// </summary>
 public class VehicleControls : MonoBehaviour {
  
 	public float speed = 10.0f;

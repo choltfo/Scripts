@@ -1,16 +1,42 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// An enemy that charges at the player when they are within a range.
+/// It deals a fixed amount of damage, and adds a drug effect.
+/// </summary>
+
 public class Charger : Enemy {
 	
+	/// <summary>
+	/// The player to attack.
+	/// </summary>
 	public GameObject player;
 	CharacterController motor;
 	EnemyHealth health;
+	/// <summary>
+	/// The delay between attacks.
+	/// </summary>
 	public float effectDelay;
+	/// <summary>
+	/// The range at which the charger sees the player.
+	/// </summary>
 	public float activationDistance = 5;
+	/// <summary>
+	/// The timestamp of the most recent effect.
+	/// </summary>
 	public float recentEffectTime = 0;
+	/// <summary>
+	/// The drug effect applied with damage.
+	/// </summary>
 	public DrugEffect collideEffect;
+	/// <summary>
+	/// The damage applied to player on contact.
+	/// </summary>
 	public float damage;
+	/// <summary>
+	/// Whether the game is paused.
+	/// </summary>
 	public bool isPaused = false;
 	
 	void OnCollisionStay(Collision collision) {

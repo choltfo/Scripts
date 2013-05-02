@@ -3,14 +3,29 @@ using System.Collections;
 
 [RequireComponent (typeof (CharacterController))]
 
+/// <summary>
+/// An enemy that shoots back.
+/// In theory, it should move untill it has a line of sight to the player, and then shoot.
+/// Bit more work needed.
+/// </summary>
+
 public class Shooter : Enemy {
-	
+	/// <summary>
+	/// The player to attack.
+	/// </summary>
 	public GameObject player;
 	CharacterController motor;
 	EnemyHealth health;
+	/// <summary>
+	/// Whether the game is paused.
+	/// </summary>
 	public bool isPaused = false;
 	//public float effectDelay;
 	//public float recentEffectTime = 0;
+	
+	/// <summary>
+	/// The current time. I don't know why.
+	/// </summary>
 	public float TIME;
 	//public DrugEffect collideEffect;
 	//public float damage;

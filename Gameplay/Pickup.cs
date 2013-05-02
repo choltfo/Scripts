@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
-
+/// <summary>
+/// DEPRECATED, DO NOT USE!
+/// A weapon pickup attached to a gameobject.
+/// </summary>
 public class Pickup : MonoBehaviour {
 	
 	public string Type = "Weapon";
