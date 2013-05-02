@@ -2,14 +2,30 @@ using UnityEngine;
 using System.Collections;
 
 [System.Serializable]
-
+/// <summary>
+/// Holds a campaign, and hooks it to an update sequence.
+/// </summary>
 public class CampaignDisplay : MonoBehaviour {
-	
+	/// <summary>
+	/// The campaign that is played through.
+	/// </summary>
 	public Campaign campaign;
+	/// <summary>
+	/// The pause screen.
+	/// </summary>
 	public Pause pauseScreen;
+	/// <summary>
+	/// The controls to use.
+	/// </summary>
 	public Controls controls;
 	bool DONE = false;
+	/// <summary>
+	/// The heading style.
+	/// </summary>
 	public GUIStyle headingStyle;
+	/// <summary>
+	/// The content style.
+	/// </summary>
 	public GUIStyle contentStyle;
 	
 	void Start () {
