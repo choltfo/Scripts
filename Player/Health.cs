@@ -1,9 +1,17 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Controls the level of health for the player.
+/// </summary>
 public class Health : MonoBehaviour {
-	
+	/// <summary>
+	/// The audio source to play the painsounds from
+	/// </summary>
 	public AudioSource painSoundSource;
+	/// <summary>
+	/// A list of sounds to play from
+	/// </summary>
 	public CameraFade fader;
 	public AudioClip[] painSounds;
 	public Color fadeColor;

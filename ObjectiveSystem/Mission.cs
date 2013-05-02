@@ -78,14 +78,15 @@ public class Mission {
 			objectives[i-1].Activate(i-1);
 		}
 	}
+	
 	/// <summary>
 	/// Applies the styles.
 	/// </summary>
 	/// <param name='l_headingStyle'>
-	/// The_heading style.
+	/// The heading style.
 	/// </param>
 	/// <param name='l_contentStyle'>
-	/// The_content style.
+	/// The content style.
 	/// </param>
 	public void applyStyles (GUIStyle l_headingStyle, GUIStyle l_contentStyle) {
 		headingStyle = l_headingStyle;
