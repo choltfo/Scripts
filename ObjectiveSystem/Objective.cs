@@ -36,6 +36,9 @@ public class Objective : MonoBehaviour {
 	/// The label style.
 	/// </summary>
 	public GUIStyle labelStyle;
+	public AudioSource playbackSource;
+	public AudioClip completionClip;
+	public float clipVolume;
 	
 	//void Start () {
 		//textMesh = gameObject.GetComponent<TextMesh>();
@@ -48,6 +51,7 @@ public class Objective : MonoBehaviour {
 	public bool Complete(){
 		if (!complete && Active) {
 			complete = true;
+			playbackSource.PlayOneShot(completionClip, clipVolume);
 			return true;
 		}
 		return false;
