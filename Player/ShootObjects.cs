@@ -14,6 +14,13 @@ public class ShootObjects : MonoBehaviour {
 	
 	public void start () {}
 	
+	public void OnGUI () {
+		if (weapons[currentWeapon] != null) {
+			GUI.label(new Rect(Screen.width-weapons[currentWeapon].WeaponName.toStringArray().Length*20,50,400,20), weapons[currentWeapon].WeaponName);
+			GUI.label(new Rect(), weapons[currentWeapon].CurAmmo + "/" + weapons[currentWeapon].MaxAmmo);
+		}
+	}
+	
 	public void Update () {
 		
 		if (Time.timeScale == 0) {
@@ -22,16 +29,16 @@ public class ShootObjects : MonoBehaviour {
 		
 		weapons[currentWeapon].AnimUpdate();
 		if (weapons[currentWeapon].Automatic == true) {
-			if (Input.GetMouseButton(controls.fire)) {
+			if (Input.GetKey(controls.fire)) {
 				shoot();
 			}
 		}
 		if (weapons[currentWeapon].Automatic == false) {
-			if (Input.GetMouseButtonDown(controls.fire)) {
+			if (Input.GetKeyDown(controls.fire)) {
 				shoot();
 			}
 		}
-		if (Input.GetMouseButtonDown(controls.aim)) {
+		if (Input.GetKeyDown(controls.aim)) {
 			aim();
 		}
 		if (Input.GetKeyDown(controls.reload)) {
