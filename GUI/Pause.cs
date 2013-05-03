@@ -7,7 +7,7 @@ using System.IO;
 /// </summary>
 
 public class Pause : MonoBehaviour {
-	/// <summary>
+	/// <summary>`
 	/// The controls layout to use.
 	/// </summary>
 	public Controls controls;
@@ -80,7 +80,15 @@ public class Pause : MonoBehaviour {
 					GUI.Label(new Rect((Screen.width/2) - 200,(Screen.height/2) - 20, 400 ,40), "YOU ARE DEAD!", deathScreenStyle);
 					break;
 				case "/Pause/Controls":
-					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,325,itemWidth,itemHeight), "Back")) {
+					for (int i=0; i < 4; i++) {
+						for (int j=0; j < 3; j++) {
+							if (GUI.Button(new Rect(((Screen.width/4)-150/2)+(Screen.width/4)*j,(75*i)+50,150,itemHeight), "TestButton")) {
+								Debug.Log("WHAT");
+							}
+						}
+					}
+
+					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,350,itemWidth,itemHeight), "Back")) {
 						pane = "/Pause";
 					}
 					break;
