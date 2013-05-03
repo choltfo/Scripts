@@ -64,7 +64,7 @@ void  Update (){
 		ShotClock--;
 	}
 	if ((ShotClock == 0) && (clip > 0)){
-		if (Input.GetMouseButtonDown(controls.fire)){
+		if (Input.GetKeyDown(controls.fire)){
 			clip--;
 			Hammer.Rotate(-HammerRotation, 0, 0);
 			gun.Rotate(-gunAngle,0,0);
@@ -96,7 +96,7 @@ void  Update (){
 		Muzzle_Flash.localScale = new Vector3 (0,0,0);
 	}
 	
-	if(Input.GetMouseButtonDown(controls.aim)){
+	if(Input.GetKeyDown(controls.aim)){
 		if (aiming){
 			gun.localPosition = new Vector3 (gun.localPosition.x - 0.5f, gun.localPosition.y + 0.3f, gun.localPosition.z);
 			//crossHair.position = new Vector3 (-1,-1,0);
