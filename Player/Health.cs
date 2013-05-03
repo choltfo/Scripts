@@ -62,8 +62,13 @@ public class Health : MonoBehaviour {
 		fader.StartFade(transparent, fadeTime);
 		
 		if (damage > HealthLevel) {
+<<<<<<< HEAD
 			HealthLevel = 0;
 			print("Debug: Dead.");
+=======
+			HealthLevel = 0
+			print("Debug: Dead.");	
+>>>>>>> Moved the back Button
 			pauseController.pane = "/Dead";
 			Time.timeScale = 0;
 			return false;

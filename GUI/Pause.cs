@@ -80,7 +80,7 @@ public class Pause : MonoBehaviour {
 					GUI.Label(new Rect((Screen.width/2) - 200,(Screen.height/2) - 20, 400 ,40), "YOU ARE DEAD!", deathScreenStyle);
 					break;
 				case "/Pause/Controls":
-					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Back")) {
+					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,325,itemWidth,itemHeight), "Back")) {
 						pane = "/Pause";
 					}
 					break;
