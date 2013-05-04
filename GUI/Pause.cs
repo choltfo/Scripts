@@ -97,7 +97,8 @@ public class Pause : MonoBehaviour {
 					for (int i=0; i < 4; i++) {
 						for (int j=0; j < 3; j++) {
 							if (GUI.Button(new Rect(((Screen.width/4)-150/2)+(Screen.width/4)*j,50+75*i,150,itemHeight), "TestButton")) {
-								Debug.Log("WHAT");
+								Debug.Log(i);
+								Debug.Log(j);
 								Debug.Log(ChangeKey(controls.interact));
 							}
 						}

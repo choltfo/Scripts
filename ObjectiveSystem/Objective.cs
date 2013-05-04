@@ -17,7 +17,7 @@ public class Objective : MonoBehaviour {
 	/// </summary>
 	public string description = "Objective description";
 	/// <summary>
-	/// Whrther this is complete.
+	/// Whether this is complete.
 	/// </summary>
 	public bool complete = false;
 	/// <summary>
