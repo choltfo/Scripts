@@ -93,7 +93,7 @@ public class Pause : MonoBehaviour {
 					GUI.Label(new Rect((Screen.width/2) - 200,(Screen.height/2) - 20, 400 ,40), "YOU ARE DEAD!", deathScreenStyle);
 					break;
 				case "/Pause/Controls":
-				/*
+				
 					for (int i=0; i < 4; i++) {
 						for (int j=0; j < 3; j++) {
 							if (GUI.Button(new Rect(((Screen.width/4)-150/2)+(Screen.width/4)*j,50+75*i,150,itemHeight), "TestButton")) {
@@ -102,7 +102,7 @@ public class Pause : MonoBehaviour {
 							}
 						}
 					}
-					*/
+					/*
 					int selectedButton = 0;
 					string[] buttonText = {"TestButton", "TestButton", "TestButton", "TestButton", "TestButton", "TestButton" };
 
@@ -111,6 +111,7 @@ public class Pause : MonoBehaviour {
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,350,itemWidth,itemHeight), "Back")) {
 						pane = "/Pause";
 					}
+					*/
 					break;
 				case "/Pause/Videos":
 					string [] fileEntries = Directory.GetFiles(Application.dataPath+"/Resources/Cutscenes/");
