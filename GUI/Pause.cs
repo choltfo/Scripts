@@ -56,7 +56,15 @@ public class Pause : MonoBehaviour {
 			}
 		}
 	}
-	
+	KeyCode ChangeKey (KeyCode origKey) {
+		Event e = Event.current;
+		if (e.isKey) {
+			return e.keyCode;
+		}
+		else {
+			return origKey;
+		}
+	}
 	void OnGUI () {
 		if (Time.timeScale == 0) {
 			GUI.Label(new Rect(0,0,Screen.width, 50), pane, paneLabelStyle);
@@ -85,13 +93,20 @@ public class Pause : MonoBehaviour {
 					GUI.Label(new Rect((Screen.width/2) - 200,(Screen.height/2) - 20, 400 ,40), "YOU ARE DEAD!", deathScreenStyle);
 					break;
 				case "/Pause/Controls":
+				/*
 					for (int i=0; i < 4; i++) {
 						for (int j=0; j < 3; j++) {
 							if (GUI.Button(new Rect(((Screen.width/4)-150/2)+(Screen.width/4)*j,50+75*i,150,itemHeight), "TestButton")) {
 								Debug.Log("WHAT");
+								Debug.Log(ChangeKey(controls.interact));
 							}
 						}
 					}
+					*/
+					int selectedButton = 0;
+					string[] buttonText = {"TestButton", "TestButton", "TestButton", "TestButton", "TestButton", "TestButton" };
+
+					selectedButton = GUI.SelectionGrid(new Rect((Screen.width/2)-300/2,50,300,200), selectedButton, buttonText, 3);
 
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,350,itemWidth,itemHeight), "Back")) {
 						pane = "/Pause";
