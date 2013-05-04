@@ -91,7 +91,7 @@ public class Weapon {
 	/// The path to the animated objects, e.g muzzle flare and slide.
 	/// </summary>
 	public string Path = ".../";
-	[HideInInspector]
+	//[HideInInspector]
 	/// <summary>
 	/// Whether or not the gun is valid. Not visible in Inspector.
 	/// </summary>

@@ -47,6 +47,12 @@ public class ShootObjects : MonoBehaviour {
 		if (Input.GetKeyDown(controls.interact)) {
 			interact();
 		}
+		if (Input.GetKeyDown(controls.drop)) {
+			//if (weapons[currentWeapon].IsValid) {
+				weapons[currentWeapon].Drop();
+				Debug.Log(weapons[currentWeapon].IsValid);
+			//}
+		}
 		if (Input.GetKeyDown(controls.weapon0)) {
 			if (currentWeapon != 0 || !weapons[0].Exists) {
 				currentWeapon = 0;
