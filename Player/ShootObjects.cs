@@ -29,16 +29,16 @@ public class ShootObjects : MonoBehaviour {
 		
 		weapons[currentWeapon].AnimUpdate();
 		if (weapons[currentWeapon].Automatic == true) {
-			if (Input.GetKey(controls.fire)) {
+			if (Input.GetMouseButton((int)controls.fire)) {
 				shoot();
 			}
 		}
 		if (weapons[currentWeapon].Automatic == false) {
-			if (Input.GetKeyDown(controls.fire)) {
+			if (Input.GetMouseButton((int)controls.fire)) {
 				shoot();
 			}
 		}
-		if (Input.GetKeyDown(controls.aim)) {
+		if (Input.GetMouseButtonDown((int)controls.aim)) {
 			aim();
 		}
 		if (Input.GetKeyDown(controls.reload)) {
@@ -68,6 +68,29 @@ public class ShootObjects : MonoBehaviour {
 					weapons[0].disactivate();
 				} else {
 					currentWeapon = 0;
+				}
+			}
+		}
+		if (Input.GetMouseButtonDown((int)controls.switchWeapons)) {
+			if (currentWeapon != 1 || !weapons[1].Exists) {
+				currentWeapon = 1;
+				if (weapons[1].IsValid) {
+					weapons[1].disactivate();
+					weapons[1].activate(gameObject);
+					weapons[0].disactivate();
+				} else {
+					currentWeapon = 0;
+				}
+			} else {
+				if (currentWeapon != 0 || !weapons[0].Exists) {
+					currentWeapon = 0;
+					if (weapons[0].IsValid) {
+						weapons[0].disactivate();
+						weapons[0].activate(gameObject);
+						weapons[1].disactivate();
+					} else {
+						currentWeapon = 1;
+					}
 				}
 			}
 		}
