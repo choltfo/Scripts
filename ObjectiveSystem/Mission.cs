@@ -29,7 +29,7 @@ public class Mission {
 	/// <summary>
 	/// The number of active objectives.
 	/// </summary>
-	int activeObjectives;
+	public int activeObjectives;
 	//public Vector3 displayCoords;
 	
 	/// <summary>
@@ -49,6 +49,12 @@ public class Mission {
 				completedCount++;
 			} else {
 				objectives[i].Deactivate();
+			}
+		}
+		activeObjectives = 0;
+		for (int i = 0; i < objectives.Length; i++) {
+			if (objectives[i].Active) {
+				activeObjectives++;
 			}
 		}
 		return complete;
@@ -101,6 +107,6 @@ public class Mission {
 	/// </summary>
 	public void draw() {
 		GUI.Label(new Rect(50,10,300,30),missionName,headingStyle);
-		GUI.Box(new Rect(50,10,300, 80+(50*activeObjectives)), "");
+		GUI.Box(new Rect(50,10,300, 40+(20*activeObjectives)), "");
 	}
 }
