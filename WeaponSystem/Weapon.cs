@@ -406,6 +406,7 @@ public class Weapon {
 			return;
 		}
 		GameObject pickup = (GameObject)MonoBehaviour.Instantiate(InstantiablePickup, mainObject.transform.position, mainObject.transform.rotation);
+		pickup.SetActive(true);
 		//pickup.AddComponent("WeaponPickup");
 		pickup.AddComponent("Rigidbody");
 		//((WeaponPickup)pickup.GetComponent("WeaponPickup")).thisGun = this;
