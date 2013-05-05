@@ -87,7 +87,6 @@ public class Pause : MonoBehaviour {
 						pane = "/Pause";
 						Time.timeScale = 1f;
 					}
-					Debug.Log("DOSOME\nSHITMOTHERF***ER".Split("\n".ToCharArray()).Length-1);
 					break;
 				case "/Dead":																					//MAYBE
 					GUI.Label(new Rect((Screen.width/2) - 200,(Screen.height/2) - 20, 400 ,40), "YOU ARE DEAD!", deathScreenStyle);

@@ -7,7 +7,7 @@ public class PickupObjective : Objective {
 	
 	public void Interact () {
 		if (Complete()) {
-			foreach( Transform trans in gameObject.transform) {
+			foreach (Transform trans in gameObject.transform) {
 				Destroy(trans.gameObject);
 			}
 			Destroy(gameObject.GetComponent<MeshCollider>());
