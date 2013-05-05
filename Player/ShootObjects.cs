@@ -47,6 +47,12 @@ public class ShootObjects : MonoBehaviour {
 		if (Input.GetKeyDown(controls.interact)) {
 			interact();
 		}
+		if (Input.GetKeyDown(controls.drop)) {
+			//if (weapons[currentWeapon].IsValid) {
+				weapons[currentWeapon].Drop();
+				Debug.Log(weapons[currentWeapon].IsValid);
+			//}
+		}
 		if (Input.GetKeyDown(controls.weapon0)) {
 			if (currentWeapon != 0 || !weapons[0].Exists) {
 				currentWeapon = 0;
@@ -184,9 +190,9 @@ public class ShootObjects : MonoBehaviour {
 
 	public void OnGUI () {
 		if (weapons[currentWeapon].IsValid) {
-			GUI.Box(new Rect(Screen.width-200,Screen.height-100,200,100),"");
-			GUI.Label(new Rect(Screen.width-200, Screen.height-100, 200, 40), weapons[currentWeapon].WeaponName);
-			GUI.Label(new Rect(Screen.width-200, Screen.height-50, 200, 40),
+			GUI.Box(new Rect(Screen.width-175,Screen.height-100,150,50),"");
+			GUI.Label(new Rect(Screen.width-150, Screen.height-100, 150, 40), weapons[currentWeapon].WeaponName);
+			GUI.Label(new Rect(Screen.width-150, Screen.height-75, 150, 40),
 				weapons[currentWeapon].CurAmmo + "/" + weapons[currentWeapon].MaxAmmo + "/" + weapons[currentWeapon].ReserveAmmo);
 		}
 	}
