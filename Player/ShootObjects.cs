@@ -166,6 +166,9 @@ public class ShootObjects : MonoBehaviour {
 						return true;
 					}
 				}
+				if (hit.transform.gameObject.GetComponent<AmmoPickup>() != null) {
+					hit.transform.gameObject.GetComponent<AmmoPickup>().Interact(weapons);
+				}
 				if (hit.transform.gameObject.GetComponent<PickupObjective>() != null) {
 					hit.transform.gameObject.GetComponent<PickupObjective>().Interact();
 				}
