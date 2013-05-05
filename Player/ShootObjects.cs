@@ -197,6 +197,9 @@ public class ShootObjects : MonoBehaviour {
 			GUI.Label(new Rect(Screen.width-150, Screen.height-100, 150, 40), weapons[currentWeapon].WeaponName);
 			GUI.Label(new Rect(Screen.width-150, Screen.height-75, 150, 40),
 				weapons[currentWeapon].CurAmmo + "/" + weapons[currentWeapon].MaxAmmo + "/" + weapons[currentWeapon].ReserveAmmo);
+			if (!weapons[currentWeapon].isAimed) {
+				GUI.Box(new Rect(Screen.width/2-2,Screen.height/2-2,4,4),"");
+			}
 		}
 	}
 }
