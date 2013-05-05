@@ -263,7 +263,7 @@ public class Weapon {
 	/// Initializes a blank instance of the <see cref="Weapon"/> class.
 	/// </summary>
 	public Weapon() {
-		this.IsValid 			= false;
+		this.IsValid = false;
 	}
 	
 
