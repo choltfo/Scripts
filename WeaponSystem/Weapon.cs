@@ -246,17 +246,17 @@ public class Weapon {
 		bool CanScope, int MaxAmmo, string WeaponName, int Damage, string Path, float FireRate, bool Automatic) {
 		
 		this.InstantiableObject = MainObject;
-		this.Position = Position;
-		this.ScopedPosition = ScopedPosition;
-		this.CanScope = CanScope;
-		this.MaxAmmo = MaxAmmo;
-		CurAmmo = MaxAmmo;
-		this.WeaponName = WeaponName;
-		this.IsValid = true;
-		this.Damage = Damage;
-		this.Path = Path;
-		this.fireRate = FireRate;
-		this.Automatic = Automatic;
+		this.Position           = Position;
+		this.ScopedPosition     = ScopedPosition;
+		this.CanScope           = CanScope;
+		this.MaxAmmo            = MaxAmmo;
+		CurAmmo                 = MaxAmmo;
+		this.WeaponName         = WeaponName;
+		this.IsValid            = true;
+		this.Damage             = Damage;
+		this.Path               = Path;
+		this.fireRate           = FireRate;
+		this.Automatic          = Automatic;
 	}
 	
 	/// <summary>
