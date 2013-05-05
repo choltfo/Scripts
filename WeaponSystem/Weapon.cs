@@ -95,7 +95,7 @@ public class Weapon {
 	/// <summary>
 	/// Whether or not the gun is valid. Not visible in Inspector.
 	/// </summary>
-	public bool IsValid = true;
+	public bool IsValid = false;
 	/// <summary>
 	/// Whether or not the gun is automatic (pewpewpew!) or semi automatic (pew! pew!).
 	/// </summary>
@@ -262,7 +262,9 @@ public class Weapon {
 	/// <summary>
 	/// Initializes a blank instance of the <see cref="Weapon"/> class.
 	/// </summary>
-	public Weapon() {}
+	public Weapon() {
+		this.IsValid 			= false;
+	}
 	
 
 	/// <summary>
@@ -407,8 +409,6 @@ public class Weapon {
 		}
 		GameObject pickup = (GameObject)MonoBehaviour.Instantiate(InstantiablePickup, mainObject.transform.position, mainObject.transform.rotation);
 		pickup.SetActive(true);
-		//pickup.AddComponent("WeaponPickup");
-		pickup.AddComponent("Rigidbody");
 		//((WeaponPickup)pickup.GetComponent("WeaponPickup")).thisGun = this;
 		MonoBehaviour.Destroy(mainObject);
 		Debug.Log(this.ToString());
@@ -483,8 +483,10 @@ public class Weapon {
 			}
 			if (AnimClock == ShotDelay){
 				Hammer.Rotate(-HammerRotation, 0, 0);
+				
 				mainObject.transform.Rotate(-gunAngle,0,0);
 				mainObject.transform.Translate(0,0,-gunDistance);
+				
 				Slide.Translate(0,0, SlideDistance);
 				Trigger.Translate(0,0, TriggerDistance);
 				//flash.transform.localScale = new Vector3 (10,10,10);
@@ -500,7 +502,8 @@ public class Weapon {
 			}
 			if (AnimClock == (ShotDelay - 1)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
-				mainObject.transform.Translate(0,0,gunDistance*0.25f);
+				mainObject.transform.Translate(0,0,gunDistance/4);
+				
 				//flash.transform.localScale = new Vector3 (0,0,0);
 				flash.SetActive(false);
 				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY 
@@ -508,19 +511,22 @@ public class Weapon {
 			}
 			if (AnimClock == (ShotDelay - 2)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
-				mainObject.transform.Translate(0,0,gunDistance*0.25f);
+				mainObject.transform.Translate(0,0,gunDistance/4);
+				
 				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY 
 					-= CameraClimb/4;
 			}
 			if (AnimClock == (ShotDelay - 3)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
-				mainObject.transform.Translate(0,0,gunDistance*0.25f);
+				mainObject.transform.Translate(0,0,gunDistance/4);
+				
 				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY 
 					-= CameraClimb/4;
 			}
 			if (AnimClock == (ShotDelay - 4)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
-				mainObject.transform.Translate(0,0,gunDistance*0.25f);
+				mainObject.transform.Translate(0,0,gunDistance/4);
+				
 				Trigger.Translate(0,0, -TriggerDistance);
 			}		
 			if (AnimClock == (ShotDelay-SlideDelay)){

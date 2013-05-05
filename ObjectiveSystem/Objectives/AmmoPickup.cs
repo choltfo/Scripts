@@ -12,12 +12,12 @@ public class AmmoPickup : Objective {
 			Destroy(gameObject);
 		}
 		Complete();
-		if (weapons[0].WeaponName == gunType) {
+		if (weapons[0].WeaponName == gunType && weapons[0].IsValid) {
 			weapons[0].ReserveAmmo += Bullets;
 			return;
 		}
 		
-		if (weapons[1].WeaponName == gunType) {
+		if (weapons[1].WeaponName == gunType && weapons[1].IsValid) {
 			weapons[1].ReserveAmmo += Bullets;
 			return;
 		}
