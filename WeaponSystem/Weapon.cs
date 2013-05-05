@@ -411,7 +411,7 @@ public class Weapon {
 		pickup.SetActive(true);
 		//((WeaponPickup)pickup.GetComponent("WeaponPickup")).thisGun = this;
 		MonoBehaviour.Destroy(mainObject);
-		Debug.Log(this.ToString());
+		IsValid = false;
 	}
 	
 	/// <summary>
