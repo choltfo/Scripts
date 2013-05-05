@@ -48,18 +48,17 @@ public class ShootObjects : MonoBehaviour {
 			interact();
 		}
 		if (Input.GetKeyDown(controls.drop)) {
-			//if (weapons[currentWeapon].IsValid) {
+			if (weapons[currentWeapon] != null) {
 				weapons[currentWeapon].Drop();
-				Debug.Log(weapons[currentWeapon].IsValid);
-			//}
+			}
 		}
 		if (Input.GetKeyDown(controls.weapon0)) {
 			if (currentWeapon != 0 || !weapons[0].Exists) {
 				currentWeapon = 0;
 				if (weapons[0].IsValid) {
-					weapons[0].disactivate();
+					weapons[0].deactivate();
 					weapons[0].activate(gameObject);
-					weapons[1].disactivate();
+					weapons[1].deactivate();
 				} else {
 					currentWeapon = 1;
 				}
@@ -69,9 +68,9 @@ public class ShootObjects : MonoBehaviour {
 			if (currentWeapon != 1 || !weapons[1].Exists) {
 				currentWeapon = 1;
 				if (weapons[1].IsValid) {
-					weapons[1].disactivate();
+					weapons[1].deactivate();
 					weapons[1].activate(gameObject);
-					weapons[0].disactivate();
+					weapons[0].deactivate();
 				} else {
 					currentWeapon = 0;
 				}
@@ -81,9 +80,9 @@ public class ShootObjects : MonoBehaviour {
 			if (currentWeapon != 1 || !weapons[1].Exists) {
 				currentWeapon = 1;
 				if (weapons[1].IsValid) {
-					weapons[1].disactivate();
+					weapons[1].deactivate();
 					weapons[1].activate(gameObject);
-					weapons[0].disactivate();
+					weapons[0].deactivate();
 				} else {
 					currentWeapon = 0;
 				}
@@ -91,9 +90,9 @@ public class ShootObjects : MonoBehaviour {
 				if (currentWeapon != 0 || !weapons[0].Exists) {
 					currentWeapon = 0;
 					if (weapons[0].IsValid) {
-						weapons[0].disactivate();
+						weapons[0].deactivate();
 						weapons[0].activate(gameObject);
-						weapons[1].disactivate();
+						weapons[1].deactivate();
 					} else {
 						currentWeapon = 1;
 					}
@@ -138,28 +137,28 @@ public class ShootObjects : MonoBehaviour {
 					}
 					if (weapons[currentWeapon].IsValid && weapons[secondaryWeapon].IsValid) {
 						//Both slots full
-						weapons[currentWeapon].disactivate();
+						weapons[currentWeapon].deactivate();
 						weapons[currentWeapon].Drop();
 						weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
 						equip (currentWeapon);
 						return true;
 					} else if (!weapons[currentWeapon].IsValid && !weapons[secondaryWeapon].IsValid) {
 						//Neither slot full
-						weapons[currentWeapon].disactivate();
+						weapons[currentWeapon].deactivate();
 						weapons[currentWeapon].Drop();
 						weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
 						equip (currentWeapon);
 						return true;
 					} else if (weapons[currentWeapon].IsValid && !weapons[secondaryWeapon].IsValid) {
 						//Just current
-						weapons[secondaryWeapon].disactivate();
+						weapons[secondaryWeapon].deactivate();
 						weapons[secondaryWeapon].Drop();
 						weapons[secondaryWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
 						equip (secondaryWeapon);
 						return true;
 					} else if (!weapons[currentWeapon].IsValid && weapons[secondaryWeapon].IsValid) {
 						//Just other
-						weapons[currentWeapon].disactivate();
+						weapons[currentWeapon].deactivate();
 						weapons[currentWeapon].Drop();
 						weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
 						equip (currentWeapon);
@@ -183,7 +182,7 @@ public class ShootObjects : MonoBehaviour {
 		int original = currentWeapon;
 		currentWeapon = weapon;
 		if (weapons[weapon] != null) {
-			weapons[original].disactivate();
+			weapons[original].deactivate();
 			weapons[weapon].activate(gameObject);
 			return true;
 		}

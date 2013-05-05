@@ -293,9 +293,9 @@ public class Weapon {
 	
 	
 	/// <summary>
-	/// Disactivate this instance.
+	/// Deactivate this instance.
 	/// </summary>
-	public void disactivate() {
+	public void deactivate() {
 		if (mainObject != null) {
 			MonoBehaviour.Destroy(mainObject);
 			//MonoBehaviour.print("Destryoed " + WeaponName);
