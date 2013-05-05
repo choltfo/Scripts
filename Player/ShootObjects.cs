@@ -50,12 +50,9 @@ public class ShootObjects : MonoBehaviour {
 		if (Input.GetKeyDown(controls.drop)) {
 			if (weapons[currentWeapon].IsValid) {
 				weapons[currentWeapon].Drop();
-<<<<<<< HEAD
 				weapons[currentWeapon] = new Weapon();
 				weapons[currentWeapon].IsValid = false;
-=======
 				//weapons[currentWeapon].IsValid = false;
->>>>>>> 0132fcc92004706e838dee1d9d33e2111a11c563
 			}
 		}
 		if (Input.GetKeyDown(controls.weapon0)) {
