@@ -107,6 +107,6 @@ public class Mission {
 	/// </summary>
 	public void draw() {
 		GUI.Label(new Rect(50,10,300,30),missionName,headingStyle);
-		GUI.Box(new Rect(50,10,300, 40+(20*activeObjectives)), "");
+		GUI.Box(new Rect(50,10,300, 25+(20*activeObjectives)), "");
 	}
 }
