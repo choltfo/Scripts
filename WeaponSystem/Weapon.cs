@@ -84,7 +84,7 @@ public class Weapon {
 	/// </summary>
 	public string WeaponName;
 	/// <summary>
-	/// The display name of the weapon (Because SIG P220 doesn;t roll of the tounge).
+	/// The display name of the weapon (Because SIG P220 doesn't roll off the tongue).
 	/// </summary>
 	public string DisplayName;
 	/// <summary>
