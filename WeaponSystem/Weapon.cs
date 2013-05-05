@@ -280,7 +280,7 @@ public class Weapon {
 		flash = GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
 		if (flash != null) {
 			//Debug.Log("Found flash for " + WeaponName + " at " + mainObject.transform.name +  "/" + Path + flash.name);
-			flash.transform.localScale = new Vector3 (0,0,0);
+			//flash.transform.localScale = new Vector3 (0,0,0);
 		} else {
 			Debug.Log("Didn't find flash for " + WeaponName + " at " + mainObject.transform.name + "/" + Path + "Flash");
 		}
@@ -487,7 +487,8 @@ public class Weapon {
 				mainObject.transform.Translate(0,0,-gunDistance);
 				Slide.Translate(0,0, SlideDistance);
 				Trigger.Translate(0,0, TriggerDistance);
-				flash.transform.localScale = new Vector3 (10,10,10);
+				//flash.transform.localScale = new Vector3 (10,10,10);
+				flash.SetActive(true);
 				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY
 					+= CameraClimb;
 				float x = mainObject.transform.parent.parent.localEulerAngles.x;
@@ -500,7 +501,8 @@ public class Weapon {
 			if (AnimClock == (ShotDelay - 1)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
 				mainObject.transform.Translate(0,0,gunDistance*0.25f);
-				flash.transform.localScale = new Vector3 (0,0,0);
+				//flash.transform.localScale = new Vector3 (0,0,0);
+				flash.SetActive(false);
 				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY 
 					-= CameraClimb/4;
 			}

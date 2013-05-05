@@ -37,6 +37,7 @@ public class Objective : MonoBehaviour {
 	/// </summary>
 	public GUIStyle labelStyle;
 	public TriggerableEvent[] Events;
+	public bool inCampaign = false;
 	
 	//void Start () {
 		//textMesh = gameObject.GetComponent<TextMesh>();
@@ -58,7 +59,7 @@ public class Objective : MonoBehaviour {
 	}
 	
 	void OnGUI() {
-		if (Active && !complete && Time.timeScale!=0) {
+		if (Active && !complete && Time.timeScale!=0 && inCampaign) {
 			GUI.Label (new Rect(50,50+(20*position),300,20),objectiveName, labelStyle);
 		}
 	}

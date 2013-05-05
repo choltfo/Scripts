@@ -30,6 +30,11 @@ public class CampaignDisplay : MonoBehaviour {
 	
 	void Start () {
 		campaign.applyStyles(headingStyle, contentStyle);
+		foreach (Mission mission in campaign.missions) {
+			foreach (Objective objective in mission.objectives) {
+				objective.inCampaign = true;
+			}
+		}
 	}
 	
 	void Update () {
