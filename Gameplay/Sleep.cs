@@ -4,7 +4,7 @@ using System.Collections;
 /// <summary>
 /// Controls beds
 /// </summary>
-public class Sleep : Interact {
+public class Sleep : InteractObject {
 	//Staticy bits
 	
 	/// <summary>
