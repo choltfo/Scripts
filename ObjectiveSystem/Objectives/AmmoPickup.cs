@@ -3,24 +3,16 @@ using System.Collections;
 
 public class AmmoPickup : Objective {
 	
-	public string gunType	= "SCAR-H";
+	public AmmoType ammoType	;
 	public int Bullets 		= 100;
 	public bool infinite 	= false;
 	
-	public void Interact (Weapon[] weapons) {
+	public void Interact (int[] ammo) {
 		if (!infinite) {
 			Destroy(gameObject);
 		}
 		Complete();
-		if (weapons[0].WeaponName == gunType && weapons[0].IsValid) {
-			weapons[0].ReserveAmmo += Bullets;
-			return;
-		}
-		
-		if (weapons[1].WeaponName == gunType && weapons[1].IsValid) {
-			weapons[1].ReserveAmmo += Bullets;
-			return;
-		}
-		return;
+		ammo[(int)ammoType] += Bullets;
+		return ammo;
 	}
 }
