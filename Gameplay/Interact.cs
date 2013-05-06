@@ -4,8 +4,8 @@ using System.Collections;
 /// Uhh...
 /// I don't know what this is...
 /// </summary>
-public class Interact : MonoBehaviour {
-	public virtual void interact() {
+public class InteractObject : MonoBehaviour {
+	public virtual void Interact() {
 		
 	}
 }
