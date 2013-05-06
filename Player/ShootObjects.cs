@@ -11,7 +11,6 @@ public class ShootObjects : MonoBehaviour {
 	public float pickupDistance = 5;
 	public  Weapon[] weapons = {new Weapon(), new Weapon()};
 	public int currentWeapon = 0;
-	public GameObject player;
 	
 	public int[] ammo;
 	
@@ -177,7 +176,7 @@ public class ShootObjects : MonoBehaviour {
 					hit.transform.gameObject.GetComponent<PickupObjective>().Interact();
 				}
 				if (hit.transform.gameObject.GetComponent<InteractObject>() != null) {
-					hit.transform.gameObject.GetComponent<InteractObject>().Interact(player);
+					hit.transform.gameObject.GetComponent<InteractObject>().Interact(gameObject.transform.parent.gameObject);
 				} 
 			}
 		return false;

@@ -57,10 +57,12 @@ public class Pause : MonoBehaviour {
 		}
 
 		Screen.showCursor = Time.timeScale == 0f;
+		Screen.fullScreen = true;
 	}
 	
 	void Start () {
 		Screen.fullScreen = true;
+		print ("TOGGLING FDULsCREEN");
 	}
 	
 	KeyCode ChangeKey (KeyCode origKey) {

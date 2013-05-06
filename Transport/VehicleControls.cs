@@ -10,19 +10,39 @@ using System.Collections;
 /// </summary>
 public class VehicleControls : MonoBehaviour {
 	
+	public float distToGround;
 	public bool active = false;
-	public float maxSpeed = 30;
+	public float maxSpeed = 1;
 	public float maxReverseSpeed = 10;
 	//public float accelerationAsPercent = 	Need to figure this out.
 	public float handling = 30;
 	public Controls controls;
 	
-	float turning = 0;
-	float steering = 0;
-	float accelerator = 0;
-	float speed = 0;
+	public float turning = 0;
+	public float steering = 0;
+	public float accelerator = 0;
+	public float speed = 0;
 	
-	public void update () {
+	public bool IsGrounded;
+	private float hoverError;
+	public float IsGroundedMargin;
+	public float RayHoverHeight = 4.0f;
+	 
+	void FixedUpdate() {
+		RaycastHit hit;
+		Ray downRay = new Ray(transform.position, -Vector3.up);
+		 
+		if (Physics.Raycast(downRay, out hit))
+		hoverError = RayHoverHeight - hit.distance;
+		 
+		if (hoverError > IsGroundedMargin)
+		IsGrounded = false;
+		 
+		if (hoverError < IsGroundedMargin)
+		IsGrounded = true;
+	}
+	
+	public void Update () {
 		speed = 0;
 		accelerator = 0;
 		steering = 0;
@@ -30,6 +50,7 @@ public class VehicleControls : MonoBehaviour {
 		if (active) {
 			turning = Input.GetAxis("Horizontal");
 			accelerator = Input.GetAxis("Vertical");
+			print("Turn: "+ turning + ", Accelerator: " + accelerator);
 			if (accelerator > 0) {
 				speed = Mathf.Lerp(0,maxSpeed,accelerator);
 			}	
@@ -42,12 +63,11 @@ public class VehicleControls : MonoBehaviour {
 			if (accelerator < 0) {
 				turning = -Mathf.Lerp(0,handling,Mathf.Abs(steering));
 			}
-			
-			
-			
 		}
-		transform.Rotate(0,turning,0);
-		rigidbody.velocity += transform.forward * speed;
+		if ((Terrain.activeTerrain.SampleHeight(transform.position) > transform.position.y - 10) && (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75)) {
+			transform.Rotate(0,turning,0);
+			rigidbody.velocity += transform.forward * speed;	
+		}
 	}
 }
 
