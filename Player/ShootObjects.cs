@@ -14,13 +14,6 @@ public class ShootObjects : MonoBehaviour {
 	
 	public void start () {}
 	
-/*	public void OnGUI () {
-		if (weapons[currentWeapon] != null) {
-			GUI.label(new Rect(Screen.width-weapons[currentWeapon].WeaponName.toStringArray().Length*20,50,400,20), weapons[currentWeapon].WeaponName);
-			GUI.label(new Rect(), weapons[currentWeapon].CurAmmo + "/" + weapons[currentWeapon].MaxAmmo);
-		}
-	}
-	*/
 	public void Update () {
 		
 		if (Time.timeScale == 0) {
