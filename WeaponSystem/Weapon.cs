@@ -400,8 +400,21 @@ public class Weapon {
 		if (CurAmmo < MaxAmmo && !isFiring && curAnim == weaponAnimType.None){
 			AnimClock = 15;
 			curAnim = weaponAnimType.Reloading;
+			
+			if (ammo[(int)ammoType] == 0) {
+				Debug.Log ("Out of bullets!");
+			}
+			ammo[(int)ammoType] += CurAmmo;
+			CurAmmo = 0;
+			if (ammo[(int)ammoType] >= MaxAmmo) {
+				CurAmmo = MaxAmmo;
+				ammo[(int)ammoType] -= MaxAmmo;
+			} else {
+				CurAmmo = ammo[(int)ammoType];
+				ammo[(int)ammoType] = 0;
+			}
 		}
-		return 1234; //~!~!~!~!~!~!~!
+		return ammo; //~!~!~!~!~!~!~!
 	}
 	
 	/// <summary>
@@ -448,12 +461,6 @@ public class Weapon {
 	/// </summary>
 	void findFlash() {
 		flash = GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
-		//if (flash != null) {
-		//	Debug.Log("Found flash for " + WeaponName + " at " + mainObject.transform.name +  "/" + Path + flash.name);
-		//	flash.transform.localScale = new Vector3 (0,0,0);
-		//} else {
-		//	Debug.Log("Didn't find flash for " + WeaponName + " at " + mainObject.transform.name + "/" + Path + "Flash");
-		//}
 	}
 	
 	/// <summary>
@@ -556,18 +563,6 @@ public class Weapon {
 				AnimClock--;
 			}
 			if (AnimClock == 0) {
-				if (ReserveAmmo == 0) {
-					Debug.Log ("Out of bullets!");
-				}
-				ReserveAmmo += CurAmmo;
-				CurAmmo = 0;
-				if (ReserveAmmo >= MaxAmmo) {
-					CurAmmo = MaxAmmo;
-					ReserveAmmo -= MaxAmmo;
-				} else {
-					CurAmmo = ReserveAmmo;
-					ReserveAmmo = 0;
-				}
 				isFiring = false;
 				curAnim = weaponAnimType.None;
 			}
