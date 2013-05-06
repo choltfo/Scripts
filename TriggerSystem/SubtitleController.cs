@@ -23,6 +23,7 @@ public class SubtitleController : MonoBehaviour {
 		GUI.Label(new Rect(100,Screen.height-20,Screen.width,20), lines[lineNumber].text);
 		if (Time.time > lastStartTime + lines[lineNumber].time) {
 			lineNumber ++;
+			lastStartTime = Time.time;
 		}
 	}
 }

@@ -11,6 +11,7 @@ public class TriggerableEvent {
 	public Detonator[] explosions;
 	public AudioSource soundSource;
 	public AudioClip sound;
+	public bool showText = false;
 	public SubtitleLine[] Text;
 	
 	
@@ -24,6 +25,8 @@ public class TriggerableEvent {
 		if (sound != null && soundSource != null) {
 			soundSource.PlayOneShot(sound);
 		}
-		TextDisplay.setLines(Text);
+		if (showText) {
+			TextDisplay.setLines(Text);
+		}
 	}
 }
