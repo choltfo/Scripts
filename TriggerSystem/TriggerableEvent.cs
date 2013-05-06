@@ -14,15 +14,16 @@ public class TriggerableEvent {
 	public SubtitleLine[] Text;
 	
 	
-	public void Trigger() {
+	public void Trigger(SubtitleController TextDisplay) {
 		foreach (Detonator explosion in explosions) {
 			explosion.Explode();
 		}
 		foreach (TriggerableEvent TEvent in events) {
-			TEvent.Trigger();
+			TEvent.Trigger(TextDisplay);
 		}
 		if (sound != null && soundSource != null) {
 			soundSource.PlayOneShot(sound);
 		}
+		TextDisplay.setLines(Text);
 	}
 }

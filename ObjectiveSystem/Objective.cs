@@ -38,6 +38,7 @@ public class Objective : MonoBehaviour {
 	public GUIStyle labelStyle;
 	public TriggerableEvent[] Events;
 	public bool inCampaign = false;
+	public SubtitleController subtitleController;
 	
 	//void Start () {
 		//textMesh = gameObject.GetComponent<TextMesh>();
@@ -51,7 +52,7 @@ public class Objective : MonoBehaviour {
 		if (!complete && Active) {
 			complete = true;
 			foreach (TriggerableEvent TEvent in Events) {
-					TEvent.Trigger();
+					TEvent.Trigger(subtitleController);
 			}
 			return true;
 		}
