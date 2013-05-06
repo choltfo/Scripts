@@ -9,6 +9,6 @@ public class Teleporter : InteractObject {
 	void Update () {}
 
 	public override void Interact () {
-
+		player.transform.position = linkedTeleporter.rigidbody.position;
 	}
 }
