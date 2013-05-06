@@ -177,6 +177,9 @@ public class ShootObjects : MonoBehaviour {
 				}
 				if (hit.transform.gameObject.GetComponent<InteractObject>() != null) {
 					hit.transform.gameObject.GetComponent<InteractObject>().Interact(gameObject.transform.parent.gameObject);
+				}
+				if (hit.transform.gameObject.GetComponent<Vehicle>() != null) {
+					hit.transform.gameObject.GetComponent<Vehicle>().activate(gameObject);
 				} 
 			}
 		return false;

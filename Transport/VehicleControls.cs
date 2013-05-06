@@ -15,7 +15,7 @@ public class VehicleControls : MonoBehaviour {
 	public float maxSpeed = 1;
 	public float maxReverseSpeed = 10;
 	//public float accelerationAsPercent = 	Need to figure this out.
-	public float handling = 30;
+	public float handling = 100;
 	public Controls controls;
 	
 	public float turning = 0;
@@ -48,24 +48,24 @@ public class VehicleControls : MonoBehaviour {
 		steering = 0;
 		turning = 0;
 		if (active) {
-			turning = Input.GetAxis("Horizontal");
+			steering = Input.GetAxis("Horizontal");
 			accelerator = Input.GetAxis("Vertical");
-			print("Turn: "+ turning + ", Accelerator: " + accelerator);
 			if (accelerator > 0) {
 				speed = Mathf.Lerp(0,maxSpeed,accelerator);
 			}	
 			if (accelerator < 0) {
 				speed = -Mathf.Lerp(0,maxReverseSpeed,Mathf.Abs(accelerator));
 			}
-			if (accelerator > 0) {
+			if (steering > 0) {
 				turning = Mathf.Lerp(0,handling,steering);
 			}	
-			if (accelerator < 0) {
+			if (steering < 0) {
 				turning = -Mathf.Lerp(0,handling,Mathf.Abs(steering));
 			}
 		}
-		if ((Terrain.activeTerrain.SampleHeight(transform.position) > transform.position.y - 10) && (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75)) {
-			transform.Rotate(0,turning,0);
+		if ((Terrain.activeTerrain.SampleHeight(transform.position) >
+				transform.position.y - 10) && (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75)) {
+			transform.Rotate(0,turning*(speed/maxSpeed)*(handling/100),0);
 			rigidbody.velocity += transform.forward * speed;	
 		}
 	}
