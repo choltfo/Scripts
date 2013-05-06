@@ -7,60 +7,49 @@ using System.Collections;
 
 /// <summary>
 /// Vehicle controls.
-/// Broken.
 /// </summary>
 public class VehicleControls : MonoBehaviour {
- 
-	public float speed = 10.0f;
-	public float gravity = 10.0f;
-	public float maxVelocityChange = 10.0f;
-	public bool canJump = true;
-	public float jumpHeight = 2.0f;
-	private bool grounded = false;
-	public Vehicle vehicle;
-	public MouseLook turner;
- 
-	void Awake () {
-	    rigidbody.freezeRotation = true;
-	    rigidbody.useGravity = false;
-	}
- 
-	void FixedUpdate () {
-		
-		turner.enabled = vehicle.isOccupied;
-		
-	    if (grounded) {
-	        // Calculate how fast we should be moving
-			Vector3 targetVelocity = new Vector3(0,0,0);
-			if (vehicle.isOccupied) {
-	        	targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+	
+	public bool active = false;
+	public float maxSpeed = 30;
+	public float maxReverseSpeed = 10;
+	//public float accelerationAsPercent = 	Need to figure this out.
+	public float handling = 30;
+	public Controls controls;
+	
+	float turning = 0;
+	float steering = 0;
+	float accelerator = 0;
+	float speed = 0;
+	
+	public void update () {
+		speed = 0;
+		accelerator = 0;
+		steering = 0;
+		turning = 0;
+		if (active) {
+			turning = Input.getAxis("Horizontal");
+			accelerator = Input.getAxis("Vertical");
+			if (accelerator > 0) {
+				speed = mathf.lerp(0,maxSpeed,accelerator);
+			}	
+			if (accelerator < 0) {
+				speed = -mathf.lerp(0,maxReverseSpeed,mathf.abs(accelerator));
 			}
-	        targetVelocity = transform.TransformDirection(targetVelocity);
-	        targetVelocity *= speed;
- 
-	        // Apply a force that attempts to reach our target velocity
-	        Vector3 velocity = rigidbody.velocity;
-	        Vector3 velocityChange = (targetVelocity - velocity);
-	        velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-	        velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-	        velocityChange.y = 0;
-	        rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
-	    }
- 
-	    // We apply gravity manually for more tuning control
-	    rigidbody.AddForce(new Vector3 (0, -gravity * rigidbody.mass, 0));
- 
-	    grounded = false;
+			if (accelerator > 0) {
+				turning = mathf.lerp(0,handling,steering);
+			}	
+			if (accelerator < 0) {
+				turning = -mathf.lerp(0,handling,mathf.abs(steering));
+			}
 			
-	}
- 
-	void OnCollisionStay () {
-	    grounded = true;    
-	}
- 
-	float CalculateJumpVerticalSpeed () {
-	    // From the jump height and gravity we deduce the upwards speed 
-	    // for the character to reach at the apex.
-	    return Mathf.Sqrt(2 * jumpHeight * gravity);
+			
+			
+		}
+		transform.rotate(0,turning,0);
+		rigidbody.velocity += transform.forward * speed;
 	}
 }
+
+
+
