@@ -4,6 +4,7 @@ using System.Collections;
 public class Teleporter : InteractObject {
 	public Teleporter linkedTeleporter;
 	public Vector3 relativePosition;
+	public const bool isTrampoline = true;
 
 	void Start () {}
 	void Update () {}
