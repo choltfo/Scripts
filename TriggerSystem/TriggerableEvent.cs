@@ -1,5 +1,5 @@
 using UnityEngine;
-using System;
+using System.Timers;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,9 +11,10 @@ public class TriggerableEvent {
 	public Detonator[] explosions;
 	public AudioSource soundSource;
 	public AudioClip sound;
+	public SubtitleLine[] Text;
 	
 	
-	public virtual void Trigger() {
+	public void Trigger() {
 		foreach (Detonator explosion in explosions) {
 			explosion.Explode();
 		}
@@ -25,3 +26,4 @@ public class TriggerableEvent {
 		}
 	}
 }
+
