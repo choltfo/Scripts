@@ -484,7 +484,6 @@ public class Weapon {
 			if (AnimClock == ShotDelay){
 				Hammer.Rotate(-HammerRotation, 0, 0);
 				
-				mainObject.transform.Rotate(-gunAngle*0.25f,0,0);
 				mainObject.transform.Translate(0,0,-gunDistance/4);
 				mainObject.transform.Rotate(-gunAngle*0.25f,0,0);
 				mainObject.transform.Translate(0,0,-gunDistance/4);
@@ -492,6 +491,7 @@ public class Weapon {
 				mainObject.transform.Translate(0,0,-gunDistance/4);
 				mainObject.transform.Rotate(-gunAngle*0.25f,0,0);
 				mainObject.transform.Translate(0,0,-gunDistance/4);
+				mainObject.transform.Rotate(-gunAngle*0.25f,0,0);
 				
 				Slide.Translate(0,0, SlideDistance);
 				Trigger.Translate(0,0, TriggerDistance);
