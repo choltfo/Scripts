@@ -8,7 +8,7 @@ public class Teleporter : InteractObject {
 	void Start () {}
 	void Update () {}
 
-	public void Interact () {
+	public override void Interact () {
 
 	}
 }
