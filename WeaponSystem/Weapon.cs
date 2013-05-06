@@ -72,6 +72,10 @@ public class Weapon {
 	/// </summary>
 	public int ReserveAmmo;
 	/// <summary>
+	/// The type of bullet fired.
+	/// </summary>
+	public AmmoType ammoType;
+	/// <summary>
 	/// The maximum number of bullets in a clip of this gun.
 	/// </summary>
 	public int MaxAmmo;
@@ -392,7 +396,7 @@ public class Weapon {
 		return false;
 	}
 	
-	public int Reload() {
+	public int[] Reload(int[] ammo) {
 		if (CurAmmo < MaxAmmo && !isFiring && curAnim == weaponAnimType.None){
 			AnimClock = 15;
 			curAnim = weaponAnimType.Reloading;
@@ -583,3 +587,4 @@ public enum weaponAnimType {
 	Firing,
 	Reloading
 }
+

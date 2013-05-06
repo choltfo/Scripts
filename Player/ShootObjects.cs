@@ -13,7 +13,14 @@ public class ShootObjects : MonoBehaviour {
 	public int currentWeapon = 0;
 	public GameObject player;
 	
-	public void start () {}
+	public int[] ammo;
+	
+	public void start () {
+		ammo = new int[Enum.GetNames(typeof(AmmoType)).Length]();
+		foreach (int slot in ammo) {
+			slot = 0;
+		}
+	}
 	
 	public void Update () {
 		
@@ -103,7 +110,7 @@ public class ShootObjects : MonoBehaviour {
 	}
 	
 	public void reload() {
-		weapons[currentWeapon].Reload();
+		ammo = weapons[currentWeapon].Reload(ammo);
 	}
 	
 	public bool shoot() {
