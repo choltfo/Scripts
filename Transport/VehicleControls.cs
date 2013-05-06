@@ -28,25 +28,25 @@ public class VehicleControls : MonoBehaviour {
 		steering = 0;
 		turning = 0;
 		if (active) {
-			turning = Input.getAxis("Horizontal");
-			accelerator = Input.getAxis("Vertical");
+			turning = Input.GetAxis("Horizontal");
+			accelerator = Input.GetAxis("Vertical");
 			if (accelerator > 0) {
-				speed = mathf.lerp(0,maxSpeed,accelerator);
+				speed = Mathf.Lerp(0,maxSpeed,accelerator);
 			}	
 			if (accelerator < 0) {
-				speed = -mathf.lerp(0,maxReverseSpeed,mathf.abs(accelerator));
+				speed = -Mathf.Lerp(0,maxReverseSpeed,Mathf.Abs(accelerator));
 			}
 			if (accelerator > 0) {
-				turning = mathf.lerp(0,handling,steering);
+				turning = Mathf.Lerp(0,handling,steering);
 			}	
 			if (accelerator < 0) {
-				turning = -mathf.lerp(0,handling,mathf.abs(steering));
+				turning = -Mathf.Lerp(0,handling,Mathf.Abs(steering));
 			}
 			
 			
 			
 		}
-		transform.rotate(0,turning,0);
+		transform.Rotate(0,turning,0);
 		rigidbody.velocity += transform.forward * speed;
 	}
 }

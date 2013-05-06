@@ -8,7 +8,8 @@ using System.Collections;
 /// </summary>
 public class Vehicle : MonoBehaviour {
 	
-	public bool active
+	public bool isOccupied;
+	public bool active;
 	public Vector3 ExitLocation;
 	public VehicleControls controls;
 	
@@ -26,7 +27,7 @@ public class Vehicle : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		controls = gameobject.getComponent<VehicleControls>();
+		controls = gameObject.GetComponent<VehicleControls>();
 		((Camera)gameObject.transform.Find("Camera").gameObject.GetComponent("Camera")).enabled = false;
 		((AudioListener)gameObject.transform.Find("Camera").gameObject.GetComponent("AudioListener")).enabled = false;
 	}

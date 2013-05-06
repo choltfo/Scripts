@@ -7,7 +7,7 @@ public class AmmoPickup : Objective {
 	public int Bullets 		= 100;
 	public bool infinite 	= false;
 	
-	public void Interact (int[] ammo) {
+	public int[] Interact (int[] ammo) {
 		if (!infinite) {
 			Destroy(gameObject);
 		}

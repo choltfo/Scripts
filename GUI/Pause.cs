@@ -55,7 +55,14 @@ public class Pause : MonoBehaviour {
 				Time.timeScale = 1f;
 			}
 		}
+
+		Screen.showCursor = Time.timeScale == 0f;
 	}
+	
+	void Start () {
+		Screen.fullScreen = true;
+	}
+	
 	KeyCode ChangeKey (KeyCode origKey) {
 		Event e = Event.current;
 		if (e.isKey) {
@@ -65,6 +72,7 @@ public class Pause : MonoBehaviour {
 			return origKey;
 		}
 	}
+	
 	void OnGUI () {
 		if (Time.timeScale == 0) {
 			GUI.Label(new Rect(0,0,Screen.width, 50), pane, paneLabelStyle);

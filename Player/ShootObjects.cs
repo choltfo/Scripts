@@ -15,11 +15,13 @@ public class ShootObjects : MonoBehaviour {
 	
 	public int[] ammo;
 	
-	public void start () {
-		ammo = new int[Enum.GetNames(typeof(AmmoType)).Length]();
-		foreach (int slot in ammo) {
-			slot = 0;
-		}
+	public void Start () {
+		ammo = new int[Enum.GetNames(typeof(AmmoType)).Length];
+		print("Ammo types: " + Enum.GetNames(typeof(AmmoType)).Length);
+		for (int i = 0; i < Enum.GetNames(typeof(AmmoType)).Length; i++) {
+			ammo[i] = 0;
+		}	
+	
 	}
 	
 	public void Update () {
