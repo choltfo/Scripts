@@ -74,11 +74,7 @@ public class Sleep : InteractObject {
 	/// <summary>
 	/// Interact with this instance.
 	/// </summary>
-<<<<<<< HEAD
 	public override void Interact() {
-=======
-	public override void Interact () {
->>>>>>> 23a49cd154ace1b72703ec46d1792d900d26bee6
 		if (RenderSettings.skybox == dayMaterial){
 			fader.StartFade(fadeColor, fadeTime);
 			lastFade = Time.realtimeSinceStartup;
