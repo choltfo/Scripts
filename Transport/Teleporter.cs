@@ -2,9 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class Teleporter : InteractObject {
-	public Teleporter linkedTeleporter;
-	public Vector3 relativePosition;
-	public const bool isTrampoline = false;
+	public Teleporter linkedTeleporter;  // The teleporter this is linked to
+	public Vector3 relativePosition;  // How far away the player is moved when teleported to this teleporter
+	public bool isTrampoline = false;  // Whether this is a trampoline
 	public CameraFade fader;
 	public Color fadeColor;
 	public Color transparency;
@@ -18,6 +18,14 @@ public class Teleporter : InteractObject {
 		fader.SetScreenOverlayColor(fadeColor);
 		beginFadeAt = Time.time;
 		faded = false;
+		if (isTrampoline) {
+			print("This is a trampoline");
+			relativePosition.y += 100;
+		}
+		else {
+			print("This is not a trampoline");
+		}
+
 	}
 	public void Update () {
 		if (beginFadeAt + fadeTime > Time.time && !faded) {
