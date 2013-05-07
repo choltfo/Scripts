@@ -367,6 +367,9 @@ public class Weapon {
 							AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
 							targetSound.Play();
 						}
+						if (hit.transform.gameObject.GetComponent<ExplosiveDamage>() != null) {
+							hit.transform.gameObject.GetComponent<ExplosiveDamage>().explode();	
+						}
 					} else if (hit.transform.tag == "Enemy") {
 						if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
 							AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");

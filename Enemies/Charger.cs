@@ -43,11 +43,13 @@ public class Charger : Enemy {
 		//Debug.Log ("Hit something, specifically "+collision.gameObject.name);
 		if ((Time.time - recentEffectTime) >= effectDelay) {
 			Debug.Log ("Time is valid");
-			if (collision.gameObject.transform.FindChild("Camera").GetComponent<DrugDosage>() != null) {
-				collision.transform.FindChild("Camera").gameObject.GetComponent<DrugDosage>().addEffect(collideEffect.Duplicate());
-				collision.transform.FindChild("Camera").gameObject.GetComponent<Health>().Damage(damage);
-				Debug.Log ("Applying effect to player");
-				recentEffectTime = Time.time;
+			if (collision.gameObject.transform.FindChild("Camera") != null) {
+				if (collision.gameObject.transform.FindChild("Camera").GetComponent<DrugDosage>() != null) {
+					collision.transform.FindChild("Camera").gameObject.GetComponent<DrugDosage>().addEffect(collideEffect.Duplicate());
+					collision.transform.FindChild("Camera").gameObject.GetComponent<Health>().Damage(damage);
+					Debug.Log ("Applying effect to player");
+					recentEffectTime = Time.time;
+				}
 			}
 		}
 	}
