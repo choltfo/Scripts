@@ -27,7 +27,7 @@ public class VehicleControls : MonoBehaviour {
 	private float hoverError;
 	public float IsGroundedMargin;
 	public float RayHoverHeight = 4.0f;
-	 
+	  
 	void FixedUpdate() {
 		RaycastHit hit;
 		Ray downRay = new Ray(transform.position, -Vector3.up);
