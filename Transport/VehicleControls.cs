@@ -65,7 +65,11 @@ public class VehicleControls : MonoBehaviour {
 		}
 		if ((Terrain.activeTerrain.SampleHeight(transform.position) >
 				transform.position.y - 5) && (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75)) {
-			transform.Rotate(0,turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
+			if (accelerator > 0) {
+				transform.Rotate(0,turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
+			} else {
+				transform.Rotate(0,-turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
+			}
 			rigidbody.velocity += transform.forward * speed;
 		}
 	}
