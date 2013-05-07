@@ -11,8 +11,8 @@ public class ShootObjects : MonoBehaviour {
 	public float pickupDistance = 5;
 	public  Weapon[] weapons = {new Weapon(), new Weapon()};
 	public int currentWeapon = 0;
-	
 	public int[] ammo;
+	public Grenade grenade;
 	
 	public void Start () {
 		ammo = new int[Enum.GetNames(typeof(AmmoType)).Length];
@@ -43,6 +43,11 @@ public class ShootObjects : MonoBehaviour {
 		if (Input.GetMouseButtonDown((int)controls.aim)) {
 			aim();
 		}
+		
+		if (Input.GetKeyDown(KeyCode.G)) {
+			throwGrenade();
+		}
+		
 		if (Input.GetKeyDown(controls.reload)) {
 			reload();
 		}
@@ -119,6 +124,11 @@ public class ShootObjects : MonoBehaviour {
 			return weapons[currentWeapon].Shoot(camera);
 		}
 		return false;
+	}
+	
+	public bool throwGrenade () {
+		grenade.throwGrenade(100,transform);
+		return false;	
 	}
 	
 	/*public bool shootUnderbarrel() {

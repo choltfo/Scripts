@@ -7,7 +7,7 @@ public class EnviromentalDamage : MonoBehaviour {
 	public float lastDamageTime;
 	public float damageOccurDelay = 5;
 	
-	void OnCollisionEnter(Collision collision) {
+	void OnCollisionStay(Collision collision) {
 		if (Time.time - lastDamageTime < damageOccurDelay) {
 			return;
 		}
@@ -18,6 +18,11 @@ public class EnviromentalDamage : MonoBehaviour {
 			Time.timeScale = 0f;
 		}
 		if (collision.gameObject.name == "campfire" && collision.gameObject.transform.FindChild("fire") != null) {
+			print ("OW!");
+			health.Damage(5);
+			lastDamageTime = Time.time;
+		}
+		if (collision.gameObject.name == "fire") {
 			print ("OW!");
 			health.Damage(5);
 			lastDamageTime = Time.time;
