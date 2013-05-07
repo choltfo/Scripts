@@ -15,6 +15,7 @@ public class EnviromentalDamage : MonoBehaviour {
 			print ("You Died");
 			health.Damage(100);
 			lastDamageTime = Time.time;
+			Time.timeScale = 0f;
 		}
 		if (collision.gameObject.name == "campfire" && collision.gameObject.transform.FindChild("fire") != null) {
 			print ("OW!");

@@ -62,7 +62,6 @@ public class Pause : MonoBehaviour {
 	
 	void Start () {
 		Screen.fullScreen = true;
-		print ("TOGGLING FDULsCREEN");
 	}
 	
 	KeyCode ChangeKey (KeyCode origKey) {
