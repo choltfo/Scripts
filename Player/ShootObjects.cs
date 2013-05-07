@@ -36,7 +36,7 @@ public class ShootObjects : MonoBehaviour {
 			}
 		}
 		if (weapons[currentWeapon].Automatic == false) {
-			if (Input.GetMouseButton((int)controls.fire)) {
+			if (Input.GetMouseButtonDown((int)controls.fire)) {
 				shoot();
 			}
 		}
