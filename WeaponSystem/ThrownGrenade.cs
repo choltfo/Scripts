@@ -45,6 +45,11 @@ public class ThrownGrenade : MonoBehaviour {
 				if (hit.transform.gameObject.GetComponent<ExplosiveDamage>() != null) {
 					hit.transform.gameObject.GetComponent<ExplosiveDamage>().explode();	
 				}
+				if (hit.transform.gameObject.GetComponent<ExplosiveDamage>() != null) {
+					if (!hit.transform.gameObject.GetComponent<ExplosiveDamage>().blown) {
+						hit.transform.gameObject.GetComponent<ExplosiveDamage>().explode();
+					}
+				}
 			}
 			print ("BOOM");
 			blown = true;

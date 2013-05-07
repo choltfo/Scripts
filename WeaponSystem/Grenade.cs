@@ -8,7 +8,6 @@ public class Grenade {
 	public float range;
 	public float maxDamage;
 	public float detonateDelay;
-	
 	public Vector3 holdPosition;
 	
 	/// <summary>

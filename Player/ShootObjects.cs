@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System;
 
 [System.Serializable]
@@ -12,7 +12,7 @@ public class ShootObjects : MonoBehaviour {
 	public  Weapon[] weapons = {new Weapon(), new Weapon()};
 	public int currentWeapon = 0;
 	public int[] ammo;
-	public Grenade grenade;
+	public List<Grenade> grenades  = new List<Grenade>();
 	
 	public void Start () {
 		ammo = new int[Enum.GetNames(typeof(AmmoType)).Length];
@@ -127,8 +127,12 @@ public class ShootObjects : MonoBehaviour {
 	}
 	
 	public bool throwGrenade () {
-		grenade.throwGrenade(100,transform);
-		return false;	
+		if (grenades.Count == 0) {
+			return false;
+		}
+		grenades[0].throwGrenade(100,transform);
+		grenades.RemoveAt(0);
+		return true;
 	}
 	
 	/*public bool shootUnderbarrel() {
