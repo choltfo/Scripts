@@ -21,6 +21,8 @@ public class Store : MonoBehaviour {
 	public float weaponSlider = 0;
 	public float ammoItemSlider = 0;
 	
+	public int ItemElements = 0;
+	public int topItemElement = 0;
 	
 	public void Interact (ShootObjects player) {
 		playerInv = player.inventory;
@@ -45,27 +47,17 @@ public class Store : MonoBehaviour {
 					storeMode = StoreMode.Sell;
 				}
 				
-				if (storeMode == StoreMode.Buy) {
-					weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 125),
-						weaponSlider, 1.0F, 0.0F, 10.0F);
-					GUI.Box(new Rect(Screen.width/2-165, 125, 165, 125), "");
-					ammoItemSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+150, 125, 15, 125),
-						ammoItemSlider, 1.0F, 0.0F, 10.0F);
-					GUI.Box(new Rect(Screen.width/2, 125, 165, 125), "");
-					
-					int i = 0;
-					foreach (Weapon weapon in inventory.weapons) {
-						GUI.Button(new Rect(Screen.width/2-165, 125+(25*i), 150, 25), weapon.DisplayName);
-						i++;
-					}
-				}
+				//ADD BUY MODE CODE!
+				
+				
+				
 				if (storeMode == StoreMode.Sell) {
-					weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 125),
-						weaponSlider, 1.0F, 0.0F, 10.0F);
-					GUI.Box(new Rect(Screen.width/2-165, 125, 165, 125), "");
-					ammoItemSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+150, 125, 15, 125),
-						ammoItemSlider, 1.0F, 0.0F, 10.0F);
-					GUI.Box(new Rect(Screen.width/2, 125, 165, 125), "");
+					weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 200),
+						weaponSlider, 8.0F, 0.0F, ((playerInv.weapons.Length < 8) ? 8 : playerInv.weapons.Length));
+					GUI.Box(new Rect(Screen.width/2-165, 125, 165, 200), "");
+					ammoItemSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+150, 125, 15, 200),
+						ammoItemSlider, 8.0F, 0.0F, ((ItemElements < 8) ? 8 : ItemElements));
+					GUI.Box(new Rect(Screen.width/2, 125, 165, 200), "");
 					
 					int i = 0;
 					foreach (Weapon weapon in playerInv.weapons) {
@@ -75,10 +67,22 @@ public class Store : MonoBehaviour {
 						i++;
 					}
 					i = 0;
+					int a = 0;
 					foreach (int ammo in playerInv.ammo) {
-						GUI.Button(new Rect(Screen.width/2, 125+(25*i), 150, 25), ((AmmoType)i).ToString());
+						if (ammo > 0 && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
+							GUI.Button(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), ((AmmoType)a).ToString());
+							i++;
+						}
+						a++;
+					}
+					foreach (Grenade grenade in playerInv.grenades) {
+						if (i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
+							GUI.Button(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), grenade.name);
+						}
 						i++;
 					}
+					
+					ItemElements = i;
 				}
 			}
 		}
