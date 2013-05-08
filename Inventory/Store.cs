@@ -45,19 +45,14 @@ public class Store : MonoBehaviour {
 					storeMode = StoreMode.Sell;
 				}
 				
-				//Weapons
-				weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 25, 125),
-					weaponSlider, 1.0F, 0.0F, 10.0F);
-				
-				GUI.Box(new Rect(Screen.width/2-165, 125, 165, 125), "");
-				
-				//Items/ammo
-				ammoItemSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+165, 125, 25, 125),
-					ammoItemSlider, 1.0F, 0.0F, 10.0F);
-				
-				GUI.Box(new Rect(Screen.width/2, 125, 165, 125), "");
-				
 				if (storeMode == StoreMode.Buy) {
+					weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 25, 125),
+						weaponSlider, 1.0F, 0.0F, 10.0F);
+					GUI.Box(new Rect(Screen.width/2-165, 125, 165, 125), "");
+					ammoItemSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+165, 125, 25, 125),
+						ammoItemSlider, 1.0F, 0.0F, 10.0F);
+					GUI.Box(new Rect(Screen.width/2, 125, 165, 125), "");
+					
 					int i = 0;
 					foreach (Weapon weapon in inventory.weapons) {
 						GUI.Button(new Rect(Screen.width/2-165, 125+(25*i), 150, 25), weapon.DisplayName);
@@ -65,6 +60,12 @@ public class Store : MonoBehaviour {
 					}
 				}
 				if (storeMode == StoreMode.Sell) {
+					weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 25, 125),
+						weaponSlider, 1.0F, 0.0F, 10.0F);
+					GUI.Box(new Rect(Screen.width/2-165, 125, 165, 125), "");
+					ammoItemSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+165, 125, 25, 125),
+						ammoItemSlider, 1.0F, 0.0F, 10.0F);
+					GUI.Box(new Rect(Screen.width/2, 125, 165, 125), "");
 					int i = 0;
 					foreach (Weapon weapon in playerInv.weapons) {
 						GUI.Button(new Rect(Screen.width/2-165, 125+(25*i), 150, 25), weapon.DisplayName);
