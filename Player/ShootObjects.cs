@@ -9,6 +9,7 @@ public class ShootObjects : MonoBehaviour {
 	
 	public Inventory inventory;
 	
+	public float throwForce;
 	public EnterKey vehicle;
 	public float pickupDistance = 5;
 	public int currentWeapon = 0;
@@ -132,7 +133,7 @@ public class ShootObjects : MonoBehaviour {
 		if (inventory.grenades.Count == 0) {
 			return false;
 		}
-		inventory.grenades[0].throwGrenade(100,transform);
+		inventory.grenades[0].throwGrenade(throwForce,transform);
 		inventory.grenades.RemoveAt(0);
 		return true;
 	}
