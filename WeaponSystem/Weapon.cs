@@ -68,10 +68,6 @@ public class Weapon {
 	[HideInInspector]
 	public double fireRate;
 	/// <summary>
-	/// The amount of ammo for this gun that is not in the current clip.
-	/// </summary>
-	public int ReserveAmmo;
-	/// <summary>
 	/// The type of bullet fired.
 	/// </summary>
 	public AmmoType ammoType;

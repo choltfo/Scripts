@@ -1,7 +1,7 @@
 [System.Serializable]
 
 /// <summary>
-/// Weapaonb ammo types.
+/// Weapon ammo types.
 /// Add all of them that are not here yet as needed
 /// </summary>
 public enum AmmoType {

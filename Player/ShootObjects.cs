@@ -222,7 +222,7 @@ public class ShootObjects : MonoBehaviour {
 			GUI.Box(new Rect(Screen.width-175,Screen.height-100,150,50),"");
 			GUI.Label(new Rect(Screen.width-150, Screen.height-100, 150, 40), inventory.weapons[currentWeapon].WeaponName);
 			GUI.Label(new Rect(Screen.width-150, Screen.height-75, 150, 40),
-				inventory.weapons[currentWeapon].CurAmmo + "/" + inventory.weapons[currentWeapon].MaxAmmo + "/" + inventory.weapons[currentWeapon].ReserveAmmo);
+				inventory.weapons[currentWeapon].CurAmmo + "/" + inventory.weapons[currentWeapon].MaxAmmo + "/" + inventory.ammo[(int)inventory.weapons[currentWeapon].ammoType]);
 			if (!inventory.weapons[currentWeapon].isAimed) {
 				GUI.Box(new Rect(Screen.width/2-2,Screen.height/2-2,4,4),"");
 			}
