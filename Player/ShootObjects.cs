@@ -11,15 +11,15 @@ public class ShootObjects : MonoBehaviour {
 	
 	public EnterKey vehicle;
 	public float pickupDistance = 5;
-	//public  Weapon[] weapons = {new Weapon(), new Weapon()};
 	public int currentWeapon = 0;
-	public int[] ammo;
-	public List<Grenade> grenades  = new List<Grenade>();
+	//public  Weapon[] weapons = {new Weapon(), new Weapon()};
+	//public int[] ammo;
+	//public List<Grenade> grenades  = new List<Grenade>();
 	
 	public void Start () {
-		inventory.ammo = new int[Enum.GetNames(typeof(inventory.ammoType)).Length];
-		print("inventory.ammo types: " + Enum.GetNames(typeof(inventory.ammoType)).Length);
-		for (int i = 0; i < Enum.GetNames(typeof(inventory.ammoType)).Length; i++) {
+		inventory.ammo = new int[Enum.GetNames(typeof(AmmoType)).Length];
+		print("inventory.ammo types: " + Enum.GetNames(typeof(AmmoType)).Length);
+		for (int i = 0; i < Enum.GetNames(typeof(AmmoType)).Length; i++) {
 			inventory.ammo[i] = 0;
 		}	
 	
@@ -87,7 +87,7 @@ public class ShootObjects : MonoBehaviour {
 				}
 			}
 		}
-		if (Input.GetMouseButtonDown((int)controls.switchinventory.weapons)) {
+		if (Input.GetMouseButtonDown((int)controls.switchWeapons)) {
 			if (currentWeapon != 1 || !inventory.weapons[1].Exists) {
 				currentWeapon = 1;
 				if (inventory.weapons[1].IsValid) {
@@ -185,8 +185,8 @@ public class ShootObjects : MonoBehaviour {
 						return true;
 					}
 				}
-				if (hit.transform.gameObject.GetComponent<inventory.ammoPickup>() != null) {
-					inventory.ammo = hit.transform.gameObject.GetComponent<inventory.ammoPickup>().Interact(inventory.ammo);
+				if (hit.transform.gameObject.GetComponent<AmmoPickup>() != null) {
+					inventory.ammo = hit.transform.gameObject.GetComponent<AmmoPickup>().Interact(inventory.ammo);
 				}
 				if (hit.transform.gameObject.GetComponent<PickupObjective>() != null) {
 					hit.transform.gameObject.GetComponent<PickupObjective>().Interact();
@@ -218,7 +218,7 @@ public class ShootObjects : MonoBehaviour {
 			GUI.Box(new Rect(Screen.width-175,Screen.height-100,150,50),"");
 			GUI.Label(new Rect(Screen.width-150, Screen.height-100, 150, 40), inventory.weapons[currentWeapon].WeaponName);
 			GUI.Label(new Rect(Screen.width-150, Screen.height-75, 150, 40),
-				inventory.weapons[currentWeapon].Curinventory.ammo + "/" + inventory.weapons[currentWeapon].Maxinventory.ammo + "/" + inventory.weapons[currentWeapon].Reserveinventory.ammo);
+				inventory.weapons[currentWeapon].CurAmmo + "/" + inventory.weapons[currentWeapon].MaxAmmo + "/" + inventory.weapons[currentWeapon].ReserveAmmo);
 			if (!inventory.weapons[currentWeapon].isAimed) {
 				GUI.Box(new Rect(Screen.width/2-2,Screen.height/2-2,4,4),"");
 			}
