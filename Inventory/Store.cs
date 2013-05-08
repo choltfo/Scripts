@@ -103,8 +103,8 @@ public class Store : MonoBehaviour {
 						playerInv.grenades.Remove(transferredGrenade);
 					}
 					if (transferredWeapon != null) {
-						inventory.weapon.Add(transferredWeapon);
-						playerInv.weapon.Remove(transferredWeapon);
+						inventory.weapons.Add(transferredWeapon);
+						playerInv.weapons.Remove(transferredWeapon);
 					}
 					
 					ItemElements = i;

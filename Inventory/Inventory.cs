@@ -6,7 +6,8 @@ using System.Collections.Generic;
 
 public class Inventory {
 	public float cash; 
-	public Weapon[] weapons = new Weapon[2];
+	Weapon[] tempWeapons = new Weapon[2];
+	public List<Weapon> weapons = new List<Weapon>(tempWeapons);
 	public int[] ammo = new int[Enum.GetNames(typeof(AmmoType)).Length];
 	public List<Grenade> grenades = new List<Grenade>();
 	public Items[] items;
