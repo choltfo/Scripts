@@ -138,8 +138,10 @@ public class Pause : MonoBehaviour {
 					}
 					break;
 				default:
-					Debug.Log("Invalid switch - " + pane);
-					pane = "/Pause";
+					if (!pane.StartsWith("/Store")) {
+						Debug.Log("Invalid switch - " + pane);
+						pane = "/Pause";
+					}
 					break;
 			}
 		}
