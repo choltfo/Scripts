@@ -21,7 +21,7 @@ public class Health : MonoBehaviour {
 	public int MaxHealth = 100;
 	public float HealthLevel = 100;
 	public Texture DeathScreen;
-	public Texture bloodSplatter;
+	public Texture2D bloodSplatter;
 	public float healDelay;
 	public float healRate;
 	GUIStyle style;
