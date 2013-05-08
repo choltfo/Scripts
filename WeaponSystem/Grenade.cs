@@ -3,6 +3,7 @@ using System.Collections;
 
 [System.Serializable]
 public class Grenade {
+	public string name = "M67";
 	public GameObject instantiableGrenade;
 	public GameObject holdableGrenade;
 	public float range;

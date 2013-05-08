@@ -66,6 +66,7 @@ public class Store : MonoBehaviour {
 					ammoItemSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+150, 125, 15, 125),
 						ammoItemSlider, 1.0F, 0.0F, 10.0F);
 					GUI.Box(new Rect(Screen.width/2, 125, 165, 125), "");
+					
 					int i = 0;
 					foreach (Weapon weapon in playerInv.weapons) {
 						if (weapon.IsValid) {
