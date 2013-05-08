@@ -18,12 +18,7 @@ public class ShootObjects : MonoBehaviour {
 	//public List<Grenade> grenades  = new List<Grenade>();
 	
 	public void Start () {
-		inventory.ammo = new int[Enum.GetNames(typeof(AmmoType)).Length];
 		print("inventory.ammo types: " + Enum.GetNames(typeof(AmmoType)).Length);
-		for (int i = 0; i < Enum.GetNames(typeof(AmmoType)).Length; i++) {
-			inventory.ammo[i] = 0;
-		}	
-	
 	}
 	
 	public void Update () {
