@@ -15,6 +15,7 @@ public class Weapon {
 	/// The prefab that should be instantiated when this gun is dropped.
 	/// </summary>
 	public GameObject InstantiablePickup;
+	public float price;
 	/// <summary>
 	/// The bullet hole that is placed when you shoot something.
 	/// </summary>

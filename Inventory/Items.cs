@@ -15,7 +15,7 @@ public enum Items {
 /// Get Item prices.
 /// </summary>
 public static class ItemPrice {
-	static public int Get (Items item) {
+	static public float Get (Items item) {
 		switch (item) {
 		case Items.Nut:		return 1;
 		case Items.Bolt:	return 20;

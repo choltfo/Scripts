@@ -14,7 +14,7 @@ public enum AmmoType {
 /// Get Ammo prices.
 /// </summary>
 public static class AmmoPrice {
-	static public int Get (AmmoType ammo) {
+	static public float Get (AmmoType ammo) {
 		switch (ammo) {
 		case AmmoType.Parabellum9x19mm:	return 1;
 		case AmmoType.NATO762x51mm:		return 2;

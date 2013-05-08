@@ -12,6 +12,8 @@ public class Store : MonoBehaviour {
 	
 	[HideInInspector]
 	public int UID;
+	public float saleMarkup;
+	public float buyMarkup;
 	public string storeName;
 	public Inventory inventory;
 	public Inventory playerInv;
@@ -47,39 +49,7 @@ public class Store : MonoBehaviour {
 					storeMode = StoreMode.Sell;
 				}
 				
-				/*if (storeMode == StoreMode.Buy) {
-					weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 200),
-						weaponSlider, 8.0F, 0.0F, ((inventory.weapons.Length < 8) ? 8 : inventory.weapons.Length));
-					GUI.Box(new Rect(Screen.width/2-165, 125, 165, 200), "");
-					ammoItemSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+150, 125, 15, 200),
-						ammoItemSlider, 8.0F, 0.0F, ((ItemElements < 8) ? 8 : ItemElements));
-					GUI.Box(new Rect(Screen.width/2, 125, 165, 200), "");
-					
-					int i = 0;
-					foreach (Weapon weapon in inventory.weapons) {
-						if (weapon.IsValid && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
-							GUI.Button(new Rect(Screen.width/2-165, 125+(25*i), 150, 25), weapon.DisplayName);
-						}
-						i++;
-					}
-					i = 0;
-					int a = 0;
-					foreach (int ammo in inventory.ammo) {
-						if (ammo > 0 && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
-							GUI.Button(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), ((AmmoType)a).ToString());
-							i++;
-						}
-						a++;
-					}
-					foreach (Grenade grenade in inventory.grenades) {
-						if (i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
-							GUI.Button(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), grenade.name);
-						}
-						i++;
-					}
-					
-					ItemElements = i;
-				}*/
+				
 				
 				if (storeMode == StoreMode.Sell) {
 					weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 200),
@@ -90,26 +60,51 @@ public class Store : MonoBehaviour {
 					GUI.Box(new Rect(Screen.width/2, 125, 165, 200), "");
 					
 					int i = 0;
+					Weapon transferredWeapon = null;
 					foreach (Weapon weapon in playerInv.weapons) {
 						if (weapon.IsValid && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
-							GUI.Button(new Rect(Screen.width/2-165, 125+(25*i), 150, 25), weapon.DisplayName);
+							if (GUI.Button(new Rect(Screen.width/2-165, 125+(25*i), 150, 25), weapon.DisplayName)) {
+								transferredWeapon = weapon;
+								playerInv.cash += weapon.price*buyMarkup;
+							}
 						}
 						i++;
 					}
 					i = 0;
 					int a = 0;
+					bool transferredAnyAmmo = false;
+					AmmoType transferredAmmo = AmmoType.Parabellum9x19mm;
 					foreach (int ammo in playerInv.ammo) {
 						if (ammo > 0 && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
-							GUI.Button(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), ((AmmoType)a).ToString());
+							if (GUI.RepeatButton(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), ((AmmoType)a).ToString())) {
+								transferredAnyAmmo = true;
+								transferredAmmo = (AmmoType)a;
+								playerInv.cash += AmmoPrice.Get((AmmoType)a)*buyMarkup;
+							}
 							i++;
 						}
 						a++;
 					}
+					Grenade transferredGrenade = null;
 					foreach (Grenade grenade in playerInv.grenades) {
 						if (i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
-							GUI.Button(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), grenade.name);
+							if (GUI.Button(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), grenade.name)) {
+								transferredGrenade = grenade;
+								playerInv.cash += grenade.price*buyMarkup;
+							}
 						}
 						i++;
+					}
+					
+					if (transferredAnyAmmo) playerInv.ammo[(int)transferredAmmo] --;
+					if (transferredAnyAmmo) inventory.ammo[(int)transferredAmmo] ++;
+					if (transferredGrenade != null) {
+						inventory.grenades.Add(transferredGrenade);
+						playerInv.grenades.Remove(transferredGrenade);
+					}
+					if (transferredWeapon != null) {
+						inventory.weapon.Add(transferredWeapon);
+						playerInv.weapon.Remove(transferredWeapon);
 					}
 					
 					ItemElements = i;
