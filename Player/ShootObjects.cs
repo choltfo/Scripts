@@ -6,19 +6,21 @@ using System;
 public class ShootObjects : MonoBehaviour {
 	
 	public Controls controls;
-
+	
+	public Inventory inventory;
+	
 	public EnterKey vehicle;
 	public float pickupDistance = 5;
-	public  Weapon[] weapons = {new Weapon(), new Weapon()};
+	//public  Weapon[] weapons = {new Weapon(), new Weapon()};
 	public int currentWeapon = 0;
 	public int[] ammo;
 	public List<Grenade> grenades  = new List<Grenade>();
 	
 	public void Start () {
-		ammo = new int[Enum.GetNames(typeof(AmmoType)).Length];
-		print("Ammo types: " + Enum.GetNames(typeof(AmmoType)).Length);
-		for (int i = 0; i < Enum.GetNames(typeof(AmmoType)).Length; i++) {
-			ammo[i] = 0;
+		inventory.ammo = new int[Enum.GetNames(typeof(inventory.ammoType)).Length];
+		print("inventory.ammo types: " + Enum.GetNames(typeof(inventory.ammoType)).Length);
+		for (int i = 0; i < Enum.GetNames(typeof(inventory.ammoType)).Length; i++) {
+			inventory.ammo[i] = 0;
 		}	
 	
 	}
@@ -29,13 +31,13 @@ public class ShootObjects : MonoBehaviour {
 			return;
 		}
 		
-		weapons[currentWeapon].AnimUpdate();
-		if (weapons[currentWeapon].Automatic == true) {
+		inventory.weapons[currentWeapon].AnimUpdate();
+		if (inventory.weapons[currentWeapon].Automatic == true) {
 			if (Input.GetMouseButton((int)controls.fire)) {
 				shoot();
 			}
 		}
-		if (weapons[currentWeapon].Automatic == false) {
+		if (inventory.weapons[currentWeapon].Automatic == false) {
 			if (Input.GetMouseButtonDown((int)controls.fire)) {
 				shoot();
 			}
@@ -55,53 +57,53 @@ public class ShootObjects : MonoBehaviour {
 			interact();
 		}
 		if (Input.GetKeyDown(controls.drop)) {
-			if (weapons[currentWeapon].IsValid) {
-				weapons[currentWeapon].Drop();
-				weapons[currentWeapon] = new Weapon();
-				weapons[currentWeapon].IsValid = false;
+			if (inventory.weapons[currentWeapon].IsValid) {
+				inventory.weapons[currentWeapon].Drop();
+				inventory.weapons[currentWeapon] = new Weapon();
+				inventory.weapons[currentWeapon].IsValid = false;
 			}
 		}
 		if (Input.GetKeyDown(controls.weapon0)) {
-			if (currentWeapon != 0 || !weapons[0].Exists) {
+			if (currentWeapon != 0 || !inventory.weapons[0].Exists) {
 				currentWeapon = 0;
-				if (weapons[0].IsValid) {
-					weapons[0].deactivate();
-					weapons[0].activate(gameObject);
-					weapons[1].deactivate();
+				if (inventory.weapons[0].IsValid) {
+					inventory.weapons[0].deactivate();
+					inventory.weapons[0].activate(gameObject);
+					inventory.weapons[1].deactivate();
 				} else {
 					currentWeapon = 1;
 				}
 			}
 		}
 		if (Input.GetKeyDown(controls.weapon1)) {
-			if (currentWeapon != 1 || !weapons[1].Exists) {
+			if (currentWeapon != 1 || !inventory.weapons[1].Exists) {
 				currentWeapon = 1;
-				if (weapons[1].IsValid) {
-					weapons[1].deactivate();
-					weapons[1].activate(gameObject);
-					weapons[0].deactivate();
+				if (inventory.weapons[1].IsValid) {
+					inventory.weapons[1].deactivate();
+					inventory.weapons[1].activate(gameObject);
+					inventory.weapons[0].deactivate();
 				} else {
 					currentWeapon = 0;
 				}
 			}
 		}
-		if (Input.GetMouseButtonDown((int)controls.switchWeapons)) {
-			if (currentWeapon != 1 || !weapons[1].Exists) {
+		if (Input.GetMouseButtonDown((int)controls.switchinventory.weapons)) {
+			if (currentWeapon != 1 || !inventory.weapons[1].Exists) {
 				currentWeapon = 1;
-				if (weapons[1].IsValid) {
-					weapons[1].deactivate();
-					weapons[1].activate(gameObject);
-					weapons[0].deactivate();
+				if (inventory.weapons[1].IsValid) {
+					inventory.weapons[1].deactivate();
+					inventory.weapons[1].activate(gameObject);
+					inventory.weapons[0].deactivate();
 				} else {
 					currentWeapon = 0;
 				}
 			} else {
-				if (currentWeapon != 0 || !weapons[0].Exists) {
+				if (currentWeapon != 0 || !inventory.weapons[0].Exists) {
 					currentWeapon = 0;
-					if (weapons[0].IsValid) {
-						weapons[0].deactivate();
-						weapons[0].activate(gameObject);
-						weapons[1].deactivate();
+					if (inventory.weapons[0].IsValid) {
+						inventory.weapons[0].deactivate();
+						inventory.weapons[0].activate(gameObject);
+						inventory.weapons[1].deactivate();
 					} else {
 						currentWeapon = 1;
 					}
@@ -111,33 +113,33 @@ public class ShootObjects : MonoBehaviour {
 	}
 
 	public bool aim() {		
-		weapons[currentWeapon].aim ();
+		inventory.weapons[currentWeapon].aim ();
 		return false;
 	}
 	
 	public void reload() {
-		ammo = weapons[currentWeapon].Reload(ammo);
+		inventory.ammo = inventory.weapons[currentWeapon].Reload(inventory.ammo);
 	}
 	
 	public bool shoot() {
-		if (weapons[currentWeapon].IsValid) {
-			return weapons[currentWeapon].Shoot(camera);
+		if (inventory.weapons[currentWeapon].IsValid) {
+			return inventory.weapons[currentWeapon].Shoot(camera);
 		}
 		return false;
 	}
 	
 	public bool throwGrenade () {
-		if (grenades.Count == 0) {
+		if (inventory.grenades.Count == 0) {
 			return false;
 		}
-		grenades[0].throwGrenade(100,transform);
-		grenades.RemoveAt(0);
+		inventory.grenades[0].throwGrenade(100,transform);
+		inventory.grenades.RemoveAt(0);
 		return true;
 	}
 	
 	/*public bool shootUnderbarrel() {
-		if (weapons[currentWeapon].underbarrel.IsValid) {
-			return weapons[currentWeapon].underbarrel.Shoot(weapons[currentWeapon].mainObject);
+		if (inventory.weapons[currentWeapon].underbarrel.IsValid) {
+			return inventory.weapons[currentWeapon].underbarrel.Shoot(inventory.weapons[currentWeapon].mainObject);
 		}
 		return false;	
 	}*/
@@ -153,38 +155,38 @@ public class ShootObjects : MonoBehaviour {
 					} else if (currentWeapon == 0) {
 						secondaryWeapon = 1;
 					}
-					if (weapons[currentWeapon].IsValid && weapons[secondaryWeapon].IsValid) {
+					if (inventory.weapons[currentWeapon].IsValid && inventory.weapons[secondaryWeapon].IsValid) {
 						//Both slots full
-						weapons[currentWeapon].deactivate();
-						weapons[currentWeapon].Drop();
-						weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
+						inventory.weapons[currentWeapon].deactivate();
+						inventory.weapons[currentWeapon].Drop();
+						inventory.weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
 						equip (currentWeapon);
 						return true;
-					} else if (!weapons[currentWeapon].IsValid && !weapons[secondaryWeapon].IsValid) {
+					} else if (!inventory.weapons[currentWeapon].IsValid && !inventory.weapons[secondaryWeapon].IsValid) {
 						//Neither slot full
-						weapons[currentWeapon].deactivate();
-						weapons[currentWeapon].Drop();
-						weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
+						inventory.weapons[currentWeapon].deactivate();
+						inventory.weapons[currentWeapon].Drop();
+						inventory.weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
 						equip (currentWeapon);
 						return true;
-					} else if (weapons[currentWeapon].IsValid && !weapons[secondaryWeapon].IsValid) {
+					} else if (inventory.weapons[currentWeapon].IsValid && !inventory.weapons[secondaryWeapon].IsValid) {
 						//Just current
-						weapons[secondaryWeapon].deactivate();
-						weapons[secondaryWeapon].Drop();
-						weapons[secondaryWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
+						inventory.weapons[secondaryWeapon].deactivate();
+						inventory.weapons[secondaryWeapon].Drop();
+						inventory.weapons[secondaryWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
 						equip (secondaryWeapon);
 						return true;
-					} else if (!weapons[currentWeapon].IsValid && weapons[secondaryWeapon].IsValid) {
+					} else if (!inventory.weapons[currentWeapon].IsValid && inventory.weapons[secondaryWeapon].IsValid) {
 						//Just other
-						weapons[currentWeapon].deactivate();
-						weapons[currentWeapon].Drop();
-						weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
+						inventory.weapons[currentWeapon].deactivate();
+						inventory.weapons[currentWeapon].Drop();
+						inventory.weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
 						equip (currentWeapon);
 						return true;
 					}
 				}
-				if (hit.transform.gameObject.GetComponent<AmmoPickup>() != null) {
-					ammo = hit.transform.gameObject.GetComponent<AmmoPickup>().Interact(ammo);
+				if (hit.transform.gameObject.GetComponent<inventory.ammoPickup>() != null) {
+					inventory.ammo = hit.transform.gameObject.GetComponent<inventory.ammoPickup>().Interact(inventory.ammo);
 				}
 				if (hit.transform.gameObject.GetComponent<PickupObjective>() != null) {
 					hit.transform.gameObject.GetComponent<PickupObjective>().Interact();
@@ -202,9 +204,9 @@ public class ShootObjects : MonoBehaviour {
 	public bool equip(int weapon) {
 		int original = currentWeapon;
 		currentWeapon = weapon;
-		if (weapons[weapon] != null) {
-			weapons[original].deactivate();
-			weapons[weapon].activate(gameObject);
+		if (inventory.weapons[weapon] != null) {
+			inventory.weapons[original].deactivate();
+			inventory.weapons[weapon].activate(gameObject);
 			return true;
 		}
 		currentWeapon = original;
@@ -212,12 +214,12 @@ public class ShootObjects : MonoBehaviour {
 	}
 
 	public void OnGUI () {
-		if (weapons[currentWeapon].IsValid) {
+		if (inventory.weapons[currentWeapon].IsValid) {
 			GUI.Box(new Rect(Screen.width-175,Screen.height-100,150,50),"");
-			GUI.Label(new Rect(Screen.width-150, Screen.height-100, 150, 40), weapons[currentWeapon].WeaponName);
+			GUI.Label(new Rect(Screen.width-150, Screen.height-100, 150, 40), inventory.weapons[currentWeapon].WeaponName);
 			GUI.Label(new Rect(Screen.width-150, Screen.height-75, 150, 40),
-				weapons[currentWeapon].CurAmmo + "/" + weapons[currentWeapon].MaxAmmo + "/" + weapons[currentWeapon].ReserveAmmo);
-			if (!weapons[currentWeapon].isAimed) {
+				inventory.weapons[currentWeapon].Curinventory.ammo + "/" + inventory.weapons[currentWeapon].Maxinventory.ammo + "/" + inventory.weapons[currentWeapon].Reserveinventory.ammo);
+			if (!inventory.weapons[currentWeapon].isAimed) {
 				GUI.Box(new Rect(Screen.width/2-2,Screen.height/2-2,4,4),"");
 			}
 		}

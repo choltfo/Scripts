@@ -46,6 +46,8 @@ public class Pause : MonoBehaviour {
 	/// <summary>
 	/// The 
 	
+	//public ;
+	
 	void Update () {
 		if (Input.GetKeyDown(controls.pause)) {
 			pane = "/Pause";

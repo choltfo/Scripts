@@ -21,12 +21,13 @@ public class Grenade {
 	/// </param>
 	public ThrownGrenade throwGrenade (float throwPower, Transform thrower) {
 		GameObject thrownGrenade = (GameObject)MonoBehaviour.Instantiate(instantiableGrenade, thrower.position, thrower.rotation);
-		thrownGrenade.transform.Rotate(45,0,0);
 		thrownGrenade.transform.Translate(holdPosition);
+		thrownGrenade.transform.Rotate(45,0,0);
 		thrownGrenade.AddComponent("ThrownGrenade");
 		thrownGrenade.AddComponent("Rigidbody");
 		thrownGrenade.GetComponent<Rigidbody>().mass = 0.05f;//		\/- Change this.
-		thrownGrenade.GetComponent<Rigidbody>().AddRelativeForce(0,0,throwPower);
+		//thrownGrenade.GetComponent<Rigidbody>().AddRelativeForce(0,0,throwPower);
+		thrownGrenade.GetComponent<Rigidbody>().AddRelativeForce(0,0,100);
 		thrownGrenade.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
 		thrownGrenade.GetComponent<Detonator>().explodeOnStart = false;
 		thrownGrenade.GetComponent<ThrownGrenade>().prime(detonateDelay);
