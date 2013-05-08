@@ -61,15 +61,20 @@ public class Store : MonoBehaviour {
 					
 					int i = 0;
 					Weapon transferredWeapon = null;
+					int soldWeaponSlot = -1;
 					foreach (Weapon weapon in playerInv.weapons) {
 						if (weapon.IsValid && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
 							if (GUI.Button(new Rect(Screen.width/2-165, 125+(25*i), 150, 25), weapon.DisplayName)) {
-								transferredWeapon = weapon;
-								playerInv.cash += weapon.price*buyMarkup;
+								if (checkWeaponSlot(inventory.weapons)) {
+									transferredWeapon = weapon;
+									playerInv.cash += weapon.price*buyMarkup;
+									soldWeaponSlot = i;
+								}
 							}
 						}
 						i++;
 					}
+					
 					i = 0;
 					int a = 0;
 					bool transferredAnyAmmo = false;
@@ -103,8 +108,8 @@ public class Store : MonoBehaviour {
 						playerInv.grenades.Remove(transferredGrenade);
 					}
 					if (transferredWeapon != null) {
-						inventory.weapons.Add(transferredWeapon);
-						playerInv.weapons.Remove(transferredWeapon);
+						inventory.weapons[findWeaponSlot(inventory.weapons)] = transferredWeapon;
+						playerInv.weapons[soldWeaponSlot] = null;
 					}
 					
 					ItemElements = i;
@@ -113,11 +118,29 @@ public class Store : MonoBehaviour {
 		}
 	}
 	
-	// Use this for initialization
-	void Start () {}
-	
 	// Update is called once per frame
 	void Update () {}
+	
+	public static bool checkWeaponSlot (Weapon[] weapons) {
+		foreach (Weapon weapon in weapons) {
+			if (weapon == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static int findWeaponSlot (Weapon[] weapons) {
+		bool anyNull = false;
+		int i = 0;
+		foreach (Weapon weapon in weapons) {
+			if (weapon == null) {
+				return i;
+			}
+			i ++;
+		}
+		return -1;
+	}
 }
 
 public enum StoreMode {
