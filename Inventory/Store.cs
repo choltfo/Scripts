@@ -47,9 +47,39 @@ public class Store : MonoBehaviour {
 					storeMode = StoreMode.Sell;
 				}
 				
-				//ADD BUY MODE CODE!
-				
-				
+				/*if (storeMode == StoreMode.Buy) {
+					weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 200),
+						weaponSlider, 8.0F, 0.0F, ((inventory.weapons.Length < 8) ? 8 : inventory.weapons.Length));
+					GUI.Box(new Rect(Screen.width/2-165, 125, 165, 200), "");
+					ammoItemSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+150, 125, 15, 200),
+						ammoItemSlider, 8.0F, 0.0F, ((ItemElements < 8) ? 8 : ItemElements));
+					GUI.Box(new Rect(Screen.width/2, 125, 165, 200), "");
+					
+					int i = 0;
+					foreach (Weapon weapon in inventory.weapons) {
+						if (weapon.IsValid && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
+							GUI.Button(new Rect(Screen.width/2-165, 125+(25*i), 150, 25), weapon.DisplayName);
+						}
+						i++;
+					}
+					i = 0;
+					int a = 0;
+					foreach (int ammo in inventory.ammo) {
+						if (ammo > 0 && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
+							GUI.Button(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), ((AmmoType)a).ToString());
+							i++;
+						}
+						a++;
+					}
+					foreach (Grenade grenade in inventory.grenades) {
+						if (i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
+							GUI.Button(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), grenade.name);
+						}
+						i++;
+					}
+					
+					ItemElements = i;
+				}*/
 				
 				if (storeMode == StoreMode.Sell) {
 					weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 200),
@@ -61,7 +91,7 @@ public class Store : MonoBehaviour {
 					
 					int i = 0;
 					foreach (Weapon weapon in playerInv.weapons) {
-						if (weapon.IsValid) {
+						if (weapon.IsValid && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
 							GUI.Button(new Rect(Screen.width/2-165, 125+(25*i), 150, 25), weapon.DisplayName);
 						}
 						i++;
