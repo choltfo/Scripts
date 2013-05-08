@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof (RigidBody))]
+
 public class Teleporter : InteractObject {
 	public Teleporter linkedTeleporter;  // The teleporter this is linked to
 	public Vector3 relativePosition;  // How far away the player is moved when teleported to this teleporter
-	public bool isTrampoline = false;  // Whether this is a trampoline
+	public bool isTrampoline = true;  // Whether this is a trampoline
 	public CameraFade fader;
 	public Color fadeColor;
 	public Color transparency;
