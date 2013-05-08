@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent (typeof (RigidBody))]
+[RequireComponent (typeof (Rigidbody))]
 
 public class Teleporter : InteractObject {
 	public Teleporter linkedTeleporter;  // The teleporter this is linked to
