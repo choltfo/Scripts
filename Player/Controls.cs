@@ -14,11 +14,6 @@ public class Controls : MonoBehaviour {
 	public MouseButton switchWeapons = MouseButton.CMB;
 	public KeyCode weapon0           = KeyCode.Alpha1;
 	public KeyCode weapon1           = KeyCode.Alpha2;
-	public KeyCode weapon2;
-	public KeyCode weapon3;
-	public KeyCode weapon4;
-	public KeyCode weapon5;
-	public KeyCode weapon6;
 }
 
 public enum MouseButton {
