@@ -56,8 +56,5 @@ public class EnterKey : MonoBehaviour {
 		if (Input.GetKeyDown(controls.weapon1)) {
 			WeaponController.SelectWeapon(1);
 		}
-		if (Input.GetKeyDown(controls.weapon2)) {
-			WeaponController.SelectWeapon(2);
-		}
 	}
 }
