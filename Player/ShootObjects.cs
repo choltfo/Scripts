@@ -54,9 +54,11 @@ public class ShootObjects : MonoBehaviour {
 		if (Input.GetKeyDown(controls.reload)) {
 			reload();
 		}
+		
 		if (Input.GetKeyDown(controls.interact)) {
 			interact();
 		}
+		
 		if (Input.GetKeyDown(controls.drop)) {
 			if (inventory.weapons[currentWeapon].IsValid) {
 				inventory.weapons[currentWeapon].Drop();
@@ -89,27 +91,7 @@ public class ShootObjects : MonoBehaviour {
 			}
 		}
 		if (Input.GetMouseButtonDown((int)controls.switchWeapons)) {
-			if (currentWeapon != 1 || !inventory.weapons[1].Exists) {
-				currentWeapon = 1;
-				if (inventory.weapons[1].IsValid) {
-					inventory.weapons[1].deactivate();
-					inventory.weapons[1].activate(gameObject);
-					inventory.weapons[0].deactivate();
-				} else {
-					currentWeapon = 0;
-				}
-			} else {
-				if (currentWeapon != 0 || !inventory.weapons[0].Exists) {
-					currentWeapon = 0;
-					if (inventory.weapons[0].IsValid) {
-						inventory.weapons[0].deactivate();
-						inventory.weapons[0].activate(gameObject);
-						inventory.weapons[1].deactivate();
-					} else {
-						currentWeapon = 1;
-					}
-				}
-			}
+			ensuredSwitch ();
 		}
 	}
 
@@ -137,13 +119,6 @@ public class ShootObjects : MonoBehaviour {
 		inventory.grenades.RemoveAt(0);
 		return true;
 	}
-	
-	/*public bool shootUnderbarrel() {
-		if (inventory.weapons[currentWeapon].underbarrel.IsValid) {
-			return inventory.weapons[currentWeapon].underbarrel.Shoot(inventory.weapons[currentWeapon].mainObject);
-		}
-		return false;	
-	}*/
 	
 	public bool interact() {
 		Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2,0));
@@ -217,8 +192,70 @@ public class ShootObjects : MonoBehaviour {
 		return false;
 	}
 	
+	public bool ensuredSwitch () {
+		if (inventory.weapons[currentWeapon].IsValid) {
+			inventory.weapons[currentWeapon].deactivate();
+		}
+		if (inventory.weapons[0].IsValid == false && inventory.weapons[1].IsValid == false) {
+			return false;
+		}
+		if (inventory.weapons[0].IsValid == true && inventory.weapons[1].IsValid == false) {
+			currentWeapon = 0;
+			inventory.weapons[currentWeapon].activate(gameObject);
+			return true;
+		}
+		if (inventory.weapons[0].IsValid == false && inventory.weapons[1].IsValid == true) {
+			currentWeapon = 1;
+			inventory.weapons[currentWeapon].activate(gameObject);
+			return true;
+		}
+		if (inventory.weapons[0].IsValid == true && inventory.weapons[1].IsValid == false) {
+			currentWeapon = 0;
+			inventory.weapons[currentWeapon].activate(gameObject);
+			return true;
+		}
+		if (inventory.weapons[0].IsValid == true && inventory.weapons[1].IsValid == true) {
+			currentWeapon = (currentWeapon == 0) ? 1 : 0;
+			inventory.weapons[currentWeapon].activate(gameObject);
+			return true;
+		}
+		return false;
+	}
+	
+	public bool switchWeapons () {
+		inventory.weapons[currentWeapon].deactivate();
+		if (currentWeapon != 1 || !inventory.weapons[1].Exists) {
+			currentWeapon = 1;
+			if (inventory.weapons[1].IsValid) {
+				inventory.weapons[1].deactivate();
+				inventory.weapons[1].activate(gameObject);
+				inventory.weapons[0].deactivate();
+				return true;
+			} else {
+				currentWeapon = 0;
+				inventory.weapons[currentWeapon].activate(gameObject);
+				return false;
+			}
+		} else {
+			if (currentWeapon != 0 || !inventory.weapons[0].Exists) {
+				currentWeapon = 0;
+				if (inventory.weapons[0].IsValid) {
+					inventory.weapons[0].deactivate();
+					inventory.weapons[0].activate(gameObject);
+					inventory.weapons[1].deactivate();
+					return true;
+				} else {
+					currentWeapon = 1;
+					inventory.weapons[currentWeapon].activate(gameObject);
+					return false;
+				}
+			}
+			return false;
+		}	
+	}
+	
 	public void melee() {
-		punchController.GAH!
+		//punchController.GAH!
 	}
 
 	public void OnGUI () {

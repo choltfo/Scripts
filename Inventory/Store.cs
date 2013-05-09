@@ -16,6 +16,7 @@ public class Store : MonoBehaviour {
 	public float buyMarkup;
 	public string storeName;
 	public Inventory inventory;
+	public ShootObjects player;
 	public Inventory playerInv;
 	public Pause pauseController;
 	public StoreMode storeMode = StoreMode.Buy;
@@ -26,8 +27,10 @@ public class Store : MonoBehaviour {
 	public int ItemElements = 0;
 	public int topItemElement = 0;
 	
-	public void Interact (ShootObjects player) {
-		playerInv = player.inventory;
+	
+	public void Interact (ShootObjects l_player) {
+		playerInv = l_player.inventory;
+		player = l_player;
 		Time.timeScale = 0;
 		pauseController.pane = "/Store/"+UID.ToString();
 	}
@@ -60,7 +63,7 @@ public class Store : MonoBehaviour {
 					GUI.Box(new Rect(Screen.width/2, 125, 165, 200), "");
 					
 					int i = 0;
-					Weapon transferredWeapon = null;
+					Weapon transferredWeapon= new Weapon();
 					int soldWeaponSlot = -1;
 					foreach (Weapon weapon in playerInv.weapons) {
 						if (weapon.IsValid && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
@@ -107,9 +110,12 @@ public class Store : MonoBehaviour {
 						inventory.grenades.Add(transferredGrenade);
 						playerInv.grenades.Remove(transferredGrenade);
 					}
-					if (transferredWeapon != null) {
+					if (transferredWeapon.IsValid) {
+						print (findWeaponSlot(inventory.weapons));
+						transferredWeapon.deactivate();
 						inventory.weapons[findWeaponSlot(inventory.weapons)] = transferredWeapon;
-						playerInv.weapons[soldWeaponSlot] = null;
+						playerInv.weapons[soldWeaponSlot] = new Weapon();
+						player.ensuredSwitch();
 					}
 					
 					ItemElements = i;
@@ -123,7 +129,7 @@ public class Store : MonoBehaviour {
 	
 	public static bool checkForEmptyWeaponSlot (Weapon[] weapons) {
 		foreach (Weapon weapon in weapons) {
-			if (weapon == null) {
+			if (weapon.IsValid = false) {
 				return false;
 			}
 		}
@@ -134,7 +140,7 @@ public class Store : MonoBehaviour {
 		bool anyNull = false;
 		int i = 0;
 		foreach (Weapon weapon in weapons) {
-			if (weapon == null) {
+			if (!weapon.IsValid) {
 				return i;
 			}
 			i ++;

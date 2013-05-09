@@ -294,7 +294,6 @@ public class Weapon {
 		Exists = true;
 	}
 	
-	
 	/// <summary>
 	/// Deactivate this instance.
 	/// </summary>
