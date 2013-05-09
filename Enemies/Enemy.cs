@@ -11,5 +11,15 @@ public class Enemy : MonoBehaviour {
 	/// The usefulness scale.
 	/// Really Ian?
 	/// </summary>
-	public int usefulnessScale = 0;
+	public int usefulnessScale = 2;
+	/// <summary>
+	/// The player to attack.
+	/// </summary>
+	public GameObject player;
+	CharacterController motor;
+	EnemyHealth health;
+	/// <summary>
+	/// Whether the game is paused.
+	/// </summary>
+	public bool isPaused = false;
 }
