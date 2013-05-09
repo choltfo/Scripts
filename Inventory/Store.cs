@@ -65,7 +65,7 @@ public class Store : MonoBehaviour {
 					foreach (Weapon weapon in playerInv.weapons) {
 						if (weapon.IsValid && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
 							if (GUI.Button(new Rect(Screen.width/2-165, 125+(25*i), 150, 25), weapon.DisplayName)) {
-								if (checkWeaponSlot(inventory.weapons)) {
+								if (checkForEmptyWeaponSlot(inventory.weapons)) {
 									transferredWeapon = weapon;
 									playerInv.cash += weapon.price*buyMarkup;
 									soldWeaponSlot = i;
@@ -121,7 +121,7 @@ public class Store : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {}
 	
-	public static bool checkWeaponSlot (Weapon[] weapons) {
+	public static bool checkForEmptyWeaponSlot (Weapon[] weapons) {
 		foreach (Weapon weapon in weapons) {
 			if (weapon == null) {
 				return false;
