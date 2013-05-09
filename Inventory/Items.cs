@@ -8,7 +8,6 @@ public enum Items {
 	Bolt,
 	Bandage,
 	Medkit
-	
 }
 
 /// <summary>

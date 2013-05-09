@@ -6,8 +6,9 @@ using System;
 public class ShootObjects : MonoBehaviour {
 	
 	public Controls controls;
-	
+	public Melee punchController;
 	public Inventory inventory;
+	
 	
 	public float throwForce;
 	public EnterKey vehicle;
@@ -42,8 +43,12 @@ public class ShootObjects : MonoBehaviour {
 			aim();
 		}
 		
-		if (Input.GetKeyDown(KeyCode.G)) {
+		if (Input.GetKeyDown(controls.grenade)) {
 			throwGrenade();
+		}
+		
+		if (Input.GetKeyDown(controls.melee)) {
+			melee();
 		}
 		
 		if (Input.GetKeyDown(controls.reload)) {
@@ -210,6 +215,10 @@ public class ShootObjects : MonoBehaviour {
 		}
 		currentWeapon = original;
 		return false;
+	}
+	
+	public void melee() {
+		punchController.GAH!
 	}
 
 	public void OnGUI () {

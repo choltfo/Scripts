@@ -5,6 +5,8 @@ public class Melee : MonoBehaviour {
 	
 	public ShootObjects weaponController;
 	
+	
+	
 	public GameObject fist;
 	public AnimationCurve RFAnimX;
 	public AnimationCurve RFAnimY;
@@ -24,6 +26,6 @@ public class Melee : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 }
