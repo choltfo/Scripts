@@ -23,7 +23,6 @@ public class Teleporter : InteractObject {
 		faded = false;
 	}
 	public void OnTriggerEnter(Collider thing){
-		print("Entered teleporter");
 		if (isPortal) {
 			thing.transform.position = linkedTeleporter.transform.position + linkedTeleporter.relativePosition;
 		}		
