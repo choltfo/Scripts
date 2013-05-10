@@ -16,8 +16,10 @@ public class Enemy : MonoBehaviour {
 	/// The player to attack.
 	/// </summary>
 	public GameObject player;
-	CharacterController motor;
-	EnemyHealth health;
+	[HideInInspector]
+	public CharacterController motor;
+	[HideInInspector]
+	public EnemyHealth health;
 	/// <summary>
 	/// Whether the game is paused.
 	/// </summary>
