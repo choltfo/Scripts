@@ -507,7 +507,7 @@ public class Weapon {
 				Trigger.Translate(0,0, TriggerDistance);
 				//flash.transform.localScale = new Vector3 (10,10,10);
 				flash.SetActive(true);
-				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY
+				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY
 					+= CameraClimb;
 				float x = mainObject.transform.parent.parent.localEulerAngles.x;
 				float y = mainObject.transform.parent.parent.localEulerAngles.y;
@@ -522,21 +522,21 @@ public class Weapon {
 				
 				//flash.transform.localScale = new Vector3 (0,0,0);
 				flash.SetActive(false);
-				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY 
+				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
 			}
 			if (AnimClock == (ShotDelay - 2)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
 				mainObject.transform.Translate(0,0,gunDistance/4);
 				
-				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY 
+				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
 			}
 			if (AnimClock == (ShotDelay - 3)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
 				mainObject.transform.Translate(0,0,gunDistance/4);
 				
-				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY 
+				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
 			}
 			if (AnimClock == (ShotDelay - 4)){

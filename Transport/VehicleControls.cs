@@ -23,26 +23,57 @@ public class VehicleControls : MonoBehaviour {
 	public float accelerator = 0;
 	public float speed = 0;
 	
-	public bool IsGrounded;
-	private float hoverError;
-	public float IsGroundedMargin;
-	public float RayHoverHeight = 4.0f;
-	  
-	void FixedUpdate() {
-		RaycastHit hit;
-		Ray downRay = new Ray(transform.position, -Vector3.up);
-		 
-		if (Physics.Raycast(downRay, out hit))
-		hoverError = RayHoverHeight - hit.distance;
-		 
-		if (hoverError > IsGroundedMargin)
-		IsGrounded = false;
-		 
-		if (hoverError < IsGroundedMargin)
-		IsGrounded = true;
+	public float gravity = 9.8f;
+	public float descentSpeed = 0f;
+	
+	public float previousVelocity = 0f;
+	public float crashMagnitude = 40f;
+	public bool DEAD = false;
+	
+	public float downThreshold = 3;
+	
+	public float lastTouch = 0;
+	
+	void OnCollisionStay (Collision collision) {
+		if (collision.collider.gameObject.name == "Terrain") {
+			lastTouch = Time.fixedTime;
+		}
 	}
 	
-	public void Update () {
+	void OnCollisionExit (Collision collision) {
+		if (collision.collider.gameObject.name == "Terrain") {
+			descentSpeed = 0;
+		}
+	}
+	
+	void OnCollisionEnter (Collision collision) {
+		if (collision.collider.gameObject.name == "Terrain") {
+			descentSpeed = 0;
+		}
+	}
+	
+	void FixedUpdate() {
+		
+		if ((rigidbody.velocity.magnitude - previousVelocity) * 10 > Mathf.Abs(crashMagnitude) || 
+			(rigidbody.velocity.magnitude - previousVelocity) * 10 < -(Mathf.Abs(crashMagnitude))) {
+			if (gameObject.GetComponent<Vehicle>().player != null) {
+				gameObject.GetComponent<Vehicle>().player.transform.FindChild("Camera").gameObject.
+					GetComponent<Health>().Damage(Mathf.Abs(previousVelocity - rigidbody.velocity.magnitude));
+			}
+			print ((rigidbody.velocity.magnitude - previousVelocity) * 10);
+			DEAD = true;
+		}
+		//print ((rigidbody.velocity.magnitude - previousVelocity) * 10);
+		previousVelocity = rigidbody.velocity.magnitude;
+		
+		if (!(Terrain.activeTerrain.SampleHeight(transform.position) >
+				transform.position.y - downThreshold) && Time.fixedTime > lastTouch) {
+			descentSpeed += gravity * Time.deltaTime * 10;
+			transform.Translate(new Vector3(0, -descentSpeed * Time.deltaTime, 0), Space.World);
+		}
+		//print (!(Terrain.activeTerrain.SampleHeight(transform.position) >
+		//		transform.position.y - downThreshold) && Time.fixedTime > lastTouch);
+		
 		speed = 0;
 		accelerator = 0;
 		steering = 0;
@@ -64,7 +95,7 @@ public class VehicleControls : MonoBehaviour {
 			}
 		}
 		if ((Terrain.activeTerrain.SampleHeight(transform.position) >
-				transform.position.y - 5) && (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75)) {
+				transform.position.y - downThreshold) && (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75)) {
 			if (accelerator > 0) {
 				transform.Rotate(0,turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
 			} else {

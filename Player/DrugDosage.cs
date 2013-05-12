@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class DrugDosage : MonoBehaviour{
 	
 	public List<DrugEffect> effects;
-	public CharacterControls controls;
+	public CharacterControls charControls;
 	float originalSpeed = 0;
 	
 	public float Slowness = 0;
@@ -17,7 +17,7 @@ public class DrugDosage : MonoBehaviour{
 	
 	void Start(){
 		effects = new List<DrugEffect>();
-		originalSpeed = controls.speed - 1;
+		originalSpeed = charControls.speed - 1;
 	}
 	
 	void Update(){
@@ -58,7 +58,7 @@ public class DrugDosage : MonoBehaviour{
 		
 		Slowness = SlownessLevelVSSlowness.Evaluate(SlownessLevel);
 		
-		controls.speed = (originalSpeed/(Slowness+1))+1;                                                           
+		charControls.speed = (originalSpeed/(Slowness+1))+1;                                                           
 	}
 	
 	public void addEffect(DrugEffect effect) {
