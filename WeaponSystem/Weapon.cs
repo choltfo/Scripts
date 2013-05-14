@@ -144,6 +144,9 @@ public class Weapon {
 	/// The flash gameobject. Not visible in Inspector.
 	/// </summary>
 	public GameObject flash = null;
+	
+	public bool flashLightOn = false;
+	public GameObject flashLight = null;
 	[HideInInspector]
 	/// <summary>
 	/// The animation clock. Not visible in Inspector.
@@ -280,14 +283,25 @@ public class Weapon {
 		Gun.transform.parent = player.transform;
 		Gun.transform.localPosition = Position;
 		mainObject = Gun;
-		flash = GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
+		flash = mainObject.transform.FindChild(Path + "Flash").gameObject;
+		//GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
 		if (flash != null) {
 			//Debug.Log("Found flash for " + WeaponName + " at " + mainObject.transform.name +  "/" + Path + flash.name);
 			//flash.transform.localScale = new Vector3 (0,0,0);
 		} else {
 			Debug.Log("Didn't find flash for " + WeaponName + " at " + mainObject.transform.name + "/" + Path + "Flash");
 		}
-		flash.transform.localScale = new Vector3 (0,0,0);
+		flash.gameObject.SetActive(false);
+		
+		flashLight = mainObject.transform.FindChild(Path + "Flashlight").gameObject;
+		//GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
+		if (flash != null) {
+			//Debug.Log("Found flash for " + WeaponName + " at " + mainObject.transform.name +  "/" + Path + flash.name);
+			//flash.transform.localScale = new Vector3 (0,0,0);
+		} else {
+			Debug.Log("Didn't find flash for " + WeaponName + " at " + mainObject.transform.name + "/" + Path + "Flash");
+		}
+		flashLight.SetActive(false);
 		//MonoBehaviour.print("Added " + WeaponName);
 		AnimIdentify();
 		isAimed = false;
@@ -319,6 +333,16 @@ public class Weapon {
 			mainObject.transform.localPosition = ScopedPosition;
 			isAimed = true;
 		}
+	}
+	
+	
+	public bool ToggleFlashLight (){
+		if (flashLight == null || !IsValid || !Exists) {
+			return false;
+		}
+		flashLightOn = !flashLightOn;
+		flashLight.SetActive(flashLightOn);
+		return true;
 	}
 	
 	/// <summary>

@@ -47,6 +47,10 @@ public class ShootObjects : MonoBehaviour {
 			throwGrenade();
 		}
 		
+		if (Input.GetKeyDown(controls.light)) {
+			toggleFlashLight();
+		}
+		
 		if (Input.GetKeyDown(controls.melee)) {
 			melee();
 		}
@@ -94,7 +98,11 @@ public class ShootObjects : MonoBehaviour {
 			ensuredSwitch ();
 		}
 	}
-
+	
+	public bool toggleFlashLight() {
+		return inventory.weapons[currentWeapon].ToggleFlashLight();
+	}
+	
 	public bool aim() {		
 		inventory.weapons[currentWeapon].aim ();
 		return false;

@@ -68,11 +68,11 @@ public class VehicleControls : MonoBehaviour {
 		
 		if (!(Terrain.activeTerrain.SampleHeight(transform.position) >
 				transform.position.y - downThreshold) && Time.fixedTime > lastTouch) {
-			descentSpeed += gravity * Time.deltaTime * 10;
-			transform.Translate(new Vector3(0, -descentSpeed * Time.deltaTime, 0), Space.World);
+			//descentSpeed += gravity * Time.deltaTime * 10;
+			//transform.Translate(new Vector3(0, -descentSpeed * Time.deltaTime, 0), Space.World);
+			rigidbody.AddForce(0f,-980f*rigidbody.mass,0f);
 		}
-		//print (!(Terrain.activeTerrain.SampleHeight(transform.position) >
-		//		transform.position.y - downThreshold) && Time.fixedTime > lastTouch);
+		
 		
 		speed = 0;
 		accelerator = 0;
