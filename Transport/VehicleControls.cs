@@ -70,7 +70,7 @@ public class VehicleControls : MonoBehaviour {
 				transform.position.y - downThreshold) && Time.fixedTime > lastTouch) {
 			//descentSpeed += gravity * Time.deltaTime * 10;
 			//transform.Translate(new Vector3(0, -descentSpeed * Time.deltaTime, 0), Space.World);
-			rigidbody.AddForce(0f,-980f*rigidbody.mass,0f);
+			rigidbody.AddForce(0f,-98f*rigidbody.mass,0f);
 		}
 		
 		
