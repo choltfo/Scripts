@@ -60,7 +60,7 @@ public class VehicleControls : MonoBehaviour {
 				gameObject.GetComponent<Vehicle>().player.transform.FindChild("Camera").gameObject.
 					GetComponent<Health>().Damage(Mathf.Abs(previousVelocity - rigidbody.velocity.magnitude));
 			}
-			print ((rigidbody.velocity.magnitude - previousVelocity) * 10);
+			//print ((rigidbody.velocity.magnitude - previousVelocity) * 10);
 			DEAD = true;
 		}
 		//print ((rigidbody.velocity.magnitude - previousVelocity) * 10);

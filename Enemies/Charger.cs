@@ -31,12 +31,12 @@ public class Charger : Enemy {
 	void OnCollisionStay(Collision collision) {
 		//Debug.Log ("Hit something, specifically "+collision.gameObject.name);
 		if ((Time.time - recentEffectTime) >= effectDelay) {
-			Debug.Log ("Time is valid");
+			//Debug.Log ("Time is valid");
 			if (collision.gameObject.transform.FindChild("Camera") != null) {
 				if (collision.gameObject.transform.FindChild("Camera").GetComponent<DrugDosage>() != null) {
 					collision.transform.FindChild("Camera").gameObject.GetComponent<DrugDosage>().addEffect(collideEffect.Duplicate());
 					collision.transform.FindChild("Camera").gameObject.GetComponent<Health>().Damage(damage);
-					Debug.Log ("Applying effect to player");
+					//Debug.Log ("Applying effect to player");
 					recentEffectTime = Time.time;
 				}
 			}

@@ -34,7 +34,7 @@ public class DrugDosage : MonoBehaviour{
 		condemn = new List<int>();
 		int currentIndex = 0;
 		foreach (DrugEffect effect in effects) {
-			print("Applying " + effect.ToString());
+			//print("Applying " + effect.ToString());
 			switch (effect.effect) {
 			case NegativeEffect.Recoil :
 				Recoil += effect.baseStrength * effect.multiplier/100;
