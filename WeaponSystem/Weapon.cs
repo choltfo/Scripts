@@ -287,7 +287,7 @@ public class Weapon {
 		} else {
 			Debug.Log("Didn't find flash for " + WeaponName + " at " + mainObject.transform.name + "/" + Path + "Flash");
 		}
-		flash.transform.localScale = new Vector3 (0,0,0);
+		flash.SetActive(false);
 		//MonoBehaviour.print("Added " + WeaponName);
 		AnimIdentify();
 		isAimed = false;
