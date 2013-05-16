@@ -11,6 +11,7 @@ public class Grenade {
 	public float maxDamage;
 	public float detonateDelay;
 	public Vector3 holdPosition;
+	public int throwAngle = 45;
 	
 	/// <summary>
 	/// Throws the grenade.
@@ -24,7 +25,7 @@ public class Grenade {
 	public ThrownGrenade throwGrenade (float throwPower, Transform thrower) {
 		GameObject thrownGrenade = (GameObject)MonoBehaviour.Instantiate(instantiableGrenade, thrower.position, thrower.rotation);
 		thrownGrenade.transform.Translate(holdPosition);
-		thrownGrenade.transform.Rotate(-45,0,0);
+		thrownGrenade.transform.Rotate(-throwAngle,0,0);
 		thrownGrenade.AddComponent("ThrownGrenade");
 		thrownGrenade.GetComponent<Rigidbody>().mass = 0.05f;//		\/- Change this.
 		thrownGrenade.GetComponent<Rigidbody>().AddRelativeForce(0,0,throwPower);
