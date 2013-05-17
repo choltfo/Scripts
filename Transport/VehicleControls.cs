@@ -56,7 +56,7 @@ public class VehicleControls : MonoBehaviour {
 		
 		if ((rigidbody.velocity.magnitude - previousVelocity) * 10 > Mathf.Abs(crashMagnitude) || 
 			(rigidbody.velocity.magnitude - previousVelocity) * 10 < -(Mathf.Abs(crashMagnitude))) {
-			if (gameObject.GetComponent<Vehicle>().isOccupied) {
+			if (gameObject.GetComponent<Vehicle>().isActive) {
 				gameObject.GetComponent<Vehicle>().player.transform.FindChild("Camera").gameObject.
 					GetComponent<Health>().Damage(Mathf.Abs(previousVelocity - rigidbody.velocity.magnitude));
 			}
