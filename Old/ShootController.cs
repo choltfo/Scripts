@@ -24,7 +24,7 @@ public class ShootController : MonoBehaviour {
 	public Vector3 ModelHideLocation;
 	
 	public int CameraClimb;
-	public MouseLook FPSCamera;
+	public MouseLookModded FPSCamera;
 	public Transform gun;
 	public float gunAngle;
 	public Transform Hammer;

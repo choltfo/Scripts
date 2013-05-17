@@ -14,7 +14,7 @@ public class Pause : MonoBehaviour {
 	/// <summary>
 	/// The audio to play through.
 	/// </summary>
-	public AudioListener audio;
+	public AudioListener audioLis;
 	/// <summary>
 	/// The width of the items.
 	/// </summary>

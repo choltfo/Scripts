@@ -144,6 +144,9 @@ public class Weapon {
 	/// The flash gameobject. Not visible in Inspector.
 	/// </summary>
 	public GameObject flash = null;
+	
+	public bool flashLightOn = false;
+	public GameObject flashLight = null;
 	[HideInInspector]
 	/// <summary>
 	/// The animation clock. Not visible in Inspector.
@@ -280,14 +283,29 @@ public class Weapon {
 		Gun.transform.parent = player.transform;
 		Gun.transform.localPosition = Position;
 		mainObject = Gun;
-		flash = GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
+		flash = mainObject.transform.FindChild(Path + "Flash").gameObject;
+		//GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
 		if (flash != null) {
 			//Debug.Log("Found flash for " + WeaponName + " at " + mainObject.transform.name +  "/" + Path + flash.name);
 			//flash.transform.localScale = new Vector3 (0,0,0);
 		} else {
 			Debug.Log("Didn't find flash for " + WeaponName + " at " + mainObject.transform.name + "/" + Path + "Flash");
 		}
+<<<<<<< HEAD
 		flash.SetActive(false);
+=======
+		flash.gameObject.SetActive(false);
+		
+		flashLight = mainObject.transform.FindChild(Path + "Flashlight").gameObject;
+		//GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
+		if (flash != null) {
+			//Debug.Log("Found flash for " + WeaponName + " at " + mainObject.transform.name +  "/" + Path + flash.name);
+			//flash.transform.localScale = new Vector3 (0,0,0);
+		} else {
+			Debug.Log("Didn't find flash for " + WeaponName + " at " + mainObject.transform.name + "/" + Path + "Flash");
+		}
+		flashLight.SetActive(false);
+>>>>>>> feb5bafaf5b7534cc5bdbee97f5eb775d436db5b
 		//MonoBehaviour.print("Added " + WeaponName);
 		AnimIdentify();
 		isAimed = false;
@@ -319,6 +337,16 @@ public class Weapon {
 			mainObject.transform.localPosition = ScopedPosition;
 			isAimed = true;
 		}
+	}
+	
+	
+	public bool ToggleFlashLight (){
+		if (flashLight == null || !IsValid || !Exists) {
+			return false;
+		}
+		flashLightOn = !flashLightOn;
+		flashLight.SetActive(flashLightOn);
+		return true;
 	}
 	
 	/// <summary>
@@ -507,7 +535,7 @@ public class Weapon {
 				Trigger.Translate(0,0, TriggerDistance);
 				//flash.transform.localScale = new Vector3 (10,10,10);
 				flash.SetActive(true);
-				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY
+				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY
 					+= CameraClimb;
 				float x = mainObject.transform.parent.parent.localEulerAngles.x;
 				float y = mainObject.transform.parent.parent.localEulerAngles.y;
@@ -522,21 +550,21 @@ public class Weapon {
 				
 				//flash.transform.localScale = new Vector3 (0,0,0);
 				flash.SetActive(false);
-				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY 
+				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
 			}
 			if (AnimClock == (ShotDelay - 2)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
 				mainObject.transform.Translate(0,0,gunDistance/4);
 				
-				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY 
+				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
 			}
 			if (AnimClock == (ShotDelay - 3)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
 				mainObject.transform.Translate(0,0,gunDistance/4);
 				
-				((MouseLook)mainObject.transform.parent.gameObject.GetComponent("MouseLook")).rotationY 
+				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
 			}
 			if (AnimClock == (ShotDelay - 4)){

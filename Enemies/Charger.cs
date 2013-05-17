@@ -7,13 +7,6 @@ using System.Collections;
 /// </summary>
 
 public class Charger : Enemy {
-	
-	/// <summary>
-	/// The player to attack.
-	/// </summary>
-	public GameObject player;
-	CharacterController motor;
-	EnemyHealth health;
 	/// <summary>
 	/// The delay between attacks.
 	/// </summary>
@@ -34,20 +27,16 @@ public class Charger : Enemy {
 	/// The damage applied to player on contact.
 	/// </summary>
 	public float damage;
-	/// <summary>
-	/// Whether the game is paused.
-	/// </summary>
-	public bool isPaused = false;
-	
+		
 	void OnCollisionStay(Collision collision) {
 		//Debug.Log ("Hit something, specifically "+collision.gameObject.name);
 		if ((Time.time - recentEffectTime) >= effectDelay) {
-			Debug.Log ("Time is valid");
+			//Debug.Log ("Time is valid");
 			if (collision.gameObject.transform.FindChild("Camera") != null) {
 				if (collision.gameObject.transform.FindChild("Camera").GetComponent<DrugDosage>() != null) {
 					collision.transform.FindChild("Camera").gameObject.GetComponent<DrugDosage>().addEffect(collideEffect.Duplicate());
 					collision.transform.FindChild("Camera").gameObject.GetComponent<Health>().Damage(damage);
-					Debug.Log ("Applying effect to player");
+					//Debug.Log ("Applying effect to player");
 					recentEffectTime = Time.time;
 				}
 			}

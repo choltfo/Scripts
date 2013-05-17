@@ -6,8 +6,7 @@ public class ExplosiveDamage : MonoBehaviour {
 	public float range		= 5;
 	public float maxDamage	= 100;
 	public bool blown = false;
-	
-	public ExplosiveDamage () { }
+
 	public void explode() {
 		GetComponent<Detonator>().Explode();
 		Collider[] hitColliders = Physics.OverlapSphere(transform.position, range);

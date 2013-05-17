@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class DrugDosage : MonoBehaviour{
 	
 	public List<DrugEffect> effects;
-	public CharacterControls controls;
+	public CharacterControls charControls;
 	float originalSpeed = 0;
 	
 	public float Slowness = 0;
@@ -17,7 +17,7 @@ public class DrugDosage : MonoBehaviour{
 	
 	void Start(){
 		effects = new List<DrugEffect>();
-		originalSpeed = controls.speed - 1;
+		originalSpeed = charControls.speed - 1;
 	}
 	
 	void Update(){
@@ -34,7 +34,7 @@ public class DrugDosage : MonoBehaviour{
 		condemn = new List<int>();
 		int currentIndex = 0;
 		foreach (DrugEffect effect in effects) {
-			print("Applying " + effect.ToString());
+			//print("Applying " + effect.ToString());
 			switch (effect.effect) {
 			case NegativeEffect.Recoil :
 				Recoil += effect.baseStrength * effect.multiplier/100;
@@ -58,7 +58,7 @@ public class DrugDosage : MonoBehaviour{
 		
 		Slowness = SlownessLevelVSSlowness.Evaluate(SlownessLevel);
 		
-		controls.speed = (originalSpeed/(Slowness+1))+1;                                                           
+		charControls.speed = (originalSpeed/(Slowness+1))+1;                                                           
 	}
 	
 	public void addEffect(DrugEffect effect) {
@@ -66,9 +66,9 @@ public class DrugDosage : MonoBehaviour{
 	}
 
 	void OnGUI () {
-		GUI.Box(new Rect(Screen.width-320,40,300,20),"");
-		GUI.Box(new Rect(Screen.width-320,40,300*(SlownessLevel/100),20),"");
-		GUI.Box(new Rect(Screen.width-320,60,300,20),"");
-		GUI.Box(new Rect(Screen.width-320,60,300*(Slowness/100),20),"");
+		//GUI.Box(new Rect(Screen.width-320,40,300,20),"");
+		//GUI.Box(new Rect(Screen.width-320,40,300*(SlownessLevel/100),20),"");
+		//GUI.Box(new Rect(Screen.width-320,60,300,20),"");
+		//GUI.Box(new Rect(Screen.width-320,60,300*(Slowness/100),20),"");
 	}
 }

@@ -13,6 +13,7 @@ public class Health : MonoBehaviour {
 	/// A list of sounds to play from
 	/// </summary>
 	public CameraFade fader;
+	public bool playSounds = true;
 	public AudioClip[] painSounds;
 	public Color fadeColor;
 	public Color transparent;
@@ -20,6 +21,7 @@ public class Health : MonoBehaviour {
 	
 	public int MaxHealth = 100;
 	public float HealthLevel = 100;
+	public bool drawTextures;
 	public Texture DeathScreen;
 	public Texture2D bloodSplatter;
 	public float healDelay;
@@ -57,7 +59,7 @@ public class Health : MonoBehaviour {
 	/// </returns>
 	public bool Damage(float damage) {
 		lastInjury = Time.time;
-		painSoundSource.PlayOneShot(painSounds[(int)(Random.value * (painSounds.Length-1))]);
+		if (playSounds) painSoundSource.PlayOneShot(painSounds[(int)(Random.value * (painSounds.Length-1))]);
 		fader.SetScreenOverlayColor(fadeColor);
 		fader.StartFade(transparent, fadeTime);
 		
@@ -85,7 +87,7 @@ public class Health : MonoBehaviour {
 		//}*/
 		//style. color = new Color (0,0,0,(HealthLevel/MaxHealth)*255);
 		//style.normal.background.
-		if (HealthLevel < (0.25*MaxHealth)) {
+		if (HealthLevel < (0.25*MaxHealth) && drawTextures) {
 			//GUI.Box(new Rect(0,0, Screen.width, Screen.height), bloodSplatter, style);
 			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), bloodSplatter);
 		}

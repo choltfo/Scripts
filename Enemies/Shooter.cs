@@ -10,23 +10,9 @@ using System.Collections;
 /// </summary>
 
 public class Shooter : Enemy {
-	/// <summary>
-	/// The player to attack.
-	/// </summary>
-	public GameObject player;
-	CharacterController motor;
-	EnemyHealth health;
-	/// <summary>
-	/// Whether the game is paused.
-	/// </summary>
-	public bool isPaused = false;
 	//public float effectDelay;
 	//public float recentEffectTime = 0;
 	
-	/// <summary>
-	/// The current time. I don't know why.
-	/// </summary>
-	public float TIME;
 	//public DrugEffect collideEffect;
 	//public float damage;
 	
@@ -50,7 +36,6 @@ public class Shooter : Enemy {
 	}
 	
 	void Update () {
-		TIME = Time.time;
 		
 		float x = 0;
 		float z = 0;
