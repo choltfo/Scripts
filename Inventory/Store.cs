@@ -129,7 +129,7 @@ public class Store : MonoBehaviour {
 	
 	public static bool checkForEmptyWeaponSlot (Weapon[] weapons) {
 		foreach (Weapon weapon in weapons) {
-			if (weapon.IsValid = false) {
+			if (!weapon.IsValid) {
 				return false;
 			}
 		}

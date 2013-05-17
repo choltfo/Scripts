@@ -14,9 +14,9 @@ public class Controls : MonoBehaviour {
 	public MouseButton switchWeapons = MouseButton.CMB;
 	public KeyCode weapon0           = KeyCode.Alpha1;
 	public KeyCode weapon1           = KeyCode.Alpha2;
-	public KeyCode melee			 = KeyCode.F;
-	public KeyCode light			 = KeyCode.C;
-	public KeyCode grenade			 = KeyCode.G;
+	public KeyCode melee             = KeyCode.F;
+	public KeyCode flashlight        = KeyCode.C;
+	public KeyCode grenade           = KeyCode.G;
 }
 
 public enum MouseButton {

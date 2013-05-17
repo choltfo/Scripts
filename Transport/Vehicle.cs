@@ -10,24 +10,24 @@ public class Vehicle : MonoBehaviour {
 	
 	public GameObject player;
 	public bool isOccupied;
-	public bool active;
+	public bool isActive;
 	public Vector3 ExitLocation;
 	public VehicleControls VControls;
 	public Controls controls;
 	
 	public void activate (GameObject Player) {
 		player = Player.transform.parent.gameObject;
-		VControls.active = true;
+		VControls.isCarActive = true;
 		controls = player.transform.FindChild("Camera").gameObject.GetComponent<Controls>();
-		active = true;
+		isActive = true;
 		player.SetActive(false);
 		((Camera)gameObject.transform.Find("Camera").gameObject.GetComponent("Camera")).enabled = true;
 		((AudioListener)gameObject.transform.Find("Camera").gameObject.GetComponent("AudioListener")).enabled = true;
 	}
 	
 	public void deactivate () {
-		VControls.active = false;
-		active = false;
+		VControls.isCarActive = false;
+		isActive = false;
 		player.SetActive(true);
 		player.transform.position = transform.position + ExitLocation;
 		((Camera)gameObject.transform.Find("Camera").gameObject.GetComponent("Camera")).enabled = false;
@@ -42,7 +42,7 @@ public class Vehicle : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (Input.GetKeyDown(controls.interact) && active) {
+		if (Input.GetKeyDown(controls.interact) && isActive) {
 			deactivate();
 		}
 	}

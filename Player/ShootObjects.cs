@@ -11,13 +11,16 @@ public class ShootObjects : MonoBehaviour {
 	
 	
 	public float throwForce;
+	public float throwTime = 0;
+	public float throwMax = 40;
+
 	public EnterKey vehicle;
 	public float pickupDistance = 5;
 	public int currentWeapon = 0;
 	//public  Weapon[] weapons = {new Weapon(), new Weapon()};
 	//public int[] ammo;
 	//public List<Grenade> grenades  = new List<Grenade>();
-	
+
 	public void Start () {
 		print("inventory.ammo types: " + Enum.GetNames(typeof(AmmoType)).Length);
 	}
@@ -29,12 +32,12 @@ public class ShootObjects : MonoBehaviour {
 		}
 		
 		inventory.weapons[currentWeapon].AnimUpdate();
-		if (inventory.weapons[currentWeapon].Automatic == true) {
+		if (inventory.weapons[currentWeapon].Automatic) {
 			if (Input.GetMouseButton((int)controls.fire)) {
 				shoot();
 			}
 		}
-		if (inventory.weapons[currentWeapon].Automatic == false) {
+		if (!inventory.weapons[currentWeapon].Automatic) {
 			if (Input.GetMouseButtonDown((int)controls.fire)) {
 				shoot();
 			}
@@ -44,10 +47,18 @@ public class ShootObjects : MonoBehaviour {
 		}
 		
 		if (Input.GetKeyDown(controls.grenade)) {
+			throwTime = Time.time;
+		}
+
+		if (Input.GetKeyUp(controls.grenade)) {
+			throwForce = (Time.time - throwTime) * 10 + 10;
+			if (throwForce > throwMax) {
+				throwForce = throwMax;
+			}
 			throwGrenade();
 		}
 		
-		if (Input.GetKeyDown(controls.light)) {
+		if (Input.GetKeyDown(controls.flashlight)) {
 			toggleFlashLight();
 		}
 		
@@ -204,25 +215,25 @@ public class ShootObjects : MonoBehaviour {
 		if (inventory.weapons[currentWeapon].IsValid) {
 			inventory.weapons[currentWeapon].deactivate();
 		}
-		if (inventory.weapons[0].IsValid == false && inventory.weapons[1].IsValid == false) {
+		if (!inventory.weapons[0].IsValid && !inventory.weapons[1].IsValid) {
 			return false;
 		}
-		if (inventory.weapons[0].IsValid == true && inventory.weapons[1].IsValid == false) {
+		if (inventory.weapons[0].IsValid && !inventory.weapons[1].IsValid) {
 			currentWeapon = 0;
 			inventory.weapons[currentWeapon].activate(gameObject);
 			return true;
 		}
-		if (inventory.weapons[0].IsValid == false && inventory.weapons[1].IsValid == true) {
+		if (!inventory.weapons[0].IsValid && inventory.weapons[1].IsValid) {
 			currentWeapon = 1;
 			inventory.weapons[currentWeapon].activate(gameObject);
 			return true;
 		}
-		if (inventory.weapons[0].IsValid == true && inventory.weapons[1].IsValid == false) {
+		if (inventory.weapons[0].IsValid && !inventory.weapons[1].IsValid) {
 			currentWeapon = 0;
 			inventory.weapons[currentWeapon].activate(gameObject);
 			return true;
 		}
-		if (inventory.weapons[0].IsValid == true && inventory.weapons[1].IsValid == true) {
+		if (inventory.weapons[0].IsValid && inventory.weapons[1].IsValid) {
 			currentWeapon = (currentWeapon == 0) ? 1 : 0;
 			inventory.weapons[currentWeapon].activate(gameObject);
 			return true;

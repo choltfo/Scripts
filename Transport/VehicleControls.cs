@@ -11,10 +11,10 @@ using System.Collections;
 public class VehicleControls : MonoBehaviour {
 	
 	public float distToGround;
-	public bool active = false;
+	public bool isCarActive = false;
 	public float maxSpeed = 1;
 	public float maxReverseSpeed = 10;
-	//public float accelerationAsPercent = 	Need to figure this out.
+	//public float accelerationAsPercent  Need to figure this out.
 	public float handling = 100;
 	public Controls controls;
 	
@@ -78,7 +78,7 @@ public class VehicleControls : MonoBehaviour {
 		accelerator = 0;
 		steering = 0;
 		turning = 0;
-		if (active) {
+		if (isCarActive) {
 			steering = Input.GetAxis("Horizontal");
 			accelerator = Input.GetAxis("Vertical");
 			if (accelerator > 0) {
