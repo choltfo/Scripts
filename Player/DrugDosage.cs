@@ -66,9 +66,9 @@ public class DrugDosage : MonoBehaviour{
 	}
 
 	void OnGUI () {
-		GUI.Box(new Rect(Screen.width-320,40,300,20),"");
-		GUI.Box(new Rect(Screen.width-320,40,300*(SlownessLevel/100),20),"");
-		GUI.Box(new Rect(Screen.width-320,60,300,20),"");
-		GUI.Box(new Rect(Screen.width-320,60,300*(Slowness/100),20),"");
+		//GUI.Box(new Rect(Screen.width-320,40,300,20),"");
+		//GUI.Box(new Rect(Screen.width-320,40,300*(SlownessLevel/100),20),"");
+		//GUI.Box(new Rect(Screen.width-320,60,300,20),"");
+		//GUI.Box(new Rect(Screen.width-320,60,300*(Slowness/100),20),"");
 	}
 }
