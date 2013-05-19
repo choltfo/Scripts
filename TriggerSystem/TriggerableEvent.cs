@@ -17,7 +17,7 @@ public class TriggerableEvent {
 	
 	public void Trigger(SubtitleController TextDisplay) {
 		foreach (Detonator explosion in explosions) {
-			explosion.Explode();
+			if (explosion != null) explosion.Explode();
 		}
 		foreach (TriggerableEvent TEvent in events) {
 			TEvent.Trigger(TextDisplay);
