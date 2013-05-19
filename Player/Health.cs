@@ -78,7 +78,9 @@ public class Health : MonoBehaviour {
 	
 	public void OnGUI() {
 		GUI.Box(new Rect(Screen.width-320,20,300,20),"");
-		GUI.Box(new Rect(Screen.width-320,20,300*(HealthLevel/MaxHealth),20),"");
+		if (HealthLevel >= 4) {
+			GUI.Box(new Rect(Screen.width-320,20,300*(HealthLevel/MaxHealth),20),"");
+		}
 		if (Time.timeScale == 0) {
 			return;
 		}
