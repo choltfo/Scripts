@@ -291,21 +291,15 @@ public class Weapon {
 		} else {
 			Debug.Log("Didn't find flash for " + WeaponName + " at " + mainObject.transform.name + "/" + Path + "Flash");
 		}
-<<<<<<< HEAD
+
 		flash.SetActive(false);
-=======
+
 		flash.gameObject.SetActive(false);
 		
 		flashLight = mainObject.transform.FindChild(Path + "Flashlight").gameObject;
-		//GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
-		if (flash != null) {
-			//Debug.Log("Found flash for " + WeaponName + " at " + mainObject.transform.name +  "/" + Path + flash.name);
-			//flash.transform.localScale = new Vector3 (0,0,0);
-		} else {
-			Debug.Log("Didn't find flash for " + WeaponName + " at " + mainObject.transform.name + "/" + Path + "Flash");
-		}
+
 		flashLight.SetActive(false);
->>>>>>> feb5bafaf5b7534cc5bdbee97f5eb775d436db5b
+
 		//MonoBehaviour.print("Added " + WeaponName);
 		AnimIdentify();
 		isAimed = false;

@@ -16,6 +16,7 @@ public class ThrownGrenade : MonoBehaviour {
 		primeTime	= Time.time;
 		delay		= l_delay;
 	}
+
 	void detonate () {
 		GetComponent<Detonator>().Explode();
 		//RaycastHit[] hits = Physics.SphereCastAll(transform.position, range, new Vector3(0,0,0));
@@ -51,6 +52,12 @@ public class ThrownGrenade : MonoBehaviour {
 		}
 	//print ("BOOM");
 	blown = true;
+	}
+
+	void OnCollisionEnter(Collision collision){
+		if (detonateOnCollision) {
+			detonate();
+		}
 	}
 
 	void Update () {
