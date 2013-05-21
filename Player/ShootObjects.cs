@@ -12,7 +12,7 @@ public class ShootObjects : MonoBehaviour {
 	
 	public float throwForce;
 	public float throwTime = 0;
-	public float throwMax = 40;
+	public float throwMax = 50;
 
 	public EnterKey vehicle;
 	public float pickupDistance = 5;
@@ -51,7 +51,7 @@ public class ShootObjects : MonoBehaviour {
 		}
 
 		if (Input.GetKeyUp(controls.grenade)) {
-			throwForce = (Time.time - throwTime) * 10 + 10;
+			throwForce = (Time.time - throwTime) * 20 + 10;
 			if (throwForce > throwMax) {
 				throwForce = throwMax;
 			}
