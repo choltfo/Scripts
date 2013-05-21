@@ -209,6 +209,8 @@ public class Weapon {
 	/// </summary>
 	public int ShotDelay;
 	
+	
+	
 	//public UnderbarrelAttachment underbarrel;
 	
 	//TODO Add reloading animations.
@@ -296,9 +298,10 @@ public class Weapon {
 
 		flash.gameObject.SetActive(false);
 		
-		flashLight = mainObject.transform.FindChild(Path + "Flashlight").gameObject;
-
-		flashLight.SetActive(false);
+		if (mainObject.transform.FindChild(Path + "Flashlight") != null) {
+			flashLight = mainObject.transform.FindChild(Path + "Flashlight").gameObject;
+			flashLight.SetActive(false);
+		}
 
 		//MonoBehaviour.print("Added " + WeaponName);
 		AnimIdentify();
