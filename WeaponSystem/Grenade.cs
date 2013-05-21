@@ -24,7 +24,7 @@ public class Grenade {
 	/// If set to <c>true</c> throw power.
 	/// </param>
 	public ThrownGrenade throwGrenade (float throwPower, Transform thrower) {
-		GameObject thrownGrenade = (GameObject)MonoBehaviour.Instantiate(instantiableGrenade, thrower.position, thrower.rotation);
+		GameObject thrownGrenade = MonoBehaviour.Instantiate(instantiableGrenade, thrower.position, thrower.rotation) as GameObject;
 		thrownGrenade.transform.Translate(holdPosition);
 		thrownGrenade.transform.Rotate(-throwAngle,0,0);
 		thrownGrenade.AddComponent("ThrownGrenade");
