@@ -14,6 +14,12 @@ public enum AmmoType {
 /// Get Ammo prices.
 /// </summary>
 public static class AmmoPrice {
+	/// <summary>
+	/// Get the price of a specified bullet type.
+	/// </summary>
+	/// <param name='ammo'>
+	/// The type of ammo to get the price of.
+	/// </param>
 	static public float Get (AmmoType ammo) {
 		switch (ammo) {
 		case AmmoType.Parabellum9x19mm:	return 1;

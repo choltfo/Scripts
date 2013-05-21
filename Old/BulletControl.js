@@ -1,6 +1,5 @@
 private var existenceTimer : int = 0;
 
-
 function Update() {
 	if (existenceTimer == 0) {
 		existenceTimer ++;

@@ -2,16 +2,49 @@ using UnityEngine;
 using System.Collections;
 
 [System.Serializable]
+/// <summary>
+/// A grenade inside ones inventory.
+/// </summary>
 public class Grenade {
+	/// <summary>
+	/// The name of the grenade.
+	/// </summary>
 	public string name = "M67";
-	public float price; 
+	/// <summary>
+	/// The price of this grenade.
+	/// </summary>
+	public float price;
+	/// <summary>
+	/// The object to throw. Should be explosive.
+	/// </summary>
 	public GameObject instantiableGrenade;
+	/// <summary>
+	/// The object to hold before throwing.
+	/// </summary>
 	public GameObject holdableGrenade;
+	/// <summary>
+	/// The range to make the grenade explode with.
+	/// </summary>
 	public float range;
+	/// <summary>
+	/// The damage incurred at ground zero.
+	/// </summary>
 	public float maxDamage;
+	/// <summary>
+	/// The time before it blows to bits.
+	/// </summary>
 	public float detonateDelay;
+	/// <summary>
+	/// The position to hold the grenade at when throwing it.
+	/// </summary>
 	public Vector3 holdPosition;
+	/// <summary>
+	/// The angle, relative to the camera.
+	/// </summary>
 	public int throwAngle = 45;
+	/// <summary>
+	/// Should the grenade explode on contact with anything?
+	/// </summary>
 	public bool detonateOnCollision = false;
 	
 	/// <summary>
@@ -40,8 +73,21 @@ public class Grenade {
 	}
 }
 
+/// <summary>
+/// Lists types of grenades. Doesn't really do much. 
+/// </summary>
 public enum GrenadeType {
+	/// <summary>
+	/// A fragmentation grenade. Default. Deals damage in all directions
+	/// in one blast.
+	/// </summary>
 	Frag,
+	/// <summary>
+	/// An incendiary grenade. Starts a fire everywhere in range.
+	/// </summary>
 	Incendiary,
+	/// <summary>
+	/// A gas grenade. Creates a cloud of gas.
+	/// </summary>
 	Toxic
 }

@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
-
+/// <summary>
+/// Deprecated.
+/// </summary>
 public class EnterKey : MonoBehaviour {
 	
 	public Controls controls;
@@ -9,12 +11,6 @@ public class EnterKey : MonoBehaviour {
 	public bool riding = false;
 	public GameObject currentVehicle;
 	
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown(controls.interact)) {
 			print("Attempting interaction)");

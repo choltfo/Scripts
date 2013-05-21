@@ -3,7 +3,11 @@ using System.Collections;
  
 [RequireComponent (typeof (Rigidbody))]
 [RequireComponent (typeof (CapsuleCollider))]
- 
+
+/// <summary>
+/// Controls a character, specifically a player.
+/// Written on the Unity forums, I believe.
+/// </summary>
 public class CharacterControls : MonoBehaviour {
  
 	public float speed             = 10.0f;

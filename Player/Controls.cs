@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Lists all the keyCodes and MouseButtons that are used by the player.
+/// </summary>
 public class Controls : MonoBehaviour {
 	public KeyCode jump              = KeyCode.Space;
 	public KeyCode pause             = KeyCode.Escape;
@@ -19,6 +22,9 @@ public class Controls : MonoBehaviour {
 	public KeyCode grenade           = KeyCode.G;
 }
 
+/// <summary>
+/// The mouse buttons in an easy to remember fashion.
+/// </summary>
 public enum MouseButton {
 	LMB = 0,
 	RMB = 1,

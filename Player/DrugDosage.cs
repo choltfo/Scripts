@@ -2,18 +2,40 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// controls how down a player is after getting poisoned or something.
+/// </summary>
 public class DrugDosage : MonoBehaviour{
-	
+	/// <summary>
+	/// The drugs currently in the players system.
+	/// </summary>
 	public List<DrugEffect> effects;
+	/// <summary>
+	/// The CharacterController to inhibit.
+	/// </summary>
 	public CharacterControls charControls;
 	float originalSpeed = 0;
-	
+	/// <summary>
+	/// How slowed the player is.
+	/// </summary>
 	public float Slowness = 0;
+	/// <summary>
+	/// How much more to let the player's gun kick back.
+	/// </summary>
 	public float Recoil = 0;
+	/// <summary>
+	/// How much slower, as a percentage, the player is.
+	/// </summary>
 	public float SlownessLevel; //Max is 100 = dead.
+	/// <summary>
+	/// The slowness level VS slowness.
+	/// </summary>
 	public AnimationCurve SlownessLevelVSSlowness;
+	/// <summary>
+	/// The health level to modify.
+	/// </summary>
 	public Health healthManager;
-	public List<int> condemn;
+	List<int> condemn;
 	
 	void Start(){
 		effects = new List<DrugEffect>();
@@ -61,6 +83,12 @@ public class DrugDosage : MonoBehaviour{
 		charControls.speed = (originalSpeed/(Slowness+1))+1;                                                           
 	}
 	
+	/// <summary>
+	/// Add another effect to the player.
+	/// </summary>
+	/// <param name='effect'>
+	/// The effect to add.
+	/// </param>
 	public void addEffect(DrugEffect effect) {
 		effects.Add(effect);
 	}

@@ -2,11 +2,22 @@ using UnityEngine;
 using System.Collections;
 
 public class ExplosiveDamage : MonoBehaviour {
-	
+	/// <summary>
+	/// The blast radius of this explosion.
+	/// </summary>
 	public float range		= 5;
+	/// <summary>
+	/// The damage incurred at ground zero.
+	/// </summary>
 	public float maxDamage	= 100;
+	/// <summary>
+	/// Has this exploded yet?
+	/// </summary>
 	public bool blown = false;
-
+	
+	/// <summary>
+	/// Explode this thing.
+	/// </summary>
 	public void explode() {
 		GetComponent<Detonator>().Explode();
 		Collider[] hitColliders = Physics.OverlapSphere(transform.position, range);

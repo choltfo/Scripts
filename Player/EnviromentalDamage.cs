@@ -1,10 +1,21 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Take damage from bumping into otherwise benign things.
+/// </summary>
 public class EnviromentalDamage : MonoBehaviour {
-	
+	/// <summary>
+	/// The health to affect.
+	/// </summary>
 	public Health health;
+	/// <summary>
+	/// The time at which the player last took damage.
+	/// </summary>
 	public float lastDamageTime;
+	/// <summary>
+	/// The time between getting hurt.
+	/// </summary>
 	public float damageOccurDelay = 5;
 	
 	void OnCollisionStay(Collision collision) {

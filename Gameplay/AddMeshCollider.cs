@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Adds mesh colliders to every child object.
+/// </summary>
 public class AddMeshCollider : MonoBehaviour {
 	
 	public PhysicMaterial material;
