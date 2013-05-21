@@ -18,7 +18,6 @@ public class ThrownGrenade : MonoBehaviour {
 	}
 
 	void detonate () {
-		GetComponent<Detonator>().Explode();
 		//RaycastHit[] hits = Physics.SphereCastAll(transform.position, range, new Vector3(0,0,0));
 		Collider[] hitColliders = Physics.OverlapSphere(transform.position, range);
 		//print (hitColliders.Length);
@@ -50,8 +49,9 @@ public class ThrownGrenade : MonoBehaviour {
 				}
 			}
 		}
-	//print ("BOOM");
-	blown = true;
+		//print ("BOOM");
+		blown = true;
+		GetComponent<Detonator>().Explode();
 	}
 
 	void OnCollisionEnter(Collision collision){
@@ -63,6 +63,7 @@ public class ThrownGrenade : MonoBehaviour {
 	void Update () {
 		if ((Time.time > (primeTime + delay)) && !blown && !detonateOnCollision) {
 			detonate();
+			Destroy (this);
 		}
 	}
 }
