@@ -209,6 +209,7 @@ public class Weapon {
 	/// </summary>
 	public int ShotDelay;
 	
+	public HardPoint[] attachments;
 	
 	
 	//public UnderbarrelAttachment underbarrel;
@@ -301,6 +302,9 @@ public class Weapon {
 		if (mainObject.transform.FindChild(Path + "Flashlight") != null) {
 			flashLight = mainObject.transform.FindChild(Path + "Flashlight").gameObject;
 			flashLight.SetActive(false);
+		}
+		foreach (HardPoint hp in attachments) {
+			hp.attachedAttachment.deploy(mainObject, hp.position);
 		}
 
 		//MonoBehaviour.print("Added " + WeaponName);
@@ -598,6 +602,18 @@ public class Weapon {
 	}
 }
 
+[System.Serializable]
+public class HardPoint {
+	public RailType railType = RailType.Picitanny;
+	public WeaponAttachment attachedAttachment;
+	public Vector3 position;
+}
+
+public enum RailType {
+	Picitanny,
+	Weaver
+}
+
 /// <summary>
 /// Weapon animation type.
 /// </summary>
@@ -606,4 +622,3 @@ public enum weaponAnimType {
 	Firing,
 	Reloading
 }
-
