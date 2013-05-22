@@ -111,7 +111,7 @@ public class ShootObjects : MonoBehaviour {
 	}
 	
 	public bool toggleFlashLight() {
-		return inventory.weapons[currentWeapon].ToggleFlashLight();
+		return inventory.weapons[currentWeapon].attachments[0].attachedAttachment.toggle();
 	}
 	
 	public bool aim() {		

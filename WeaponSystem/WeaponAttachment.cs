@@ -26,8 +26,10 @@ public class WeaponAttachment {
 	}
 	
 	public bool toggle() {
+		if (!isValid) return false;
 		toggleableObject.SetActive(on);
-		return on = !on;
+		on = !on;
+		return true;
 	}
 }
 
