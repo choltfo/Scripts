@@ -29,10 +29,10 @@ public class Grenade {
 		thrownGrenade.transform.Rotate(-throwAngle,0,0);
 		thrownGrenade.AddComponent("ThrownGrenade");
 		thrownGrenade.GetComponent<Rigidbody>().mass = 0.05f;
-		Debug.Log(thrower.parent.rigidbody.angularVelocity.x);
-		Debug.Log(thrower.parent.rigidbody.angularVelocity.y);
-		Debug.Log(thrower.parent);
-		thrownGrenade.GetComponent<Rigidbody>().AddRelativeForce(thrower.parent.rigidbody.angularVelocity.x,thrower.parent.rigidbody.angularVelocity.y,throwPower);
+		Rigidbody player = thrower.parent.gameObject.rigidbody;
+		Debug.Log(player);
+		Debug.Log(player.angularVelocity);
+		thrownGrenade.GetComponent<Rigidbody>().AddRelativeForce(player.angularVelocity.x, player.angularVelocity.y, player.angularVelocity.z + throwPower);
 		thrownGrenade.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
 		thrownGrenade.GetComponent<Detonator>().explodeOnStart = false;
 		thrownGrenade.GetComponent<ThrownGrenade>().prime(detonateDelay);
