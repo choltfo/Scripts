@@ -20,9 +20,8 @@ public static class AmmoPrice {
 		case AmmoType.Parabellum9x19mm:	return 1;
 		case AmmoType.NATO762x51mm:		return 2;
 		case AmmoType.FMJ762x39mm: 		return 3;
-		case AmmoType.FourtyCMBolt:		return 5;
+		case AmmoType.FourtyCMBolt:		return 4;
 		default: return 1;
 		}
-		return 0;
 	}
 }
