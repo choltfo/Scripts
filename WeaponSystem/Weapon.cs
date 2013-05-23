@@ -604,14 +604,15 @@ public class Weapon {
 
 [System.Serializable]
 public class HardPoint {
-	public RailType railType = RailType.Picitanny;
+	public ConnectionType connectionType = ConnectionType.Picitanny;
 	public WeaponAttachment attachedAttachment;
 	public Vector3 position;
 }
 
-public enum RailType {
+public enum ConnectionType {
 	Picitanny,
-	Weaver
+	Weaver,
+	BarrelTip
 }
 
 /// <summary>
