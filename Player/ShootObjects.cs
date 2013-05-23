@@ -59,7 +59,11 @@ public class ShootObjects : MonoBehaviour {
 		}
 		
 		if (Input.GetKeyDown(controls.flashlight)) {
-			toggleFlashLight();
+			toggleFlashLights();
+		}
+		
+		if (Input.GetKeyDown(controls.laser)) {
+			toggleLasers();
 		}
 		
 		if (Input.GetKeyDown(controls.melee)) {
@@ -105,13 +109,22 @@ public class ShootObjects : MonoBehaviour {
 				}
 			}
 		}
+		
 		if (Input.GetMouseButtonDown((int)controls.switchWeapons)) {
 			ensuredSwitch ();
 		}
 	}
 	
-	public bool toggleFlashLight() {
-		return inventory.weapons[currentWeapon].attachments[0].attachedAttachment.toggle();
+	public void toggleFlashLights() {
+		foreach (HardPoint hp in inventory.weapons[currentWeapon].attachments) {
+			if (hp.attachedAttachment.type == AttachmentType.Flashlight) hp.attachedAttachment.toggle();
+		}
+	}
+	
+	public void toggleLasers() {
+		foreach (HardPoint hp in inventory.weapons[currentWeapon].attachments) {
+			if (hp.attachedAttachment.type == AttachmentType.Laser) hp.attachedAttachment.toggle();
+		}
 	}
 	
 	public bool aim() {		
