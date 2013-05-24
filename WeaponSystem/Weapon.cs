@@ -209,6 +209,9 @@ public class Weapon {
 	/// </summary>
 	public int ShotDelay;
 	
+	public HardPoint[] attachments;
+	
+	
 	//public UnderbarrelAttachment underbarrel;
 	
 	//TODO Add reloading animations.
@@ -283,22 +286,19 @@ public class Weapon {
 		Gun.transform.parent = player.transform;
 		Gun.transform.localPosition = Position;
 		mainObject = Gun;
-		flash = mainObject.transform.FindChild(Path + "Flash").gameObject;
-		//GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
-		if (flash != null) {
-			//Debug.Log("Found flash for " + WeaponName + " at " + mainObject.transform.name +  "/" + Path + flash.name);
-			//flash.transform.localScale = new Vector3 (0,0,0);
-		} else {
-			Debug.Log("Didn't find flash for " + WeaponName + " at " + mainObject.transform.name + "/" + Path + "Flash");
+		if (mainObject.transform.FindChild(Path + "Flash") != null) {
+			flash = mainObject.transform.FindChild(Path + "Flash").gameObject;
+			flash.SetActive(false);
+			flash.gameObject.SetActive(false);
 		}
-
-		flash.SetActive(false);
-
-		flash.gameObject.SetActive(false);
 		
-		flashLight = mainObject.transform.FindChild(Path + "Flashlight").gameObject;
-
-		flashLight.SetActive(false);
+		if (mainObject.transform.FindChild(Path + "Flashlight")) {
+			flashLight = mainObject.transform.FindChild(Path + "Flashlight").gameObject;
+			flashLight.SetActive(false);
+		}
+		foreach (HardPoint hp in attachments) {
+			hp.attachment.deploy(mainObject, hp.position);
+		}
 
 		//MonoBehaviour.print("Added " + WeaponName);
 		AnimIdentify();
@@ -528,7 +528,9 @@ public class Weapon {
 				Slide.Translate(0,0, SlideDistance);
 				Trigger.Translate(0,0, TriggerDistance);
 				//flash.transform.localScale = new Vector3 (10,10,10);
-				flash.SetActive(true);
+				if (flash) {
+					flash.SetActive(true);
+				}
 				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY
 					+= CameraClimb;
 				float x = mainObject.transform.parent.parent.localEulerAngles.x;
@@ -543,7 +545,9 @@ public class Weapon {
 				mainObject.transform.Translate(0,0,gunDistance/4);
 				
 				//flash.transform.localScale = new Vector3 (0,0,0);
-				flash.SetActive(false);
+				if (flash) {
+					flash.SetActive(false);
+				}
 				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
 			}
@@ -595,6 +599,19 @@ public class Weapon {
 	}
 }
 
+[System.Serializable]
+public class HardPoint {
+	public ConnectionType connectionType = ConnectionType.Picitanny;
+	public WeaponAttachment attachment;
+	public Vector3 position;
+}
+
+public enum ConnectionType {
+	Picitanny,
+	Weaver,
+	BarrelTip
+}
+
 /// <summary>
 /// Weapon animation type.
 /// </summary>
@@ -603,4 +620,3 @@ public enum weaponAnimType {
 	Firing,
 	Reloading
 }
-

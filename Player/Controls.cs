@@ -19,6 +19,7 @@ public class Controls : MonoBehaviour {
 	public KeyCode weapon1           = KeyCode.Alpha2;
 	public KeyCode melee             = KeyCode.F;
 	public KeyCode flashlight        = KeyCode.C;
+	public KeyCode laser       		 = KeyCode.V;
 	public KeyCode grenade           = KeyCode.G;
 }
 
