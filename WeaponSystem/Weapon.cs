@@ -602,7 +602,7 @@ public class Weapon {
 [System.Serializable]
 public class HardPoint {
 	public ConnectionType connectionType = ConnectionType.Picitanny;
-	public WeaponAttachment attachedAttachment;
+	public WeaponAttachment attachment;
 	public Vector3 position;
 }
 

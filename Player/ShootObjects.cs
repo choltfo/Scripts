@@ -117,13 +117,13 @@ public class ShootObjects : MonoBehaviour {
 	
 	public void toggleFlashLights() {
 		foreach (HardPoint hp in inventory.weapons[currentWeapon].attachments) {
-			if (hp.attachedAttachment.type == AttachmentType.Flashlight) hp.attachedAttachment.toggle();
+			if (hp.attachment.type == AttachmentType.Flashlight) hp.attachment.toggle();
 		}
 	}
 	
 	public void toggleLasers() {
 		foreach (HardPoint hp in inventory.weapons[currentWeapon].attachments) {
-			if (hp.attachedAttachment.type == AttachmentType.Laser) hp.attachedAttachment.toggle();
+			if (hp.attachment.type == AttachmentType.Laser) hp.attachment.toggle();
 		}
 	}
 	
