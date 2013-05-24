@@ -297,7 +297,7 @@ public class Weapon {
 			flashLight.SetActive(false);
 		}
 		foreach (HardPoint hp in attachments) {
-			hp.attachedAttachment.deploy(mainObject, hp.position);
+			hp.attachment.deploy(mainObject, hp.position);
 		}
 
 		//MonoBehaviour.print("Added " + WeaponName);
