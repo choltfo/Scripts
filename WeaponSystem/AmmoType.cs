@@ -9,7 +9,8 @@ public enum AmmoType {
 	NATO762x51mm,			//SCAR-H
 	NATO556,				//M4A1
 	FMJ762x39mm,			//AK47
-	FourtyCMBolt			//Crossbow
+	FourtyCMBolt,			//Crossbow
+	GRENADES				//GRENADES
 }
 
 /// <summary>

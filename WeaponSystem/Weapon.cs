@@ -364,7 +364,9 @@ public class Weapon {
 			ShotDelay = (int)(30/(7.5 * FireRateAsPercent / 100));
 			isFiring = true;
 			curAnim = weaponAnimType.Firing;
-			
+			if (ammoType == AmmoType.GRENADES) {
+				return true;
+			}
 			for (int i = 0; i<numOfShots; i++) {
 				Vector2 position = Random.insideUnitCircle;
   				int x = (int)(position.x * xSpread);
