@@ -506,7 +506,6 @@ public class Weapon {
 		} else {
 			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
 				NormalZoom,Time.deltaTime*zoomSmoothing);
-			Debug.Log(Vector3.Distance(Position, ScopedPosition));
 			mainObject.transform.localPosition = new Vector3(
 				Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, Time.deltaTime*AimSpeed),
 				Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, Time.deltaTime*AimSpeed),
