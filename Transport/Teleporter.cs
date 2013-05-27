@@ -17,14 +17,14 @@ public class Teleporter : InteractObject {
 		if (isPortal) {
 			return;
 		}
-		player.transform.position = linkedTeleporter.transform.position + linkedTeleporter.relativePosition;
+		player.transform.root.position = linkedTeleporter.transform.position + linkedTeleporter.relativePosition;
 		fader.SetScreenOverlayColor(fadeColor);
 		beginFadeAt = Time.time;
 		faded = false;
 	}
 	public void OnTriggerEnter(Collider thing){
 		if (isPortal) {
-			thing.transform.position = linkedTeleporter.transform.position + linkedTeleporter.relativePosition;
+			thing.transform.root.position = linkedTeleporter.transform.position + linkedTeleporter.relativePosition;
 		}		
 	}
 	public void Update () {
