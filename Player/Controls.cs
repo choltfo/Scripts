@@ -5,6 +5,8 @@ using System.Collections;
 /// Lists all the keyCodes and MouseButtons that are used by the player.
 /// </summary>
 public class Controls : MonoBehaviour {
+	public int numOfControls		 = 16;
+	
 	public KeyCode jump              = KeyCode.Space;
 	public KeyCode pause             = KeyCode.Escape;
 	public KeyCode objectiveDetails  = KeyCode.Tab;

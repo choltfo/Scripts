@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Reflection;
 
 /// <summary>
 /// The pause screen.
@@ -44,9 +45,8 @@ public class Pause : MonoBehaviour {
 	/// </summary>
 	public string pane = "/Pause";
 	/// <summary>
-	/// The 
-	
-	//public ;
+	/// The pane path of the current pause window.
+	/// </summary>
 	
 	void Update () {
 		if (Input.GetKeyDown(controls.pause)) {
@@ -58,7 +58,7 @@ public class Pause : MonoBehaviour {
 			}
 		}
 
-		Screen.showCursor = Time.timeScale == 0f;
+		Screen.showCursor = (Time.timeScale == 0f);
 		Screen.fullScreen = true;
 	}
 	
@@ -73,6 +73,12 @@ public class Pause : MonoBehaviour {
 		}
 		else {
 			return origKey;
+		}
+		bool done = false;
+		while (!done) {
+			if (Input.GetKeyDown(KeyCode.Return)) {
+				done = true;
+			}
 		}
 	}
 	
@@ -103,45 +109,44 @@ public class Pause : MonoBehaviour {
 					GUI.Label(new Rect((Screen.width/2) - 200,(Screen.height/2) - 20, 400 ,40), "YOU ARE DEAD!", deathScreenStyle);
 					break;
 				case "/Pause/Controls":
-				
-					for (int i=0; i < 4; i++) {
-						for (int j=0; j < 3; j++) {
-							if (GUI.Button(new Rect(((Screen.width/4)-150/2)+(Screen.width/4)*j,50+75*i,150,itemHeight), "TestButton")) {
-								Debug.Log("i: " + i + " j: " +j+" "+ChangeKey(controls.interact));
-							}
-						}
-					}
-					/*
-					int selectedButton = 0;
-					string[] buttonText = {"TestButton", "TestButton", "TestButton", "TestButton", "TestButton", "TestButton" };
-
-					selectedButton = GUI.SelectionGrid(new Rect((Screen.width/2)-300/2,50,300,200), selectedButton, buttonText, 3);
-
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,350,itemWidth,itemHeight), "Back")) {
 						pane = "/Pause";
 					}
-					*/
+					FieldInfo[] variables = 
+						typeof(Controls).GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);//.Select(f => f.Name);
+					//for (int i=0; i < 23 ; i++) {
+					int i = 0;
+					// WARNING: REFLECTIONS AHEAD!
+					foreach (FieldInfo variable in variables) {
+						if (GUI.Button(new Rect(((Screen.width/4)-150/2)+(Screen.width/4),50+75*i,150,itemHeight),variable.Name)) {
+							print (variable.Name + " >> " + variable.FieldType.ToString());
+							variable.SetValue();
+							//ChangeKey(controls.interact);
+						}
+						i++;
+					}
 					break;
 				case "/Pause/Videos":
 					string [] fileEntries = Directory.GetFiles(Application.dataPath+"/Resources/Cutscenes/");
-					int i = 1;
+					int o = 0;
 					foreach(string fileName in fileEntries) {
-						if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50+75*i,itemWidth,itemHeight),
-						"Video " + i.ToString())) {
+						if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50+75*o,itemWidth,itemHeight),
+						"Video " + o.ToString())) {
 							print(fileName);
 							System.Diagnostics.Process.Start(fileName);
 						}
-						i++;
+						o++;
 					}
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,350,itemWidth,itemHeight), "Back")) {
 						pane = "/Pause";
 					}
 					break;
 				default:
-					if (!pane.StartsWith("/Store")) {
-						Debug.Log("Invalid switch - " + pane);
-						pane = "/Pause";
+					if (pane.StartsWith("/Store")) {
+						break;
 					}
+					Debug.Log("Invalid switch - " + pane);
+					pane = "/Pause";
 					break;
 			}
 		}
