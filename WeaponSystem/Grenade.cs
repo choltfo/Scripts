@@ -72,6 +72,18 @@ public class Grenade {
 		thrownGrenade.GetComponent<ThrownGrenade>().detonateOnCollision = detonateOnCollision;
 		return thrownGrenade.GetComponent<ThrownGrenade>();
 	}
+	
+	public GameObject convert(GameObject grenade) {
+		grenade.AddComponent<ThrownGrenade>();
+		grenade.GetComponent<Rigidbody>().mass = 0.05f;
+		grenade.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+		grenade.GetComponent<Detonator>().explodeOnStart = false;
+		grenade.GetComponent<ThrownGrenade>().prime(detonateDelay);
+		grenade.GetComponent<ThrownGrenade>().range = range;
+		grenade.GetComponent<ThrownGrenade>().maxDamage = maxDamage;
+		grenade.GetComponent<ThrownGrenade>().detonateOnCollision = detonateOnCollision;
+		return grenade;
+	}
 }
 
 /// <summary>

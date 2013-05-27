@@ -138,6 +138,9 @@ public class ShootObjects : MonoBehaviour {
 	
 	public bool shoot() {
 		if (inventory.weapons[currentWeapon].IsValid) {
+			if ((inventory.weapons[currentWeapon] as GrenadeLauncher) != null) {
+				return ((GrenadeLauncher)inventory.weapons[currentWeapon]).Shoot(camera);
+			}
 			return inventory.weapons[currentWeapon].Shoot(camera);
 		}
 		return false;

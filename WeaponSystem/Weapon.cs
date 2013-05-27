@@ -351,6 +351,7 @@ public class Weapon {
 	/// Camera to aim from.
 	/// </param>
 	public virtual bool Shoot(Camera camera) {
+		Debug.Log("Firing Weapon " + WeaponName);
 		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && !isFiring && curAnim == weaponAnimType.None){
 			CurAmmo -= 1;
 			((AudioSource)mainObject.GetComponent("AudioSource")).Play();

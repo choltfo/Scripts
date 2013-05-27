@@ -2,22 +2,25 @@ using UnityEngine;
 using System.Collections;
 [System.Serializable]
 public class GrenadeLauncher : Weapon {
-	public GameObject rocket;
+	public Grenade grenade;
 	public Vector3 spawnPos;
 	public float ShotForce;
 	
-	public virtual bool shoot (Camera camera) {
+	public override bool Shoot(Camera camera) {
+		Debug.Log("Firing Grenade launcher " + WeaponName);
 		if (!IsValid || CurAmmo == 0) return false;
-		GameObject newGrenade = MonoBehaviour.Instantiate(rocket, camera.transform.position, camera.transform.rotation) as GameObject;
+		GameObject newGrenade = MonoBehaviour.Instantiate(grenade.instantiableGrenade, camera.transform.position, camera.transform.rotation) as GameObject;
+		newGrenade = grenade.convert(newGrenade);
 		newGrenade.transform.parent = camera.transform;
 		newGrenade.transform.Translate(spawnPos);
 		if (newGrenade.GetComponent<Rigidbody>()) {
-			newGrenade.GetComponent<Rigidbody>().AddForce(0,0,ShotForce);
+			newGrenade.GetComponent<Rigidbody>().AddRelativeForce(0,0,ShotForce);
 		} else {
 			newGrenade.AddComponent<Rigidbody>();
-			newGrenade.GetComponent<Rigidbody>().AddForce(0,0,ShotForce);
+			newGrenade.GetComponent<Rigidbody>().AddRelativeForce(0,0,ShotForce);
 		}
 		newGrenade.transform.parent = null;
+		CurAmmo -= 1;
 		return true;
 	}
 }
