@@ -120,13 +120,14 @@ public class Pause : MonoBehaviour {
 					foreach (FieldInfo variable in variables) {
 						if (GUI.Button(new Rect(((Screen.width/4)-150/2)+(Screen.width/4),50+75*i,150,itemHeight),variable.Name)) {
 							print (variable.Name + " >> " + variable.FieldType.ToString());
-							variable.SetValue();
+							//variable.SetValue();
 							//ChangeKey(controls.interact);
 						}
 						i++;
 					}
 					break;
 				case "/Pause/Videos":
+				
 					string [] fileEntries = Directory.GetFiles(Application.dataPath+"/Resources/Cutscenes/");
 					int o = 0;
 					foreach(string fileName in fileEntries) {

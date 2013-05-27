@@ -38,6 +38,7 @@ public class Weapon {
 	/// that the gun should be held at when scoping.
 	/// </summary>
 	public Vector3 ScopedPosition;
+	public float AimSpeed = 10f;
 	/// <summary>
 	/// Whether or not the player can look down the irons on this gun.
 	/// </summary>
@@ -325,10 +326,10 @@ public class Weapon {
 			return;
 		}
 		if (isAimed) {
-			mainObject.transform.localPosition = Position;
+			//mainObject.transform.localPosition = Position;
 			isAimed = false;
 		} else {
-			mainObject.transform.localPosition = ScopedPosition;
+			//mainObject.transform.localPosition = ScopedPosition;
 			isAimed = true;
 		}
 	}
@@ -495,9 +496,19 @@ public class Weapon {
 		if(isAimed == true){
 			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
 				ScopeZoom,Time.deltaTime*zoomSmoothing);
+			mainObject.transform.localPosition = new Vector3(
+				Mathf.Lerp(mainObject.transform.localPosition.x, ScopedPosition.x, Time.deltaTime*AimSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.y, ScopedPosition.y, Time.deltaTime*AimSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.z, ScopedPosition.z, Time.deltaTime*AimSpeed));
+			
 		} else {
 			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
 				NormalZoom,Time.deltaTime*zoomSmoothing);
+			Debug.Log(Vector3.Distance(Position, ScopedPosition));
+			mainObject.transform.localPosition = new Vector3(
+				Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, Time.deltaTime*AimSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, Time.deltaTime*AimSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, Time.deltaTime*AimSpeed));
 		}
 		switch (curAnim) {
 		case weaponAnimType.None :
@@ -593,7 +604,7 @@ public class Weapon {
 			}
 			break;
 		default :
-			Debug.LogError("INVALID weaponAnimType! AH!");
+			Debug.LogError("INVALID ANIMATIONTYPE! HOW THE F***?");
 			break;
 		}
 	}
