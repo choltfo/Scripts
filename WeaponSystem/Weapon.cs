@@ -281,7 +281,7 @@ public class Weapon {
 	/// <param name='player'>
 	/// The camera gameobject to put the gun in front of.
 	/// </param>
-	public void activate(GameObject player){
+	public virtual void activate(GameObject player){
 		camera = player;
 		GameObject Gun = (GameObject)MonoBehaviour.Instantiate(InstantiableObject, new Vector3 (0,0,0), player.transform.rotation);
 		Gun.transform.parent = player.transform;
@@ -310,7 +310,7 @@ public class Weapon {
 	/// <summary>
 	/// Deactivate this instance.
 	/// </summary>
-	public void deactivate() {
+	public virtual void deactivate() {
 		if (mainObject != null) {
 			MonoBehaviour.Destroy(mainObject);
 			//MonoBehaviour.print("Destryoed " + WeaponName);
@@ -321,7 +321,7 @@ public class Weapon {
 	/// <summary>
 	/// Aim this instance.
 	/// </summary>
-	public void aim() {
+	public virtual void aim() {
 		if (!IsValid || !Exists) {
 			return;
 		}
@@ -335,7 +335,7 @@ public class Weapon {
 	}
 	
 	
-	public bool ToggleFlashLight (){
+	public virtual bool ToggleFlashLight (){
 		if (flashLight == null || !IsValid || !Exists) {
 			return false;
 		}
@@ -350,7 +350,7 @@ public class Weapon {
 	/// <param name='camera'>
 	/// Camera to aim from.
 	/// </param>
-	public bool Shoot(Camera camera) {
+	public virtual bool Shoot(Camera camera) {
 		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && !isFiring && curAnim == weaponAnimType.None){
 			CurAmmo -= 1;
 			((AudioSource)mainObject.GetComponent("AudioSource")).Play();
@@ -417,7 +417,7 @@ public class Weapon {
 		return false;
 	}
 	
-	public int[] Reload(int[] ammo) {
+	public virtual int[] Reload(int[] ammo) {
 		if (CurAmmo < MaxAmmo && !isFiring && curAnim == weaponAnimType.None){
 			AnimClock = 15;
 			curAnim = weaponAnimType.Reloading;
@@ -441,7 +441,7 @@ public class Weapon {
 	/// <summary>
 	/// Instantiate the weapon pickup for this gun, and let it go.
 	/// </summary>
-	public void Drop() {
+	public virtual void Drop() {
 		if (!IsValid) {
 			return;
 		}
@@ -455,7 +455,7 @@ public class Weapon {
 	/// <summary>
 	/// Identify the animatable parts.
 	/// </summary>
-	public void AnimIdentify() {
+	public virtual void AnimIdentify() {
 		Hammer = GameObject.Find(mainObject.name + "/" + Path + "Hammer").transform;
 		Slide = GameObject.Find(mainObject.name + "/" + Path + "Slide").transform;
 		Trigger = GameObject.Find(mainObject.name + "/" + Path + "Trigger").transform;
@@ -487,7 +487,7 @@ public class Weapon {
 	/// <summary>
 	/// Update animations.
 	/// </summary>
-	public void AnimUpdate() {
+	public virtual void AnimUpdate() {
 		if (!Exists){
 			return;
 		}

@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-public class WeaponPickup : Objective {
-	public Weapon thisGun;
+public class PickupGrenadeLauncher : Objective {
+	public GrenadeLauncher thisGun;
 	
 	virtual public Weapon interact(){
 		Complete ();
 		gameObject.SetActive(false);
-		return thisGun;
+		return (Weapon)thisGun;	
 	}
 }

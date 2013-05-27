@@ -156,7 +156,11 @@ public class ShootObjects : MonoBehaviour {
 		Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2,0));
 		RaycastHit hit;
 			if (Physics.Raycast(ray, out hit, pickupDistance)){
-				if (hit.transform.gameObject.GetComponent<WeaponPickup>() != null) {
+				if (hit.transform.gameObject.GetComponent<WeaponPickup>() != null ||
+				hit.transform.gameObject.GetComponent<PickupGrenadeLauncher>() != null) {
+					Weapon picked = (hit.transform.gameObject.GetComponent<PickupGrenadeLauncher>() != null) ?
+						hit.transform.gameObject.GetComponent<PickupGrenadeLauncher>().interact():
+						hit.transform.gameObject.GetComponent<WeaponPickup>().interact();
 					int secondaryWeapon = 1;
 					if (currentWeapon == 1) {
 						secondaryWeapon = 0;
@@ -167,28 +171,28 @@ public class ShootObjects : MonoBehaviour {
 						//Both slots full
 						inventory.weapons[currentWeapon].deactivate();
 						inventory.weapons[currentWeapon].Drop();
-						inventory.weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
+						inventory.weapons[currentWeapon] = picked;
 						equip (currentWeapon);
 						return true;
 					} else if (!inventory.weapons[currentWeapon].IsValid && !inventory.weapons[secondaryWeapon].IsValid) {
 						//Neither slot full
 						inventory.weapons[currentWeapon].deactivate();
 						inventory.weapons[currentWeapon].Drop();
-						inventory.weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
+						inventory.weapons[currentWeapon] = picked;
 						equip (currentWeapon);
 						return true;
 					} else if (inventory.weapons[currentWeapon].IsValid && !inventory.weapons[secondaryWeapon].IsValid) {
 						//Just current
 						inventory.weapons[secondaryWeapon].deactivate();
 						inventory.weapons[secondaryWeapon].Drop();
-						inventory.weapons[secondaryWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
+						inventory.weapons[secondaryWeapon] = picked;
 						equip (secondaryWeapon);
 						return true;
 					} else if (!inventory.weapons[currentWeapon].IsValid && inventory.weapons[secondaryWeapon].IsValid) {
 						//Just other
 						inventory.weapons[currentWeapon].deactivate();
 						inventory.weapons[currentWeapon].Drop();
-						inventory.weapons[currentWeapon] = ((WeaponPickup)hit.transform.gameObject.GetComponent("WeaponPickup")).interact();
+						inventory.weapons[currentWeapon] = picked;
 						equip (currentWeapon);
 						return true;
 					}
