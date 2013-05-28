@@ -370,7 +370,7 @@ public class Weapon {
   				int y = (int)(position.y * yspread);
 				Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width/2+x,Screen.height/2+y,0));
 				RaycastHit hit;
-				if( Physics.Raycast( ray, out hit, 100 ) ){
+				if (Physics.Raycast(ray, out hit, 100) ){
 					Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);	
 					
 					if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
