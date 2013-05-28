@@ -21,6 +21,7 @@ public class Campaign {
 	//public Vector3 displayCoords;
 	
 	int CompleteCount;
+	int LastCompleteCount;
 	
 	/// <summary>
 	/// Updates the missions.
@@ -49,20 +50,22 @@ public class Campaign {
 	
 	public bool hasChanged () {
 		int i = 0;
+		bool has = false;
 		foreach (Mission mission in missions) {
-			foreach (Objective objective in mission.objectives) {
-				if (objective.complete) {
+			//foreach (Objective objective in mission.objectives) {
+				if (mission.complete) {
 					i++;
 				}
-			}
+			//}
 		}
 		if (i == CompleteCount) {
 			CompleteCount = i;
-			return false;
+			has = false;
 		} else {
 			CompleteCount = i;
-			return true;
+			has = true;
 		}
+		return has;
 	}
 	
 	/// <summary>
