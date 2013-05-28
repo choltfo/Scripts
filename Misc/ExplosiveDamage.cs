@@ -1,19 +1,26 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(Detonator))]
+
 public class ExplosiveDamage : MonoBehaviour {
 	/// <summary>
 	/// The blast radius of this explosion.
 	/// </summary>
-	public float range		= 5;
+	public float range		 = 5;
+	/// <summary>
+	/// The blast power of this explosion.
+	/// </summary>
+	public float power		 = 100;
 	/// <summary>
 	/// The damage incurred at ground zero.
 	/// </summary>
-	public float maxDamage	= 100;
+	public float maxDamage	 = 100;
 	/// <summary>
 	/// Has this exploded yet?
 	/// </summary>
-	public bool blown = false;
+	public bool blown		 = false;
 	
 	/// <summary>
 	/// Explode this thing.
@@ -27,6 +34,9 @@ public class ExplosiveDamage : MonoBehaviour {
 			print (hit.transform.gameObject.name);
 			float damage = Mathf.Lerp(0, maxDamage, Vector3.Distance(hit.transform.position, transform.position)
 				/range);
+			if (hit.gameObject.GetComponent<Rigidbody>() != null) {
+				hit.gameObject.GetComponent<Rigidbody>().AddExplosionForce(power, transform.position, range);
+			}
 			if (hit.transform.FindChild("Camera") != null) {
 				if (hit.transform.FindChild("Camera").gameObject.GetComponent<Health>() != null) {
 					hit.transform.FindChild("Camera").gameObject.GetComponent<Health>().Damage(damage);	
