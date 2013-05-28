@@ -103,6 +103,10 @@ public class Weapon {
 	/// </summary>
 	public bool Automatic;
 	/// <summary>
+	/// The distance this weapon can fire, and hit something.
+	/// </summary>
+	public float Range;
+	/// <summary>
 	/// The number of shots fired per shot. For shotguns, or something.
 	/// </summary>
 	public int numOfShots = 200;
@@ -360,8 +364,8 @@ public class Weapon {
 			//Debug.Log("Acheived via (30/(7.5*(" + FireRateAsPercent + "/100)))" );
 			//Debug.Log("Acheived via " + 30/(7.5*FireRateAsPercent/100));
 			
-			AnimClock = (int)(30/(7.5 * FireRateAsPercent / 100));
-			ShotDelay = (int)(30/(7.5 * FireRateAsPercent / 100));
+			AnimClock = (int)(70/(17.6 * FireRateAsPercent / 100));
+			ShotDelay = (int)(70/(17.5 * FireRateAsPercent / 100));
 			isFiring = true;
 			curAnim = weaponAnimType.Firing;
 			for (int i = 0; i<numOfShots; i++) {
@@ -370,7 +374,7 @@ public class Weapon {
   				int y = (int)(position.y * yspread);
 				Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width/2+x,Screen.height/2+y,0));
 				RaycastHit hit;
-				if (Physics.Raycast(ray, out hit, 100) ){
+				if (Physics.Raycast(ray, out hit, Range)){
 					Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);	
 					
 					if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
