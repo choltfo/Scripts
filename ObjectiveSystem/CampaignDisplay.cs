@@ -29,6 +29,8 @@ public class CampaignDisplay : MonoBehaviour {
 	public GUIStyle contentStyle;
 	
 	void Start () {
+		LevelSerializer.SerializeLevelToFile("SaveGame");
+		print ("Saved level.");
 		campaign.applyStyles(headingStyle, contentStyle);
 		foreach (Mission mission in campaign.missions) {
 			foreach (Objective objective in mission.objectives) {
@@ -48,6 +50,11 @@ public class CampaignDisplay : MonoBehaviour {
 		if (campaign.updateMissions()) {
 			Debug.Log("YOU HAVE BEATEN ALL MISSIONS BY updateMissions");
 			DONE = true;
+		}
+		
+		if (campaign.hasChanged()) {
+			LevelSerializer.SerializeLevelToFile("SaveGame");
+			print ("Saved level.");
 		}
 		
 	}

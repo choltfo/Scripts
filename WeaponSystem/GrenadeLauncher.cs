@@ -7,7 +7,6 @@ public class GrenadeLauncher : Weapon {
 	public float ShotForce;
 	
 	public override bool Shoot(Camera camera) {
-		Debug.Log("Firing Grenade launcher " + WeaponName);
 		if (!IsValid || CurAmmo == 0) return false;
 		GameObject newGrenade = MonoBehaviour.Instantiate(grenade.instantiableGrenade, camera.transform.position, camera.transform.rotation) as GameObject;
 		newGrenade = grenade.convert(newGrenade);

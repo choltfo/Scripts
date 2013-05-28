@@ -20,6 +20,8 @@ public class Campaign {
 	public bool complete = false;
 	//public Vector3 displayCoords;
 	
+	int CompleteCount;
+	
 	/// <summary>
 	/// Updates the missions.
 	/// </summary>
@@ -43,6 +45,24 @@ public class Campaign {
 		missions[lastCompleted+1].updateObjectives();
 		currentMission = lastCompleted + 1;
 		return false;
+	}
+	
+	public bool hasChanged () {
+		int i = 0;
+		foreach (Mission mission in missions) {
+			foreach (Objective objective in mission.objectives) {
+				if (objective.complete) {
+					i++;
+				}
+			}
+		}
+		if (i == CompleteCount) {
+			CompleteCount = i;
+			return false;
+		} else {
+			CompleteCount = i;
+			return true;
+		}
 	}
 	
 	/// <summary>
