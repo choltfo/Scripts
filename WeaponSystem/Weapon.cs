@@ -8,11 +8,15 @@ using System.Collections;
 /// </summary>
 public class Weapon {
 	/// <summary>
-	/// The prefab that should be created when this gun is pulled out.
+	/// The prefab that should
+	/// Be created when this gun
+	/// Is activated.
 	/// </summary>
 	public GameObject InstantiableObject;
 	/// <summary>
-	/// The prefab that should be instantiated when this gun is dropped.
+	/// The prefab that should
+	/// Be instantiated when
+	/// This gun is released.
 	/// </summary>
 	public GameObject InstantiablePickup;
 	public float price;
