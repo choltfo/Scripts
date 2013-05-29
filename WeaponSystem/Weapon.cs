@@ -107,6 +107,10 @@ public class Weapon {
 	/// </summary>
 	public bool Automatic;
 	/// <summary>
+	/// The distance this weapon can fire, and hit something.
+	/// </summary>
+	public float Range = 300f;
+	/// <summary>
 	/// The number of shots fired per shot. For shotguns, or something.
 	/// </summary>
 	public int numOfShots = 200;
@@ -215,7 +219,7 @@ public class Weapon {
 	public int ShotDelay;
 	
 	public HardPoint[] attachments;
-	
+	float lastAim;
 	
 	//public UnderbarrelAttachment underbarrel;
 	
@@ -308,6 +312,7 @@ public class Weapon {
 		//MonoBehaviour.print("Added " + WeaponName);
 		AnimIdentify();
 		isAimed = false;
+		lastAim = Time.time;
 		Exists = true;
 	}
 	
@@ -329,6 +334,7 @@ public class Weapon {
 		if (!IsValid || !Exists) {
 			return;
 		}
+		lastAim = Time.time;
 		if (isAimed) {
 			//mainObject.transform.localPosition = Position;
 			isAimed = false;
@@ -337,7 +343,6 @@ public class Weapon {
 			isAimed = true;
 		}
 	}
-	
 	
 	public virtual bool ToggleFlashLight (){
 		if (flashLight == null || !IsValid || !Exists) {
@@ -374,7 +379,7 @@ public class Weapon {
   				int y = (int)(position.y * yspread);
 				Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width/2+x,Screen.height/2+y,0));
 				RaycastHit hit;
-				if (Physics.Raycast(ray, out hit, 100) ){
+				if (Physics.Raycast(ray, out hit, Range)){
 					Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);	
 					
 					if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
@@ -500,17 +505,16 @@ public class Weapon {
 			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
 				ScopeZoom,Time.deltaTime*zoomSmoothing);
 			mainObject.transform.localPosition = new Vector3(
-				Mathf.Lerp(mainObject.transform.localPosition.x, ScopedPosition.x, Time.deltaTime*AimSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.y, ScopedPosition.y, Time.deltaTime*AimSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.z, ScopedPosition.z, Time.deltaTime*AimSpeed));
-			
+				Mathf.Lerp(mainObject.transform.localPosition.x, ScopedPosition.x, (Time.time-lastAim)*AimSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.y, ScopedPosition.y, (Time.time-lastAim)*AimSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.z, ScopedPosition.z, (Time.time-lastAim)*AimSpeed));
 		} else {
 			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
 				NormalZoom,Time.deltaTime*zoomSmoothing);
 			mainObject.transform.localPosition = new Vector3(
-				Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, Time.deltaTime*AimSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, Time.deltaTime*AimSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, Time.deltaTime*AimSpeed));
+				Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time-lastAim)*AimSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time-lastAim)*AimSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time-lastAim)*AimSpeed));
 		}
 		switch (curAnim) {
 		case weaponAnimType.None :
