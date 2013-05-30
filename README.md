@@ -33,5 +33,5 @@ What does it need to work?
 
 Where is the name from?
 -------
-http://dilbert.com/strips/comic/1994-05-18/).
-RIght there. Dilbert.
+http://dilbert.com/strips/comic/1994-05-18/
+Right there. Dilbert.
