@@ -220,6 +220,8 @@ public class Weapon {
 	
 	public HardPoint[] attachments;
 	float lastAim;
+
+	public bool animate = true;
 	
 	//public UnderbarrelAttachment underbarrel;
 	
@@ -465,9 +467,11 @@ public class Weapon {
 	/// Identify the animatable parts.
 	/// </summary>
 	public virtual void AnimIdentify() {
-		Hammer = GameObject.Find(mainObject.name + "/" + Path + "Hammer").transform;
-		Slide = GameObject.Find(mainObject.name + "/" + Path + "Slide").transform;
-		Trigger = GameObject.Find(mainObject.name + "/" + Path + "Trigger").transform;
+		if (animate) {
+			Hammer = GameObject.Find(mainObject.name + "/" + Path + "Hammer").transform;
+			Slide = GameObject.Find(mainObject.name + "/" + Path + "Slide").transform;
+			Trigger = GameObject.Find(mainObject.name + "/" + Path + "Trigger").transform;
+		}
 		/* 						DEBUG
 		if (Hammer != null) {
 			Debug.Log("Found Hammer for " + WeaponName + " at default location.");

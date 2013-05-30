@@ -91,8 +91,9 @@ public class Grenade {
 /// </summary>
 public enum GrenadeType {
 	/// <summary>
-	/// A fragmentation grenade. Default. Deals damage in all directions
-	/// in one blast.
+	/// A fragmentation
+	/// Grenade. Default. Deals damage
+	/// In all directions 
 	/// </summary>
 	Frag,
 	/// <summary>
