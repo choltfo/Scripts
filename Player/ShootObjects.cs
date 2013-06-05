@@ -17,9 +17,6 @@ public class ShootObjects : MonoBehaviour {
 	public EnterKey vehicle;
 	public float pickupDistance = 5;
 	public int currentWeapon = 0;
-	//public  Weapon[] weapons = {new Weapon(), new Weapon()};
-	//public int[] ammo;
-	//public List<Grenade> grenades  = new List<Grenade>();
 
 	public void Start () {
 		print("inventory.ammo types: " + Enum.GetNames(typeof(AmmoType)).Length);
