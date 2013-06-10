@@ -300,7 +300,6 @@ public class Weapon {
 		if (mainObject.transform.FindChild(Path + "Flash") != null) {
 			flash = mainObject.transform.FindChild(Path + "Flash").gameObject;
 			flash.SetActive(false);
-			flash.gameObject.SetActive(false);
 		}
 		
 		if (mainObject.transform.FindChild(Path + "Flashlight")) {

@@ -46,11 +46,5 @@ public class EnterKey : MonoBehaviour {
 				}
 			}
 		}
-		if (Input.GetKeyDown(controls.weapon0)) {
-			WeaponController.SelectWeapon(0);
-		}
-		if (Input.GetKeyDown(controls.weapon1)) {
-			WeaponController.SelectWeapon(1);
-		}
 	}
 }
