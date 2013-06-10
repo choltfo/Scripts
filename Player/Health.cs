@@ -97,11 +97,13 @@ public class Health : MonoBehaviour {
 }
 
 public enum DamageCause {
+	Default,				// It just happened.
 	EnemyHit,				// Ran into an enemy.
 	Shot,					// Got shot.
 	Poisoned,				// Failed to find the antidote.
 	Explosion,				// Got blown to smithereens.
 	Blowback,				// Was standing too close to a wall when firing a grenade launcher.
 	VehicularMisadventure,	// Crashed.
-	RunDown					// Crashed into.
+	RunDown,				// Crashed into.
+	Radiation				// Took a swim in the river of death.
 }

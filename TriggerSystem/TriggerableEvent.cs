@@ -25,13 +25,7 @@ public class TriggerableEvent {
 		foreach (TriggerableEvent TEvent in events) {
 			TEvent.Trigger(TextDisplay);
 		}
-<<<<<<< HEAD
-		foreach (QuickTimeSpamEvent e in Spams) {
-			if (QTSEController != null) QTSEController.Queue(e);
-		}
-=======
-		if (QTSEController != null) QTSEController.Trigger(Spam);
->>>>>>> Fixed the 'replace all'ed class.
+		if (QTSEController != null) QTSEController.Queue(Spam);
 		if (sound != null && soundSource != null) {
 			soundSource.PlayOneShot(sound);
 		}
