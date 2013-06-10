@@ -28,10 +28,10 @@ public class ExplosiveDamage : MonoBehaviour {
 	public void explode() {
 		GetComponent<Detonator>().Explode();
 		Collider[] hitColliders = Physics.OverlapSphere(transform.position, range);
-		print (hitColliders.Length);
+		//print (hitColliders.Length);
 		blown = true;
 		foreach (Collider hit in hitColliders) {
-			print (hit.transform.gameObject.name);
+			//print (hit.transform.gameObject.name);
 			float damage = Mathf.Lerp(0, maxDamage, Vector3.Distance(hit.transform.position, transform.position)
 				/range);
 			if (hit.gameObject.GetComponent<Rigidbody>() != null) {
