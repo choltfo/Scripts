@@ -13,8 +13,9 @@ public class TriggerableEvent {
 	public AudioClip sound;
 	public bool showText = false;
 	public SubtitleLine[] Text;
-	public QuickTimeSpamEvent[] Spams;
+	public QuickTimeSpamEvent Spam;
 	public QuickTimeSpamEventController QTSEController;
+	public StatResult statMod;
 	
 	
 	public void Trigger(SubtitleController TextDisplay) {
@@ -24,9 +25,13 @@ public class TriggerableEvent {
 		foreach (TriggerableEvent TEvent in events) {
 			TEvent.Trigger(TextDisplay);
 		}
+<<<<<<< HEAD
 		foreach (QuickTimeSpamEvent e in Spams) {
-			QTSEController.Trigger(e.requiredPresses,e.time);
+			if (QTSEController != null) QTSEController.Queue(e);
 		}
+=======
+		if (QTSEController != null) QTSEController.Trigger(Spam);
+>>>>>>> Fixed the 'replace all'ed class.
 		if (sound != null && soundSource != null) {
 			soundSource.PlayOneShot(sound);
 		}
