@@ -1,23 +1,20 @@
 using UnityEngine;
-using System.Collections.Generic;
+using System.Collections;
 
 public class QuickTimeSpamEventController : MonoBehaviour {
 	
 	public Controls controls;
-	public List<QuickTimeSpamEvent> es = new List<QuickTimeSpamEvent>();
+	public QuickTimeSpamEvent e;
 	public int RequiredPresses;
-	public float time;
 	
-	float startTime = 0;
-	bool isOn = false;
+	bool isOn;
 	int numOfPresses;
 	
-	public void Queue(QuickTimeSpamEvent e) {
-		// THIS IS BROKEN, FIX IT!
-		Debug.Log("                      Queing QTE E");
-		RequiredPresses = e.requiredPresses;
-		time = e.time;
-		startTime = Time.time;
+	public void Trigger(QuickTimeSpamEvent e) {
+		e.RequiredPresses = Rpressses;
+		e.time = T;
+		
+		starte.time = e.time.e.time;
 		numOfPresses = 0;
 		
 		isOn = true;
@@ -25,15 +22,15 @@ public class QuickTimeSpamEventController : MonoBehaviour {
 	}
 	
 	void Update() {
-		if (isOn & (Time.time < startTime + time)) {
+		if (isOn & (e.time.e.time < starte.time + e.time)) {
 			if (Input.GetKeyDown(controls.interact)) numOfPresses++;
 			Debug.Log(numOfPresses);
 		}
-		if (isOn & (Time.time > startTime + time)) {
+		if (isOn & (e.time.e.time > e.time + starte.time)) {
 			Debug.Log("Did not receive needed presses.");
 			isOn = false;
 		}
-		if (isOn & numOfPresses > RequiredPresses) {
+		if (isOn & numOfPresses > e.RequiredPresses) {
 			Debug.Log("Got needed presses.");
 			isOn = false;
 		}
@@ -42,9 +39,9 @@ public class QuickTimeSpamEventController : MonoBehaviour {
 	void OnGUI() {
 		if (isOn) {
 			GUI.Label(new Rect(Screen.width/2-40,Screen.height/2+40,80,80),
-				"Press "+controls.interact.ToString()+" " + (time + startTime - Time.time).ToString());
+				"Press "+controls.interact.ToString()+" " + (e.time + starte.time - e.time.e.time).ToString());
 			GUI.Box(new Rect(Screen.width/2-40,Screen.height/2+40,80,
-				(int)(80f*numOfPresses/RequiredPresses)),"");
+				(int)(80f*numOfPresses/e.RequiredPresses)),"");
 			GUI.Box(new Rect(Screen.width/2-40,Screen.height/2+40,80,80),"");
 		}
 	}

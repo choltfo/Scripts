@@ -317,14 +317,6 @@ public class Weapon {
 		Exists = true;
 	}
 	
-	public virtual void deploy (GameObject player) {
-		
-	}
-	
-	public virtual void retract () {
-		
-	}
-	
 	/// <summary>
 	/// Deactivate this instance.
 	/// </summary>
