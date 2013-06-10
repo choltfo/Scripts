@@ -13,6 +13,8 @@ public class TriggerableEvent {
 	public AudioClip sound;
 	public bool showText = false;
 	public SubtitleLine[] Text;
+	public QuickTimeSpamEvent[] Spams;
+	public QuickTimeSpamEventController QTSEController;
 	
 	
 	public void Trigger(SubtitleController TextDisplay) {
@@ -21,6 +23,9 @@ public class TriggerableEvent {
 		}
 		foreach (TriggerableEvent TEvent in events) {
 			TEvent.Trigger(TextDisplay);
+		}
+		foreach (QuickTimeSpamEvent e in Spams) {
+			QTSEController.Trigger(e.requiredPresses,e.time);
 		}
 		if (sound != null && soundSource != null) {
 			soundSource.PlayOneShot(sound);
