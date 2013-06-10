@@ -25,7 +25,7 @@ public class TriggerableEvent {
 			TEvent.Trigger(TextDisplay);
 		}
 		foreach (QuickTimeSpamEvent e in Spams) {
-			QTSEController.Trigger(e.requiredPresses,e.time);
+			if (QTSEController != null) QTSEController.Queue(e);
 		}
 		if (sound != null && soundSource != null) {
 			soundSource.PlayOneShot(sound);
