@@ -30,23 +30,12 @@ public class Health : MonoBehaviour {
 	float lastInjury = 0;
 	public Pause pauseController;
 	
+	DamageCause lastCOD;
+	
 	public void Start() {
 		style = new GUIStyle();
 		style.normal.background = (Texture2D)bloodSplatter;
 	}
-	
-	public void Update() {
-		/*if (Time.time - lastInjury > healDelay) {
-			if (HealthLevel < MaxHealth && HealthLevel > 0) {
-				HealthLevel += healRate;
-			}
-		}*/
-	}
-	
-	public bool Damage(float damage, bool force) {
-		return true;
-	}
-	
 	
 	/// <summary>
 	/// Deal damage to player.ss
@@ -57,23 +46,28 @@ public class Health : MonoBehaviour {
 	/// <returns>
 	/// Whether the player survived.
 	/// </returns>
-	public bool Damage(float damage) {
+	public bool Damage(float damage, DamageCause COD = DamageCause.Default) {
 		lastInjury = Time.time;
 		if (playSounds) painSoundSource.PlayOneShot(painSounds[(int)(Random.value * (painSounds.Length-1))]);
 		fader.SetScreenOverlayColor(fadeColor);
 		fader.StartFade(transparent, fadeTime);
 		
 		if (damage > HealthLevel) {
-			HealthLevel = 0;
-			print("Debug: Dead.");
-			pauseController.pane = "/Dead";
-			Time.timeScale = 0;
+			Die ();
 			return false;
 		} else {
 			HealthLevel = HealthLevel - damage;
 			return true;
 		}
 		
+	}
+	
+	public void Die () {
+		HealthLevel = 0;
+		print("Debug: Dead.");
+		pauseController.pane = "/Dead";
+		Time.timeScale = 0;
+		print ("You have Died.");
 	}
 	
 	public void OnGUI() {

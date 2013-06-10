@@ -405,7 +405,7 @@ public class Weapon {
 						}
 						if (hit.transform.gameObject.GetComponent("EnemyHealth") != null) {
 							EnemyHealth enemyHealth = (EnemyHealth)hit.transform.gameObject.GetComponent("EnemyHealth");
-							enemyHealth.Health -= Damage;
+							enemyHealth.damage(Damage, DamageCause.Shot);
 							MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
 						}
 						GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(BloodSpray, hit.point, hitRotation);

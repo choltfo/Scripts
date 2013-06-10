@@ -5,27 +5,32 @@ using System.Collections;
 /// The health level of any enemy.
 /// </summary>
 
-public class EnemyHealth : MonoBehaviour {
+public class EnemyHealth : Objective {
 	/// <summary>
 	/// The health level of the enemy.
 	/// </summary>
-	public int Health = 100;
+	public float Health = 100;
 	
 	public float crashThreshhold = 50;
 	
 	void onCollisionEnter(Collision C) {
 		if (C.relativeVelocity.magnitude > crashThreshhold) {
-			
+			print(damage(Mathf.Pow ((C.relativeVelocity.magnitude - crashThreshhold)/2,2)));
 		}
 	}
 	
-	void Update() {
-		if (Health <= 0) {
-			Destroy(gameObject);
+	public float damage (float damage, DamageCause COD = DamageCause.Default) {
+		if (Health > damage) {
+			Health -= damage;
+		} else {
+			Health = 0;
+			kill (COD);
 		}
+		return damage;
 	}
 	
-	void damage () {
-		
+	void kill (DamageCause COD = DamageCause.Default) {
+		print (gameObject.name + " suffered a death by " + COD.ToString());
+		Destroy (gameObject);
 	}
 }
