@@ -61,14 +61,18 @@ public class Grenade {
 		thrownGrenade.transform.Translate(holdPosition);
 		thrownGrenade.transform.Rotate(-throwAngle,0,0);
 		thrownGrenade.AddComponent("ThrownGrenade");
+		thrownGrenade.AddComponent("ExplosiveDamage");
+		
+		thrownGrenade.GetComponent<ExplosiveDamage>().range = range;
+		thrownGrenade.GetComponent<ExplosiveDamage>().maxDamage = maxDamage;
+		
 		thrownGrenade.GetComponent<Rigidbody>().mass = 0.05f;
 		Rigidbody player = thrower.parent.gameObject.rigidbody;
 		thrownGrenade.GetComponent<Rigidbody>().AddRelativeForce(player.velocity.x, player.velocity.y, player.velocity.z + throwPower);
 		thrownGrenade.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+		
 		thrownGrenade.GetComponent<Detonator>().explodeOnStart = false;
 		thrownGrenade.GetComponent<ThrownGrenade>().prime(detonateDelay);
-		thrownGrenade.GetComponent<ThrownGrenade>().range = range;
-		thrownGrenade.GetComponent<ThrownGrenade>().maxDamage = maxDamage;
 		thrownGrenade.GetComponent<ThrownGrenade>().detonateOnCollision = detonateOnCollision;
 		return thrownGrenade.GetComponent<ThrownGrenade>();
 	}
@@ -79,8 +83,6 @@ public class Grenade {
 		grenade.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
 		grenade.GetComponent<Detonator>().explodeOnStart = false;
 		grenade.GetComponent<ThrownGrenade>().prime(detonateDelay);
-		grenade.GetComponent<ThrownGrenade>().range = range;
-		grenade.GetComponent<ThrownGrenade>().maxDamage = maxDamage;
 		grenade.GetComponent<ThrownGrenade>().detonateOnCollision = detonateOnCollision;
 		return grenade;
 	}

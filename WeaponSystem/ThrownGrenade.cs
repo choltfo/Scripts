@@ -10,14 +10,6 @@ using System.Collections;
 /// </summary>
 public class ThrownGrenade : MonoBehaviour {
 	/// <summary>
-	/// The blast radius of the grenade.
-	/// </summary>
-	public float range;
-	/// <summary>
-	/// The damage sustained by injurable entities at ground zero.
-	/// </summary>
-	public float maxDamage;
-	/// <summary>
 	/// The delay before the grenade blows.
 	/// </summary>
 	public float delay;
