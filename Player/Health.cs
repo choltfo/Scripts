@@ -51,7 +51,7 @@ public class Health : MonoBehaviour {
 		if (playSounds) painSoundSource.PlayOneShot(painSounds[(int)(Random.value * (painSounds.Length-1))]);
 		fader.SetScreenOverlayColor(fadeColor);
 		fader.StartFade(transparent, fadeTime);
-		
+		lastCOD = COD;
 		if (damage > HealthLevel) {
 			Die ();
 			return false;
@@ -64,10 +64,9 @@ public class Health : MonoBehaviour {
 	
 	public void Die () {
 		HealthLevel = 0;
-		print("Debug: Dead.");
 		pauseController.pane = "/Dead";
 		Time.timeScale = 0;
-		print ("You have Died.");
+		print ("You have died of " + lastCOD.ToString());
 	}
 	
 	public void OnGUI() {
@@ -99,5 +98,7 @@ public enum DamageCause {
 	Blowback,				// Was standing too close to a wall when firing a grenade launcher.
 	VehicularMisadventure,	// Crashed.
 	RunDown,				// Crashed into.
-	Radiation				// Took a swim in the river of death.
+	Radiation,				// Took a swim in the river of death.
+	Fire,					// Got lit literally.
+	KineticInjury			// Hit something, either vertically or horizontally.
 }

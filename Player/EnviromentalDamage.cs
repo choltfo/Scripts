@@ -18,24 +18,32 @@ public class EnviromentalDamage : MonoBehaviour {
 	/// </summary>
 	public float damageOccurDelay = 5;
 	
+	public float crashThreshold = 15;
+	
+	void OnCollisionEnter(Collision C) {
+		print (Mathf.Pow((C.relativeVelocity.magnitude-crashThreshold)/2,2));
+		if (C.relativeVelocity.magnitude > crashThreshold) {
+			health.Damage(Mathf.Pow((C.relativeVelocity.magnitude-crashThreshold)/2,2), DamageCause.KineticInjury);
+		}
+	}
+	
 	void OnCollisionStay(Collision collision) {
 		if (Time.time - lastDamageTime < damageOccurDelay) {
 			return;
 		}
 		if (collision.gameObject.name == "Water Table") {
-			print ("You Died");
-			health.Damage(100);
+			health.Damage(100, DamageCause.Radiation);
 			lastDamageTime = Time.time;
 			Time.timeScale = 0f;
 		}
 		if (collision.gameObject.name == "campfire" && collision.gameObject.transform.FindChild("fire") != null) {
 			print ("OW!");
-			health.Damage(5);
+			health.Damage(5, DamageCause.Fire);
 			lastDamageTime = Time.time;
 		}
 		if (collision.gameObject.name == "fire") {
 			print ("OW!");
-			health.Damage(5);
+			health.Damage(5, DamageCause.Fire);
 			lastDamageTime = Time.time;
 		}
 	}

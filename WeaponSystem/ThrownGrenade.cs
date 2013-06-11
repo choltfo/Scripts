@@ -57,16 +57,16 @@ public class ThrownGrenade : MonoBehaviour {
 			float damage = Mathf.Lerp(0, maxDamage, Vector3.Distance(hit.transform.position, transform.position)/range);
 			if (hit.transform.FindChild("Camera") != null) {
 				if (hit.transform.FindChild("Camera").gameObject.GetComponent<Health>() != null) {
-					hit.transform.FindChild("Camera").gameObject.GetComponent<Health>().Damage(damage);	
+					hit.transform.FindChild("Camera").gameObject.GetComponent<Health>().Damage(damage, DamageCause.Explosion);	
 				}
 			}
 			if (hit.gameObject.name == "RaycastLayer") {
 				if (hit.transform.parent.gameObject.GetComponent<EnemyHealth>() != null) {
-					hit.transform.parent.gameObject.GetComponent<EnemyHealth>().Health -= (int)damage;	
+					hit.transform.gameObject.GetComponent<EnemyHealth>().damage(damage, DamageCause.Explosion);
 				}
 			}
 			if (hit.transform.gameObject.GetComponent<EnemyHealth>() != null) {
-				hit.transform.gameObject.GetComponent<EnemyHealth>().Health -= (int)damage;	
+				hit.transform.gameObject.GetComponent<EnemyHealth>().damage(damage, DamageCause.Explosion);
 			}
 			if (hit.transform.gameObject.GetComponent<Detonator>() != null) {
 				hit.transform.gameObject.GetComponent<Detonator>().Explode();	
