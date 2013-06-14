@@ -15,7 +15,12 @@ public class Vehicle : MonoBehaviour {
 	public VehicleControls VControls;
 	public Controls controls;
 	
+		public bool erectOnEnter = false;
+	
 	public void activate (GameObject Player) {
+		if (erectOnEnter) {
+			transform.eulerAngles.Set(transform.eulerAngles.x, transform.eulerAngles.y, 0);
+		}
 		player = Player.transform.parent.gameObject;
 		VControls.isCarActive = true;
 		controls = player.transform.FindChild("Camera").gameObject.GetComponent<Controls>();

@@ -34,6 +34,8 @@ public class VehicleControls : MonoBehaviour {
 	
 	public float lastTouch = 0;
 	
+	public bool erectOnEnter = false;
+	
 	void OnCollisionStay (Collision collision) {
 		if (collision.collider.gameObject.name == "Terrain") {
 			lastTouch = Time.fixedTime;
@@ -95,14 +97,20 @@ public class VehicleControls : MonoBehaviour {
 				turning = -Mathf.Lerp(0,handling,Mathf.Abs(steering));
 			}
 		}
-		if ((Terrain.activeTerrain.SampleHeight(transform.position) >
-				transform.position.y - downThreshold) && (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75)) {
-			if (accelerator >= 0) {
-				transform.Rotate(0,turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
-			} else {
-				transform.Rotate(0,-turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
+		if ((Terrain.activeTerrain.SampleHeight(transform.position) >transform.position.y - downThreshold)) {
+			if (erectOnEnter && isCarActive) {
+				//transform.eulerAngles.Set(transform.eulerAngles.x, transform.eulerAngles.y, 0);
+				float z = transform.eulerAngles.z;
+				transform.Rotate(0, 0, -z);
 			}
-			rigidbody.velocity += transform.forward * speed;
+			if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75) {
+				if (accelerator >= 0) {
+					transform.Rotate(0,turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
+				} else {
+					transform.Rotate(0,-turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
+				}
+				rigidbody.velocity += transform.forward * speed;
+			}
 		}
 	}
 }
