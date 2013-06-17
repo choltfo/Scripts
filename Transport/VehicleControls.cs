@@ -35,12 +35,7 @@ public class VehicleControls : MonoBehaviour {
 	public float lastTouch = 0;
 	
 	public bool erectOnEnter = false;
-	
-	void OnCollisionStay (Collision collision) {
-		if (collision.collider.gameObject.name == "Terrain") {
-			lastTouch = Time.fixedTime;
-		}
-	}
+
 	
 	void OnCollisionExit (Collision collision) {
 		if (collision.collider.gameObject.name == "Terrain") {
@@ -54,8 +49,32 @@ public class VehicleControls : MonoBehaviour {
 		}
 	}
 	
-	void FixedUpdate() {
+	void OnCollisionStay(Collision C) {
 		
+		if (C.collider.gameObject.name == "Terrain") {
+			lastTouch = Time.fixedTime;
+		}
+		
+		print ("WHY YOU NPOTSupport WORK?");
+		
+		rigidbody.AddForce(0f,-gravity*rigidbody.mass,0f);
+		
+		if (erectOnEnter && isCarActive) {
+				//transform.eulerAngles.Set(transform.eulerAngles.x, transform.eulerAngles.y, 0);
+				float z = transform.eulerAngles.z;
+				transform.Rotate(0, 0, -z);
+			}
+			if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75) {
+				if (accelerator >= 0) {
+					transform.Rotate(0,turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
+				} else {
+					transform.Rotate(0,-turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
+				}
+				rigidbody.velocity += transform.forward * speed;
+			}
+	}
+	
+	void FixedUpdate() {
 		if ((rigidbody.velocity.magnitude - previousVelocity) * 10 > Mathf.Abs(crashMagnitude) || 
 			(rigidbody.velocity.magnitude - previousVelocity) * 10 < -(Mathf.Abs(crashMagnitude))) {
 			if (gameObject.GetComponent<Vehicle>().isActive) {
@@ -63,18 +82,10 @@ public class VehicleControls : MonoBehaviour {
 					GetComponent<Health>().Damage(Mathf.Abs(previousVelocity - rigidbody.velocity.magnitude),
 					DamageCause.VehicularMisadventure);
 			}
-			//print ((rigidbody.velocity.magnitude - previousVelocity) * 10);
 			DEAD = true;
 		}
-		//print ((rigidbody.velocity.magnitude - previousVelocity) * 10);
 		previousVelocity = rigidbody.velocity.magnitude;
 		
-		if (!(Terrain.activeTerrain.SampleHeight(transform.position) >
-				transform.position.y - downThreshold) && Time.fixedTime > lastTouch) {
-			//descentSpeed += gravity * Time.deltaTime * 10;
-			//transform.Translate(new Vector3(0, -descentSpeed * Time.deltaTime, 0), Space.World);
-			rigidbody.AddForce(0f,-gravity*rigidbody.mass,0f);
-		}
 		
 		
 		speed = 0;
@@ -95,21 +106,6 @@ public class VehicleControls : MonoBehaviour {
 			}	
 			if (steering < 0) {
 				turning = -Mathf.Lerp(0,handling,Mathf.Abs(steering));
-			}
-		}
-		if ((Terrain.activeTerrain.SampleHeight(transform.position) >transform.position.y - downThreshold)) {
-			if (erectOnEnter && isCarActive) {
-				//transform.eulerAngles.Set(transform.eulerAngles.x, transform.eulerAngles.y, 0);
-				float z = transform.eulerAngles.z;
-				transform.Rotate(0, 0, -z);
-			}
-			if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75) {
-				if (accelerator >= 0) {
-					transform.Rotate(0,turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
-				} else {
-					transform.Rotate(0,-turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
-				}
-				rigidbody.velocity += transform.forward * speed;
 			}
 		}
 	}
