@@ -55,8 +55,6 @@ public class VehicleControls : MonoBehaviour {
 			lastTouch = Time.fixedTime;
 		}
 		
-		print ("WHY YOU NPOTSupport WORK?");
-		
 		rigidbody.AddForce(0f,-gravity*rigidbody.mass,0f);
 		
 		if (erectOnEnter && isCarActive) {
