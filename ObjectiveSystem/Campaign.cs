@@ -20,6 +20,7 @@ public class Campaign {
 	public bool complete = false;
 	//public Vector3 displayCoords;
 	
+	
 	int CompleteCount;
 	int LastCompleteCount;
 	
