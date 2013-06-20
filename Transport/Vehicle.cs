@@ -15,7 +15,7 @@ public class Vehicle : MonoBehaviour {
 	public VehicleControls VControls;
 	public Controls controls;
 	
-		public bool erectOnEnter = false;
+	public bool erectOnEnter = false;
 	
 	public void activate (GameObject Player) {
 		if (erectOnEnter) {
