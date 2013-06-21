@@ -617,6 +617,13 @@ public class Weapon {
 			break;
 		}
 	}
+	
+	public void foldFrontSight() {
+		Transform sightPost = mainObject.transform.FindChild("FrontSight");
+		if (sightPost) {
+			sightPost.Rotate(90,0,0);
+		}
+	}
 }
 
 [System.Serializable]

@@ -26,6 +26,8 @@ public class ThrownGrenade : MonoBehaviour {
 	/// </summary>
 	public bool detonateOnCollision;
 	
+	
+	
 	/// <summary>
 	/// Prime the grenade to explode after l_delay seconds.
 	/// </summary>

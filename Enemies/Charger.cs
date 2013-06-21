@@ -48,6 +48,7 @@ public class Charger : Enemy {
 		collideEffect.UID = DrugEffect.generateUID();
 		motor = GetComponent<CharacterController>();
 		health = GetComponent<EnemyHealth>();
+		player = GameObject.Find("FPS Player").gameObject;
 	}
 	
 	void Update () {
@@ -77,7 +78,7 @@ public class Charger : Enemy {
 			Movement = new Vector3(0,0,0);
 		}
 		if (Vector3.Distance(transform.position, player.transform.position) > activationDistance) {
-			Movement = new Vector3(0,0,0);
+			Movement = new Vector3(0,y,0);
 		}
 		//print(Vector3.Distance(transform.position, player.transform.position));
 		motor.Move(Movement);

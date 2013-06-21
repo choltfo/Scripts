@@ -22,6 +22,8 @@ public class ExplosiveDamage : MonoBehaviour {
 	/// </summary>
 	public bool blown		 = false;
 	
+	public AudioClip explosionNoise;
+	
 	/// <summary>
 	/// Explode this thing.
 	/// </summary>
@@ -31,6 +33,14 @@ public class ExplosiveDamage : MonoBehaviour {
 		//print (hitColliders.Length);
 		
 		blown = true;
+		
+		GameObject AUDIO = new GameObject();
+		AUDIO.transform.position = transform.position;
+		AUDIO.AddComponent<AudioSource>();
+		AUDIO.GetComponent<AudioSource>().PlayOneShot(explosionNoise);
+		AUDIO.GetComponent<AudioSource>().rolloffMode = AudioRolloffMode.Linear;
+		AUDIO.AddComponent<TimedObjectDestructor>();
+		AUDIO.GetComponent<TimedObjectDestructor>().secondsToDestroy = explosionNoise.length;
 		
 		foreach (Collider hit in hitColliders) {
 			//print (hit.transform.gameObject.name);
