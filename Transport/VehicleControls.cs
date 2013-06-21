@@ -24,52 +24,31 @@ public class VehicleControls : MonoBehaviour {
 	public float speed = 0;
 	
 	public float gravity = 9.8f;
-	public float descentSpeed = 0f;
 	
 	public float previousVelocity = 0f;
 	public float crashMagnitude = 40f;
 	public bool DEAD = false;
 	
-	public float downThreshold = 3;
-	
-	public float lastTouch = 0;
-	
 	public bool erectOnEnter = false;
 
-	
-	void OnCollisionExit (Collision collision) {
-		if (collision.collider.gameObject.name == "Terrain") {
-			descentSpeed = 0;
-		}
-	}
-	
-	void OnCollisionEnter (Collision collision) {
-		if (collision.collider.gameObject.name == "Terrain") {
-			descentSpeed = 0;
-		}
-	}
+	public float damage = 100f;
+	public float maxHealth = 100f;
 	
 	void OnCollisionStay(Collision C) {
-		
-		if (C.collider.gameObject.name == "Terrain") {
-			lastTouch = Time.fixedTime;
-		}
-		
 		rigidbody.AddForce(0f,-gravity*rigidbody.mass,0f);
 		
 		if (erectOnEnter && isCarActive) {
-				//transform.eulerAngles.Set(transform.eulerAngles.x, transform.eulerAngles.y, 0);
-				float z = transform.eulerAngles.z;
-				transform.Rotate(0, 0, -z);
+			float z = transform.eulerAngles.z;
+			transform.Rotate(0, 0, -z);
+		}
+		if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75 && damage >0) {
+			if (accelerator >= 0) {
+				transform.Rotate(0,turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
+			} else {
+				transform.Rotate(0,-turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
 			}
-			if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75) {
-				if (accelerator >= 0) {
-					transform.Rotate(0,turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
-				} else {
-					transform.Rotate(0,-turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
-				}
-				rigidbody.velocity += transform.forward * speed;
-			}
+			rigidbody.velocity += transform.forward * speed;
+		}
 	}
 	
 	void FixedUpdate() {
@@ -79,8 +58,8 @@ public class VehicleControls : MonoBehaviour {
 				gameObject.GetComponent<Vehicle>().player.transform.FindChild("Camera").gameObject.
 					GetComponent<Health>().Damage(Mathf.Abs(previousVelocity - rigidbody.velocity.magnitude),
 					DamageCause.VehicularMisadventure);
+				damage -= previousVelocity - rigidbody.velocity.magnitude;
 			}
-			DEAD = true;
 		}
 		previousVelocity = rigidbody.velocity.magnitude;
 		
@@ -90,7 +69,7 @@ public class VehicleControls : MonoBehaviour {
 		accelerator = 0;
 		steering = 0;
 		turning = 0;
-		if (isCarActive) {
+		if (isCarActive && damage > 0) {
 			steering = Input.GetAxis("Horizontal");
 			accelerator = Input.GetAxis("Vertical");
 			if (accelerator > 0) {

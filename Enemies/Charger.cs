@@ -46,7 +46,7 @@ public class Charger : Enemy {
 	void Start() {
 		recentEffectTime = -effectDelay;
 		collideEffect.UID = DrugEffect.generateUID();
-		motor = (CharacterController)gameObject.GetComponent("CharacterController");
+		motor = GetComponent<CharacterController>();
 		health = GetComponent<EnemyHealth>();
 	}
 	

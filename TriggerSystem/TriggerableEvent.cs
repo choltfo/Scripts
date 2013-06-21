@@ -17,6 +17,12 @@ public class TriggerableEvent {
 	public QuickTimeSpamEventController QTSEController;
 	public StatResult statMod;
 	
+	public GameObject instantiableObject;
+	public Vector3 place;
+	public Vector3 tolerance;
+	public int number;
+	
+	
 	
 	public void Trigger(SubtitleController TextDisplay) {
 		foreach (Detonator explosion in explosions) {
@@ -31,6 +37,11 @@ public class TriggerableEvent {
 		}
 		if (showText) {
 			TextDisplay.setLines(Text);
+		}
+		if (instantiableObject!=null){
+			for (int i = 0; i < number; i++) {
+				MonoBehaviour.Instantiate(instantiableObject, (Random.value * tolerance) + place, new Quaternion(0,0,0,1));
+			}
 		}
 	}
 }
