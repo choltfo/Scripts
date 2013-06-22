@@ -223,6 +223,9 @@ public class Weapon {
 
 	public bool animate = true;
 	
+	public GameObject SmokePuff;
+	public Vector3 SmokePuffPosition;
+	
 	//public UnderbarrelAttachment underbarrel;
 	
 	//TODO Add reloading animations.
@@ -375,6 +378,15 @@ public class Weapon {
 			ShotDelay = (int)(30/(7.5 * FireRateAsPercent / 100));
 			isFiring = true;
 			curAnim = weaponAnimType.Firing;
+			
+			if (SmokePuff) {
+				GameObject SP = MonoBehaviour.Instantiate(SmokePuff) as GameObject;
+				SP.transform.Rotate(mainObject.transform.eulerAngles);
+				SP.transform.parent = mainObject.transform;
+				SP.transform.localPosition = new Vector3(0,0,0);
+				SP.transform.Translate(SmokePuffPosition);
+			}
+			
 			for (int i = 0; i<numOfShots; i++) {
 				Vector2 position = Random.insideUnitCircle;
   				int x = (int)(position.x * xSpread);

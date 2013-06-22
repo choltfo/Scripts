@@ -20,6 +20,7 @@ public class WeaponAttachment {
 		case AttachmentType.Laser: 		return true;
 		case AttachmentType.Foregrip: 	return false;
 		case AttachmentType.Scope: 		return false;
+		case AttachmentType.IronSight: 	return false;
 		case AttachmentType.Silencer: 	return false;
 		}
 		return false;
@@ -55,5 +56,6 @@ public enum AttachmentType {
 	Laser,
 	Foregrip,
 	Scope,
+	IronSight,
 	Silencer
 }
