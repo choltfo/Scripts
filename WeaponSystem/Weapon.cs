@@ -308,6 +308,7 @@ public class Weapon {
 		}
 		foreach (HardPoint hp in attachments) {
 			hp.attachment.deploy(mainObject, hp.position);
+			if(hp.attachment.type == AttachmentType.Scope) foldFrontSight();
 		}
 
 		//MonoBehaviour.print("Added " + WeaponName);
@@ -619,7 +620,7 @@ public class Weapon {
 	}
 	
 	public void foldFrontSight() {
-		Transform sightPost = mainObject.transform.FindChild("FrontSight");
+		Transform sightPost = mainObject.transform.FindChild(Path + "FrontSight");
 		if (sightPost) {
 			sightPost.Rotate(90,0,0);
 		}
