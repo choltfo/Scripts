@@ -380,11 +380,10 @@ public class Weapon {
 			curAnim = weaponAnimType.Firing;
 			
 			if (SmokePuff) {
-				GameObject SP = MonoBehaviour.Instantiate(SmokePuff) as GameObject;
-				SP.transform.Rotate(mainObject.transform.eulerAngles);
-				SP.transform.parent = mainObject.transform;
-				SP.transform.localPosition = new Vector3(0,0,0);
-				SP.transform.Translate(SmokePuffPosition);
+				GameObject Thing = (GameObject)MonoBehaviour.Instantiate(SmokePuff, new Vector3 (0,0,0), mainObject.transform.rotation);
+				Thing.transform.parent = mainObject.transform;
+				Thing.transform.localPosition = SmokePuffPosition;
+				//Thing.transform.Rotate(rot, Space.Self);
 			}
 			
 			for (int i = 0; i<numOfShots; i++) {
