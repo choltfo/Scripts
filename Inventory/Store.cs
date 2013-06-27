@@ -119,7 +119,7 @@ public class Store : MonoBehaviour {
 					}
 					if (transferredWeapon.IsValid) {
 						//print (findWeaponSlot(inventory.weapons));
-						transferredWeapon.deactivate();
+						transferredWeapon.destroy();
 						playerInv.weapons[findWeaponSlot(playerInv.weapons)] = transferredWeapon;
 						inventory.weapons[soldWeaponSlot] = new Weapon();
 						player.ensuredSwitch();
@@ -196,7 +196,7 @@ public class Store : MonoBehaviour {
 					}
 					if (transferredWeapon.IsValid) {
 						print (findWeaponSlot(inventory.weapons));
-						transferredWeapon.deactivate();
+						transferredWeapon.destroy();
 						inventory.weapons[findWeaponSlot(inventory.weapons)] = transferredWeapon;
 						playerInv.weapons[soldWeaponSlot] = new Weapon();
 						player.ensuredSwitch();

@@ -42,6 +42,8 @@ public class Weapon {
 	/// that the gun should be held at when scoping.
 	/// </summary>
 	public Vector3 ScopedPosition;
+	public Vector3 StowedPosition;
+	public float switchSpeed = 1f;
 	public float AimSpeed = 10f;
 	/// <summary>
 	/// Whether or not the player can look down the irons on this gun.
@@ -161,7 +163,7 @@ public class Weapon {
 	/// The animation clock. Not visible in Inspector.
 	/// </summary>
 	public int AnimClock = 0;
-	weaponAnimType curAnim = weaponAnimType.None;
+	public weaponAnimType curAnim = weaponAnimType.None;
 	
 	[HideInInspector]
 	/// <summary>
@@ -222,9 +224,12 @@ public class Weapon {
 	float lastAim;
 
 	public bool animate = true;
+	public bool isOut = false;
+	
 	
 	public GameObject SmokePuff;
 	public Vector3 SmokePuffPosition;
+	
 	
 	//public UnderbarrelAttachment underbarrel;
 	
@@ -287,14 +292,16 @@ public class Weapon {
 		this.IsValid = false;
 	}
 	
-
+	
+	
+	
 	/// <summary>
 	/// Instantiates the gun in front of the player (camera), so that is can be usefully animated.
 	/// </summary>
 	/// <param name='player'>
 	/// The camera gameobject to put the gun in front of.
 	/// </param>
-	public virtual void activate(GameObject player){
+	public virtual void create(GameObject player){
 		camera = player;
 		GameObject Gun = (GameObject)MonoBehaviour.Instantiate(InstantiableObject, new Vector3 (0,0,0), player.transform.rotation);
 		Gun.transform.parent = player.transform;
@@ -305,10 +312,6 @@ public class Weapon {
 			flash.SetActive(false);
 		}
 		
-		if (mainObject.transform.FindChild(Path + "Flashlight")) {
-			flashLight = mainObject.transform.FindChild(Path + "Flashlight").gameObject;
-			flashLight.SetActive(false);
-		}
 		foreach (HardPoint hp in attachments) {
 			hp.attachment.deploy(mainObject, hp.position);
 			if(hp.attachment.type == AttachmentType.Scope) foldFrontSight();
@@ -324,13 +327,37 @@ public class Weapon {
 	/// <summary>
 	/// Deactivate this instance.
 	/// </summary>
-	public virtual void deactivate() {
+	public virtual void destroy() {
 		if (mainObject != null) {
 			MonoBehaviour.Destroy(mainObject);
-			//MonoBehaviour.print("Destryoed " + WeaponName);
+			//MonoBehaviour.print("Destroyed " + WeaponName);
 			Exists = false;
 		}
 	}
+	
+	
+	
+	public virtual void withdraw() {
+		curAnim = weaponAnimType.Withdrawing;
+		isAimed = false;
+		isOut = true;
+	}
+	
+	public virtual void stow() {
+		curAnim = weaponAnimType.Stowing;
+		isAimed = false;
+		isOut = false;
+	}
+	
+	public virtual void toggleStowage() {
+		isAimed = false;
+		if (isOut) {
+			stow ();
+		} else {
+			withdraw ();
+		}
+	}
+	
 	
 	/// <summary>
 	/// Aim this instance.
@@ -470,7 +497,7 @@ public class Weapon {
 		GameObject pickup = (GameObject)MonoBehaviour.Instantiate(InstantiablePickup, mainObject.transform.position, mainObject.transform.rotation);
 		pickup.SetActive(true);
 		//((WeaponPickup)pickup.GetComponent("WeaponPickup")).thisGun = this;
-		MonoBehaviour.Destroy(mainObject);
+		destroy();
 		IsValid = false;
 	}
 	
@@ -516,23 +543,40 @@ public class Weapon {
 			return;
 		}
 		
-		if(isAimed == true){
-			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
-				ScopeZoom,Time.deltaTime*zoomSmoothing);
-			mainObject.transform.localPosition = new Vector3(
-				Mathf.Lerp(mainObject.transform.localPosition.x, ScopedPosition.x, (Time.time-lastAim)*AimSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.y, ScopedPosition.y, (Time.time-lastAim)*AimSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.z, ScopedPosition.z, (Time.time-lastAim)*AimSpeed));
-		} else {
-			camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
-				NormalZoom,Time.deltaTime*zoomSmoothing);
-			mainObject.transform.localPosition = new Vector3(
-				Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time-lastAim)*AimSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time-lastAim)*AimSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time-lastAim)*AimSpeed));
-		}
+		
 		switch (curAnim) {
+		case weaponAnimType.Stowing :
+			mainObject.transform.localPosition = new Vector3(
+				Mathf.Lerp(mainObject.transform.localPosition.x, StowedPosition.x, (Time.time-lastAim)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.y, StowedPosition.y, (Time.time-lastAim)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.z, StowedPosition.z, (Time.time-lastAim)*switchSpeed));
+			if (mainObject.transform.localPosition.Equals(StowedPosition)) curAnim = weaponAnimType.None;
+			break;
+		case weaponAnimType.Withdrawing :
+			mainObject.transform.localPosition = new Vector3(
+				Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time-lastAim)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time-lastAim)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time-lastAim)*switchSpeed));
+			if (mainObject.transform.localPosition.Equals(Position)) curAnim = weaponAnimType.None;
+			break;
 		case weaponAnimType.None :
+			if (isOut) {
+				if(isAimed == true){
+					camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
+						ScopeZoom,Time.deltaTime*zoomSmoothing);
+					mainObject.transform.localPosition = new Vector3(
+						Mathf.Lerp(mainObject.transform.localPosition.x, ScopedPosition.x, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.y, ScopedPosition.y, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.z, ScopedPosition.z, (Time.time-lastAim)*AimSpeed));
+				} else {
+					camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
+						NormalZoom,Time.deltaTime*zoomSmoothing);
+					mainObject.transform.localPosition = new Vector3(
+						Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time-lastAim)*AimSpeed));
+				}
+			}
 			break;
 		case weaponAnimType.Firing :
 			//Debug.Log("AnimClock Reads " + AnimClock.ToString());
@@ -625,7 +669,7 @@ public class Weapon {
 			}
 			break;
 		default :
-			Debug.LogError("INVALID ANIMATIONTYPE! HOW THE F***?");
+			Debug.LogError("INVALID ANIMATIONTYPE? HOW THE F***?");
 			break;
 		}
 	}
@@ -658,5 +702,7 @@ public enum ConnectionType {
 public enum weaponAnimType {
 	None,
 	Firing,
-	Reloading
+	Reloading,
+	Withdrawing,
+	Stowing
 }

@@ -28,7 +28,8 @@ public class ShootObjects : MonoBehaviour {
 			return;
 		}
 		
-		inventory.weapons[currentWeapon].AnimUpdate();
+		inventory.weapons[0].AnimUpdate();
+		inventory.weapons[1].AnimUpdate();
 		if (inventory.weapons[currentWeapon].Automatic) {
 			if (Input.GetMouseButton((int)controls.fire)) {
 				shoot();
@@ -86,9 +87,9 @@ public class ShootObjects : MonoBehaviour {
 			if (currentWeapon != 0 || !inventory.weapons[0].Exists) {
 				currentWeapon = 0;
 				if (inventory.weapons[0].IsValid) {
-					inventory.weapons[0].deactivate();
-					inventory.weapons[0].activate(gameObject);
-					inventory.weapons[1].deactivate();
+					inventory.weapons[0].stow();
+					inventory.weapons[0].withdraw();
+					inventory.weapons[1].stow();
 				} else {
 					currentWeapon = 1;
 				}
@@ -98,9 +99,9 @@ public class ShootObjects : MonoBehaviour {
 			if (currentWeapon != 1 || !inventory.weapons[1].Exists) {
 				currentWeapon = 1;
 				if (inventory.weapons[1].IsValid) {
-					inventory.weapons[1].deactivate();
-					inventory.weapons[1].activate(gameObject);
-					inventory.weapons[0].deactivate();
+					inventory.weapons[1].stow();
+					inventory.weapons[1].withdraw();
+					inventory.weapons[0].stow();
 				} else {
 					currentWeapon = 0;
 				}
@@ -169,28 +170,28 @@ public class ShootObjects : MonoBehaviour {
 					}
 					if (inventory.weapons[currentWeapon].IsValid && inventory.weapons[secondaryWeapon].IsValid) {
 						//Both slots full
-						inventory.weapons[currentWeapon].deactivate();
+						inventory.weapons[currentWeapon].destroy();
 						inventory.weapons[currentWeapon].Drop();
 						inventory.weapons[currentWeapon] = picked;
 						equip (currentWeapon);
 						return true;
 					} else if (!inventory.weapons[currentWeapon].IsValid && !inventory.weapons[secondaryWeapon].IsValid) {
 						//Neither slot full
-						inventory.weapons[currentWeapon].deactivate();
+						inventory.weapons[currentWeapon].destroy();
 						inventory.weapons[currentWeapon].Drop();
 						inventory.weapons[currentWeapon] = picked;
 						equip (currentWeapon);
 						return true;
 					} else if (inventory.weapons[currentWeapon].IsValid && !inventory.weapons[secondaryWeapon].IsValid) {
 						//Just current
-						inventory.weapons[secondaryWeapon].deactivate();
+						inventory.weapons[secondaryWeapon].destroy();
 						inventory.weapons[secondaryWeapon].Drop();
 						inventory.weapons[secondaryWeapon] = picked;
 						equip (secondaryWeapon);
 						return true;
 					} else if (!inventory.weapons[currentWeapon].IsValid && inventory.weapons[secondaryWeapon].IsValid) {
 						//Just other
-						inventory.weapons[currentWeapon].deactivate();
+						inventory.weapons[currentWeapon].destroy();
 						inventory.weapons[currentWeapon].Drop();
 						inventory.weapons[currentWeapon] = picked;
 						equip (currentWeapon);
@@ -219,9 +220,10 @@ public class ShootObjects : MonoBehaviour {
 	public bool equip(int weapon) {
 		int original = currentWeapon;
 		currentWeapon = weapon;
-		if (inventory.weapons[weapon] != null) {
-			inventory.weapons[original].deactivate();
-			inventory.weapons[weapon].activate(gameObject);
+		if (inventory.weapons[weapon].IsValid) {
+			inventory.weapons[original].stow();
+			inventory.weapons[weapon].create(gameObject);
+			inventory.weapons[weapon].withdraw();
 			return true;
 		}
 		currentWeapon = original;
@@ -230,59 +232,59 @@ public class ShootObjects : MonoBehaviour {
 	
 	public bool ensuredSwitch () {
 		if (inventory.weapons[currentWeapon].IsValid) {
-			inventory.weapons[currentWeapon].deactivate();
+			inventory.weapons[currentWeapon].stow();
 		}
 		if (!inventory.weapons[0].IsValid && !inventory.weapons[1].IsValid) {
 			return false;
 		}
 		if (inventory.weapons[0].IsValid && !inventory.weapons[1].IsValid) {
 			currentWeapon = 0;
-			inventory.weapons[currentWeapon].activate(gameObject);
+			inventory.weapons[currentWeapon].withdraw();
 			return true;
 		}
 		if (!inventory.weapons[0].IsValid && inventory.weapons[1].IsValid) {
 			currentWeapon = 1;
-			inventory.weapons[currentWeapon].activate(gameObject);
+			inventory.weapons[currentWeapon].withdraw();
 			return true;
 		}
 		if (inventory.weapons[0].IsValid && !inventory.weapons[1].IsValid) {
 			currentWeapon = 0;
-			inventory.weapons[currentWeapon].activate(gameObject);
+			inventory.weapons[currentWeapon].withdraw();
 			return true;
 		}
 		if (inventory.weapons[0].IsValid && inventory.weapons[1].IsValid) {
 			currentWeapon = (currentWeapon == 0) ? 1 : 0;
-			inventory.weapons[currentWeapon].activate(gameObject);
+			inventory.weapons[currentWeapon].withdraw();
 			return true;
 		}
 		return false;
 	}
 	
 	public bool switchWeapons () {
-		inventory.weapons[currentWeapon].deactivate();
+		inventory.weapons[currentWeapon].stow();
 		if (currentWeapon != 1 || !inventory.weapons[1].Exists) {
 			currentWeapon = 1;
 			if (inventory.weapons[1].IsValid) {
-				inventory.weapons[1].deactivate();
-				inventory.weapons[1].activate(gameObject);
-				inventory.weapons[0].deactivate();
+				inventory.weapons[1].stow();
+				inventory.weapons[1].withdraw();
+				inventory.weapons[0].stow();
 				return true;
 			} else {
 				currentWeapon = 0;
-				inventory.weapons[currentWeapon].activate(gameObject);
+				inventory.weapons[currentWeapon].withdraw();
 				return false;
 			}
 		} else {
 			if (currentWeapon != 0 || !inventory.weapons[0].Exists) {
 				currentWeapon = 0;
 				if (inventory.weapons[0].IsValid) {
-					inventory.weapons[0].deactivate();
-					inventory.weapons[0].activate(gameObject);
-					inventory.weapons[1].deactivate();
+					inventory.weapons[0].stow();
+					inventory.weapons[0].withdraw();
+					inventory.weapons[1].stow();
 					return true;
 				} else {
 					currentWeapon = 1;
-					inventory.weapons[currentWeapon].activate(gameObject);
+					inventory.weapons[currentWeapon].withdraw();
 					return false;
 				}
 			}
