@@ -223,7 +223,7 @@ public class Weapon {
 	
 	public HardPoint[] attachments;
 	float lastAim;
-	float holdToggle;
+	float lastHoldToggle;
 
 	public bool animate = true;
 	public bool isOut = false;
@@ -343,14 +343,14 @@ public class Weapon {
 		curAnim = weaponAnimType.Withdrawing;
 		isAimed = false;
 		isOut = true;
-		holdToggle = Time.time;
+		lastHoldToggle = Time.time;
 	}
 	
 	public virtual void stow() {
 		curAnim = weaponAnimType.Stowing;
 		isAimed = false;
 		isOut = false;
-		holdToggle = Time.time;
+		lastHoldToggle = Time.time;
 	}
 	
 	public virtual void toggleStowage() {
@@ -553,31 +553,34 @@ public class Weapon {
 		case weaponAnimType.Stowing :
 			mainObject.transform.parent = camera.transform.parent;
 			mainObject.transform.localPosition = new Vector3(
-				Mathf.Lerp(mainObject.transform.localPosition.x, StowedPosition.x, (Time.time - holdToggle)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.y, StowedPosition.y, (Time.time - holdToggle)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.z, StowedPosition.z, (Time.time - holdToggle)*switchSpeed));
+				Mathf.Lerp(mainObject.transform.localPosition.x, StowedPosition.x, (Time.time - lastHoldToggle)/switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.y, StowedPosition.y, (Time.time - lastHoldToggle)/switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.z, StowedPosition.z, (Time.time - lastHoldToggle)/switchSpeed));
 			
 			mainObject.transform.localEulerAngles = new Vector3(
-				Mathf.Lerp(mainObject.transform.localEulerAngles.x, StowedRotationAsEulerAngles.x, (Time.time - holdToggle)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localEulerAngles.y, StowedRotationAsEulerAngles.y, (Time.time - holdToggle)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localEulerAngles.z, StowedRotationAsEulerAngles.z, (Time.time - holdToggle)*switchSpeed));
+				Mathf.Lerp(mainObject.transform.localEulerAngles.x, StowedRotationAsEulerAngles.x, (Time.time - lastHoldToggle)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.y, StowedRotationAsEulerAngles.y, (Time.time - lastHoldToggle)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.z, StowedRotationAsEulerAngles.z, (Time.time - lastHoldToggle)*switchSpeed));
 			
 			if (mainObject.transform.localPosition.Equals(StowedPosition)) curAnim = weaponAnimType.None;
 			break;
 		case weaponAnimType.Withdrawing :
 			mainObject.transform.parent = camera.transform;
 			mainObject.transform.localPosition = new Vector3(
-				Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time - holdToggle)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time - holdToggle)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time - holdToggle)*switchSpeed));
+				Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time - lastHoldToggle)/switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time - lastHoldToggle)/switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time - lastHoldToggle)/switchSpeed));
 			
 			mainObject.transform.localEulerAngles = new Vector3(
-				Mathf.Lerp(mainObject.transform.localEulerAngles.x, 0, (Time.time - holdToggle)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localEulerAngles.y, 0, (Time.time - holdToggle)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localEulerAngles.z, 0, (Time.time - holdToggle)*switchSpeed));
+				Mathf.Lerp(mainObject.transform.localEulerAngles.x, 0, (Time.time - lastHoldToggle)/switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.y, 0, (Time.time - lastHoldToggle)/switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.z, 0, (Time.time - lastHoldToggle)/switchSpeed));
 			
 			
-			if (mainObject.transform.localPosition.Equals(Position)) curAnim = weaponAnimType.None;
+			if (mainObject.transform.localPosition.Equals(Position)) {
+				curAnim = weaponAnimType.None;
+				Debug.Log ("Done moving to hold position, setting curAnim to 'None'");
+			}
 			break;
 		case weaponAnimType.None :
 			if (isOut) {
