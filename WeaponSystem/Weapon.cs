@@ -43,6 +43,7 @@ public class Weapon {
 	/// </summary>
 	public Vector3 ScopedPosition;
 	public Vector3 StowedPosition;
+	public Vector3 StowedRotationAsEulerAngles;
 	public float switchSpeed = 1f;
 	public float AimSpeed = 10f;
 	/// <summary>
@@ -543,20 +544,36 @@ public class Weapon {
 			return;
 		}
 		
+
 		
 		switch (curAnim) {
 		case weaponAnimType.Stowing :
+			mainObject.transform.parent = camera.transform.parent;
 			mainObject.transform.localPosition = new Vector3(
 				Mathf.Lerp(mainObject.transform.localPosition.x, StowedPosition.x, (Time.time-lastAim)*switchSpeed),
 				Mathf.Lerp(mainObject.transform.localPosition.y, StowedPosition.y, (Time.time-lastAim)*switchSpeed),
 				Mathf.Lerp(mainObject.transform.localPosition.z, StowedPosition.z, (Time.time-lastAim)*switchSpeed));
+			
+			mainObject.transform.localEulerAngles = new Vector3(
+				Mathf.Lerp(mainObject.transform.localEulerAngles.x, StowedRotationAsEulerAngles.x, (Time.time-lastAim)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.y, StowedRotationAsEulerAngles.y, (Time.time-lastAim)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.z, StowedRotationAsEulerAngles.z, (Time.time-lastAim)*switchSpeed));
+			
 			if (mainObject.transform.localPosition.Equals(StowedPosition)) curAnim = weaponAnimType.None;
 			break;
 		case weaponAnimType.Withdrawing :
+			mainObject.transform.parent = camera.transform;
 			mainObject.transform.localPosition = new Vector3(
 				Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time-lastAim)*switchSpeed),
 				Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time-lastAim)*switchSpeed),
 				Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time-lastAim)*switchSpeed));
+			
+			mainObject.transform.localEulerAngles = new Vector3(
+				Mathf.Lerp(mainObject.transform.localEulerAngles.x, 0, (Time.time-lastAim)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.y, 0, (Time.time-lastAim)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.z, 0, (Time.time-lastAim)*switchSpeed));
+			
+			
 			if (mainObject.transform.localPosition.Equals(Position)) curAnim = weaponAnimType.None;
 			break;
 		case weaponAnimType.None :
@@ -576,6 +593,11 @@ public class Weapon {
 						Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time-lastAim)*AimSpeed),
 						Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time-lastAim)*AimSpeed));
 				}
+				mainObject.transform.parent = camera.transform;
+				mainObject.transform.localEulerAngles = new Vector3 (0,0,0);
+			} else {
+				mainObject.transform.parent = camera.transform.parent;
+				mainObject.transform.localPosition = StowedPosition;	
 			}
 			break;
 		case weaponAnimType.Firing :
@@ -705,4 +727,13 @@ public enum weaponAnimType {
 	Reloading,
 	Withdrawing,
 	Stowing
+}
+
+/// <summary>
+/// Preset places to put the gun when stowed.
+/// </summary>
+public enum stowPointPresets {
+	Custom,
+	Rifle,
+	Pistol
 }
