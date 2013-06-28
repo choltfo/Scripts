@@ -425,7 +425,7 @@ public class Weapon {
 					
 					if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
 						hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
-					}					
+					}					 
 					if (hit.transform.tag == "Explosive") {
 						if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
 							Detonator target = (Detonator)hit.transform.gameObject.GetComponent("Detonator");
@@ -550,28 +550,28 @@ public class Weapon {
 		case weaponAnimType.Stowing :
 			mainObject.transform.parent = camera.transform.parent;
 			mainObject.transform.localPosition = new Vector3(
-				Mathf.Lerp(mainObject.transform.localPosition.x, StowedPosition.x, (Time.time-lastAim)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.y, StowedPosition.y, (Time.time-lastAim)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.z, StowedPosition.z, (Time.time-lastAim)*switchSpeed));
+				Mathf.Lerp(mainObject.transform.localPosition.x, StowedPosition.x, (Time.deltaTime)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.y, StowedPosition.y, (Time.deltaTime)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.z, StowedPosition.z, (Time.deltaTime)*switchSpeed));
 			
 			mainObject.transform.localEulerAngles = new Vector3(
-				Mathf.Lerp(mainObject.transform.localEulerAngles.x, StowedRotationAsEulerAngles.x, (Time.time-lastAim)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localEulerAngles.y, StowedRotationAsEulerAngles.y, (Time.time-lastAim)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localEulerAngles.z, StowedRotationAsEulerAngles.z, (Time.time-lastAim)*switchSpeed));
+				Mathf.Lerp(mainObject.transform.localEulerAngles.x, StowedRotationAsEulerAngles.x, (Time.deltaTime)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.y, StowedRotationAsEulerAngles.y, (Time.deltaTime)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.z, StowedRotationAsEulerAngles.z, (Time.deltaTime)*switchSpeed));
 			
 			if (mainObject.transform.localPosition.Equals(StowedPosition)) curAnim = weaponAnimType.None;
 			break;
 		case weaponAnimType.Withdrawing :
 			mainObject.transform.parent = camera.transform;
 			mainObject.transform.localPosition = new Vector3(
-				Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time-lastAim)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time-lastAim)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time-lastAim)*switchSpeed));
+				Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.deltaTime)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.deltaTime)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.deltaTime)*switchSpeed));
 			
 			mainObject.transform.localEulerAngles = new Vector3(
-				Mathf.Lerp(mainObject.transform.localEulerAngles.x, 0, (Time.time-lastAim)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localEulerAngles.y, 0, (Time.time-lastAim)*switchSpeed),
-				Mathf.Lerp(mainObject.transform.localEulerAngles.z, 0, (Time.time-lastAim)*switchSpeed));
+				Mathf.Lerp(mainObject.transform.localEulerAngles.x, 0, (Time.deltaTime)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.y, 0, (Time.deltaTime)*switchSpeed),
+				Mathf.Lerp(mainObject.transform.localEulerAngles.z, 0, (Time.deltaTime)*switchSpeed));
 			
 			
 			if (mainObject.transform.localPosition.Equals(Position)) curAnim = weaponAnimType.None;
