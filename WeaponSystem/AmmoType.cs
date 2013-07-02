@@ -10,7 +10,8 @@ public enum AmmoType {
 	NATO556,				//M4A1
 	FMJ762x39mm,			//AK47
 	FourtyCMBolt,			//Crossbow
-	Grenade40mm				//Launching Grenade
+	Grenade40mm,			//Launching Grenade
+	BMG50					//Sniper Rifle, Machine gun
 }
 
 /// <summary>
@@ -30,6 +31,7 @@ public static class AmmoPrice {
 		case AmmoType.FMJ762x39mm: 		return 3;
 		case AmmoType.FourtyCMBolt:		return 4;
 		case AmmoType.Grenade40mm:		return 20;
+		case AmmoType.BMG50:			return 5;
 		default:						return 1;
 		}
 	}

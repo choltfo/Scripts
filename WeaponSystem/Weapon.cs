@@ -510,7 +510,6 @@ public class Weapon {
 	/// </summary>
 	public virtual void AnimIdentify() {
 		if (animate) {
-			Hammer = GameObject.Find(mainObject.name + "/" + Path + "Hammer").transform;
 			Slide = GameObject.Find(mainObject.name + "/" + Path + "Slide").transform;
 			Trigger = GameObject.Find(mainObject.name + "/" + Path + "Trigger").transform;
 		}
@@ -618,7 +617,6 @@ public class Weapon {
 				findFlash();
 			}
 			if (AnimClock == ShotDelay){
-				Hammer.Rotate(-HammerRotation, 0, 0);
 				
 				mainObject.transform.Translate(0,0,-gunDistance/4);
 				mainObject.transform.Rotate(-gunAngle*0.25f,0,0);
@@ -676,7 +674,6 @@ public class Weapon {
 				Trigger.Translate(0,0, -TriggerDistance);
 			}		
 			if (AnimClock == (ShotDelay-SlideDelay)){
-				Hammer.Rotate(HammerRotation, 0, 0);
 				Slide.Translate(0,0, -SlideDistance);
 			}
 			if (AnimClock == 0) {
