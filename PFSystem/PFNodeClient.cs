@@ -43,6 +43,14 @@ public class PFNodeClient : MonoBehaviour {
 	/// The safest node.
 	/// </returns>
 	public PFNode getNodeSafest (PathfindingEnemy[] enemies) {
+		
+		foreach (PFNode node in currentNode) {
+			float riskFactor = 0;
+			foreach (PathfindingEnemy e in enemies) {
+				riskFactor += Mathf.Pow(Vector3.Distance (node.transform.position, e.transform.position), 2);
+			}
+		}
+		
 		return currentNode;//Failsafe. Or something.
 	}
 }
