@@ -1,15 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(CharacterMotor))]
 
 /// <summary>
 /// Figures out the best node for the character to move to via the PFNode network.
 /// Should not control the CharacterMotor directly, instead should be linked to an other class, e.g., enemy.
 /// </summary>
 public class PFNodeClient : MonoBehaviour {
-	
-	public float updatePeriod;
 	
 	public PFNode currentNode;
 	
@@ -43,14 +40,26 @@ public class PFNodeClient : MonoBehaviour {
 	/// The safest node.
 	/// </returns>
 	public PFNode getNodeSafest (PathfindingEnemy[] enemies) {
+		float leastDangerous = 0f;
+		int index = -1;
+		int i = 0;
+		
+		foreach (PathfindingEnemy e in enemies) {
+			riskFactor += Mathf.Pow(Vector3.Distance (currentNode.transform.position, e.transform.position), 2);
+		}
 		
 		foreach (PFNode node in currentNode) {
 			float riskFactor = 0;
 			foreach (PathfindingEnemy e in enemies) {
 				riskFactor += Mathf.Pow(Vector3.Distance (node.transform.position, e.transform.position), 2);
 			}
+			i++;
+			if (riskFactor < leastDangerous) {
+				index = i;
+				leastDangerous = riskFactor;
+			}
 		}
 		
-		return currentNode;//Failsafe. Or something.
+		return (index == -1) ? currentNode : currentNode.Nodes[index];
 	}
 }
