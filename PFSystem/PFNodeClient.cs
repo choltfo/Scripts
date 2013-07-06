@@ -17,7 +17,7 @@ public class PFNodeClient : MonoBehaviour {
 	/// The node nearest the current node.
 	/// </returns>
 	public PFNode getNodeNearest() {
-		float distance = float.MaxValue;	// Should be safe.
+		float distance = float.MaxValue;		// Should be safe.
 		int index = -1;
 		int i = 0;
 		foreach (PFNodeEntry E in currentNode.Nodes) {
@@ -27,7 +27,7 @@ public class PFNodeClient : MonoBehaviour {
 			}
 			i++;
 		}
-		return (index == -1) ? currentNode : currentNode.Nodes[index];
+		return (index == -1) ? currentNode : currentNode.Nodes[index].node;
 	}
 	
 	/// <summary>
@@ -45,13 +45,13 @@ public class PFNodeClient : MonoBehaviour {
 		int i = 0;
 		
 		foreach (PathfindingEnemy e in enemies) {
-			riskFactor += Mathf.Pow(Vector3.Distance (currentNode.transform.position, e.transform.position), 2);
+			leastDangerous += Mathf.Pow(Vector3.Distance (currentNode.transform.position, e.transform.position), 2);
 		}
 		
-		foreach (PFNode node in currentNode) {
+		foreach (PFNodeEntry node in currentNode.Nodes) {
 			float riskFactor = 0;
 			foreach (PathfindingEnemy e in enemies) {
-				riskFactor += Mathf.Pow(Vector3.Distance (node.transform.position, e.transform.position), 2);
+				riskFactor += Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
 			}
 			i++;
 			if (riskFactor < leastDangerous) {
@@ -60,6 +60,6 @@ public class PFNodeClient : MonoBehaviour {
 			}
 		}
 		
-		return (index == -1) ? currentNode : currentNode.Nodes[index];
+		return (index == -1) ? currentNode : currentNode.Nodes[index].node;
 	}
 }

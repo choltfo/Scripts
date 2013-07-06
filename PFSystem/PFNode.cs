@@ -5,10 +5,6 @@ public class PFNode : MonoBehaviour {
 	public PFNodeEntry[] Nodes;
 	public PFNodeType type = PFNodeType.Transit;
 	
-	//void Start() {
-	//	foreach (PFNodeEntry e in Nodes) e.accessibilityAssessment(this);
-	//}
-	
 	/// <summary>
 	/// Checks all the connected nodes to allow for finding the best, and safest node.
 	/// </summary>
@@ -18,6 +14,7 @@ public class PFNode : MonoBehaviour {
 	}
 }
 
+[System.Serializable]
 public class PFNodeEntry {
 	public PFNode node;
 	public bool accessible;
