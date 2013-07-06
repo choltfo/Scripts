@@ -45,8 +45,9 @@ public class PathfindingEnemy : MonoBehaviour {
 			lastUpdate = Time.time;
 			
 			// Change this to whatever the best method is.
+			// TODO: change to getSafest, once that works.
 			PFNC.currentNode = PFNC.getNodeNearest();
-			//transform.LookAt(getZXPosition(target));
+			
 			ready = false;
 		}
 	}
