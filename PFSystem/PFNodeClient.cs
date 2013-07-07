@@ -39,19 +39,20 @@ public class PFNodeClient : MonoBehaviour {
 	/// <returns>
 	/// The safest node.
 	/// </returns>
-	public PFNode getNodeSafest (PathfindingEnemy[] enemies) {
+	public PFNode getNodeSafest (GameObject[] enemies, Faction allegiance = Faction.Evil) {
 		float leastDangerous = 0f;
 		int index = -1;
 		int i = 0;
 		
-		foreach (PathfindingEnemy e in enemies) {
-			leastDangerous += Mathf.Pow(Vector3.Distance (currentNode.transform.position, e.transform.position), 2);
+		foreach (GameObject e in enemies) {
+						// Change the != to whatever the faction relationship system is.
+			if (e.GetComponent<Enemy>().faction != allegiance) leastDangerous += Mathf.Pow(Vector3.Distance (currentNode.transform.position, e.transform.position), 2);
 		}
 		
 		foreach (PFNodeEntry node in currentNode.Nodes) {
 			float riskFactor = 0;
-			foreach (PathfindingEnemy e in enemies) {
-				riskFactor += Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
+			foreach (GameObject e in enemies) {
+				if (e.GetComponent<Enemy>().faction != allegiance) riskFactor += Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
 			}
 			i++;
 			if (riskFactor < leastDangerous) {

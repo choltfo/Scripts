@@ -4,20 +4,18 @@ using System.Collections;
 [RequireComponent(typeof(PFNodeClient))]
 [RequireComponent(typeof(CharacterController))]
 
-public class PathfindingEnemy : MonoBehaviour {
+public class PathfindingEnemy : Enemy {
 	
 	public float updateInterval = 1f;
-	//[HideInInspector]
-	//public PFNode targetNode;
 	
 	float lastUpdate = -1f;
-	public Faction faction = Faction.Evil;
 	public float speed = 5;
 	
 	PFNodeClient PFNC;
 	CharacterController CC;
 	
 	public bool ready = true;
+
 	
 	// Use this for initialization
 	void Start () {
@@ -46,7 +44,9 @@ public class PathfindingEnemy : MonoBehaviour {
 			
 			// Change this to whatever the best method is.
 			// TODO: change to getSafest, once that works.
-			PFNC.currentNode = PFNC.getNodeNearest();
+			//PFNC.currentNode = PFNC.getNodeNearest();								// This should be the same for all
+																					// Enemies.
+			PFNC.currentNode = PFNC.getNodeSafest(GameObject.FindGameObjectsWithTag("Combatant"), faction);
 			
 			ready = false;
 		}
