@@ -7,6 +7,10 @@ public class GrenadeLauncher : Weapon {
 	public float ShotForce;
 	
 	public override bool Shoot(Camera camera) {
+		return Shoot (camera.gameObject);
+	}
+	
+	public bool Shoot (GameObject camera) {
 		if (!IsValid || CurAmmo == 0) return false;
 		GameObject newGrenade = MonoBehaviour.Instantiate(grenade.instantiableGrenade, camera.transform.position, camera.transform.rotation) as GameObject;
 		newGrenade = grenade.convert(newGrenade);
@@ -21,5 +25,9 @@ public class GrenadeLauncher : Weapon {
 		newGrenade.transform.parent = null;
 		CurAmmo -= 1;
 		return true;
+	}
+	
+	public override bool AIShoot(GameObject camera) {
+		return Shoot (camera.gameObject);
 	}
 }

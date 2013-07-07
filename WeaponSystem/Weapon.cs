@@ -396,6 +396,7 @@ public class Weapon {
 	/// Camera to aim from.
 	/// </param>
 	public virtual bool Shoot(Camera camera) {
+		
 		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && !isFiring && curAnim == weaponAnimType.None){
 			CurAmmo -= 1;
 			((AudioSource)mainObject.GetComponent("AudioSource")).Play();
@@ -429,6 +430,90 @@ public class Weapon {
 					if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
 						hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
 					}					 
+					if (hit.transform.tag == "Explosive") {
+						if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
+							Detonator target = (Detonator)hit.transform.gameObject.GetComponent("Detonator");
+							target.Explode();
+						}
+						if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
+							AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
+							targetSound.Play();
+						}
+						if (hit.transform.gameObject.GetComponent<ExplosiveDamage>() != null) {
+							hit.transform.gameObject.GetComponent<ExplosiveDamage>().explode();	
+						}
+					} else if (hit.transform.tag == "Enemy") {
+						if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
+							AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
+							targetSound.Play();
+						}
+						if (hit.transform.gameObject.GetComponent("EnemyHealth") != null) {
+							EnemyHealth enemyHealth = (EnemyHealth)hit.transform.gameObject.GetComponent("EnemyHealth");
+							enemyHealth.damage(Damage, DamageCause.Shot);
+							MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
+						}
+						GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(BloodSpray, hit.point, hitRotation);
+						newBlood.transform.parent = hit.transform;
+						newBlood.transform.Translate(0,(float)0.05,0);
+					} else {
+						GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(BulletHole, hit.point, hitRotation);
+						newBulletHole.transform.parent = hit.transform;
+						newBulletHole.transform.Translate(0,(float)0.05,0);
+						hitRotation.x = hitRotation.x + 270;
+						GameObject newDust = (GameObject)MonoBehaviour.Instantiate(DirtSpray, hit.point, hitRotation);
+						newDust.transform.parent = hit.transform;
+						newDust.transform.Translate(0,(float)0.05,0);
+					}
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	/// <summary>
+	/// Shoots the gun from an AI, instead of a player.
+	/// </summary>
+	/// <returns>
+	/// Wether the gun shot.
+	/// </returns>
+	/// <param name='camera'>
+	/// The GameObject that is situated in place of a camera.
+	/// </param>
+	public virtual bool AIShoot(GameObject camera) {
+		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && !isFiring && curAnim == weaponAnimType.None){
+			CurAmmo -= 1;
+			((AudioSource)mainObject.GetComponent<AudioSource>()).Play();
+			
+			//Debug.Log("Setting anim clock to " + ((int)(30/(7.5*FireRateAsPercent / 100))) + 
+			//	", or " + (30/(7.5*FireRateAsPercent / 100)));
+			//Debug.Log("Acheived via (30/(7.5*(" + FireRateAsPercent + "/100)))" );
+			//Debug.Log("Acheived via " + 30/(7.5*FireRateAsPercent/100));
+			
+			AnimClock = (int)(30/(7.5 * FireRateAsPercent / 100));
+			ShotDelay = (int)(30/(7.5 * FireRateAsPercent / 100));
+			isFiring = true;
+			curAnim = weaponAnimType.Firing;
+			
+			if (SmokePuff) {
+				GameObject Thing = (GameObject)MonoBehaviour.Instantiate(SmokePuff, new Vector3 (0,0,0), mainObject.transform.rotation);
+				Thing.transform.parent = mainObject.transform;
+				Thing.transform.localPosition = SmokePuffPosition;
+				//Thing.transform.Rotate(rot, Space.Self);
+			}
+			
+			for (int i = 0; i<numOfShots; i++) {
+				Vector2 position = Random.insideUnitCircle;
+  				int x = (int)(position.x * xSpread);
+  				int y = (int)(position.y * yspread);
+				
+				RaycastHit hit;
+				if (Physics.Raycast(camera.transform.position, camera.transform.rotation.eulerAngles, out hit, Range)){
+					Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+					
+					if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
+						hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
+					}
 					if (hit.transform.tag == "Explosive") {
 						if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
 							Detonator target = (Detonator)hit.transform.gameObject.GetComponent("Detonator");

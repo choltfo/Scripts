@@ -8,6 +8,8 @@ using System.Collections;
 /// </summary>
 public class PFNodeClient : MonoBehaviour {
 	
+	public static bool debugMode = false;
+	
 	public PFNode currentNode;
 	
 	/// <summary>
@@ -31,15 +33,15 @@ public class PFNodeClient : MonoBehaviour {
 	}
 	
 	/// <summary>
-	/// Gets the node furthest from any enemy combatants, inclusive of self.
+	/// Gets the node closest from any enemy combatants, inclusive of current nodea.
 	/// 
 	/// FUTURE: Add calculations for safety based on effective range of the weapon they are holding.
 	/// 	e.g., One is much safer ten meters away from a sniper than one half-kilometer away.
 	/// </summary>
 	/// <returns>
-	/// The safest node.
+	/// The most dangerous node.
 	/// </returns>
-	public PFNode getNodeSafest (GameObject[] enemies, Faction allegiance = Faction.Evil) {
+	public PFNode getNodeClosestToEnemies (GameObject[] enemies, Faction allegiance = Faction.Evil) {
 		float leastDangerous = 0f;
 		int index = -1;
 		int i = 0;
@@ -48,15 +50,15 @@ public class PFNodeClient : MonoBehaviour {
 						// Change the != to whatever the faction relationship system is.
 			if (e.GetComponent<Enemy>().faction != allegiance) leastDangerous += Mathf.Pow(Vector3.Distance (currentNode.transform.position, e.transform.position), 2);
 		}
-		print ("Risk for " + currentNode.name + " is "+leastDangerous);
+		if (debugMode) print ("Risk for " + currentNode.name + " is "+leastDangerous);
 		
 		foreach (PFNodeEntry node in currentNode.Nodes) {
 			float riskFactor = 0;
 			foreach (GameObject e in enemies) {
 				if (e.GetComponent<Enemy>().faction != allegiance) riskFactor += Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
-				print ("Calculated for " + e.name + " near " + node.node.name);
+				if (debugMode) print ("Calculated for " + e.name + " near " + node.node.name);
 			}
-			print ("Risk for " + node.node.name + " is "+riskFactor);
+			if (debugMode) print ("Risk for " + node.node.name + " is "+riskFactor);
 			if (riskFactor < leastDangerous) {
 				index = i;
 				leastDangerous = riskFactor;

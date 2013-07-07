@@ -11,8 +11,10 @@ public class PathfindingEnemy : Enemy {
 	float lastUpdate = -1f;
 	public float speed = 5;
 	
-	PFNodeClient PFNC;
-	CharacterController CC;
+	//[HideInInspector]
+	public PFNodeClient PFNC;
+	//[HideInInspector]
+	public CharacterController CC;
 	
 	public bool ready = true;
 
@@ -23,6 +25,8 @@ public class PathfindingEnemy : Enemy {
 		CC	 = GetComponent<CharacterController>();
 		
 		//targetNode = PFNC.currentNode;
+		
+		childStart();
 	}
 	
 	// Update is called once per frame
@@ -46,10 +50,21 @@ public class PathfindingEnemy : Enemy {
 			// TODO: change to getSafest, once that works.
 			//PFNC.currentNode = PFNC.getNodeNearest();								// This should be the same for all
 																					// Enemies.
-			PFNC.currentNode = PFNC.getNodeSafest(GameObject.FindGameObjectsWithTag("Combatant"), faction);
+			PFNC.currentNode = PFNC.getNodeClosestToEnemies(GameObject.FindGameObjectsWithTag("Combatant"), faction);
 			
 			ready = false;
 		}
+		
+		childFixedUpdate();
+	}
+	
+	public virtual void childFixedUpdate() {
+		return;
+	}
+	
+	public virtual void childStart() {
+		Debug.Log ("childStart - PFEnemy");
+		return;
 	}
 	
 	public static Vector3 getRelativePosition(Transform origin, Vector3 position) {

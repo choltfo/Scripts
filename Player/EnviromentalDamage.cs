@@ -21,7 +21,7 @@ public class EnviromentalDamage : MonoBehaviour {
 	public float crashThreshold = 15;
 	
 	void OnCollisionEnter(Collision C) {
-		print (Mathf.Pow((C.relativeVelocity.magnitude-crashThreshold)/2,2));
+		// DEBUG: print (Mathf.Pow((C.relativeVelocity.magnitude-crashThreshold)/2,2));
 		if (C.relativeVelocity.magnitude > crashThreshold) {
 			health.Damage(Mathf.Pow((C.relativeVelocity.magnitude-crashThreshold)/2,2), DamageCause.KineticInjury);
 		}
