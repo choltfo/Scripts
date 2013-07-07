@@ -484,9 +484,12 @@ public class Weapon {
 	}
 	
 	public void calculateDamage (RaycastHit hit) {
+		
+		Debug.Log("Hit " + hit.collider.gameObject.name);
+		
 		Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);	
 			if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
-			hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
+				hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
 			}					 
 			if (hit.transform.tag == "Explosive") {
 				if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
@@ -500,7 +503,7 @@ public class Weapon {
 				if (hit.transform.gameObject.GetComponent<ExplosiveDamage>() != null) {
 					hit.transform.gameObject.GetComponent<ExplosiveDamage>().explode();	
 				}
-			} else if (hit.transform.tag == "Enemy") {
+			} else if (hit.transform.tag == "Combatant") {
 				if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
 					AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
 					targetSound.Play();
@@ -512,6 +515,11 @@ public class Weapon {
 				}
 				if (hit.transform.gameObject.GetComponent<Health>() != null) {
 					Health enemyHealth = hit.transform.gameObject.GetComponent<Health>();
+					enemyHealth.Damage(Damage, DamageCause.Shot);
+					MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
+				}
+				if (hit.transform.FindChild("Camera").gameObject.GetComponent<Health>() != null) {
+					Health enemyHealth = hit.transform.FindChild("Camera").gameObject.GetComponent<Health>();
 					enemyHealth.Damage(Damage, DamageCause.Shot);
 					MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
 				}
