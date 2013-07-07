@@ -18,6 +18,7 @@ public enum AmmoType {
 /// Get Ammo prices.
 /// </summary>
 public static class AmmoPrice {
+	
 	/// <summary>
 	/// Get the price of a specified bullet type.
 	/// </summary>
