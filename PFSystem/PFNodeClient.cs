@@ -48,17 +48,20 @@ public class PFNodeClient : MonoBehaviour {
 						// Change the != to whatever the faction relationship system is.
 			if (e.GetComponent<Enemy>().faction != allegiance) leastDangerous += Mathf.Pow(Vector3.Distance (currentNode.transform.position, e.transform.position), 2);
 		}
+		print ("Risk for " + currentNode.name + " is "+leastDangerous);
 		
 		foreach (PFNodeEntry node in currentNode.Nodes) {
 			float riskFactor = 0;
 			foreach (GameObject e in enemies) {
 				if (e.GetComponent<Enemy>().faction != allegiance) riskFactor += Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
+				print ("Calculated for " + e.name + " near " + node.node.name);
 			}
-			i++;
+			print ("Risk for " + node.node.name + " is "+riskFactor);
 			if (riskFactor < leastDangerous) {
 				index = i;
 				leastDangerous = riskFactor;
 			}
+			i++;
 		}
 		
 		return (index == -1) ? currentNode : currentNode.Nodes[index].node;

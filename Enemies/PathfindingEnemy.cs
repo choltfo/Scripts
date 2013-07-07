@@ -31,10 +31,10 @@ public class PathfindingEnemy : Enemy {
 		if ((int)transform.position.z == (int)getZXPosition(PFNC.currentNode.transform.position).z &&
 			(int)transform.position.x == (int)getZXPosition(PFNC.currentNode.transform.position).x) {
 			ready = true;
-			print ("In position, readying up.");
+			//print ("In position, readying up.");
 		}
 		
-		print (transform.position.ToString() + " : " + getZXPosition(PFNC.currentNode.transform.position));
+		// DEBUG: print (transform.position.ToString() + " : " + getZXPosition(PFNC.currentNode.transform.position));
 		
 		Vector3 target = getRelativePosition(transform, PFNC.currentNode.transform.position);
 		CC.SimpleMove (target * speed);
