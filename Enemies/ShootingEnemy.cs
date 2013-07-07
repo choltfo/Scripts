@@ -23,9 +23,11 @@ public class ShootingEnemy : PathfindingEnemy {
 	public WeaponPickup startingWeapon;
 	
 	public override void childStart () {
-		Debug.Log ("childStart - ShootingEnemy'");
+		Debug.Log ("childStart - ShootingEnemy");
 		
 		weapon = startingWeapon.thisGun;
+		
+		weapon.player = false;
 		ammo = new int[7];
 		//This is not going to last;
 		//ammo = new int[typeof(AmmoType)];
@@ -39,9 +41,14 @@ public class ShootingEnemy : PathfindingEnemy {
 	}
 	
 	public override void childFixedUpdate () {
-		if (ready && Time.time > lastShot + semiAutoFireDelay) {
+		weapon.AnimUpdate();
+		
+		if (ready && (Time.time > lastShot + semiAutoFireDelay)) {
 			if (!weapon.AIShoot(head)) {
 				weapon.Reload(ammo);
+				print ("Reloading");
+			} else {
+				print ("Firing!");
 			}
 		}
 	}

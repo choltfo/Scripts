@@ -232,6 +232,7 @@ public class Weapon {
 	public GameObject SmokePuff;
 	public Vector3 SmokePuffPosition;
 	
+	public bool player = true;
 	
 	//public UnderbarrelAttachment underbarrel;
 	
@@ -669,14 +670,14 @@ public class Weapon {
 		case weaponAnimType.None :
 			if (isOut) {
 				if(isAimed == true){
-					camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
+					if (player) camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
 						ScopeZoom,Time.deltaTime*zoomSmoothing);
 					mainObject.transform.localPosition = new Vector3(
 						Mathf.Lerp(mainObject.transform.localPosition.x, ScopedPosition.x, (Time.time-lastAim)*AimSpeed),
 						Mathf.Lerp(mainObject.transform.localPosition.y, ScopedPosition.y, (Time.time-lastAim)*AimSpeed),
 						Mathf.Lerp(mainObject.transform.localPosition.z, ScopedPosition.z, (Time.time-lastAim)*AimSpeed));
 				} else {
-					camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
+					if (player) camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
 						NormalZoom,Time.deltaTime*zoomSmoothing);
 					mainObject.transform.localPosition = new Vector3(
 						Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time-lastAim)*AimSpeed),
@@ -718,8 +719,8 @@ public class Weapon {
 				if (flash) {
 					flash.SetActive(true);
 				}
-				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY
-					+= CameraClimb;
+				if (player) ((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).
+					rotationY += CameraClimb;
 				float x = mainObject.transform.parent.parent.localEulerAngles.x;
 				float y = mainObject.transform.parent.parent.localEulerAngles.y;
 				float z = mainObject.transform.parent.parent.localEulerAngles.z;
@@ -735,21 +736,21 @@ public class Weapon {
 				if (flash) {
 					flash.SetActive(false);
 				}
-				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
+				if (player)  ((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
 			}
 			if (AnimClock == (ShotDelay - 2)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
 				mainObject.transform.Translate(0,0,gunDistance/4);
 				
-				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
+				if (player) ((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
 			}
 			if (AnimClock == (ShotDelay - 3)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
 				mainObject.transform.Translate(0,0,gunDistance/4);
 				
-				((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
+				if (player) ((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
 			}
 			if (AnimClock == (ShotDelay - 4)){
