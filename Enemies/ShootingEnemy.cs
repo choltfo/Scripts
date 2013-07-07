@@ -42,13 +42,20 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public override void childFixedUpdate () {
 		weapon.AnimUpdate();
-		
-		if (ready && (Time.time > lastShot + semiAutoFireDelay)) {
-			if (!weapon.AIShoot(head)) {
+		if (ready) {
+			if (weapon.CurAmmo == 0 && weapon.AnimClock == 0) {
 				weapon.Reload(ammo);
 				print ("Reloading");
-			} else {
-				print ("Firing!");
+			}
+			if (!weapon.Automatic && Time.time > lastShot + semiAutoFireDelay) {
+				print ("Attempting shot!");
+				if (weapon.AIShoot(head)) {
+					print ("Firing!");
+				}
+			}
+			if (weapon.Automatic) {
+				print ("Holding trigger!");
+				weapon.AIShoot(head);
 			}
 		}
 	}

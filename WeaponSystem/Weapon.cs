@@ -159,7 +159,7 @@ public class Weapon {
 	
 	public bool flashLightOn = false;
 	public GameObject flashLight = null;
-	[HideInInspector]
+	//[HideInInspector]
 	/// <summary>
 	/// The animation clock. Not visible in Inspector.
 	/// </summary>
@@ -398,7 +398,7 @@ public class Weapon {
 	/// </param>
 	public virtual bool Shoot(Camera camera) {
 		
-		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && !isFiring && curAnim == weaponAnimType.None){
+		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && AnimClock == 0 && curAnim == weaponAnimType.None){
 			CurAmmo -= 1;
 			((AudioSource)mainObject.GetComponent("AudioSource")).Play();
 			
@@ -426,45 +426,7 @@ public class Weapon {
 				Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width/2+x,Screen.height/2+y,0));
 				RaycastHit hit;
 				if (Physics.Raycast(ray, out hit, Range)){
-					Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);	
-					
-					if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
-						hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
-					}					 
-					if (hit.transform.tag == "Explosive") {
-						if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
-							Detonator target = (Detonator)hit.transform.gameObject.GetComponent("Detonator");
-							target.Explode();
-						}
-						if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
-							AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
-							targetSound.Play();
-						}
-						if (hit.transform.gameObject.GetComponent<ExplosiveDamage>() != null) {
-							hit.transform.gameObject.GetComponent<ExplosiveDamage>().explode();	
-						}
-					} else if (hit.transform.tag == "Enemy") {
-						if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
-							AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
-							targetSound.Play();
-						}
-						if (hit.transform.gameObject.GetComponent("EnemyHealth") != null) {
-							EnemyHealth enemyHealth = (EnemyHealth)hit.transform.gameObject.GetComponent("EnemyHealth");
-							enemyHealth.damage(Damage, DamageCause.Shot);
-							MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
-						}
-						GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(BloodSpray, hit.point, hitRotation);
-						newBlood.transform.parent = hit.transform;
-						newBlood.transform.Translate(0,(float)0.05,0);
-					} else {
-						GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(BulletHole, hit.point, hitRotation);
-						newBulletHole.transform.parent = hit.transform;
-						newBulletHole.transform.Translate(0,(float)0.05,0);
-						hitRotation.x = hitRotation.x + 270;
-						GameObject newDust = (GameObject)MonoBehaviour.Instantiate(DirtSpray, hit.point, hitRotation);
-						newDust.transform.parent = hit.transform;
-						newDust.transform.Translate(0,(float)0.05,0);
-					}
+					calculateDamage(hit);
 				}
 			}
 			return true;
@@ -482,7 +444,9 @@ public class Weapon {
 	/// The GameObject that is situated in place of a camera.
 	/// </param>
 	public virtual bool AIShoot(GameObject camera) {
-		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && !isFiring && curAnim == weaponAnimType.None){
+		Debug.Log("Attempting firing");
+		if (CurAmmo > 0 && AnimClock == 0 && curAnim == weaponAnimType.None){
+			Debug.Log("Firing by AI");
 			CurAmmo -= 1;
 			((AudioSource)mainObject.GetComponent<AudioSource>()).Play();
 			
@@ -495,6 +459,7 @@ public class Weapon {
 			ShotDelay = (int)(30/(7.5 * FireRateAsPercent / 100));
 			isFiring = true;
 			curAnim = weaponAnimType.Firing;
+			
 			
 			if (SmokePuff) {
 				GameObject Thing = (GameObject)MonoBehaviour.Instantiate(SmokePuff, new Vector3 (0,0,0), mainObject.transform.rotation);
@@ -510,50 +475,58 @@ public class Weapon {
 				
 				RaycastHit hit;
 				if (Physics.Raycast(camera.transform.position, camera.transform.rotation.eulerAngles, out hit, Range)){
-					Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
-					
-					if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
-						hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
-					}
-					if (hit.transform.tag == "Explosive") {
-						if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
-							Detonator target = (Detonator)hit.transform.gameObject.GetComponent("Detonator");
-							target.Explode();
-						}
-						if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
-							AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
-							targetSound.Play();
-						}
-						if (hit.transform.gameObject.GetComponent<ExplosiveDamage>() != null) {
-							hit.transform.gameObject.GetComponent<ExplosiveDamage>().explode();	
-						}
-					} else if (hit.transform.tag == "Enemy") {
-						if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
-							AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
-							targetSound.Play();
-						}
-						if (hit.transform.gameObject.GetComponent("EnemyHealth") != null) {
-							EnemyHealth enemyHealth = (EnemyHealth)hit.transform.gameObject.GetComponent("EnemyHealth");
-							enemyHealth.damage(Damage, DamageCause.Shot);
-							MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
-						}
-						GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(BloodSpray, hit.point, hitRotation);
-						newBlood.transform.parent = hit.transform;
-						newBlood.transform.Translate(0,(float)0.05,0);
-					} else {
-						GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(BulletHole, hit.point, hitRotation);
-						newBulletHole.transform.parent = hit.transform;
-						newBulletHole.transform.Translate(0,(float)0.05,0);
-						hitRotation.x = hitRotation.x + 270;
-						GameObject newDust = (GameObject)MonoBehaviour.Instantiate(DirtSpray, hit.point, hitRotation);
-						newDust.transform.parent = hit.transform;
-						newDust.transform.Translate(0,(float)0.05,0);
-					}
+					calculateDamage(hit);
 				}
 			}
 			return true;
 		}
 		return false;
+	}
+	
+	public void calculateDamage (RaycastHit hit) {
+		Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);	
+			if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
+			hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
+			}					 
+			if (hit.transform.tag == "Explosive") {
+				if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
+					Detonator target = (Detonator)hit.transform.gameObject.GetComponent("Detonator");
+					target.Explode();
+				}
+				if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
+					AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
+					targetSound.Play();
+				}
+				if (hit.transform.gameObject.GetComponent<ExplosiveDamage>() != null) {
+					hit.transform.gameObject.GetComponent<ExplosiveDamage>().explode();	
+				}
+			} else if (hit.transform.tag == "Enemy") {
+				if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
+					AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
+					targetSound.Play();
+				}
+				if (hit.transform.gameObject.GetComponent("EnemyHealth") != null) {
+					EnemyHealth enemyHealth = (EnemyHealth)hit.transform.gameObject.GetComponent("EnemyHealth");
+					enemyHealth.damage(Damage, DamageCause.Shot);
+					MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
+				}
+				if (hit.transform.gameObject.GetComponent<Health>() != null) {
+					Health enemyHealth = hit.transform.gameObject.GetComponent<Health>();
+					enemyHealth.Damage(Damage, DamageCause.Shot);
+					MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
+				}
+				GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(BloodSpray, hit.point, hitRotation);
+				newBlood.transform.parent = hit.transform;
+				newBlood.transform.Translate(0,(float)0.05,0);
+			} else {
+				GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(BulletHole, hit.point, hitRotation);
+				newBulletHole.transform.parent = hit.transform;
+				newBulletHole.transform.Translate(0,(float)0.05,0);
+				hitRotation.x = hitRotation.x + 270;
+				GameObject newDust = (GameObject)MonoBehaviour.Instantiate(DirtSpray, hit.point, hitRotation);
+				newDust.transform.parent = hit.transform;
+				newDust.transform.Translate(0,(float)0.05,0);
+			}
 	}
 	
 	public virtual int[] Reload(int[] ammo) {
@@ -689,6 +662,9 @@ public class Weapon {
 			} else {
 				mainObject.transform.parent = camera.transform.parent;
 				mainObject.transform.localPosition = StowedPosition;	
+			}
+			if (AnimClock > 0) {
+				AnimClock--;
 			}
 			break;
 		case weaponAnimType.Firing :
