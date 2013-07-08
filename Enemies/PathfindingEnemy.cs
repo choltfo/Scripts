@@ -80,4 +80,5 @@ public class PathfindingEnemy : Enemy {
 		pos.Set (pos.x, transform.position.y, pos.z);
 		return pos;
 	}
+	
 }

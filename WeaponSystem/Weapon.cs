@@ -775,6 +775,10 @@ public class Weapon {
 			sightPost.Rotate(90,0,0);
 		}
 	}
+
+	public Weapon duplicate() {
+		return (Weapon)this.MemberwiseClone();
+	}
 }
 
 [System.Serializable]

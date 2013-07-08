@@ -25,7 +25,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	public override void childStart () {
 		Debug.Log ("childStart - ShootingEnemy");
 		
-		weapon = startingWeapon.thisGun;
+		weapon = startingWeapon.thisGun.duplicate();
 		
 		weapon.player = false;
 		ammo = new int[7];
