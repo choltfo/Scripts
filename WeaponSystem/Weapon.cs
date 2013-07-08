@@ -444,9 +444,9 @@ public class Weapon {
 	/// The GameObject that is situated in place of a camera.
 	/// </param>
 	public virtual bool AIShoot(GameObject camera) {
-		Debug.Log("Attempting firing");
+		//Debug.Log("Attempting firing");
 		if (CurAmmo > 0 && AnimClock == 0 && curAnim == weaponAnimType.None){
-			Debug.Log("Firing by AI");
+			//Debug.Log("Firing by AI");
 			CurAmmo -= 1;
 			((AudioSource)mainObject.GetComponent<AudioSource>()).Play();
 			
@@ -543,7 +543,7 @@ public class Weapon {
 			curAnim = weaponAnimType.Reloading;
 			
 			if (ammo[(int)ammoType] == 0) {
-				Debug.Log ("Out of bullets!");
+				//Debug.Log ("Out of bullets!");
 			}
 			ammo[(int)ammoType] += CurAmmo;
 			CurAmmo = 0;

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class ShootingEnemy : PathfindingEnemy {
 	
@@ -22,15 +23,15 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public WeaponPickup startingWeapon;
 	
+	public bool debug = false;
+	
 	public override void childStart () {
 		Debug.Log ("childStart - ShootingEnemy");
 		
 		weapon = startingWeapon.thisGun.duplicate();
 		
 		weapon.player = false;
-		ammo = new int[7];
-		//This is not going to last;
-		//ammo = new int[typeof(AmmoType)];
+		ammo = new int[Enum.GetValues(typeof(AmmoType)).Length];
 		ammo[(int)ammoType] = startingReserveAmmo;
 		
 		head = transform.FindChild("head").gameObject;
@@ -45,16 +46,16 @@ public class ShootingEnemy : PathfindingEnemy {
 		if (ready) {
 			if (weapon.CurAmmo == 0 && weapon.AnimClock == 0) {
 				weapon.Reload(ammo);
-				print ("Reloading");
+				if (debug) print ("Reloading");
 			}
 			if (!weapon.Automatic && Time.time > lastShot + semiAutoFireDelay) {
-				print ("Attempting shot!");
+				if (debug) print ("Attempting shot!");
 				if (weapon.AIShoot(head)) {
-					print ("Firing!");
+					if (debug) print ("Firing!");
 				}
 			}
 			if (weapon.Automatic) {
-				print ("Holding trigger!");
+				if (debug) print ("Holding trigger!");
 				weapon.AIShoot(head);
 			}
 		}
