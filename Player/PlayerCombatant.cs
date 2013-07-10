@@ -5,11 +5,11 @@ public class PlayerCombatant : Enemy {
 	
 	public Weapon currentWeapon;
 	
-	ShootObjects so;
+	public ShootObjects so;
 	
 	// Use this for initialization
 	void Start () {
-		so = GetComponent<ShootObjects>();
+		//so = GetComponent<ShootObjects>();
 	}
 	
 	// Update is called once per frame
