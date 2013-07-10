@@ -40,7 +40,8 @@ public class ExplosiveDamage : MonoBehaviour {
 		AUDIO.GetComponent<AudioSource>().PlayOneShot(explosionNoise);
 		AUDIO.GetComponent<AudioSource>().rolloffMode = AudioRolloffMode.Linear;
 		AUDIO.AddComponent<TimedObjectDestructor>();
-		AUDIO.GetComponent<TimedObjectDestructor>().secondsToDestroy = explosionNoise.length;
+		if (explosionNoise != null) AUDIO.GetComponent<TimedObjectDestructor>().secondsToDestroy = explosionNoise.length;
+		if (explosionNoise == null) AUDIO.GetComponent<TimedObjectDestructor>().secondsToDestroy = 5;
 		
 		foreach (Collider hit in hitColliders) {
 			//print (hit.transform.gameObject.name);

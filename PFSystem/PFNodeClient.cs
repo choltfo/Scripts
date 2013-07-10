@@ -12,6 +12,10 @@ public class PFNodeClient : MonoBehaviour {
 	
 	public PFNode currentNode;
 	
+	
+	public float TeammateBias	 = 1.2f;
+	public float EnemyBias		 = 1f;
+	
 	/// <summary>
 	/// Gets the nearest node to the current node.
 	/// </summary>
@@ -54,9 +58,61 @@ public class PFNodeClient : MonoBehaviour {
 		
 		foreach (PFNodeEntry node in currentNode.Nodes) {
 			float riskFactor = 0;
+			if (debugMode) foreach (GameObject g in enemies)print (g.name);
 			foreach (GameObject e in enemies) {
-				if (e.GetComponent<Enemy>().faction != allegiance) riskFactor += Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
-				if (debugMode) print ("Calculated for " + e.name + " near " + node.node.name);
+				if (e.GetComponent<Enemy>().faction != allegiance) riskFactor +=
+					Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
+				//if (debugMode) print ("Calculated for " + e.name + " near " + node.node.gameObject.name);
+			}
+			if (debugMode) print ("Risk for " + node.node.name + " is "+riskFactor);
+			if (riskFactor < leastDangerous) {
+				index = i;
+				leastDangerous = riskFactor;
+			}
+			i++;
+		}
+		
+		return (index == -1) ? currentNode : currentNode.Nodes[index].node;
+	}
+	
+	/// <summary>
+	/// Gets the node where one is most likely to be able to blow someone's brains out.
+	/// Basically, the node with the most teammates, and the most enemeies nearby.
+	/// </summary>
+	/// <returns>
+	/// The most dangerous node.
+	/// </returns>
+	public PFNode getNodeMostDangerous (GameObject[] enemies, Faction allegiance = Faction.Evil) {
+		float leastDangerous = 0f;
+		int index = -1;
+		int i = 0;
+		
+		foreach (GameObject e in enemies) {
+								  // Change the != to whatever the faction relationship system is.
+			if (e.GetComponent<Enemy>().faction != allegiance) leastDangerous +=
+				Mathf.Pow(Vector3.Distance (currentNode.transform.position, e.transform.position), 2);
+		}
+		if (debugMode) print ("Risk for " + currentNode.name + " is "+leastDangerous);
+		
+		foreach (PFNodeEntry node in currentNode.Nodes) {
+			float riskFactor = 0;
+			if (debugMode) foreach (GameObject g in enemies)print (g.name);
+			foreach (GameObject e in enemies) {
+				
+				if (e.GetComponent<Enemy>() is ShootingEnemy) {
+					float thisCombatantsRisk;
+					if (e != gameObject) {
+						
+					}
+					
+				} else if (e.GetComponent<Enemy>() is PlayerCombatant) {
+					
+				} else {
+					if (e.GetComponent<Enemy>().faction != allegiance) riskFactor +=
+					Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
+				}
+				//if (debugMode) print ("Calculated for " + e.name + " near " + node.node.gameObject.name);
+				
 			}
 			if (debugMode) print ("Risk for " + node.node.name + " is "+riskFactor);
 			if (riskFactor < leastDangerous) {
