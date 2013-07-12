@@ -13,8 +13,6 @@ public class ShootObjects : MonoBehaviour {
 	public float throwForce;
 	public float throwTime = 0;
 	public float throwMax = 50;
-
-	public EnterKey vehicle;
 	public float pickupDistance = 5;
 	public int currentWeapon = 0;
 
