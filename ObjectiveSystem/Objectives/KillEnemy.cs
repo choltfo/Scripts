@@ -8,7 +8,6 @@ public class KillEnemy : Objective {
 	void Update () {}
 	void OnTriggerEnter (Collider other){
 		if (other.gameObject.GetComponent("CampaignDisplay") != null) {
-			CampaignDisplay player = ((CampaignDisplay)other.gameObject.GetComponent("CampaignDisplay"));
 			Complete();
 		}
 	}
