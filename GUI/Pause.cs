@@ -67,19 +67,25 @@ public class Pause : MonoBehaviour {
 	}
 	
 	KeyCode ChangeKey (KeyCode origKey) {
-		Event e = Event.current;
-		if (e.isKey) {
-			return e.keyCode;
+		while (true) {
+			Event e = Event.current;
+			if (e.isKey) {
+				if (e.keyCode == KeyCode.Escape) {
+					return origKey;
+				}
+				else {
+					Debug.Log(e.keyCode);
+					return e.keyCode;
+				}
+			}
 		}
-		else {
-			return origKey;
-		}
+		/*
 		bool done = false;
 		while (!done) {
 			if (Input.GetKeyDown(KeyCode.Return)) {
 				done = true;
 			}
-		}
+		}*/
 	}
 	
 	void OnGUI () {
@@ -122,10 +128,9 @@ public class Pause : MonoBehaviour {
 					int i = 0;
 					// WARNING: REFLECTIONS AHEAD!
 					foreach (FieldInfo variable in variables) {
-						if (GUI.Button(new Rect(((Screen.width/4)-150/2)+(Screen.width/4),50+75*i,150,itemHeight),variable.Name)) {
+						if (GUI.Button(new Rect(((Screen.width/4)-150/2)+(Screen.width/4),50+75*i,150,itemHeight), variable.Name + ": " + variable.GetValue(controls))) {
 							print (variable.Name + " >> " + variable.FieldType.ToString());
-							//variable.SetValue();
-							//ChangeKey(controls.interact);
+							variable.SetValue(controls, ChangeKey((KeyCode)variable.GetValue(controls)));
 						}
 						i++;
 					}
