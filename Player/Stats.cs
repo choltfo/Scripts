@@ -10,4 +10,13 @@ public class Stats : MonoBehaviour {
 	
 	public CharacterControls CControls;
 	public Health health;
+
+    void Start() {
+        CControls = this.gameObject.GetComponent<CharacterControls>();
+        health = this.gameObject.GetComponent<Health>();
+    }
+
+    void Update() {
+        
+    }
 }
