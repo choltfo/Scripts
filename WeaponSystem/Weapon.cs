@@ -469,9 +469,6 @@ public class Weapon {
 			}
 			
 			for (int i = 0; i<numOfShots; i++) {
-				Vector2 position = Random.insideUnitCircle;
-  				float x = (position.x * xSpread);
-  				float y = (position.y * yspread);
 				
 				RaycastHit hit;
 				if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Range)){

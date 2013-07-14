@@ -218,7 +218,6 @@ public class Store : MonoBehaviour {
 	}
 	
 	public static int findWeaponSlot (Weapon[] weapons) {
-		bool anyNull = false;
 		int i = 0;
 		foreach (Weapon weapon in weapons) {
 			if (!weapon.IsValid) {
