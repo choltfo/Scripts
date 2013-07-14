@@ -482,7 +482,7 @@ public class Weapon {
 	
 	public void calculateDamage (RaycastHit hit) {
 		
-		Debug.Log("Hit " + hit.collider.gameObject.name);
+		//Debug.Log("Hit " + hit.collider.gameObject.name);
 		
 		Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);	
 			if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
