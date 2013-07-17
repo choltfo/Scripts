@@ -325,6 +325,13 @@ public class Weapon {
 		isAimed = false;
 		lastAim = Time.time;
 		Exists = true;
+		
+		for (int i = 0; i < attachments.Length; i++) {
+			if (attachments[i].attachment.type == AttachmentType.Silencer) {
+				mainObject.GetComponent<AudioSource>().clip = attachments[i].attachment.silencerNoise;
+				i = attachments.Length-1;
+			}
+		}
 	}
 	
 	/// <summary>
@@ -400,7 +407,7 @@ public class Weapon {
 		
 		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && AnimClock == 0 && curAnim == weaponAnimType.None){
 			CurAmmo -= 1;
-			((AudioSource)mainObject.GetComponent("AudioSource")).Play();
+			mainObject.GetComponent<AudioSource>().Play();
 			
 			//Debug.Log("Setting anim clock to " + ((int)(30/(7.5*FireRateAsPercent / 100))) + 
 			//	", or " + (30/(7.5*FireRateAsPercent / 100)));

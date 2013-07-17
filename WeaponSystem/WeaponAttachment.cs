@@ -9,6 +9,7 @@ public class WeaponAttachment {
 	public AttachmentType type = AttachmentType.Flashlight;
 	public string toggleableObjectPath;
 	public Vector3 rot;
+	public AudioClip silencerNoise;
 	
 	GameObject Thing;
 	bool on = true;
