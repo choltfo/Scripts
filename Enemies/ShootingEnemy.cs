@@ -26,7 +26,6 @@ public class ShootingEnemy : PathfindingEnemy {
 	public bool debug = true;
 	
 	public override void childStart () {
-		Debug.Log ("childStart - ShootingEnemy");
 		
 		weapon = startingWeapon.thisGun.duplicate();
 		
@@ -45,8 +44,8 @@ public class ShootingEnemy : PathfindingEnemy {
 		weapon.AnimUpdate();
 		
 		listEnemies();
+		target = getNearestEnemy();
 		
-		if (debug) print(targets.Count);
 		if (ready) {
 			if (weapon.CurAmmo == 0 && weapon.AnimClock == 0) {
 				weapon.Reload(ammo);
@@ -64,21 +63,26 @@ public class ShootingEnemy : PathfindingEnemy {
 			}
 		}
 		
-		head.transform.LookAt(getNearestEnemy().transform.position);
+		head.transform.LookAt(target.transform.position);
+		if (debug) print("Targeting "+target.name);
 	}
 	
+	
+	// So, warning, this will make your enemy shoot himself after killing all other enemies. 
 	Enemy getNearestEnemy() {
 		int nearest = 0;
 		float closest = 1000;
 		
 		int i = 0;
 		foreach (Enemy e in targets) {
-			if (Vector3.Distance(gameObject.transform.position, targets[i].transform.position) < closest) {
+			if (Vector3.Distance(gameObject.transform.position, targets[i].transform.position) < closest && e.faction != faction) {
 				nearest = i;
 				closest = Vector3.Distance(gameObject.transform.position, targets[i].transform.position);
+				
 				i ++;
 			}
 		}
+		if (debug) print("Nearest enemy is " + targets[nearest].name);
 		return targets[nearest];
 	}
 	
@@ -93,5 +97,7 @@ public class ShootingEnemy : PathfindingEnemy {
 			targets.Add(go.GetComponent<Enemy>());
 			i++;
 		}
+		
+		if (debug) print(enemies.Length);
 	}
 }
