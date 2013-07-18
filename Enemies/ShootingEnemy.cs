@@ -1,6 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic.List;
 using System;
+using System.Collections.Generic;
 
 public class ShootingEnemy : PathfindingEnemy {
 	
@@ -23,7 +23,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public WeaponPickup startingWeapon;
 	
-	public bool debug = false;
+	public bool debug = true;
 	
 	public override void childStart () {
 		Debug.Log ("childStart - ShootingEnemy");
@@ -43,6 +43,10 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public override void childFixedUpdate () {
 		weapon.AnimUpdate();
+		
+		listEnemies();
+		
+		if (debug) print(targets.Count);
 		if (ready) {
 			if (weapon.CurAmmo == 0 && weapon.AnimClock == 0) {
 				weapon.Reload(ammo);
@@ -67,13 +71,15 @@ public class ShootingEnemy : PathfindingEnemy {
 		int nearest = 0;
 		float closest = 1000;
 		
-		for (int i = 0; i < targets.Length; i++) {
+		int i = 0;
+		foreach (Enemy e in targets) {
 			if (Vector3.Distance(gameObject.transform.position, targets[i].transform.position) < closest) {
 				nearest = i;
 				closest = Vector3.Distance(gameObject.transform.position, targets[i].transform.position);
+				i ++;
 			}
 		}
-		
+		return targets[nearest];
 	}
 	
 	/// <summary>
@@ -81,10 +87,10 @@ public class ShootingEnemy : PathfindingEnemy {
 	/// </summary>
 	void listEnemies() {
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Combatant");
-		targets = new Enemy[enemies.Length];
+		targets = new List<Enemy>();
 		int i = 0;
 		foreach (GameObject go in enemies) {
-			targets[i] = go.GetComponent<Enemy>();
+			targets.Add(go.GetComponent<Enemy>());
 			i++;
 		}
 	}
