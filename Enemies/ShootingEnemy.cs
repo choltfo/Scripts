@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic.List;
 using System;
 
 public class ShootingEnemy : PathfindingEnemy {
@@ -11,7 +11,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public Enemy target;
 	
-	public Enemy[] targets;
+	public List<Enemy> targets;
 	
 	public bool pastReady;
 	
@@ -59,6 +59,21 @@ public class ShootingEnemy : PathfindingEnemy {
 				weapon.AIShoot(head);
 			}
 		}
+		
+		head.transform.LookAt(getNearestEnemy().transform.position);
+	}
+	
+	Enemy getNearestEnemy() {
+		int nearest = 0;
+		float closest = 1000;
+		
+		for (int i = 0; i < targets.Length; i++) {
+			if (Vector3.Distance(gameObject.transform.position, targets[i].transform.position) < closest) {
+				nearest = i;
+				closest = Vector3.Distance(gameObject.transform.position, targets[i].transform.position);
+			}
+		}
+		
 	}
 	
 	/// <summary>
@@ -67,7 +82,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	void listEnemies() {
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Combatant");
 		targets = new Enemy[enemies.Length];
-		int i =0;
+		int i = 0;
 		foreach (GameObject go in enemies) {
 			targets[i] = go.GetComponent<Enemy>();
 			i++;

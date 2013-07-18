@@ -52,7 +52,8 @@ public class PFNodeClient : MonoBehaviour {
 		
 		foreach (GameObject e in enemies) {
 						// Change the != to whatever the faction relationship system is.
-			if (e.GetComponent<Enemy>().faction != allegiance) leastDangerous += Mathf.Pow(Vector3.Distance (currentNode.transform.position, e.transform.position), 2);
+			if (e.GetComponent<Enemy>().faction != allegiance) leastDangerous +=
+				Mathf.Pow(Vector3.Distance (currentNode.transform.position, e.transform.position), 2);
 		}
 		if (debugMode) print ("Risk for " + currentNode.name + " is "+leastDangerous);
 		
@@ -99,17 +100,29 @@ public class PFNodeClient : MonoBehaviour {
 			if (debugMode) foreach (GameObject g in enemies)print (g.name);
 			foreach (GameObject e in enemies) {
 				
+				
+				// This is the fancy bit where you calculate where to run and hide.
+				
+				
 				if (e.GetComponent<Enemy>() is ShootingEnemy) {
 					float thisCombatantsRisk;
-					if (e != gameObject) {
+					if (e != gameObject.GetComponent<Enemy>()) {
+						
+						if (e.GetComponent<Enemy>().faction != allegiance) riskFactor +=
+							Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
 						
 					}
 					
 				} else if (e.GetComponent<Enemy>() is PlayerCombatant) {
 					
-				} else {
 					if (e.GetComponent<Enemy>().faction != allegiance) riskFactor +=
-					Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
+						Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
+					
+				} else {
+					
+					if (e.GetComponent<Enemy>().faction != allegiance) riskFactor +=
+						Mathf.Pow(Vector3.Distance (node.node.transform.position, e.transform.position), 2);
+					
 				}
 				//if (debugMode) print ("Calculated for " + e.name + " near " + node.node.gameObject.name);
 				

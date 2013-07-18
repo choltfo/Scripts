@@ -33,7 +33,7 @@ public class Teleporter : InteractObject {
 		//if (isPortal) {
 		//	return;
 		//}
-		player.transform.root.position = linkedTeleporter.transform.position + linkedTeleporter.relativePosition;
+		player.transform.parent.position = linkedTeleporter.transform.position + linkedTeleporter.relativePosition;
 		fader.SetScreenOverlayColor(fadeColor);
 		beginFadeAt = Time.time;
 		faded = false;
