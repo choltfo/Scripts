@@ -81,7 +81,7 @@ public class ShootingEnemy : PathfindingEnemy {
 			if (Vector3.Distance(gameObject.transform.position, targets[i].transform.position) < closest &&
 					!e.faction.Equals(faction) && e != this) {
 				
-				print ("Contemplating " + e.name);
+				if (debug) print ("Contemplating " + e.name);
 				nearest = i;
 				closest = Vector3.Distance(gameObject.transform.position, targets[i].transform.position);
 			}

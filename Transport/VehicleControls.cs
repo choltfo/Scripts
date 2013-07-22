@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
  
 [RequireComponent (typeof (Rigidbody))]
-
+[RequireComponent (typeof (ConstantForce))]
 
 /// <summary>
 /// Vehicle controls.
@@ -34,9 +34,6 @@ public class VehicleControls : MonoBehaviour {
 
 	public float damage = 100f;
 	public float maxHealth = 100f;
-	
-	public int player = 1;
-	
 	
 	void OnCollisionStay(Collision C) {
 		if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75) {
@@ -83,21 +80,19 @@ public class VehicleControls : MonoBehaviour {
 		steering = 0;
 		turning = 0;
 		if (isCarActive && damage > 0) {
-			if (player == 1) steering = Input.GetAxis("Horizontal");
-			if (player == 1) accelerator = Input.GetAxis("Vertical");
-			if (player == 2) steering = Input.GetAxis("HorizontalTwo");
-			if (player == 2) accelerator = Input.GetAxis("VerticalTwo");
+			steering = Input.GetAxis("Horizontal");
+			accelerator = Input.GetAxis("Vertical");
 			if (accelerator > 0) {
-				speed = Mathf.Lerp(0,MaxForce,accelerator);
+				speed = Mathf.Lerp(0, MaxForce, accelerator);
 			}	
 			if (accelerator < 0) {
-				speed = -Mathf.Lerp(0,maxReverseSpeed,Mathf.Abs(accelerator));
+				speed = -Mathf.Lerp(0, maxReverseSpeed, Mathf.Abs(accelerator));
 			}
 			if (steering > 0) {
-				turning = Mathf.Lerp(0,handling,steering);
+				turning = Mathf.Lerp(0, handling, steering);
 			}	
 			if (steering < 0) {
-				turning = -Mathf.Lerp(0,handling,Mathf.Abs(steering));
+				turning = -Mathf.Lerp(0, handling, Mathf.Abs(steering));
 			}
 		}
 	}

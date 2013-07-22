@@ -15,8 +15,6 @@ public class Vehicle : MonoBehaviour {
 	public VehicleControls VControls;
 	public Controls controls;
 	
-	public Camera camera;
-	
 	public bool erectOnEnter = false;
 	
 	
@@ -40,15 +38,11 @@ public class Vehicle : MonoBehaviour {
 		((Camera)gameObject.transform.Find("Camera").gameObject.GetComponent("Camera")).enabled = true;
 		((AudioListener)gameObject.transform.Find("Camera").gameObject.GetComponent("AudioListener")).enabled = true;
 		
-		VControls.player = player.GetComponent<FPSInputController>().player;
-		
 		if (erectOnEnter && isActive) {
 			float z = transform.eulerAngles.z;
 			float x = transform.eulerAngles.x;
 			transform.Rotate(-x, 0, -z);
 		}
-		
-		camera.rect = new Rect ((float)(0.5*(VControls.player-1)),0f,0.5f,1.0f);
 	}
 	
 	public void deactivate () {
