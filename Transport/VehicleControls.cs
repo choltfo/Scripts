@@ -2,17 +2,18 @@ using UnityEngine;
 using System.Collections;
  
 [RequireComponent (typeof (Rigidbody))]
-[RequireComponent (typeof (Collider))]
 
 
 /// <summary>
 /// Vehicle controls.
 /// </summary>
+
+[AddComponentMenu("TTP/Vehicles/Controls")]
 public class VehicleControls : MonoBehaviour {
 	
 	public float distToGround;
 	public bool isCarActive = false;
-	public float maxSpeed = 1;
+	public float MaxForce = 1;
 	public float maxReverseSpeed = 10;
 	//public float accelerationAsPercent  Need to figure this out.
 	public float handling = 100;
@@ -34,13 +35,18 @@ public class VehicleControls : MonoBehaviour {
 	public float damage = 100f;
 	public float maxHealth = 100f;
 	
+	public int player = 1;
+	
+	
 	void OnCollisionStay(Collision C) {
-		rigidbody.AddForce(0f,-gravity*rigidbody.mass,0f);
-		
-		if (erectOnEnter && isCarActive) {
-			float z = transform.eulerAngles.z;
-			transform.Rotate(0, 0, -z);
+		if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75) {
+			constantForce.relativeForce = new Vector3(0,0,speed);
+			constantForce.relativeTorque = new Vector3(0,(turning),0);
 		}
+		
+		/*rigidbody.AddForce(0f,-gravity*rigidbody.mass,0f);
+		
+		
 		if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75 && damage >0) {
 			if (accelerator >= 0) {
 				transform.Rotate(0,turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
@@ -48,10 +54,18 @@ public class VehicleControls : MonoBehaviour {
 				transform.Rotate(0,-turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
 			}
 			rigidbody.velocity += transform.forward * speed;
-		}
+		}*/
+	}
+	
+	void OnCollisionExit (Collision C) {
+		constantForce.relativeForce = new Vector3(0,0,0);
+		constantForce.relativeTorque = new Vector3(0,0,0);
 	}
 	
 	void FixedUpdate() {
+		
+		
+		
 		if ((rigidbody.velocity.magnitude - previousVelocity) * 10 > Mathf.Abs(crashMagnitude) || 
 			(rigidbody.velocity.magnitude - previousVelocity) * 10 < -(Mathf.Abs(crashMagnitude))) {
 			if (gameObject.GetComponent<Vehicle>().isActive) {
@@ -64,16 +78,17 @@ public class VehicleControls : MonoBehaviour {
 		previousVelocity = rigidbody.velocity.magnitude;
 		
 		
-		
 		speed = 0;
 		accelerator = 0;
 		steering = 0;
 		turning = 0;
 		if (isCarActive && damage > 0) {
-			steering = Input.GetAxis("Horizontal");
-			accelerator = Input.GetAxis("Vertical");
+			if (player == 1) steering = Input.GetAxis("Horizontal");
+			if (player == 1) accelerator = Input.GetAxis("Vertical");
+			if (player == 2) steering = Input.GetAxis("HorizontalTwo");
+			if (player == 2) accelerator = Input.GetAxis("VerticalTwo");
 			if (accelerator > 0) {
-				speed = Mathf.Lerp(0,maxSpeed,accelerator);
+				speed = Mathf.Lerp(0,MaxForce,accelerator);
 			}	
 			if (accelerator < 0) {
 				speed = -Mathf.Lerp(0,maxReverseSpeed,Mathf.Abs(accelerator));
