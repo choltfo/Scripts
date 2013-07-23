@@ -13,10 +13,6 @@ public class Pause : MonoBehaviour {
 	/// </summary>
 	public Controls controls;
 	/// <summary>
-	/// The audio to play through.
-	/// </summary>
-	public AudioListener audioLis;
-	/// <summary>
 	/// The width of the items.
 	/// </summary>
 	public int itemWidth = 150;
