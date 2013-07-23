@@ -31,6 +31,7 @@ public class EnemyHealth : Objective {
 	
 	void kill (DamageCause COD = DamageCause.Default) {
 		print (gameObject.name + " suffered a death by " + COD.ToString());
+		BroadcastMessage("setTargets",PathfindingEnemy.listEnemies(),SendMessageOptions.DontRequireReceiver);
 		Destroy (gameObject);
 	}
 }

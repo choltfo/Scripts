@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(PFNodeClient))]
 [RequireComponent(typeof(CharacterController))]
@@ -17,7 +18,12 @@ public class PathfindingEnemy : Enemy {
 	public CharacterController CC;
 	
 	public bool ready = true;
-
+	
+	public static bool debug = true;
+	
+	public List<Enemy> targets;
+	
+	
 	
 	// Use this for initialization
 	void Start () {
@@ -28,6 +34,11 @@ public class PathfindingEnemy : Enemy {
 		
 		childStart();
 	}
+	
+	void setTargets(List<Enemy> Es) {
+		targets = Es;
+	}
+	
 	
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -48,8 +59,8 @@ public class PathfindingEnemy : Enemy {
 			
 			// Change this to whatever the best method is.
 			// TODO: change to getSafest, once that works.
-			//PFNC.currentNode = PFNC.getNodeNearest();								// This should be the same for all
-																					// Enemies.
+			//PFNC.currentNode = PFNC.getNodeNearest();											// This should be the same for all
+																								// Enemies.
 			PFNC.currentNode = PFNC.getNodeClosestToEnemies(GameObject.FindGameObjectsWithTag("Combatant"), faction);
 			
 			ready = false;
@@ -81,4 +92,19 @@ public class PathfindingEnemy : Enemy {
 		return pos;
 	}
 	
+	/// <summary>
+	/// Lists the enemies.
+	/// </summary>
+	public static List<Enemy> listEnemies() {
+		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Combatant");
+		List<Enemy> targets = new List<Enemy>();
+		int i = 0;
+		foreach (GameObject go in enemies) {
+			targets.Add(go.GetComponent<Enemy>());
+			i++;
+		}
+		
+		if (debug) print(enemies.Length);
+		return targets;
+	}
 }

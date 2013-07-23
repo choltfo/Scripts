@@ -11,8 +11,6 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public Enemy target;
 	
-	public List<Enemy> targets;
-	
 	public bool pastReady;
 	
 	public GameObject head;
@@ -23,7 +21,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public WeaponPickup startingWeapon;
 	
-	public bool debug = true;
+	public static bool debug = true;
 	
 	public override void childStart () {
 		
@@ -37,13 +35,12 @@ public class ShootingEnemy : PathfindingEnemy {
 		weapon.create(head);
 		weapon.withdraw();
 		
-		listEnemies();
+		targets = listEnemies();
+		print("Targets: " + targets.Count);
 	}
 	
 	public override void childFixedUpdate () {
 		weapon.AnimUpdate();
-		
-		listEnemies();
 		target = getNearestEnemy();
 		
 		if (ready) {
@@ -90,20 +87,5 @@ public class ShootingEnemy : PathfindingEnemy {
 		}
 		if (debug) print("Nearest enemy is " + targets[nearest].name);
 		return targets[nearest];
-	}
-	
-	/// <summary>
-	/// Lists the enemies.
-	/// </summary>
-	void listEnemies() {
-		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Combatant");
-		targets = new List<Enemy>();
-		int i = 0;
-		foreach (GameObject go in enemies) {
-			targets.Add(go.GetComponent<Enemy>());
-			i++;
-		}
-		
-		if (debug) print(enemies.Length);
 	}
 }

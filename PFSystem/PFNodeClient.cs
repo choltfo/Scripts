@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 
-
 /// <summary>
 /// Figures out the best node for the character to move to via the PFNode network.
 /// Should not control the CharacterMotor directly, instead should be linked to an other class, e.g., enemy.
