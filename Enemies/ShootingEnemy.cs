@@ -23,6 +23,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	
 	public float rotSpd = 5;
+	public float satisfactoryAimInDegrees = 5;
 	
 	public static bool debug = true;
 	
@@ -80,7 +81,7 @@ public class ShootingEnemy : PathfindingEnemy {
 			if (!isAimed) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
 		}
 																	// Satisfactory aiming criteria. In degrees.
-		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < 5f;
+		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < satisfactoryAimInDegrees;
 	}
 	
 	Enemy getNearestEnemy() {
