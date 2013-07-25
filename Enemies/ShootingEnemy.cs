@@ -9,8 +9,6 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	float lastShot = -10f;
 	
-	public Enemy target;
-	
 	public bool pastReady;
 	
 	public GameObject head;
@@ -21,7 +19,13 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public WeaponPickup startingWeapon;
 	
+	public bool isAimed = false;
+	
+	
+	public float rotSpd = 5;
+	
 	public static bool debug = true;
+	
 	
 	public override void childStart () {
 		
@@ -41,9 +45,11 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public override void childFixedUpdate () {
 		weapon.AnimUpdate();
-		target = getNearestEnemy();
 		
-		if (ready) {
+		checkAnyVisible();
+		
+		if (ready && alerted && isAimed) {
+			//target = getNearestEnemy();
 			if (weapon.CurAmmo == 0 && weapon.AnimClock == 0) {
 				weapon.Reload(ammo);
 				if (debug) print ("Reloading");
@@ -58,13 +64,21 @@ public class ShootingEnemy : PathfindingEnemy {
 				if (debug) print ("Holding trigger!");
 				weapon.AIShoot(head);
 			}
+			head.transform.LookAt(target.transform.position);
+			if (debug) print("Targeting "+target.name);
 		}
 		
-		head.transform.LookAt(target.transform.position);
-		if (debug) print("Targeting "+target.name);
+		//Look towards predetermined target
+		if (target != null) {
+			Vector3 targetPos = new Vector3(target.transform.position[0], 0, target.transform.position[1]);
+			Vector3 currentPos = head.transform.position;
+			Vector3 relativePos = targetPos - currentPos ;
+			Quaternion rotation = Quaternion.LookRotation(relativePos);
+			if (!isAimed) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.time * rotSpd);
+															// Satisfactory aiming criteria. 1 is dead on, 0 is 90 degrees away.
+			isAimed = Quaternion.Dot(head.transform.rotation, rotation) < 0.05;
+		}
 	}
-	
-	
 	
 	Enemy getNearestEnemy() {
 		int nearest = 0;

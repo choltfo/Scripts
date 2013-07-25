@@ -19,10 +19,18 @@ public class PathfindingEnemy : Enemy {
 	
 	public bool ready = true;
 	
-	public static bool debug = true;
-	
 	public List<Enemy> targets;
 	
+	public Enemy target;
+	
+	
+	public bool alerted = false;
+	
+	public float fieldOfViewRadiusInDegrees = 30;
+	
+	public float visionRange = 10;
+	
+	public static bool debug = true;
 	
 	
 	// Use this for initialization
@@ -39,6 +47,21 @@ public class PathfindingEnemy : Enemy {
 		targets = Es;
 	}
 	
+	public void checkAnyVisible () {
+		foreach (Enemy e in targets) {
+			if (debug) print ("Checking to see if alerted by " +  e.name);
+			var rayDirection = e.transform.position - transform.position;
+			if (Vector3.Angle(rayDirection, transform.forward) < fieldOfViewRadiusInDegrees) {
+				if (debug) print ("Angle satisfied.");
+				if (Vector3.Distance(transform.position, e.transform.position) < visionRange) {
+					if (debug) print ("Distance satisfied.");
+					alerted = true;
+					target = e;
+					if (debug) print ("Found target. Starting to kill!");
+				}
+			}
+		}
+	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
