@@ -477,8 +477,11 @@ public class Weapon {
 			
 			for (int i = 0; i<numOfShots; i++) {
 				
+				Vector3 aim = camera.transform.forward;
+				aim.Set (aim.x+Random.Range(-xSpread/10,xSpread/10), aim.y+Random.Range(-yspread/10,yspread/10), 0);
+				
 				RaycastHit hit;
-				if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Range)){
+				if (Physics.Raycast(camera.transform.position, aim, out hit, Range)){
 					calculateDamage(hit);
 				}
 			}

@@ -27,6 +27,10 @@ public class ShootingEnemy : PathfindingEnemy {
 	public static bool debug = true;
 	
 	
+	Quaternion rotation;
+	
+	
+	
 	public override void childStart () {
 		
 		weapon = startingWeapon.thisGun.duplicate();
@@ -46,7 +50,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	public override void childFixedUpdate () {
 		weapon.AnimUpdate();
 		
-		checkAnyVisible();
+		if (!alerted) checkAnyVisible();
 		
 		if (ready && alerted && isAimed) {
 			//target = getNearestEnemy();
@@ -64,20 +68,19 @@ public class ShootingEnemy : PathfindingEnemy {
 				if (debug) print ("Holding trigger!");
 				weapon.AIShoot(head);
 			}
-			head.transform.LookAt(target.transform.position);
 			if (debug) print("Targeting "+target.name);
 		}
 		
 		//Look towards predetermined target
 		if (target != null) {
-			Vector3 targetPos = new Vector3(target.transform.position[0], 0, target.transform.position[1]);
+			Vector3 targetPos = target.transform.position;
 			Vector3 currentPos = head.transform.position;
 			Vector3 relativePos = targetPos - currentPos ;
-			Quaternion rotation = Quaternion.LookRotation(relativePos);
-			if (!isAimed) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.time * rotSpd);
-															// Satisfactory aiming criteria. 1 is dead on, 0 is 90 degrees away.
-			isAimed = Quaternion.Dot(head.transform.rotation, rotation) < 0.05;
+			rotation = Quaternion.LookRotation(relativePos);
+			if (!isAimed) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
 		}
+																	// Satisfactory aiming criteria. In degrees.
+		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < 5f;
 	}
 	
 	Enemy getNearestEnemy() {
