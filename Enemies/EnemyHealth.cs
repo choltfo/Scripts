@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// The health level of any enemy.
@@ -12,6 +13,12 @@ public class EnemyHealth : Objective {
 	public float Health = 100;
 	
 	public float crashThreshhold = 50;
+	
+	Enemy thisEnemy;
+	
+	void Start() {
+		thisEnemy = GetComponent<Enemy>();
+	}
 	
 	void onCollisionEnter(Collision C) {
 		if (C.relativeVelocity.magnitude > crashThreshhold) {
@@ -31,7 +38,12 @@ public class EnemyHealth : Objective {
 	
 	void kill (DamageCause COD = DamageCause.Default) {
 		print (gameObject.name + " suffered a death by " + COD.ToString());
-		BroadcastMessage("setTargets",PathfindingEnemy.listEnemies(),SendMessageOptions.DontRequireReceiver);
+		
+		List<Enemy> es = PathfindingEnemy.listEnemies();
+		es.Remove(thisEnemy);
+		BroadcastMessage("setTargets",PathfindingEnemy.listEnemies());
 		Destroy (gameObject);
 	}
 }
+
+

@@ -24,6 +24,9 @@ public class PathfindingEnemy : Enemy {
 	public Enemy target;
 	
 	
+	public PFNode[] patrol;
+	
+	
 	public bool alerted = false;
 	
 	public float fieldOfViewRadiusInDegrees = 30;
@@ -31,6 +34,9 @@ public class PathfindingEnemy : Enemy {
 	public float visionRange = 10;
 	
 	public static bool debug = true;
+	
+	
+	int patrolIndex = 0;
 	
 	
 	// Use this for initialization
@@ -44,20 +50,23 @@ public class PathfindingEnemy : Enemy {
 	}
 	
 	void setTargets(List<Enemy> Es) {
+		print ("setTargets called");
 		targets = Es;
 	}
 	
 	public void checkAnyVisible () {
 		foreach (Enemy e in targets) {
-			if (debug) print ("Checking to see if alerted by " +  e.name);
-			var rayDirection = e.transform.position - transform.position;
-			if (Vector3.Angle(rayDirection, transform.forward) < fieldOfViewRadiusInDegrees) {
-				if (debug) print ("Angle satisfied.");
-				if (Vector3.Distance(transform.position, e.transform.position) < visionRange) {
-					if (debug) print ("Distance satisfied.");
-					alerted = true;
-					target = e;
-					if (debug) print ("Found target. Starting to kill!");
+			if (e.faction != faction) {
+				if (debug) print ("Checking to see if alerted by " +  e.name);
+				var rayDirection = e.transform.position - transform.position;
+				if (Vector3.Angle(rayDirection, transform.forward) < fieldOfViewRadiusInDegrees) {
+					if (debug) print ("Angle satisfied.");
+					if (Vector3.Distance(transform.position, e.transform.position) < visionRange) {
+						if (debug) print ("Distance satisfied.");
+						alerted = true;
+						target = e;
+						if (debug) print ("Found target. Starting to kill!");
+					}
 				}
 			}
 		}
@@ -74,20 +83,28 @@ public class PathfindingEnemy : Enemy {
 		
 		// DEBUG: print (transform.position.ToString() + " : " + getZXPosition(PFNC.currentNode.transform.position));
 		
+		if (alerted) {
+			if (Time.time > lastUpdate + updateInterval && Vector3.Distance(transform.position, PFNC.currentNode.transform.position) < 1) {
+				lastUpdate = Time.time;
+				
+				// Change this to whatever the best method is.
+				// TODO: change to getSafest, once that works.
+				//PFNC.currentNode = PFNC.getNodeNearest();											// This should be the same for all
+																									// Enemies.
+				PFNC.currentNode = PFNC.getNodeClosestToEnemies(GameObject.FindGameObjectsWithTag("Combatant"), faction);
+				
+				ready = false;
+			}
+		} else {
+			// If not alerted....
+			if (patrol.Length != 0) {
+				if (ready) patrolIndex = (patrolIndex+1) % patrol.Length;
+				PFNC.currentNode = patrol[patrolIndex];
+			}
+		}
+		
 		Vector3 target = getRelativePosition(transform, PFNC.currentNode.transform.position);
 		CC.SimpleMove (target * speed);
-		
-		if (Time.time > lastUpdate + updateInterval && Vector3.Distance(transform.position, PFNC.currentNode.transform.position) < 1) {
-			lastUpdate = Time.time;
-			
-			// Change this to whatever the best method is.
-			// TODO: change to getSafest, once that works.
-			//PFNC.currentNode = PFNC.getNodeNearest();											// This should be the same for all
-																								// Enemies.
-			PFNC.currentNode = PFNC.getNodeClosestToEnemies(GameObject.FindGameObjectsWithTag("Combatant"), faction);
-			
-			ready = false;
-		}
 		
 		childFixedUpdate();
 	}
