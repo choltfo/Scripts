@@ -19,8 +19,6 @@ public class PathfindingEnemy : Enemy {
 	
 	public bool ready = true;
 	
-	public List<Enemy> targets;
-	
 	public Enemy target;
 	
 	
@@ -33,8 +31,9 @@ public class PathfindingEnemy : Enemy {
 	
 	public float visionRange = 10;
 	
-	public static bool debug = true;
+	public static bool debug = false;
 	
+	public static List<Enemy> targets;
 	
 	int patrolIndex = 0;
 	
@@ -49,7 +48,7 @@ public class PathfindingEnemy : Enemy {
 		childStart();
 	}
 	
-	void setTargets(List<Enemy> Es) {
+	public static void setTargets(List<Enemy> Es) {
 		print ("setTargets called");
 		targets = Es;
 	}
@@ -75,11 +74,9 @@ public class PathfindingEnemy : Enemy {
 	// Update is called once per frame
 	void FixedUpdate () {
 		
-		if ((int)transform.position.z == (int)getZXPosition(PFNC.currentNode.transform.position).z &&
-			(int)transform.position.x == (int)getZXPosition(PFNC.currentNode.transform.position).x) {
-			ready = true;
-			//print ("In position, readying up.");
-		}
+		ready = ((int)transform.position.z == (int)getZXPosition(PFNC.currentNode.transform.position).z &&
+			(int)transform.position.x == (int)getZXPosition(PFNC.currentNode.transform.position).x);
+			
 		
 		// DEBUG: print (transform.position.ToString() + " : " + getZXPosition(PFNC.currentNode.transform.position));
 		
@@ -137,9 +134,16 @@ public class PathfindingEnemy : Enemy {
 	/// </summary>
 	public static List<Enemy> listEnemies() {
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Combatant");
+		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 		List<Enemy> targets = new List<Enemy>();
 		int i = 0;
 		foreach (GameObject go in enemies) {
+			targets.Add(go.GetComponent<Enemy>());
+			i++;
+		}
+		
+		i = 0;
+		foreach (GameObject go in players) {
 			targets.Add(go.GetComponent<Enemy>());
 			i++;
 		}

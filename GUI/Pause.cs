@@ -53,7 +53,9 @@ public class Pause : MonoBehaviour {
 				Time.timeScale = 1f;
 			}
 		}
-
+		
+		
+		Screen.lockCursor = !(Time.timeScale == 0f);
 		Screen.showCursor = (Time.timeScale == 0f);
 		Screen.fullScreen = true;
 	}

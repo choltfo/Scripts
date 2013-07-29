@@ -41,7 +41,7 @@ public class EnemyHealth : Objective {
 		
 		List<Enemy> es = PathfindingEnemy.listEnemies();
 		es.Remove(thisEnemy);
-		BroadcastMessage("setTargets",PathfindingEnemy.listEnemies());
+		PathfindingEnemy.setTargets(PathfindingEnemy.listEnemies());
 		Destroy (gameObject);
 	}
 }
