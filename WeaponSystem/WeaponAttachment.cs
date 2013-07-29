@@ -4,7 +4,7 @@ using System.Collections;
 [System.Serializable]
 public class WeaponAttachment {
 	public GameObject instantiableThing;
-	public ConnectionType railType = ConnectionType.Picitanny;
+	public ConnectionType railType = ConnectionType.PicitannySide;
 	public bool isValid = false;
 	public AttachmentType type = AttachmentType.Flashlight;
 	public string toggleableObjectPath;
@@ -59,6 +59,22 @@ public class WeaponAttachment {
 		on = !on;
 		return true;
 	}
+}
+
+[System.Serializable]
+public class HardPoint {
+	public string name;
+	public ConnectionType connectionType = ConnectionType.PicitannySide;
+	public WeaponAttachment attachment;
+	public Vector3 position;
+}
+
+public enum ConnectionType {
+	PicitannySide,
+	WeaverSide,
+	BarrelTip,
+	PicitannyScope,
+	WeaverScope
 }
 
 public enum AttachmentType {

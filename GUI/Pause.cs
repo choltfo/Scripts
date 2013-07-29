@@ -46,12 +46,15 @@ public class Pause : MonoBehaviour {
 	
 	void Update () {
 		if (Input.GetKeyDown(controls.pause)) {
-			pane = "/Pause";
 			if (Time.timeScale != 0) {
 				Time.timeScale = 0f;
 			} else {
 				Time.timeScale = 1f;
+				if (pane == "/Inventory") {
+					GetComponent<ShootObjects>().reset();
+				}
 			}
+			pane = "/Pause";
 		}
 		
 		if (Input.GetKeyDown(controls.inventory)) {
@@ -60,6 +63,7 @@ public class Pause : MonoBehaviour {
 				Time.timeScale = 0f;
 			} else {
 				Time.timeScale = 1f;
+				GetComponent<ShootObjects>().reset();
 			}
 		}
 		
@@ -171,8 +175,101 @@ public class Pause : MonoBehaviour {
 			}
 		}
 	}
-
+	
+	float attachmentSlider = 0;
+	float weaponSlider = 0;
+	int ItemElements = 0;
+	
+	Weapon SelectedWeapon = null;
+	HardPoint SelectedModSlot = null;
+	WeaponAttachment SelectedAttachment = null;
+	
 	void inventoryView () {
-		Inventory inv = GetComponent<ShootObjects>().inventory;
+		Inventory inventory = GetComponent<ShootObjects>().inventory;
+		
+		weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 200),
+			weaponSlider, 8.0F, 0.0F, ((inventory.weapons.Length < 8) ? 8 : inventory.weapons.Length));
+		GUI.Box(new Rect(Screen.width/2-215, 125, 215, 200), "");
+		
+		attachmentSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+200, 125, 15, 200),
+		attachmentSlider, 8.0F, 0.0F, ((ItemElements < 8) ? 8 : ItemElements));
+		GUI.Box(new Rect(Screen.width/2, 125, 215, 200), "");
+		
+		int i = 0;
+		Weapon transferredWeapon= new Weapon();
+		int soldWeaponSlot = -1;
+		GUI.Label(new Rect(Screen.width/2-215, 100, 150, 25), "Weapons");
+		GUI.Label(new Rect(Screen.width/2, 100, 150, 25), "Grenades, Attachments");
+		foreach (Weapon weapon in inventory.weapons) {
+			if (weapon.IsValid && i < 8 + (int)weaponSlider && i >= (int)weaponSlider) {
+				GUI.Box(new Rect(Screen.width/2-65, 125+(25*(i-(int)weaponSlider)), 50, 25), "$"+weapon.price.ToString());
+				if (GUI.Button(new Rect(Screen.width/2-215, 125+(25*(i-(int)weaponSlider)), 150, 25), weapon.DisplayName)) {
+					
+					SelectedWeapon = weapon;
+					SelectedModSlot = null;
+					SelectedAttachment = null;
+					
+				}
+				if (SelectedWeapon == weapon) {
+					int p = 1;
+					
+					for (int o = 0; o<weapon.attachments.Length; o++) {
+						if (weapon.attachments[o].attachment.isValid) {
+							if (GUI.Button(new Rect(Screen.width/2-200, 125+(25*(i+1-(int)weaponSlider)), 185, 25),
+									weapon.attachments[o].name + ": " + weapon.attachments[o].attachment.railType.ToString()+
+									" "+weapon.attachments[o].attachment.type.ToString())) {
+								
+								inventory.attachments.Add(weapon.attachments[o].attachment);
+								weapon.attachments[o].attachment = new WeaponAttachment();
+								
+								
+							}
+							p++;
+						} else {
+							if (GUI.Button(new Rect(Screen.width/2-200, 125+(25*(i+1-(int)weaponSlider)), 185, 25),
+									weapon.attachments[o].name + ": " + weapon.attachments[o].connectionType.ToString()+
+									". Open.")) {
+								
+								//inventory.attachments.Add(weapon.attachments[o].attachment);
+								//weapon.attachments[o].attachment = new WeaponAttachment();
+								SelectedModSlot = weapon.attachments[o];
+								
+							}
+							p++;
+						}
+						i++;
+					}
+					
+				}
+				i++;
+			}
+		}
+		
+		int a = 0;
+		foreach (WeaponAttachment att in inventory.attachments) {
+			if (i < 8 + (int)attachmentSlider && i >= (int)attachmentSlider) {
+				//GUI.Box(new Rect(Screen.width/2+150, 125+(25*i), 50, 25),  "$"+AmmoPrice.Get((AmmoType)a).ToString());
+				if (GUI.Button(new Rect(Screen.width/2, 125+(25*(a-(int)attachmentSlider)), 150, 25),
+					att.railType.ToString()+" "+att.type.ToString())) {
+					
+					if (SelectedModSlot != null) {
+						if (SelectedModSlot.connectionType == att.railType) {
+							SelectedModSlot.attachment = att;
+							SelectedModSlot = null;
+							SelectedAttachment = att;
+						}
+					}
+					//transferredAnyAmmo = true;
+					//transferredAmmo = (AmmoType)a;
+					//playerInv.cash -= AmmoPrice.Get((AmmoType)a)*saleMarkup;
+				}
+			}
+			a++;
+		}
+		
+		if (SelectedAttachment != null) {
+			inventory.attachments.Remove(SelectedAttachment);
+		}
+		
 	}
 }
