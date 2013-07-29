@@ -52,6 +52,9 @@ public class Pause : MonoBehaviour {
 				Time.timeScale = 1f;
 				if (pane == "/Inventory") {
 					GetComponent<ShootObjects>().reset();
+					Weapon SelectedWeapon = null;
+					HardPoint SelectedModSlot = null;
+					WeaponAttachment SelectedAttachment = null;
 				}
 			}
 			pane = "/Pause";
@@ -64,6 +67,9 @@ public class Pause : MonoBehaviour {
 			} else {
 				Time.timeScale = 1f;
 				GetComponent<ShootObjects>().reset();
+				Weapon SelectedWeapon = null;
+				HardPoint SelectedModSlot = null;
+				WeaponAttachment SelectedAttachment = null;
 			}
 		}
 		
@@ -251,7 +257,11 @@ public class Pause : MonoBehaviour {
 					
 					if (SelectedModSlot != null) {
 						if (SelectedModSlot.connectionType == att.railType) {
+							
+							// Afix part.
 							SelectedModSlot.attachment = att;
+							
+							// Clean up.
 							SelectedModSlot = null;
 							SelectedAttachment = att;
 						}
