@@ -202,8 +202,7 @@ public class Pause : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width/2, 100, 150, 25), "Grenades, Attachments");
 		foreach (Weapon weapon in inventory.weapons) {
 			if (weapon.IsValid && i < 8 + (int)weaponSlider && i >= (int)weaponSlider) {
-				GUI.Box(new Rect(Screen.width/2-65, 125+(25*(i-(int)weaponSlider)), 50, 25), "$"+weapon.price.ToString());
-				if (GUI.Button(new Rect(Screen.width/2-215, 125+(25*(i-(int)weaponSlider)), 150, 25), weapon.DisplayName)) {
+				if (GUI.Button(new Rect(Screen.width/2-215, 125+(25*(i-(int)weaponSlider)), 200, 25), weapon.DisplayName)) {
 					
 					SelectedWeapon = weapon;
 					SelectedModSlot = null;
@@ -230,26 +229,24 @@ public class Pause : MonoBehaviour {
 									weapon.attachments[o].name + ": " + weapon.attachments[o].connectionType.ToString()+
 									". Open.")) {
 								
-								//inventory.attachments.Add(weapon.attachments[o].attachment);
-								//weapon.attachments[o].attachment = new WeaponAttachment();
 								SelectedModSlot = weapon.attachments[o];
 								
 							}
 							p++;
 						}
 						i++;
-					}
+					} // End for each hardpoint.
 					
 				}
 				i++;
-			}
+			} // End for each gun.
 		}
 		
 		int a = 0;
 		foreach (WeaponAttachment att in inventory.attachments) {
 			if (i < 8 + (int)attachmentSlider && i >= (int)attachmentSlider) {
 				//GUI.Box(new Rect(Screen.width/2+150, 125+(25*i), 50, 25),  "$"+AmmoPrice.Get((AmmoType)a).ToString());
-				if (GUI.Button(new Rect(Screen.width/2, 125+(25*(a-(int)attachmentSlider)), 150, 25),
+				if (GUI.Button(new Rect(Screen.width/2, 125+(25*(a-(int)attachmentSlider)), 200, 25),
 					att.railType.ToString()+" "+att.type.ToString())) {
 					
 					if (SelectedModSlot != null) {
@@ -259,9 +256,6 @@ public class Pause : MonoBehaviour {
 							SelectedAttachment = att;
 						}
 					}
-					//transferredAnyAmmo = true;
-					//transferredAmmo = (AmmoType)a;
-					//playerInv.cash -= AmmoPrice.Get((AmmoType)a)*saleMarkup;
 				}
 			}
 			a++;
