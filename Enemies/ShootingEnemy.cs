@@ -48,6 +48,30 @@ public class ShootingEnemy : PathfindingEnemy {
 		print("Targets: " + targets.Count);
 	}
 	
+	public virtual void checkAnyVisible () {
+		foreach (Enemy e in targets) {
+			if (e.faction != faction) {
+				if (debug) print ("Checking to see if alerted by " +  e.name);
+				var rayDirection = e.transform.position - transform.position;
+				if (Vector3.Angle(rayDirection, transform.forward) < fieldOfViewRadiusInDegrees) {
+					if (debug) print ("Angle satisfied.");
+					if (Vector3.Distance(transform.position, e.transform.position) < visionRange) {
+						if (debug) print ("Distance satisfied.");
+						//RaycastHit hitinfo;
+						//Physics.Linecast (head.transform.position, e.transform.position, hitinfo);
+						//if (hitinfo.transform = e.transform) {
+						//	if (debug) print ("Linecast satisfied.");
+						alerted = true;
+						target = e;
+						if (debug) print ("Found target. Starting to kill!");
+						//}
+					}
+				}
+			}
+		}
+	}
+	
+	
 	public override void childFixedUpdate () {
 		weapon.AnimUpdate();
 		
@@ -81,7 +105,8 @@ public class ShootingEnemy : PathfindingEnemy {
 			if (!isAimed) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
 		}
 																	// Satisfactory aiming criteria. In degrees.
-		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < satisfactoryAimInDegrees;
+		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < satisfactoryAimInDegrees &&
+			!Physics.Linecast (head.transform.position, target.transform.position);
 	}
 	
 	Enemy getNearestEnemy() {
