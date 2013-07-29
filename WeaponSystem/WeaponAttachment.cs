@@ -10,6 +10,7 @@ public class WeaponAttachment {
 	public string toggleableObjectPath;
 	public Vector3 rot;
 	public AudioClip silencerNoise;
+	public Material laserMat;
 	
 	GameObject Thing;
 	bool on = true;
@@ -39,6 +40,14 @@ public class WeaponAttachment {
 		if (isToggleable(type)) {
 			toggleableObject = Thing.transform.FindChild(toggleableObjectPath).gameObject;
 			toggle();
+		}
+		if (type == AttachmentType.Laser) {
+			Thing.AddComponent<LineRenderer>();
+			Thing.GetComponent<LineRenderer>().material = laserMat;
+			Thing.GetComponent<LineRenderer>().useWorldSpace = false;
+			Thing.GetComponent<LineRenderer>().SetPosition(0, new Vector3(0,0,0));
+			Thing.GetComponent<LineRenderer>().SetPosition(0, new Vector3(0,0,-1000));
+			Thing.GetComponent<LineRenderer>().SetWidth(0.05f,0.05f);
 		}
 		return true;
 	}
