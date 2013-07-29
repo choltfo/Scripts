@@ -48,7 +48,7 @@ public class ShootingEnemy : PathfindingEnemy {
 		print("Targets: " + targets.Count);
 	}
 	
-	public virtual void checkAnyVisible () {
+	/*public virtual void checkAnyVisible () {
 		foreach (Enemy e in targets) {
 			if (e.faction != faction) {
 				if (debug) print ("Checking to see if alerted by " +  e.name);
@@ -69,7 +69,7 @@ public class ShootingEnemy : PathfindingEnemy {
 				}
 			}
 		}
-	}
+	}*/
 	
 	
 	public override void childFixedUpdate () {
@@ -105,8 +105,8 @@ public class ShootingEnemy : PathfindingEnemy {
 			if (!isAimed) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
 		}
 																	// Satisfactory aiming criteria. In degrees.
-		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < satisfactoryAimInDegrees &&
-			!Physics.Linecast (head.transform.position, target.transform.position);
+		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < satisfactoryAimInDegrees ;//&&
+			//!Physics.Linecast (head.transform.position, target.transform.position);
 	}
 	
 	Enemy getNearestEnemy() {

@@ -53,7 +53,7 @@ public class PathfindingEnemy : Enemy {
 		targets = Es;
 	}
 	
-	public virtual void checkAnyVisible () {
+	public void checkAnyVisible () {
 		foreach (Enemy e in targets) {
 			if (e.faction != faction) {
 				if (debug) print ("Checking to see if alerted by " +  e.name);
