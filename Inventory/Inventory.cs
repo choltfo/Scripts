@@ -10,4 +10,5 @@ public class Inventory {
 	public int[] ammo = new int[Enum.GetNames(typeof(AmmoType)).Length];
 	public List<Grenade> grenades = new List<Grenade>();
 	public Items[] items;
+	public List<WeaponAttachment> attachments;
 }

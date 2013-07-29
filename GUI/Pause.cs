@@ -54,6 +54,15 @@ public class Pause : MonoBehaviour {
 			}
 		}
 		
+		if (Input.GetKeyDown(controls.inventory)) {
+			pane = "/Inventory";
+			if (Time.timeScale != 0) {
+				Time.timeScale = 0f;
+			} else {
+				Time.timeScale = 1f;
+			}
+		}
+		
 		
 		Screen.lockCursor = !(Time.timeScale == 0f);
 		Screen.showCursor = (Time.timeScale == 0f);
@@ -107,6 +116,9 @@ public class Pause : MonoBehaviour {
 						LevelSerializer.LoadSavedLevelFromFile("SaveGame");
 					}
 					break;
+				case "/Inventory":
+					inventoryView();
+					break;
 				case "/Objective":
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Close")) {
 						pane = "/Pause";
@@ -158,5 +170,9 @@ public class Pause : MonoBehaviour {
 					break;
 			}
 		}
+	}
+
+	void inventoryView () {
+		Inventory inv = GetComponent<ShootObjects>().inventory;
 	}
 }

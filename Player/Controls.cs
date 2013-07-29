@@ -13,6 +13,7 @@ public class Controls : MonoBehaviour {
 	public MouseButton aim           = MouseButton.RMB;
 	public MouseButton fire          = MouseButton.LMB;
 	public KeyCode minimap           = KeyCode.M;
+	public KeyCode inventory         = KeyCode.I;
 	public KeyCode reload            = KeyCode.R;
 	public KeyCode interact          = KeyCode.E;
 	public KeyCode drop              = KeyCode.Q;
