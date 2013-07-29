@@ -317,6 +317,9 @@ public class Weapon {
 		
 		foreach (HardPoint hp in attachments) {
 			hp.attachment.deploy(mainObject, hp.position);
+			if (hp.attachment.type == AttachmentType.Silencer) {
+				mainObject.audio.clip = hp.attachment.silencerNoise;
+			}
 			if(hp.attachment.type == AttachmentType.Scope) foldFrontSight();
 		}
 
