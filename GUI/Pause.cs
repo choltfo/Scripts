@@ -204,11 +204,11 @@ public class Pause : MonoBehaviour {
 		int i = 0;
 		Weapon transferredWeapon= new Weapon();
 		int soldWeaponSlot = -1;
-		GUI.Label(new Rect(Screen.width/2-215, 100, 150, 25), "Weapons");
+		GUI.Label(new Rect(Screen.width/2-250, 100, 200, 25), "Weapons");
 		GUI.Label(new Rect(Screen.width/2, 100, 150, 25), "Grenades, Attachments");
 		foreach (Weapon weapon in inventory.weapons) {
 			if (weapon.IsValid && i < 8 + (int)weaponSlider && i >= (int)weaponSlider) {
-				if (GUI.Button(new Rect(Screen.width/2-215, 125+(25*(i-(int)weaponSlider)), 200, 25), weapon.DisplayName)) {
+				if (GUI.Button(new Rect(Screen.width/2-265, 125+(25*(i-(int)weaponSlider)), 250, 25), weapon.DisplayName)) {
 					
 					SelectedWeapon = weapon;
 					SelectedModSlot = null;
@@ -220,10 +220,11 @@ public class Pause : MonoBehaviour {
 					
 					for (int o = 0; o<weapon.attachments.Length; o++) {
 						if (weapon.attachments[o].attachment.isValid) {
-							if (GUI.Button(new Rect(Screen.width/2-200, 125+(25*(i+1-(int)weaponSlider)), 185, 25),
+							if (GUI.Button(new Rect(Screen.width/2-250, 125+(25*(i+1-(int)weaponSlider)), 235, 25),
 									weapon.attachments[o].name + ": " + weapon.attachments[o].attachment.railType.ToString()+
 									" "+weapon.attachments[o].attachment.type.ToString())) {
 								
+								// Pluck thingy
 								inventory.attachments.Add(weapon.attachments[o].attachment);
 								weapon.attachments[o].attachment = new WeaponAttachment();
 								
@@ -231,10 +232,10 @@ public class Pause : MonoBehaviour {
 							}
 							p++;
 						} else {
-							if (GUI.Button(new Rect(Screen.width/2-200, 125+(25*(i+1-(int)weaponSlider)), 185, 25),
+							if (GUI.Button(new Rect(Screen.width/2-250, 125+(25*(i+1-(int)weaponSlider)), 235, 25),
 									weapon.attachments[o].name + ": " + weapon.attachments[o].connectionType.ToString()+
 									". Open.")) {
-								
+								// Prepare to attach thingy
 								SelectedModSlot = weapon.attachments[o];
 								
 							}
@@ -273,6 +274,7 @@ public class Pause : MonoBehaviour {
 		
 		if (SelectedAttachment != null) {
 			inventory.attachments.Remove(SelectedAttachment);
+			SelectedAttachment = null;
 		}
 		
 	}

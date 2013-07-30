@@ -3,6 +3,7 @@ using System.Collections;
 
 [System.Serializable]
 public class WeaponAttachment {
+	public string name = "PartName";
 	public GameObject instantiableThing;
 	public ConnectionType railType = ConnectionType.PicitannySide;
 	public bool isValid = false;
@@ -11,6 +12,7 @@ public class WeaponAttachment {
 	public Vector3 rot;
 	public AudioClip silencerNoise;
 	public Material laserMat;
+	public float overrideZoom;
 	
 	GameObject Thing;
 	bool on = true;

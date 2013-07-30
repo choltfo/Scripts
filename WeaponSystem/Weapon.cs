@@ -329,11 +329,20 @@ public class Weapon {
 		lastAim = Time.time;
 		Exists = true;
 		
+		// Attachment specific methods.
+		bool ZoomChanged = false;
 		for (int i = 0; i < attachments.Length; i++) {
-			if (attachments[i].attachment.type == AttachmentType.Silencer) {
+			if (attachments[i].attachment.type == AttachmentType.Silencer && attachments[i].attachment.isValid) {
 				mainObject.GetComponent<AudioSource>().clip = attachments[i].attachment.silencerNoise;
-				i = attachments.Length-1;
 			}
+			if (attachments[i].attachment.type == AttachmentType.Scope && attachments[i].attachment.isValid) {
+				ScopeZoom = attachments[i].attachment.overrideZoom;
+				ZoomChanged = true;
+			}
+		}
+		if (!ZoomChanged) {
+			ScopeZoom = 60;
+			NormalZoom = 60;
 		}
 	}
 	

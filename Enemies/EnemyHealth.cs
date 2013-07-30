@@ -39,6 +39,17 @@ public class EnemyHealth : Objective {
 	void kill (DamageCause COD = DamageCause.Default) {
 		print (gameObject.name + " suffered a death by " + COD.ToString());
 		
+		if (GetComponent<ShootingEnemy>() != null) {
+			GetComponent<ShootingEnemy>().weapon.Drop ();
+			GameObject ammo = GameObject.CreatePrimitive(PrimitiveType.Cube);
+			ammo.name = "DroppedAmmo";
+			ammo.transform.Translate(transform.position);
+			ammo.transform.Translate(0f,0.5f,0f);
+			ammo.AddComponent(typeof(AmmoPickup));
+			ammo.GetComponent<AmmoPickup>().ammoType = GetComponent<ShootingEnemy>().ammoType;//GetComponent<ShootingEnemy>().ammo
+			ammo.GetComponent<AmmoPickup>().Bullets = GetComponent<ShootingEnemy>().ammo[(int)GetComponent<ShootingEnemy>().ammoType];
+		}
+		
 		List<Enemy> es = PathfindingEnemy.listEnemies();
 		es.Remove(thisEnemy);
 		PathfindingEnemy.setTargets(PathfindingEnemy.listEnemies());
