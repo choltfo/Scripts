@@ -15,6 +15,12 @@ public class PFNode : MonoBehaviour {
 }
 
 [System.Serializable]
+public class PFNodePathPoint {
+	public PFNode node;
+	public float time;
+}
+
+[System.Serializable]
 public class PFNodeEntry {
 	public PFNode node;
 	public bool accessible;

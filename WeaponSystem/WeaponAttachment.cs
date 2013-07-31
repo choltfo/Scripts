@@ -3,12 +3,16 @@ using System.Collections;
 
 [System.Serializable]
 public class WeaponAttachment {
+	public string name = "PartName";
 	public GameObject instantiableThing;
-	public ConnectionType railType = ConnectionType.Picitanny;
+	public ConnectionType railType = ConnectionType.PicitannySide;
 	public bool isValid = false;
 	public AttachmentType type = AttachmentType.Flashlight;
 	public string toggleableObjectPath;
 	public Vector3 rot;
+	public AudioClip silencerNoise;
+	public Material laserMat;
+	public float overrideZoom;
 	
 	GameObject Thing;
 	bool on = true;
@@ -39,6 +43,14 @@ public class WeaponAttachment {
 			toggleableObject = Thing.transform.FindChild(toggleableObjectPath).gameObject;
 			toggle();
 		}
+		if (type == AttachmentType.Laser) {
+			Thing.AddComponent<LineRenderer>();
+			Thing.GetComponent<LineRenderer>().material = laserMat;
+			Thing.GetComponent<LineRenderer>().useWorldSpace = false;
+			Thing.GetComponent<LineRenderer>().SetPosition(0, new Vector3(0,0,0));
+			Thing.GetComponent<LineRenderer>().SetPosition(0, new Vector3(0,0,-1000));
+			Thing.GetComponent<LineRenderer>().SetWidth(0.05f,0.05f);
+		}
 		return true;
 	}
 	
@@ -49,6 +61,22 @@ public class WeaponAttachment {
 		on = !on;
 		return true;
 	}
+}
+
+[System.Serializable]
+public class HardPoint {
+	public string name;
+	public ConnectionType connectionType = ConnectionType.PicitannySide;
+	public WeaponAttachment attachment;
+	public Vector3 position;
+}
+
+public enum ConnectionType {
+	PicitannySide,
+	WeaverSide,
+	BarrelTip,
+	PicitannyScope,
+	WeaverScope
 }
 
 public enum AttachmentType {

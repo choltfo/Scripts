@@ -1,6 +1,6 @@
 using UnityEngine;
-using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class ShootingEnemy : PathfindingEnemy {
 	
@@ -8,10 +8,6 @@ public class ShootingEnemy : PathfindingEnemy {
 	public float semiAutoFireDelay = 0.25f;
 	
 	float lastShot = -10f;
-	
-	public Enemy target;
-	
-	public Enemy[] targets;
 	
 	public bool pastReady;
 	
@@ -23,10 +19,20 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public WeaponPickup startingWeapon;
 	
-	public bool debug = false;
+	public bool isAimed = false;
+	
+	
+	public float rotSpd = 5;
+	public float satisfactoryAimInDegrees = 5;
+	
+	public static bool debug = true;
+	
+	
+	Quaternion rotation;
+	
+	
 	
 	public override void childStart () {
-		Debug.Log ("childStart - ShootingEnemy");
 		
 		weapon = startingWeapon.thisGun.duplicate();
 		
@@ -38,12 +44,41 @@ public class ShootingEnemy : PathfindingEnemy {
 		weapon.create(head);
 		weapon.withdraw();
 		
-		listEnemies();
+		targets = listEnemies();
+		print("Targets: " + targets.Count);
 	}
+	
+	/*public virtual void checkAnyVisible () {
+		foreach (Enemy e in targets) {
+			if (e.faction != faction) {
+				if (debug) print ("Checking to see if alerted by " +  e.name);
+				var rayDirection = e.transform.position - transform.position;
+				if (Vector3.Angle(rayDirection, transform.forward) < fieldOfViewRadiusInDegrees) {
+					if (debug) print ("Angle satisfied.");
+					if (Vector3.Distance(transform.position, e.transform.position) < visionRange) {
+						if (debug) print ("Distance satisfied.");
+						//RaycastHit hitinfo;
+						//Physics.Linecast (head.transform.position, e.transform.position, hitinfo);
+						//if (hitinfo.transform = e.transform) {
+						//	if (debug) print ("Linecast satisfied.");
+						alerted = true;
+						target = e;
+						if (debug) print ("Found target. Starting to kill!");
+						//}
+					}
+				}
+			}
+		}
+	}*/
+	
 	
 	public override void childFixedUpdate () {
 		weapon.AnimUpdate();
-		if (ready) {
+		
+		if (!alerted) checkAnyVisible();
+		
+		if (ready && alerted && isAimed) {
+			//target = getNearestEnemy();
 			if (weapon.CurAmmo == 0 && weapon.AnimClock == 0) {
 				weapon.Reload(ammo);
 				if (debug) print ("Reloading");
@@ -58,19 +93,42 @@ public class ShootingEnemy : PathfindingEnemy {
 				if (debug) print ("Holding trigger!");
 				weapon.AIShoot(head);
 			}
+			if (debug) print("Targeting "+target.name);
 		}
+		
+		//Look towards predetermined target
+		if (target != null) {
+			Vector3 targetPos = target.transform.position;
+			Vector3 currentPos = head.transform.position;
+			Vector3 relativePos = targetPos - currentPos ;
+			rotation = Quaternion.LookRotation(relativePos);
+			if (!isAimed) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
+		}
+																	// Satisfactory aiming criteria. In degrees.
+		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < satisfactoryAimInDegrees ;//&&
+			//!Physics.Linecast (head.transform.position, target.transform.position);
 	}
 	
-	/// <summary>
-	/// Lists the enemies.
-	/// </summary>
-	void listEnemies() {
-		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Combatant");
-		targets = new Enemy[enemies.Length];
-		int i =0;
-		foreach (GameObject go in enemies) {
-			targets[i] = go.GetComponent<Enemy>();
-			i++;
+	Enemy getNearestEnemy() {
+		int nearest = 0;
+		float closest = 1000;
+		
+		int i = 0;
+		
+		// So, warning, this will make your enemy shoot himself after killing all other enemies. 
+		
+		foreach (Enemy e in targets) {
+			if (Vector3.Distance(gameObject.transform.position, targets[i].transform.position) < closest &&
+					!e.faction.Equals(faction) && e != this) {
+				
+				if (debug) print ("Contemplating " + e.name);
+				nearest = i;
+				closest = Vector3.Distance(gameObject.transform.position, targets[i].transform.position);
+			}
+			
+			i ++;
 		}
+		if (debug) print("Nearest enemy is " + targets[nearest].name);
+		return targets[nearest];
 	}
 }

@@ -22,6 +22,10 @@ public class TriggerableEvent {
 	public Vector3 tolerance;
 	public int number;
 	
+	public List<AudioClip> RadioSounds;
+	public Radio radio;
+	public bool radioState;
+	public editSettings radioWriteStyle;
 	
 	
 	public void Trigger(SubtitleController TextDisplay) {
@@ -43,5 +47,17 @@ public class TriggerableEvent {
 				MonoBehaviour.Instantiate(instantiableObject, (Random.value * tolerance) + place, new Quaternion(0,0,0,1));
 			}
 		}
+		
+		if (radioWriteStyle == editSettings.append) {
+			foreach (AudioClip clip in RadioSounds) radio.clips.Add(clip);
+		}
+		if (radioWriteStyle == editSettings.overwrite) {
+			radio.clips = RadioSounds;
+		}
 	}
+}
+
+public enum editSettings {
+	append,
+	overwrite
 }

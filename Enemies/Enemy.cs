@@ -13,6 +13,6 @@ public class Enemy : MonoBehaviour {
 /// The enemy's associated faction. Basically, who doesn't shoot at who.
 /// </summary>
 public enum Faction {
-	Friendly,			// He is with the player. 
+	Friendly,			// He is with the player.
 	Evil				// He is ont with the player.
 }

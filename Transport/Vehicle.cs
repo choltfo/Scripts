@@ -17,23 +17,41 @@ public class Vehicle : MonoBehaviour {
 	
 	public bool erectOnEnter = false;
 	
+	
+	
 	public void activate (GameObject Player) {
+		if (isOccupied) {
+			return;
+		}
+		
 		if (erectOnEnter) {
 			transform.eulerAngles.Set(transform.eulerAngles.x, transform.eulerAngles.y, 0);
 		}
 		player = Player.transform.parent.gameObject;
+		
+		isOccupied = true;
+		
 		VControls.isCarActive = true;
 		controls = player.transform.FindChild("Camera").gameObject.GetComponent<Controls>();
 		isActive = true;
 		player.SetActive(false);
 		((Camera)gameObject.transform.Find("Camera").gameObject.GetComponent("Camera")).enabled = true;
 		((AudioListener)gameObject.transform.Find("Camera").gameObject.GetComponent("AudioListener")).enabled = true;
+		
+		if (erectOnEnter && isActive) {
+			float z = transform.eulerAngles.z;
+			float x = transform.eulerAngles.x;
+			transform.Rotate(-x, 0, -z);
+		}
 	}
 	
 	public void deactivate () {
 		VControls.isCarActive = false;
 		isActive = false;
 		player.SetActive(true);
+		
+		isOccupied = false;
+		
 		player.transform.position = transform.position + ExitLocation;
 		((Camera)gameObject.transform.Find("Camera").gameObject.GetComponent("Camera")).enabled = false;
 		((AudioListener)gameObject.transform.Find("Camera").gameObject.GetComponent("AudioListener")).enabled = false;

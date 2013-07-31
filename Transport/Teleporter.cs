@@ -30,15 +30,16 @@ public class Teleporter : InteractObject {
 	/// This is what happens
 	/// </summary>
 	public override void Interact (GameObject player) {
-		if (isPortal) {
-			return;
-		}
-		player.transform.root.position = linkedTeleporter.transform.position + linkedTeleporter.relativePosition;
+		//if (isPortal) {
+		//	return;
+		//}
+		player.transform.parent.position = linkedTeleporter.transform.position + linkedTeleporter.relativePosition;
 		fader.SetScreenOverlayColor(fadeColor);
 		beginFadeAt = Time.time;
 		faded = false;
 	}
 
+	/*
 	/// <summary>
 	///	Teleports player
 	/// On a collision event
@@ -48,7 +49,8 @@ public class Teleporter : InteractObject {
 		if (isPortal) {
 			thing.transform.root.position = linkedTeleporter.transform.position + linkedTeleporter.relativePosition;
 		}		
-	}
+	}*/
+		
 	public void Update () {
 		if (beginFadeAt + fadeTime > Time.time && !faded) {
 			fader.StartFade(transparency,fadeTime);

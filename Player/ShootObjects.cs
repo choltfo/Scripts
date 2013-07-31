@@ -258,6 +258,20 @@ public class ShootObjects : MonoBehaviour {
 		return false;
 	}
 	
+	/// <summary>
+	/// Reset all the weapons. Used after changing the weapon's attachments.
+	/// </summary>
+	public void reset () {
+		if (inventory.weapons[0].IsValid) {
+			inventory.weapons[0].destroy();
+			inventory.weapons[0].create(gameObject);
+		}
+		if (inventory.weapons[1].IsValid) {
+			inventory.weapons[1].destroy();
+			inventory.weapons[1].create(gameObject);
+		}
+	}
+	
 	public bool switchWeapons () {
 		inventory.weapons[currentWeapon].stow();
 		if (currentWeapon != 1 || !inventory.weapons[1].Exists) {

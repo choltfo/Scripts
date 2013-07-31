@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(PFNodeClient))]
 [RequireComponent(typeof(CharacterController))]
@@ -17,7 +18,25 @@ public class PathfindingEnemy : Enemy {
 	public CharacterController CC;
 	
 	public bool ready = true;
-
+	
+	public Enemy target;
+	
+	
+	public PFNode[] patrol;
+	
+	
+	public bool alerted = false;
+	
+	public float fieldOfViewRadiusInDegrees = 30;
+	
+	public float visionRange = 10;
+	
+	public static bool debug = false;
+	
+	public static List<Enemy> targets;
+	
+	int patrolIndex = 0;
+	
 	
 	// Use this for initialization
 	void Start () {
@@ -29,31 +48,60 @@ public class PathfindingEnemy : Enemy {
 		childStart();
 	}
 	
+	public static void setTargets(List<Enemy> Es) {
+		print ("setTargets called");
+		targets = Es;
+	}
+	
+	public void checkAnyVisible () {
+		foreach (Enemy e in targets) {
+			if (e.faction != faction) {
+				if (debug) print ("Checking to see if alerted by " +  e.name);
+				var rayDirection = e.transform.position - transform.position;
+				if (Vector3.Angle(rayDirection, transform.forward) < fieldOfViewRadiusInDegrees) {
+					if (debug) print ("Angle satisfied.");
+					if (Vector3.Distance(transform.position, e.transform.position) < visionRange) {
+						if (debug) print ("Distance satisfied.");
+						alerted = true;
+						target = e;
+						if (debug) print ("Found target. Starting to kill!");
+					}
+				}
+			}
+		}
+	}
+	
 	// Update is called once per frame
 	void FixedUpdate () {
 		
-		if ((int)transform.position.z == (int)getZXPosition(PFNC.currentNode.transform.position).z &&
-			(int)transform.position.x == (int)getZXPosition(PFNC.currentNode.transform.position).x) {
-			ready = true;
-			//print ("In position, readying up.");
-		}
+		ready = ((int)transform.position.z == (int)getZXPosition(PFNC.currentNode.transform.position).z &&
+			(int)transform.position.x == (int)getZXPosition(PFNC.currentNode.transform.position).x);
+			
 		
 		// DEBUG: print (transform.position.ToString() + " : " + getZXPosition(PFNC.currentNode.transform.position));
 		
+		if (alerted) {
+			if (Time.time > lastUpdate + updateInterval && Vector3.Distance(transform.position, PFNC.currentNode.transform.position) < 1) {
+				lastUpdate = Time.time;
+				
+				// Change this to whatever the best method is.
+				// TODO: change to getSafest, once that works.
+				//PFNC.currentNode = PFNC.getNodeNearest();											// This should be the same for all
+																									// Enemies.
+				PFNC.currentNode = PFNC.getNodeClosestToEnemies(GameObject.FindGameObjectsWithTag("Combatant"), faction);
+				
+				ready = false;
+			}
+		} else {
+			// If not alerted....
+			if (patrol.Length != 0) {
+				if (ready) patrolIndex = (patrolIndex+1) % patrol.Length;
+				PFNC.currentNode = patrol[patrolIndex];
+			}
+		}
+		
 		Vector3 target = getRelativePosition(transform, PFNC.currentNode.transform.position);
 		CC.SimpleMove (target * speed);
-		
-		if (Time.time > lastUpdate + updateInterval && Vector3.Distance(transform.position, PFNC.currentNode.transform.position) < 1) {
-			lastUpdate = Time.time;
-			
-			// Change this to whatever the best method is.
-			// TODO: change to getSafest, once that works.
-			//PFNC.currentNode = PFNC.getNodeNearest();								// This should be the same for all
-																					// Enemies.
-			PFNC.currentNode = PFNC.getNodeClosestToEnemies(GameObject.FindGameObjectsWithTag("Combatant"), faction);
-			
-			ready = false;
-		}
 		
 		childFixedUpdate();
 	}
@@ -81,4 +129,26 @@ public class PathfindingEnemy : Enemy {
 		return pos;
 	}
 	
+	/// <summary>
+	/// Lists the enemies.
+	/// </summary>
+	public static List<Enemy> listEnemies() {
+		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Combatant");
+		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+		List<Enemy> targets = new List<Enemy>();
+		int i = 0;
+		foreach (GameObject go in enemies) {
+			targets.Add(go.GetComponent<Enemy>());
+			i++;
+		}
+		
+		i = 0;
+		foreach (GameObject go in players) {
+			targets.Add(go.GetComponent<Enemy>());
+			i++;
+		}
+		
+		if (debug) print(enemies.Length);
+		return targets;
+	}
 }

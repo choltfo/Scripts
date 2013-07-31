@@ -317,6 +317,9 @@ public class Weapon {
 		
 		foreach (HardPoint hp in attachments) {
 			hp.attachment.deploy(mainObject, hp.position);
+			if (hp.attachment.type == AttachmentType.Silencer) {
+				mainObject.audio.clip = hp.attachment.silencerNoise;
+			}
 			if(hp.attachment.type == AttachmentType.Scope) foldFrontSight();
 		}
 
@@ -325,6 +328,22 @@ public class Weapon {
 		isAimed = false;
 		lastAim = Time.time;
 		Exists = true;
+		
+		// Attachment specific methods.
+		bool ZoomChanged = false;
+		for (int i = 0; i < attachments.Length; i++) {
+			if (attachments[i].attachment.type == AttachmentType.Silencer && attachments[i].attachment.isValid) {
+				mainObject.GetComponent<AudioSource>().clip = attachments[i].attachment.silencerNoise;
+			}
+			if (attachments[i].attachment.type == AttachmentType.Scope && attachments[i].attachment.isValid) {
+				ScopeZoom = attachments[i].attachment.overrideZoom;
+				ZoomChanged = true;
+			}
+		}
+		if (!ZoomChanged) {
+			ScopeZoom = 60;
+			NormalZoom = 60;
+		}
 	}
 	
 	/// <summary>
@@ -400,7 +419,7 @@ public class Weapon {
 		
 		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && AnimClock == 0 && curAnim == weaponAnimType.None){
 			CurAmmo -= 1;
-			((AudioSource)mainObject.GetComponent("AudioSource")).Play();
+			mainObject.GetComponent<AudioSource>().Play();
 			
 			//Debug.Log("Setting anim clock to " + ((int)(30/(7.5*FireRateAsPercent / 100))) + 
 			//	", or " + (30/(7.5*FireRateAsPercent / 100)));
@@ -470,8 +489,11 @@ public class Weapon {
 			
 			for (int i = 0; i<numOfShots; i++) {
 				
+				Vector3 aim = camera.transform.forward;
+				//aim.Set (aim.x+Random.Range(-xSpread/10,xSpread/10), aim.y+Random.Range(-yspread/10,yspread/10), 0);
+				
 				RaycastHit hit;
-				if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Range)){
+				if (Physics.Raycast(camera.transform.position, aim, out hit, Range)){
 					calculateDamage(hit);
 				}
 			}
@@ -783,20 +805,6 @@ public class Weapon {
 	public Weapon duplicate() {
 		return (Weapon)this.MemberwiseClone();
 	}
-}
-
-[System.Serializable]
-public class HardPoint {
-	public string name;
-	public ConnectionType connectionType = ConnectionType.Picitanny;
-	public WeaponAttachment attachment;
-	public Vector3 position;
-}
-
-public enum ConnectionType {
-	Picitanny,
-	Weaver,
-	BarrelTip
 }
 
 /// <summary>

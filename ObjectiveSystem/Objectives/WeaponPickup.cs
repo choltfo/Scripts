@@ -7,6 +7,6 @@ public class WeaponPickup : Objective {
 	virtual public Weapon interact(){
 		Complete ();
 		gameObject.SetActive(false);
-		return thisGun;
+		return thisGun.duplicate();
 	}
 }

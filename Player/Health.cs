@@ -52,7 +52,7 @@ public class Health : MonoBehaviour {
 		fader.SetScreenOverlayColor(fadeColor);
 		fader.StartFade(transparent, fadeTime);
 		lastCOD = COD;
-		if (damage > HealthLevel) {
+		if (damage >= HealthLevel) {
 			Die ();
 			return false;
 		} else {

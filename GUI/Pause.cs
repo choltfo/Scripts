@@ -13,10 +13,6 @@ public class Pause : MonoBehaviour {
 	/// </summary>
 	public Controls controls;
 	/// <summary>
-	/// The audio to play through.
-	/// </summary>
-	public AudioListener audioLis;
-	/// <summary>
 	/// The width of the items.
 	/// </summary>
 	public int itemWidth = 150;
@@ -50,14 +46,35 @@ public class Pause : MonoBehaviour {
 	
 	void Update () {
 		if (Input.GetKeyDown(controls.pause)) {
-			pane = "/Pause";
 			if (Time.timeScale != 0) {
 				Time.timeScale = 0f;
 			} else {
 				Time.timeScale = 1f;
+				if (pane == "/Inventory") {
+					GetComponent<ShootObjects>().reset();
+					Weapon SelectedWeapon = null;
+					HardPoint SelectedModSlot = null;
+					WeaponAttachment SelectedAttachment = null;
+				}
+			}
+			pane = "/Pause";
+		}
+		
+		if (Input.GetKeyDown(controls.inventory)) {
+			pane = "/Inventory";
+			if (Time.timeScale != 0) {
+				Time.timeScale = 0f;
+			} else {
+				Time.timeScale = 1f;
+				GetComponent<ShootObjects>().reset();
+				Weapon SelectedWeapon = null;
+				HardPoint SelectedModSlot = null;
+				WeaponAttachment SelectedAttachment = null;
 			}
 		}
-
+		
+		
+		Screen.lockCursor = !(Time.timeScale == 0f);
 		Screen.showCursor = (Time.timeScale == 0f);
 		Screen.fullScreen = true;
 	}
@@ -114,6 +131,9 @@ public class Pause : MonoBehaviour {
 						LevelSerializer.LoadSavedLevelFromFile("SaveGame");
 					}
 					break;
+				case "/Inventory":
+					inventoryView();
+					break;
 				case "/Objective":
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Close")) {
 						pane = "/Pause";
@@ -164,5 +184,102 @@ public class Pause : MonoBehaviour {
 					break;
 			}
 		}
+	}
+	
+	float attachmentSlider = 0;
+	float weaponSlider = 0;
+	int ItemElements = 0;
+	
+	Weapon SelectedWeapon = null;
+	HardPoint SelectedModSlot = null;
+	WeaponAttachment SelectedAttachment = null;
+	
+	void inventoryView () {
+		Inventory inventory = GetComponent<ShootObjects>().inventory;
+		
+		weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 200),
+			weaponSlider, 8.0F, 0.0F, ((inventory.weapons.Length < 8) ? 8 : inventory.weapons.Length));
+		GUI.Box(new Rect(Screen.width/2-215, 125, 215, 200), "");
+		
+		attachmentSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+200, 125, 15, 200),
+		attachmentSlider, 8.0F, 0.0F, ((ItemElements < 8) ? 8 : ItemElements));
+		GUI.Box(new Rect(Screen.width/2, 125, 215, 200), "");
+		
+		int i = 0;
+		Weapon transferredWeapon= new Weapon();
+		int soldWeaponSlot = -1;
+		GUI.Label(new Rect(Screen.width/2-250, 100, 200, 25), "Weapons");
+		GUI.Label(new Rect(Screen.width/2, 100, 150, 25), "Grenades, Attachments");
+		foreach (Weapon weapon in inventory.weapons) {
+			if (weapon.IsValid && i < 8 + (int)weaponSlider && i >= (int)weaponSlider) {
+				if (GUI.Button(new Rect(Screen.width/2-265, 125+(25*(i-(int)weaponSlider)), 250, 25), weapon.DisplayName)) {
+					
+					SelectedWeapon = weapon;
+					SelectedModSlot = null;
+					SelectedAttachment = null;
+					
+				}
+				if (SelectedWeapon == weapon) {
+					int p = 1;
+					
+					for (int o = 0; o<weapon.attachments.Length; o++) {
+						if (weapon.attachments[o].attachment.isValid) {
+							if (GUI.Button(new Rect(Screen.width/2-250, 125+(25*(i+1-(int)weaponSlider)), 235, 25),
+									weapon.attachments[o].name + ": " + weapon.attachments[o].attachment.railType.ToString()+
+									" "+weapon.attachments[o].attachment.type.ToString())) {
+								
+								// Pluck thingy
+								inventory.attachments.Add(weapon.attachments[o].attachment);
+								weapon.attachments[o].attachment = new WeaponAttachment();
+								
+								
+							}
+							p++;
+						} else {
+							if (GUI.Button(new Rect(Screen.width/2-250, 125+(25*(i+1-(int)weaponSlider)), 235, 25),
+									weapon.attachments[o].name + ": " + weapon.attachments[o].connectionType.ToString()+
+									". Open.")) {
+								// Prepare to attach thingy
+								SelectedModSlot = weapon.attachments[o];
+								
+							}
+							p++;
+						}
+						i++;
+					} // End for each hardpoint.
+					
+				}
+				i++;
+			} // End for each gun.
+		}
+		
+		int a = 0;
+		foreach (WeaponAttachment att in inventory.attachments) {
+			if (i < 8 + (int)attachmentSlider && i >= (int)attachmentSlider) {
+				//GUI.Box(new Rect(Screen.width/2+150, 125+(25*i), 50, 25),  "$"+AmmoPrice.Get((AmmoType)a).ToString());
+				if (GUI.Button(new Rect(Screen.width/2, 125+(25*(a-(int)attachmentSlider)), 200, 25),
+					att.railType.ToString()+" "+att.type.ToString())) {
+					
+					if (SelectedModSlot != null) {
+						if (SelectedModSlot.connectionType == att.railType) {
+							
+							// Afix part.
+							SelectedModSlot.attachment = att;
+							
+							// Clean up.
+							SelectedModSlot = null;
+							SelectedAttachment = att;
+						}
+					}
+				}
+			}
+			a++;
+		}
+		
+		if (SelectedAttachment != null) {
+			inventory.attachments.Remove(SelectedAttachment);
+			SelectedAttachment = null;
+		}
+		
 	}
 }
