@@ -67,13 +67,17 @@ public class Pause : MonoBehaviour {
 	}
 	
 	KeyCode ChangeKey (KeyCode origKey) {
-		while (true) {
+		bool t = true;
+		while (t) {
 			Event e = Event.current;
 			if (e.isKey) {
+				print(e.keyCode);
 				if (e.keyCode == KeyCode.Escape) {
+					t = false;
 					return origKey;
 				}
 				else {
+					t = false;
 					Debug.Log(e.keyCode);
 					return e.keyCode;
 				}
@@ -86,6 +90,7 @@ public class Pause : MonoBehaviour {
 				done = true;
 			}
 		}*/
+		return origKey;
 	}
 	
 	void OnGUI () {
@@ -124,7 +129,6 @@ public class Pause : MonoBehaviour {
 					}
 					FieldInfo[] variables = 
 						typeof(Controls).GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);//.Select(f => f.Name);
-					//for (int i=0; i < 23 ; i++) {
 					int i = 0;
 					// WARNING: REFLECTIONS AHEAD!
 					foreach (FieldInfo variable in variables) {
