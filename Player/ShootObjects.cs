@@ -112,6 +112,7 @@ public class ShootObjects : MonoBehaviour {
 	}
 	
 	public void toggleFlashLights() {
+		if (!inventory.weapons[currentWeapon].IsValid) return;
 		foreach (HardPoint hp in inventory.weapons[currentWeapon].attachments) {
 			if (hp.attachment.type == AttachmentType.Flashlight) hp.attachment.toggle();
 		}

@@ -28,7 +28,13 @@ public class CampaignDisplay : MonoBehaviour {
 	/// </summary>
 	public GUIStyle contentStyle;
 	
+	public TriggerableEvent startingEvent;
+	public SubtitleController subtitleController;
+	
 	void Start () {
+		
+		startingEvent.Trigger(subtitleController);
+		
 		LevelSerializer.SerializeLevelToFile("SaveGame");
 		print ("Saved level.");
 		campaign.applyStyles(headingStyle, contentStyle);

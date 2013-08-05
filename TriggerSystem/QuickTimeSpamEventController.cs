@@ -24,7 +24,7 @@ public class QuickTimeSpamEventController : MonoBehaviour {
 	}
 	
 	void Update() {
-		if (isOn & (Time.time < startTime + time)) {
+		if (isOn & (Time.time < startTime + e.time)) {
 			if (Input.GetKeyDown(controls.interact)) numOfPresses++;
 			Debug.Log(numOfPresses);
 		}
