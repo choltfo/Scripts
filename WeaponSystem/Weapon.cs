@@ -415,7 +415,7 @@ public class Weapon {
 	/// <param name='camera'>
 	/// Camera to aim from.
 	/// </param>
-	public virtual bool Shoot(Camera camera) {
+	public virtual bool Shoot(Camera camera, Enemy shooter) {
 		
 		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && AnimClock == 0 && curAnim == weaponAnimType.None){
 			CurAmmo -= 1;
@@ -445,7 +445,7 @@ public class Weapon {
 				Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width/2+x,Screen.height/2+y,0));
 				RaycastHit hit;
 				if (Physics.Raycast(ray, out hit, Range)){
-					calculateDamage(hit);
+					calculateDamage(hit, shooter);
 				}
 			}
 			return true;
@@ -462,7 +462,7 @@ public class Weapon {
 	/// <param name='camera'>
 	/// The GameObject that is situated in place of a camera.
 	/// </param>
-	public virtual bool AIShoot(GameObject camera) {
+	public virtual bool AIShoot(GameObject camera, Enemy shooter) {
 		//Debug.Log("Attempting firing");
 		if (CurAmmo > 0 && AnimClock == 0 && curAnim == weaponAnimType.None){
 			//Debug.Log("Firing by AI");
@@ -494,7 +494,7 @@ public class Weapon {
 				
 				RaycastHit hit;
 				if (Physics.Raycast(camera.transform.position, aim, out hit, Range)){
-					calculateDamage(hit);
+					calculateDamage(hit, shooter);
 				}
 			}
 			return true;
@@ -502,7 +502,7 @@ public class Weapon {
 		return false;
 	}
 	
-	public void calculateDamage (RaycastHit hit) {
+	public void calculateDamage (RaycastHit hit, Enemy shooter) {
 		
 		//Debug.Log("Hit " + hit.collider.gameObject.name);
 		
@@ -529,7 +529,7 @@ public class Weapon {
 				}
 				if (hit.transform.gameObject.GetComponent("EnemyHealth") != null) {
 					EnemyHealth enemyHealth = (EnemyHealth)hit.transform.gameObject.GetComponent("EnemyHealth");
-					enemyHealth.damage(Damage, DamageCause.Shot);
+					enemyHealth.damageAsCombatant(Damage, shooter, DamageCause.Shot);
 					MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
 				}
 				if (hit.transform.gameObject.GetComponent<Health>() != null) {

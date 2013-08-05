@@ -53,6 +53,11 @@ public class PathfindingEnemy : Enemy {
 		targets = Es;
 	}
 	
+	public void setTarget (Enemy e) {
+		alerted = true;
+		target = e;
+	}
+	
 	public void checkAnyVisible () {
 		foreach (Enemy e in targets) {
 			if (e.faction != faction) {

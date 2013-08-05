@@ -85,13 +85,13 @@ public class ShootingEnemy : PathfindingEnemy {
 			}
 			if (!weapon.Automatic && Time.time > lastShot + semiAutoFireDelay) {
 				if (debug) print ("Attempting shot!");
-				if (weapon.AIShoot(head)) {
+				if (weapon.AIShoot(head, this)) {
 					if (debug) print ("Firing!");
 				}
 			}
 			if (weapon.Automatic) {
 				if (debug) print ("Holding trigger!");
-				weapon.AIShoot(head);
+				weapon.AIShoot(head, this);
 			}
 			if (debug) print("Targeting "+target.name);
 		}

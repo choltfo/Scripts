@@ -8,7 +8,7 @@ public class ShootObjects : MonoBehaviour {
 	public Controls controls;
 	public Melee punchController;
 	public Inventory inventory;
-	
+	public PlayerCombatant PC;
 	
 	public float throwForce;
 	public float throwTime = 0;
@@ -136,9 +136,9 @@ public class ShootObjects : MonoBehaviour {
 	public bool shoot() {
 		if (inventory.weapons[currentWeapon].IsValid) {
 			if ((inventory.weapons[currentWeapon] as GrenadeLauncher) != null) {
-				return ((GrenadeLauncher)inventory.weapons[currentWeapon]).Shoot(camera);
+				return ((GrenadeLauncher)inventory.weapons[currentWeapon]).Shoot(camera, PC);
 			}
-			return inventory.weapons[currentWeapon].Shoot(camera);
+			return inventory.weapons[currentWeapon].Shoot(camera, PC);
 		}
 		return false;
 	}

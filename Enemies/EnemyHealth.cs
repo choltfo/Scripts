@@ -26,6 +26,12 @@ public class EnemyHealth : Objective {
 		}
 	}
 	
+	public float damageAsCombatant (float health, Enemy shooter, DamageCause COD = DamageCause.Shot) {
+		damage(health, COD);
+		if (GetComponent<PathfindingEnemy>()!=null) GetComponent<PathfindingEnemy>().setTarget(shooter);
+		return health;
+	}
+	
 	public float damage (float damage, DamageCause COD = DamageCause.Default) {
 		if (Health > damage) {
 			Health -= damage;
