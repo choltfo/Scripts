@@ -8,7 +8,7 @@ public class InteractNPC : InteractObject {
 	
 	Conversation[] convos;
 	public bool pauseTime = true;
-	
+
 	public override void Interact() {
 		
 	}
