@@ -56,6 +56,7 @@ public class PathfindingEnemy : Enemy {
 	public void setTarget (Enemy e) {
 		alerted = true;
 		target = e;
+		if (debug) print ("Shot by "+e.name+", retaliating.");
 	}
 	
 	public void checkAnyVisible () {
