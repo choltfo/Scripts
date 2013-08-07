@@ -6,20 +6,24 @@ using System.Collections;
 /// </summary>
 public class InteractNPC : InteractObject {
 	
-	Conversation[] convos;
+	public Conversation[] convos;
 	public bool pauseTime = true;
-
-	public override void Interact() {
-		
+	
+	bool talking = false;
+	
+	public override void Interact(GameObject interacter) {
+		talking = true;
 	}
 	
 	// Use this for initialization
 	void Start () {
-		
+		foreach (Conversation convo in convos) {
+			convo.Init();
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 }

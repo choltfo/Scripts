@@ -14,7 +14,7 @@ public class Option {
 	
 	public void Init() {
 		foreach (Speech spc in speechs) {
-			sp.Init();
+			spc.Init();
 		}
 	}
 	
