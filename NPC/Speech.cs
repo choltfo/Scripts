@@ -8,7 +8,7 @@ public class Speech {
 	public AudioClip audio;
 	public float overrideTime;
 	
-	SubtitleLine line = new SubtitleLine();
+	public SubtitleLine line = new SubtitleLine();
 	
 	// This is called by the holding class to make the subtitle line not blank.
 	public void Init () {

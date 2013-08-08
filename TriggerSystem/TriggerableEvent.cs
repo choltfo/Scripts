@@ -12,7 +12,7 @@ public class TriggerableEvent {
 	public AudioSource soundSource;
 	public AudioClip sound;
 	public bool showText = false;
-	public SubtitleLine[] Text;
+	public List<SubtitleLine> Text;
 	public QuickTimeSpamEvent Spam;
 	public QuickTimeSpamEventController QTSEController;
 	public StatResult statMod;
