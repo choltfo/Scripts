@@ -43,6 +43,11 @@ public class Pause : MonoBehaviour {
 	/// <summary>
 	/// The pane path of the current pause window.
 	/// </summary>
+	/// 
+	/// 
+	
+	public GUISkin custSkin;
+	
 	
 	void Update () {
 		if (Input.GetKeyDown(controls.pause)) {
@@ -81,6 +86,7 @@ public class Pause : MonoBehaviour {
 	
 	void Start () {
 		Screen.fullScreen = true;
+		GUI.skin = custSkin;
 	}
 	
 	KeyCode ChangeKey (KeyCode origKey) {

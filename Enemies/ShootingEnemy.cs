@@ -24,8 +24,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public float rotSpd = 5;
 	public float satisfactoryAimInDegrees = 5;
-	
-	public static bool debug = true;
+		
 	
 	
 	Quaternion rotation;

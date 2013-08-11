@@ -27,15 +27,12 @@ public class Store : MonoBehaviour {
 	public int ItemElements = 0;
 	public int topItemElement = 0;
 	
-	public bool synced = true;
-	
 	
 	public void Interact (ShootObjects l_player) {
 		playerInv = l_player.inventory;
 		player = l_player;
 		Time.timeScale = 0;
 		pauseController.pane = "/Store/"+UID.ToString();
-		synced = false;
 	}
 	
 	void OnGUI () {

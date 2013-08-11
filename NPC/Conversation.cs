@@ -13,6 +13,10 @@ public class Conversation {
 		option.Init();
 		currentOption = option;
 	}
+	
+	public void reset() {
+		currentOption = option;
+	}
 }
 
 [System.Serializable]
@@ -26,24 +30,45 @@ public class Option {
 		}
 	}
 	
+	public OptionAction type;
+	
 	public Speech[] speechs;
 	public bool possible;
 	public bool returnToTop;
 	public Option[] options;
+	public TriggerableEvent TEvent;
 	
 }
 
-public enum SpeechPlaybackState {
+/// <summary>
+/// What the talk option does.
+/// Used for restructuring the convo's flow.
+/// </summary>
+public enum OptionAction {
 	/// <summary>
-	/// Ready.
+	/// Opens up a new set of convo options.
 	/// </summary>
 	Normal,
+	
 	/// <summary>
-	/// Showing user subtitles and playing audio.
+	/// Returns to top of convo.
 	/// </summary>
-	Showing,
+	ReturnToTop,
+	
 	/// <summary>
-	/// Waiting for user input.
+	/// Trigger the T Event, but leave the convo status unchanged.
 	/// </summary>
-	Waiting 
+	JustTrigger,
+	
+	/// <summary>
+	/// Open the NPC's store.
+	/// Does not worrk yet.
+	/// </summary>
+	OpenStore,
+	
+	/// <summary>
+	/// Trigger T Event, modify convo, and fsinish this conversation.
+	/// </summary>
+	Exit
 }
+
