@@ -13,17 +13,21 @@ public class InteractNPC : InteractObject {
 	public bool pauseTime = true;
 	
 	public SubtitleController STController;
+	public Pause PauseController;
 	
 	SpeechPlaybackState SPState = SpeechPlaybackState.Normal;
 	int currentSpeech = 0;
 	
 	bool talking = false;
 	GameObject interactee;
+	ShootObjects SO;
 	
-	public override void Interact(GameObject interacter) {
+	public override void Interact(GameObject player, ShootObjects SOPlayer) {
 		talking = true;
-		interactee = interacter;
+		interactee = player;
 		currentSpeech = 0;
+		SO = SOPlayer;
+		print (player.name);
 	}
 	
 	// Use this for initialization
@@ -39,6 +43,10 @@ public class InteractNPC : InteractObject {
 	void OnGUI () {
 		if (talking) {
 			drawConvo ();
+			if (SPState == SpeechPlaybackState.Waiting) {
+				Time.timeScale = 0f;
+				PauseController.pane = "/Convo";
+			}
 		}
 	}
 	
@@ -80,9 +88,9 @@ public class InteractNPC : InteractObject {
 						SPState = SpeechPlaybackState.Normal;
 						break;
 					case OptionAction.OpenStore :
-						GetComponent<Store>().Interact (interactee.GetComponent<ShootObjects>());
-						convo.reset();
 						talking = false;
+						GetComponent<Store>().Open (SO);
+						convo.reset();
 						interactee = null;
 						break;
 					case OptionAction.ReturnToTop :

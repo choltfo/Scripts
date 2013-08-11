@@ -44,6 +44,7 @@ public class Option {
 /// What the talk option does.
 /// Used for restructuring the convo's flow.
 /// </summary>
+[System.Serializable]
 public enum OptionAction {
 	/// <summary>
 	/// Opens up a new set of convo options.

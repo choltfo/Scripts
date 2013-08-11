@@ -37,7 +37,7 @@ public class Radio : InteractObject {
 		}
 	}
 	
-	public override void Interact (GameObject player) {
+	public override void Interact (GameObject player, ShootObjects SOPlayer) {
 		radioOn = !radioOn;
 		
 		if (!triggered) {

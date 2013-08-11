@@ -74,7 +74,7 @@ public class Sleep : InteractObject {
 	/// <summary>
 	/// Interact with this instance.
 	/// </summary>
-	public override void Interact (GameObject player) {
+	public override void Interact (GameObject player, ShootObjects SOPlayer) {
 		if (RenderSettings.skybox == dayMaterial){
 			fader.StartFade(fadeColor, fadeTime);
 			lastFade = Time.realtimeSinceStartup;

@@ -29,6 +29,11 @@ public class Store : MonoBehaviour {
 	
 	
 	public void Interact (ShootObjects l_player) {
+		if (GetComponent<InteractNPC>() != null) return;
+		Open (l_player);
+	}
+	
+	public void Open (ShootObjects l_player) {
 		playerInv = l_player.inventory;
 		player = l_player;
 		Time.timeScale = 0;

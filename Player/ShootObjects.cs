@@ -204,7 +204,7 @@ public class ShootObjects : MonoBehaviour {
 					hit.transform.gameObject.GetComponent<PickupObjective>().Interact();
 				}
 				if (hit.transform.gameObject.GetComponent<InteractObject>() != null) {
-					hit.transform.gameObject.GetComponent<InteractObject>().Interact(gameObject.transform.parent.gameObject);
+					hit.transform.gameObject.GetComponent<InteractObject>().Interact(gameObject.transform.parent.gameObject, this);
 				}
 				if (hit.transform.gameObject.GetComponent<Vehicle>() != null) {
 					hit.transform.gameObject.GetComponent<Vehicle>().activate(gameObject);

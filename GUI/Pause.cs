@@ -86,7 +86,6 @@ public class Pause : MonoBehaviour {
 	
 	void Start () {
 		Screen.fullScreen = true;
-		GUI.skin = custSkin;
 	}
 	
 	KeyCode ChangeKey (KeyCode origKey) {
@@ -183,6 +182,9 @@ public class Pause : MonoBehaviour {
 					break;
 				default:
 					if (pane.StartsWith("/Store")) {
+						break;
+					}
+					if (pane.StartsWith("/Convo")) {
 						break;
 					}
 					Debug.Log("Invalid switch - " + pane);

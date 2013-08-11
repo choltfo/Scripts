@@ -29,7 +29,7 @@ public class Teleporter : InteractObject {
 	/// By the player clicking 'E'
 	/// This is what happens
 	/// </summary>
-	public override void Interact (GameObject player) {
+	public override void Interact (GameObject player, ShootObjects SOPlayer) {
 		//if (isPortal) {
 		//	return;
 		//}
