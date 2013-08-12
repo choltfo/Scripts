@@ -85,6 +85,7 @@ public class ShootingEnemy : PathfindingEnemy {
 			if (!weapon.Automatic && Time.time > lastShot + semiAutoFireDelay) {
 				if (debug) print ("Attempting shot!");
 				if (weapon.AIShoot(head, this)) {
+					lastShot = Time.time;
 					if (debug) print ("Firing!");
 				}
 			}

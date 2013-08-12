@@ -6,7 +6,7 @@ using System;
 public class ShootObjects : MonoBehaviour {
 	
 	public Controls controls;
-	public Melee punchController;
+	public Melee meleeCont;
 	public Inventory inventory;
 	public PlayerCombatant PC;
 	
@@ -33,11 +33,13 @@ public class ShootObjects : MonoBehaviour {
 				shoot();
 			}
 		}
+		
 		if (!inventory.weapons[currentWeapon].Automatic) {
 			if (Input.GetMouseButtonDown((int)controls.fire)) {
 				shoot();
 			}
 		}
+		
 		if (Input.GetMouseButtonDown((int)controls.aim)) {
 			aim();
 		}
@@ -45,7 +47,7 @@ public class ShootObjects : MonoBehaviour {
 		if (Input.GetKeyDown(controls.grenade)) {
 			throwTime = Time.time;
 		}
-
+		
 		if (Input.GetKeyUp(controls.grenade)) {
 			throwForce = (Time.time - throwTime) * 20 + 10;
 			if (throwForce > throwMax) {
@@ -306,7 +308,8 @@ public class ShootObjects : MonoBehaviour {
 	}
 	
 	public void melee() {
-		//punchController.GAH!
+		inventory.weapons[currentWeapon].stow();
+		//meleeCont
 	}
 
 	public void OnGUI () {

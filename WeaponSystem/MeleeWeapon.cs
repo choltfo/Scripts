@@ -19,8 +19,8 @@ public class MeleeWeapon {
 	public float damage		 = 50f;			// How much damage this weapon does with a direct blow.
 	public float swingTime	 = 1f;			// How long (in seconds) it takes to bash something with this.
 	public string name		 = "Incendiary chainsaw katana";// No explanation necessary.
-	public float curDurab	 = 100f;			// The current durability of this weapon
-	public float capDurab	 = 100f;			// The maximum durability of a melee weapon.
+	public float curDurab	 = 100f;		// The current durability of this weapon
+	public float capDurab	 = 100f;		// The maximum durability of a melee weapon.
 	public float decDurab	 = 0.05f;		// How much to decrement the durability (curDurab) by.
 	
 	// Behind the scenes variables.
@@ -32,7 +32,15 @@ public class MeleeWeapon {
 	GameObject hand;
 	
 	
-	public bool withdraw(GameObject hand) {
+	public bool create (GameObject Body) {
+		if (!isValid) return false;			// Invalid objects do not exist.
+		
+		
+		
+		return true;
+	}
+	
+	public bool withdraw (GameObject Head) {
 		if (!isValid) return false;			// Invalid objects do not exist.
 		
 		
