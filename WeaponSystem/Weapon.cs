@@ -548,6 +548,13 @@ public class Weapon {
 				newBlood.transform.parent = hit.transform;
 				newBlood.transform.Translate(0,(float)0.05,0);
 			} else {
+				
+				if (hit.transform.gameObject.GetComponent<ShatterableGlass>() != null) {
+					ShatterableGlass pane = hit.transform.gameObject.GetComponent<ShatterableGlass>();
+					pane.shoot(hit, HitStrength);
+					MonoBehaviour.print("Shot glass pane " + pane.name);
+				}
+				
 				GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(BulletHole, hit.point, hitRotation);
 				newBulletHole.transform.parent = hit.transform;
 				newBulletHole.transform.Translate(0,(float)0.05,0);

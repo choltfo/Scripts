@@ -131,10 +131,10 @@ public class Pause : MonoBehaviour {
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,200,itemWidth,itemHeight), "Controls")) {
 						pane = "/Pause/Controls";
 					}
-					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,275,itemWidth,itemHeight), "Reload")) {
-						Time.timeScale = 1f;
-						LevelSerializer.LoadSavedLevelFromFile("SaveGame");
-					}
+					//if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,275,itemWidth,itemHeight), "Reload")) {
+					//	Time.timeScale = 1f;
+					//	LevelSerializer.LoadSavedLevelFromFile("SaveGame");
+					//}
 					break;
 				case "/Inventory":
 					inventoryView();

@@ -35,8 +35,8 @@ public class CampaignDisplay : MonoBehaviour {
 		
 		startingEvent.Trigger(subtitleController);
 		
-		LevelSerializer.SerializeLevelToFile("SaveGame");
-		print ("Saved level.");
+		//LevelSerializer.SerializeLevelToFile("SaveGame");
+		//print ("Saved level.");
 		campaign.applyStyles(headingStyle, contentStyle);
 		foreach (Mission mission in campaign.missions) {
 			foreach (Objective objective in mission.objectives) {
@@ -59,8 +59,8 @@ public class CampaignDisplay : MonoBehaviour {
 		}
 		
 		if (campaign.hasChanged()) {
-			LevelSerializer.SerializeLevelToFile("SaveGame");
-			print ("Saved level.");
+			//LevelSerializer.SerializeLevelToFile("SaveGame");
+			//print ("Saved level.");
 		}
 		
 	}
