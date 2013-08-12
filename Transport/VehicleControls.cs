@@ -13,9 +13,9 @@ public class VehicleControls : MonoBehaviour {
 	
 	public float distToGround;
 	public bool isCarActive = false;
-	public float MaxForce = 1;
+	public float maxSpeed = 15;
 	public float maxReverseSpeed = 10;
-	//public float accelerationAsPercent  Need to figure this out.
+	public float maxAccel;
 	public float handling = 100;
 	public Controls controls;
 	
@@ -35,10 +35,25 @@ public class VehicleControls : MonoBehaviour {
 	public float damage = 100f;
 	public float maxHealth = 100f;
 	
+	public vehicleType type;
+	
 	void OnCollisionStay(Collision C) {
-		if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75) {
+		
+		if (type == vehicleType.Water && C.gameObject.layer != LayerMask.NameToLayer("Water")) {
+			return;
+		}
+		
+		if (type == vehicleType.Land && C.gameObject.layer == LayerMask.NameToLayer("Water")) {
+			return;
+		}
+		float locVelZ = transform.InverseTransformDirection(rigidbody.velocity).z;
+		if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75 &&
+			locVelZ < maxSpeed) {
 			constantForce.relativeForce = new Vector3(0,0,speed);
 			constantForce.relativeTorque = new Vector3(0,(turning),0);
+		} else {
+			constantForce.relativeForce = new Vector3(0,0,0);
+			constantForce.relativeTorque = new Vector3(0,0,0);
 		}
 		
 		/*rigidbody.AddForce(0f,-gravity*rigidbody.mass,0f);
@@ -83,10 +98,10 @@ public class VehicleControls : MonoBehaviour {
 			steering = Input.GetAxis("Horizontal");
 			accelerator = Input.GetAxis("Vertical");
 			if (accelerator > 0) {
-				speed = Mathf.Lerp(0, MaxForce, accelerator);
+				speed = Mathf.Lerp(0, maxAccel, accelerator);
 			}	
 			if (accelerator < 0) {
-				speed = -Mathf.Lerp(0, maxReverseSpeed, Mathf.Abs(accelerator));
+				speed = -Mathf.Lerp(0, maxAccel, Mathf.Abs(accelerator));
 			}
 			if (steering > 0) {
 				turning = Mathf.Lerp(0, handling, steering);
@@ -98,5 +113,8 @@ public class VehicleControls : MonoBehaviour {
 	}
 }
 
-
+public enum vehicleType {
+	Land,
+	Water
+}
 
