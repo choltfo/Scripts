@@ -506,6 +506,8 @@ public class Weapon {
 		
 		//Debug.Log("Hit " + hit.collider.gameObject.name);
 		
+		if (hit.collider.gameObject.Equals(shooter.gameObject)) return;
+		
 		Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);	
 			if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
 				hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
@@ -547,13 +549,19 @@ public class Weapon {
 				GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(BloodSpray, hit.point, hitRotation);
 				newBlood.transform.parent = hit.transform;
 				newBlood.transform.Translate(0,(float)0.05,0);
+			} else if (hit.transform.gameObject.GetComponent<ShatterableGlass>() != null) {
+				ShatterableGlass pane = hit.transform.gameObject.GetComponent<ShatterableGlass>();
+				pane.shoot(hit, HitStrength);
+				MonoBehaviour.print("Shot glass pane " + pane.name);
+			} else if (hit.transform.gameObject.GetComponent<SplashingWater>() != null) {
+				SplashingWater pane = hit.transform.gameObject.GetComponent<SplashingWater>();
+				pane.Splash(hit.point);
+				MonoBehaviour.print("Shot Water " + pane.name);
 			} else {
 				
-				if (hit.transform.gameObject.GetComponent<ShatterableGlass>() != null) {
-					ShatterableGlass pane = hit.transform.gameObject.GetComponent<ShatterableGlass>();
-					pane.shoot(hit, HitStrength);
-					MonoBehaviour.print("Shot glass pane " + pane.name);
-				}
+				
+			
+				
 				
 				GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(BulletHole, hit.point, hitRotation);
 				newBulletHole.transform.parent = hit.transform;
