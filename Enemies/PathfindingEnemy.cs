@@ -38,6 +38,11 @@ public class PathfindingEnemy : Enemy {
 	int patrolIndex = 0;
 	
 	
+	float lastTargetCheck = 0f;
+	
+	public float targetCheckDelay = 0.5f; // The amount of time you have to remain within view for the enemy to notice you.
+	
+	
 	// Use this for initialization
 	void Start () {
 		PFNC = GetComponent<PFNodeClient>();
@@ -78,9 +83,12 @@ public class PathfindingEnemy : Enemy {
 						if (hit.collider != null) {
 							if (debug) print ("Hit something, namely " + hit.collider.name);
 							if (hit.transform == e.transform) {
-								alerted = true;
-								target = e;
-								if (debug) print ("Found target. Starting to kill!");
+								// Can see the target.
+								
+								setTarget(e);
+								lastTargetCheck = Time.time;
+								
+								
 							} else {
 								if (debug) print ("Hit " + hit.collider.name);
 							}
