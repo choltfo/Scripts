@@ -31,7 +31,7 @@ public class PathfindingEnemy : Enemy {
 	
 	public float visionRange = 10;
 	
-	public static bool debug = false;
+	public static bool debug = true;
 	
 	public static List<Enemy> targets;
 	
@@ -67,10 +67,26 @@ public class PathfindingEnemy : Enemy {
 				if (Vector3.Angle(rayDirection, transform.forward) < fieldOfViewRadiusInDegrees) {
 					if (debug) print ("Angle satisfied.");
 					if (Vector3.Distance(transform.position, e.transform.position) < visionRange) {
-						if (debug) print ("Distance satisfied.");
-						alerted = true;
-						target = e;
-						if (debug) print ("Found target. Starting to kill!");
+						if (debug) print ("Distance satisfied, performing raycast.");
+						Vector3 relAng =
+							transform.InverseTransformDirection(e.transform.position - transform.position);
+						relAng.Normalize();
+						Ray ray = new Ray(transform.position, relAng);
+						Debug.DrawRay(transform.position, relAng, new Color(255,0,0));
+						RaycastHit hit;
+						collider.Raycast(ray, out hit, visionRange);
+						if (hit.collider != null) {
+							if (debug) print ("Hit something, namely " + hit.collider.name);
+							if (hit.transform == e.transform) {
+								alerted = true;
+								target = e;
+								if (debug) print ("Found target. Starting to kill!");
+							} else {
+								if (debug) print ("Hit " + hit.collider.name);
+							}
+						} else {
+							if (debug) print ("Did not hit anything, let alone the target.");
+						}
 					}
 				}
 			}

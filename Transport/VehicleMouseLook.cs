@@ -30,33 +30,49 @@ public class VehicleMouseLook : MonoBehaviour {
 
 	public float rotationY = 0F;
 	public float rotationX = 0F;
+	float lastRotationY = 0F;
+	float lastRotationX = 0F;
+	
+	public float timeBeforeReset = 5f;
+	public float resetSpeed = 1f;
+	
+	float lastMovement;
 
 	void Update ()
 	{
 		if (Time.timeScale == 0) return;
 		if (axes == RotationAxes.MouseXAndY) {
-			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
+			rotationX += Input.GetAxis("Mouse X") * sensitivityX;
+			rotationX = Mathf.Clamp (rotationX, minimumX, maximumX);
 			
 			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
 			
 			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
-		}
-		else if (axes == RotationAxes.MouseX) {
-			
-			
+		} else if (axes == RotationAxes.MouseX) {
 			
 			rotationX += Input.GetAxis("Mouse X") * sensitivityX;
 			rotationX = Mathf.Clamp (rotationX, minimumX, maximumX);
 			
 			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
-		}
-		else {
+		} else {
 			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
 			
 			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
 		}
+		
+		if (lastRotationX != Input.GetAxis("Mouse X")) lastMovement = Time.time;
+		if (lastRotationY != Input.GetAxis("Mouse Y")) lastMovement = Time.time;
+		
+		if (Time.time > lastMovement + timeBeforeReset) {
+			rotationX = Mathf.LerpAngle (rotationX, 0, Time.deltaTime*resetSpeed);
+			rotationY = Mathf.LerpAngle (rotationY, 0, Time.deltaTime*resetSpeed);
+		}
+		
+		lastRotationX = Input.GetAxis("Mouse X");
+		lastRotationY = Input.GetAxis("Mouse Y");
+		
 	}
 	
 	void Start () {
