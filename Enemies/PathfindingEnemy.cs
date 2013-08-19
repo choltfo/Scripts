@@ -74,7 +74,7 @@ public class PathfindingEnemy : Enemy {
 						Ray ray = new Ray(transform.position, relAng);
 						Debug.DrawRay(transform.position, relAng, new Color(255,0,0));
 						RaycastHit hit;
-						collider.Raycast(ray, out hit, visionRange);
+						Physics.Raycast(ray, out hit, visionRange);
 						if (hit.collider != null) {
 							if (debug) print ("Hit something, namely " + hit.collider.name);
 							if (hit.transform == e.transform) {
