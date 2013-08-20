@@ -18,6 +18,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	public int[] ammo;
 	
 	public WeaponPickup startingWeapon;
+	public PickupGrenadeLauncher startingWeaponGL;
 	
 	public bool isAimed = false;
 	
@@ -33,7 +34,8 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public override void childStart () {
 		
-		weapon = startingWeapon.thisGun.duplicate();
+		if (startingWeaponGL == null) weapon = startingWeapon.thisGun.duplicate();
+		if (startingWeaponGL != null) weapon = startingWeaponGL.thisGun.duplicate(); 
 		
 		weapon.player = false;
 		ammo = new int[Enum.GetValues(typeof(AmmoType)).Length];
