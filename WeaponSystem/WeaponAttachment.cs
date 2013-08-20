@@ -13,6 +13,7 @@ public class WeaponAttachment {
 	public AudioClip silencerNoise;
 	public Material laserMat;
 	public float overrideZoom;
+	public float detectionReduction;
 	
 	GameObject Thing;
 	bool on = true;

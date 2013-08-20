@@ -221,6 +221,13 @@ public class Weapon {
 	/// </summary>
 	public int ShotDelay;
 	
+	/// <summary>
+	/// How far away an enemy can hear this gunshot.
+	/// </summary>
+	public float detectionDistance;
+	
+	float actualDetectionDistance;
+	
 	public HardPoint[] attachments;
 	float lastAim;
 	float lastHoldToggle;
@@ -331,9 +338,11 @@ public class Weapon {
 		
 		// Attachment specific methods.
 		bool ZoomChanged = false;
+		actualDetectionDistance = detectionDistance;
 		for (int i = 0; i < attachments.Length; i++) {
 			if (attachments[i].attachment.type == AttachmentType.Silencer && attachments[i].attachment.isValid) {
 				mainObject.GetComponent<AudioSource>().clip = attachments[i].attachment.silencerNoise;
+				actualDetectionDistance -= Mathf.Abs (attachments[i].attachment.detectionReduction);
 			}
 			if (attachments[i].attachment.type == AttachmentType.Scope && attachments[i].attachment.isValid) {
 				ScopeZoom = attachments[i].attachment.overrideZoom;
@@ -503,6 +512,10 @@ public class Weapon {
 	}
 	
 	public void calculateDamage (RaycastHit hit, Enemy shooter) {
+		
+		
+		PathfindingEnemy.hearNoise(shooter, actualDetectionDistance);
+		
 		
 		//Debug.Log("Hit " + hit.collider.gameObject.name);
 		

@@ -31,7 +31,7 @@ public class PathfindingEnemy : Enemy {
 	
 	public float visionRange = 10;
 	
-	public static bool debug = true;
+	public static bool debug = false;
 	
 	public static List<Enemy> targets;
 	
@@ -139,7 +139,7 @@ public class PathfindingEnemy : Enemy {
 	public virtual void childFixedUpdate() {
 		return;
 	}
-	
+
 	public virtual void childStart() {
 		Debug.Log ("childStart - PFEnemy");
 		return;
@@ -160,7 +160,7 @@ public class PathfindingEnemy : Enemy {
 	}
 	
 	/// <summary>
-	/// Lists the enemies.
+	/// Lists all the enemies in the scene.
 	/// </summary>
 	public static List<Enemy> listEnemies() {
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Combatant");
@@ -180,5 +180,22 @@ public class PathfindingEnemy : Enemy {
 		
 		if (debug) print(enemies.Length);
 		return targets;
+	}
+
+	public static void hearNoise (Enemy e, float detectionRange) {
+		foreach (Enemy r in listEnemies()) {
+			
+			if (r == e) break; 
+			
+			if (!(r is PathfindingEnemy)) break;
+			
+			if (((PathfindingEnemy)r).alerted) break;
+			
+			if (r.faction != e.faction) {
+				if (Vector3.Distance(r.transform.position, e.transform.position) < detectionRange) {
+					((PathfindingEnemy)r).setTarget(e);
+				}
+			}
+		}
 	}
 }
