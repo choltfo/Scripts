@@ -45,10 +45,7 @@ public class Pause : MonoBehaviour {
 	/// The pane path of the current pause window.
 	/// </summary>
 	/// 
-	/// 
-	
-	public GUISkin custSkin;
-	
+	/// 	
 	
 	void Update () {
 		if (Input.GetKeyDown(controls.pause)) {
@@ -200,53 +197,35 @@ public class Pause : MonoBehaviour {
 	HardPoint SelectedModSlot = null;
 	WeaponAttachment SelectedAttachment = null;
 	
+	int pos = 0;
+	int selection = -1; 
+	
 	void objectiveView () {
-		/*//if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Close")) {
+		//if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Close")) {
 		//	pane = "/Pause";
 		//	Time.timeScale = 1f;
 		//}
-		foreach (Weapon weapon in inventory.weapons) {
-			if (weapon.IsValid && i < 8 + (int)weaponSlider && i >= (int)weaponSlider) {
-				if (GUI.Button(new Rect(Screen.width/2-265, 125+(25*(i-(int)weaponSlider)), 250, 25), weapon.DisplayName)) {
-					
-					SelectedWeapon = weapon;
-					SelectedModSlot = null;
-					SelectedAttachment = null;
-					
+		
+		weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+235, 125, 15, 200),
+			weaponSlider, 8.0F, 0.0F, ((pos < 8) ? 8 : pos));
+		GUI.Box(new Rect(Screen.width/2-250, 125, 500, 200), "");
+		
+		GUI.Label(new Rect(Screen.width/2-250, 100, 500, 25), "Missions");
+		
+		pos = 0;
+		
+		for (int i = 0; i < campaign.campaign.missions.Length; i++) {
+			Mission m = campaign.campaign.missions[i];
+			if (GUI.Toggle(new Rect(Screen.width/2-265, 125+(25*(i-(int)weaponSlider)), 250, 25), (selection == i), m.missionName)) {
+				if (i < campaign.campaign.currentMission) {
+					selection = i;
 				}
-				if (SelectedWeapon == weapon) {
-					int p = 1;
-					
-					for (int o = 0; o<weapon.attachments.Length; o++) {
-						if (weapon.attachments[o].attachment.isValid) {
-							if (GUI.Button(new Rect(Screen.width/2-250, 125+(25*(i+1-(int)weaponSlider)), 235, 25),
-									weapon.attachments[o].name + ": " + weapon.attachments[o].attachment.railType.ToString()+
-									" "+weapon.attachments[o].attachment.type.ToString())) {
-								
-								// Pluck thingy
-								inventory.attachments.Add(weapon.attachments[o].attachment);
-								weapon.attachments[o].attachment = new WeaponAttachment();
-								
-								
-							}
-							p++;
-						} else {
-							if (GUI.Button(new Rect(Screen.width/2-250, 125+(25*(i+1-(int)weaponSlider)), 235, 25),
-									weapon.attachments[o].name + ": " + weapon.attachments[o].connectionType.ToString()+
-									". Open.")) {
-								// Prepare to attach thingy
-								SelectedModSlot = weapon.attachments[o];
-								
-							}
-							p++;
-						}
-						i++;
-					} // End for each hardpoint.
-					
+				if (m.complete) {
+					GUI.Box(new Rect(Screen.width/2-265, 125+(25*(i-(int)weaponSlider)), 250, 25), "");
 				}
-				i++;
-			} // End for each gun.
-		}*/
+			}
+			pos ++; // Increment the position so that things don't get funky.
+		}
 	}
 	
 	void inventoryView () {
