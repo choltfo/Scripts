@@ -12,6 +12,7 @@ public class Pause : MonoBehaviour {
 	/// The controls layout to use.
 	/// </summary>
 	public Controls controls;
+	public CampaignDisplay campaign;
 	/// <summary>
 	/// The width of the items.
 	/// </summary>
@@ -140,10 +141,7 @@ public class Pause : MonoBehaviour {
 					inventoryView();
 					break;
 				case "/Objective":
-					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Close")) {
-						pane = "/Pause";
-						Time.timeScale = 1f;
-					}
+					objectiveView ();
 					break;
 				case "/Dead":																					//MAYBE
 					GUI.Label(new Rect((Screen.width/2) - 200,(Screen.height/2) - 20, 400 ,40), "YOU ARE DEAD!", deathScreenStyle);
@@ -201,6 +199,55 @@ public class Pause : MonoBehaviour {
 	Weapon SelectedWeapon = null;
 	HardPoint SelectedModSlot = null;
 	WeaponAttachment SelectedAttachment = null;
+	
+	void objectiveView () {
+		/*//if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Close")) {
+		//	pane = "/Pause";
+		//	Time.timeScale = 1f;
+		//}
+		foreach (Weapon weapon in inventory.weapons) {
+			if (weapon.IsValid && i < 8 + (int)weaponSlider && i >= (int)weaponSlider) {
+				if (GUI.Button(new Rect(Screen.width/2-265, 125+(25*(i-(int)weaponSlider)), 250, 25), weapon.DisplayName)) {
+					
+					SelectedWeapon = weapon;
+					SelectedModSlot = null;
+					SelectedAttachment = null;
+					
+				}
+				if (SelectedWeapon == weapon) {
+					int p = 1;
+					
+					for (int o = 0; o<weapon.attachments.Length; o++) {
+						if (weapon.attachments[o].attachment.isValid) {
+							if (GUI.Button(new Rect(Screen.width/2-250, 125+(25*(i+1-(int)weaponSlider)), 235, 25),
+									weapon.attachments[o].name + ": " + weapon.attachments[o].attachment.railType.ToString()+
+									" "+weapon.attachments[o].attachment.type.ToString())) {
+								
+								// Pluck thingy
+								inventory.attachments.Add(weapon.attachments[o].attachment);
+								weapon.attachments[o].attachment = new WeaponAttachment();
+								
+								
+							}
+							p++;
+						} else {
+							if (GUI.Button(new Rect(Screen.width/2-250, 125+(25*(i+1-(int)weaponSlider)), 235, 25),
+									weapon.attachments[o].name + ": " + weapon.attachments[o].connectionType.ToString()+
+									". Open.")) {
+								// Prepare to attach thingy
+								SelectedModSlot = weapon.attachments[o];
+								
+							}
+							p++;
+						}
+						i++;
+					} // End for each hardpoint.
+					
+				}
+				i++;
+			} // End for each gun.
+		}*/
+	}
 	
 	void inventoryView () {
 		Inventory inventory = GetComponent<ShootObjects>().inventory;

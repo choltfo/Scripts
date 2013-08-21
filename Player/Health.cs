@@ -19,16 +19,15 @@ public class Health : MonoBehaviour {
 	public Color transparent;
 	public float fadeTime = 0.5f;
 	
-	public int MaxHealth = 100;
 	public float HealthLevel = 100;
 	public bool drawTextures;
 	public Texture DeathScreen;
 	public Texture2D bloodSplatter;
-	public float healDelay;
-	public float healRate;
+
 	GUIStyle style;
 	float lastInjury = 0;
 	public Pause pauseController;
+	public Stats statistics;
 	
 	DamageCause lastCOD;
 	
@@ -37,7 +36,17 @@ public class Health : MonoBehaviour {
 		style.normal.background = (Texture2D)bloodSplatter;
 	}
 	
-	/// <summary>
+	void Update () {
+		if (Time.time > lastInjury + statistics.actualHealDelay) {
+			if (statistics.actualHealRate * Time.deltaTime > statistics.acualMaxHealth - HealthLevel) {
+				HealthLevel = statistics.acualMaxHealth;
+			} else {
+				HealthLevel += statistics.actualHealRate * Time.deltaTime;
+			}
+		}
+	}
+	
+	/// <summary>3
 	/// Deal damage to player.ss
 	/// </summary>
 	/// <param name='damage'>
@@ -72,7 +81,7 @@ public class Health : MonoBehaviour {
 	public void OnGUI() {
 		GUI.Box(new Rect(Screen.width-320,20,300,20),"");
 		if (HealthLevel >= 4) {
-			GUI.Box(new Rect(Screen.width-320,20,300*(HealthLevel/MaxHealth),20),"");
+			GUI.Box(new Rect(Screen.width-320,20,300*(HealthLevel/statistics.acualMaxHealth),20),"");
 		}
 		if (Time.timeScale == 0) {
 			return;
@@ -80,9 +89,9 @@ public class Health : MonoBehaviour {
 		/*if (HealthLevel < 1) {
 		//	GUI.Box(new Rect(0, 0, Screen.width, Screen.height), DeathScreen);
 		//}*/
-		//style. color = new Color (0,0,0,(HealthLevel/MaxHealth)*255);
+		//style. color = new Color (0,0,0,(HealthLevel/statistics.acualMaxHealth)*255);
 		//style.normal.background.
-		if (HealthLevel < (0.25*MaxHealth) && drawTextures) {
+		if (HealthLevel < (0.25*statistics.acualMaxHealth) && drawTextures) {
 			//GUI.Box(new Rect(0,0, Screen.width, Screen.height), bloodSplatter, style);
 			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), bloodSplatter);
 		}
