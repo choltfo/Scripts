@@ -4,12 +4,12 @@ using System.Collections;
 public class Stats : MonoBehaviour {
 	
 	/// <summary>
-	/// The satiation food percent.
+	/// The satiation food percentage.
 	/// 100 is full, 0 is empty.
 	/// </summary>
 	public float satiationFoodPercent;
 	/// <summary>
-	/// The satiation drink percent.
+	/// The satiation drink percentage.
 	/// 100 is full, 0 is empty.
 	/// </summary>
 	public float satiationDrinkPercent;
@@ -24,11 +24,8 @@ public class Stats : MonoBehaviour {
 	public float satiationDeclinePercentage;
 	
 	
-	public float IdealMaxHealth = 100f;
 	public AnimationCurve curveMaxHealth;
 	public float acualMaxHealth;
-	public float idealHealDelay;
-	public float idealHealRate;
 	public AnimationCurve curveHealDelay;
 	public AnimationCurve curveHealRate;
 	public float actualHealDelay;
@@ -49,5 +46,23 @@ public class Stats : MonoBehaviour {
         health = this.gameObject.GetComponent<Health>();
     }
 	
-	void update
+	void Update () {
+		actualHealDelay = curveHealDelay.Evaluate((satiationFoodPercent + satiationDrinkPercent)/2);
+		actualHealRate = curveHealRate.Evaluate((satiationFoodPercent + satiationDrinkPercent)/2);
+		acualMaxHealth = curveMaxHealth.Evaluate((satiationFoodPercent + satiationDrinkPercent)/2);
+		
+		float sateDec = satiationDeclinePercentage/100;
+		
+		if (satiationFoodDeclineRate * Time.deltaTime * sateDec > 100 - satiationFoodDeclineRate) {
+			satiationFoodPercent = 100;
+		} else {
+			satiationFoodPercent -= satiationFoodDeclineRate * Time.deltaTime * sateDec;
+		}
+		
+		if (satiationDrinkDeclineRate * Time.deltaTime * sateDec > 100 - satiationDrinkDeclineRate) {
+			satiationDrinkPercent = 100;
+		} else {
+			satiationDrinkPercent -= satiationDrinkDeclineRate * Time.deltaTime * sateDec;
+		}
+	}
 }
