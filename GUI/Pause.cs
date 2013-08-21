@@ -204,7 +204,7 @@ public class Pause : MonoBehaviour {
 		//if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Close")) {
 		//	pane = "/Pause";
 		//	Time.timeScale = 1f;
-		//}
+		//} 
 		
 		weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+235, 125, 15, 200),
 			weaponSlider, 8.0F, 0.0F, ((pos < 8) ? 8 : pos));
@@ -216,15 +216,25 @@ public class Pause : MonoBehaviour {
 		
 		for (int i = 0; i < campaign.campaign.missions.Length; i++) {
 			Mission m = campaign.campaign.missions[i];
-			if (GUI.Toggle(new Rect(Screen.width/2-265, 125+(25*(i-(int)weaponSlider)), 250, 25), (selection == i), m.missionName)) {
-				if (i < campaign.campaign.currentMission) {
-					selection = i;
-				}
+			if (campaign.campaign.currentMission >= i) {
 				if (m.complete) {
-					GUI.Box(new Rect(Screen.width/2-265, 125+(25*(i-(int)weaponSlider)), 250, 25), "");
+					GUI.Box(new Rect(Screen.width/2-250, 125+(25*(pos-(int)weaponSlider)) , 485, 25), "");
 				}
+				if (GUI.Toggle(new Rect(Screen.width/2-250, 125+(25*(pos-(int)weaponSlider)), 485, 25), (selection == i), m.missionName)) {
+					if (i <= campaign.campaign.currentMission) {
+						selection = i;
+					}
+					for (int o = 0; o < m.objectives.Length; o++) {
+						pos++;
+						Objective ob = m.objectives[o];
+						GUI.Label(new Rect(Screen.width/2-220, 125+(25*(pos-(int)weaponSlider)), 455, 25), ob.name + (ob.complete ? " \u2713" : "") +  (ob.Active ? " \u2190" : ""));
+						
+						
+					}
+				}
+				
+				pos ++; // Increment the position so that things don't get funky.
 			}
-			pos ++; // Increment the position so that things don't get funky.
 		}
 	}
 	
