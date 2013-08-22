@@ -31,7 +31,6 @@ public class MeleeWeapon {
 	GameObject mainObject;
 	GameObject hand;
 	
-	
 	public bool create (GameObject Body) {
 		if (!isValid) return false;			// Invalid objects do not exist.
 		

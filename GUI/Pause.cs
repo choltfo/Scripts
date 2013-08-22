@@ -201,10 +201,6 @@ public class Pause : MonoBehaviour {
 	int selection = -1; 
 	
 	void objectiveView () {
-		//if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,50,itemWidth,itemHeight), "Close")) {
-		//	pane = "/Pause";
-		//	Time.timeScale = 1f;
-		//} 
 		
 		weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+235, 125, 15, 200),
 			weaponSlider, 8.0F, 0.0F, ((pos < 8) ? 8 : pos));
@@ -225,7 +221,7 @@ public class Pause : MonoBehaviour {
 						selection = i;
 					}
 					for (int o = 0; o < m.objectives.Length; o++) {
-						pos++;
+						pos++; // Increment the position so later elements get aligned properly.
 						Objective ob = m.objectives[o];
 						GUI.Label(new Rect(Screen.width/2-220, 125+(25*(pos-(int)weaponSlider)), 455, 25), ob.name + (ob.complete ? " \u2713" : "") +  (ob.Active ? " \u2190" : ""));
 						
@@ -233,10 +229,10 @@ public class Pause : MonoBehaviour {
 					}
 				}
 				
-				pos ++; // Increment the position so that things don't get funky.
+				pos ++; // Increment the position so later elements get aligned properly.
 			}
 		}
-	}
+	} 
 	
 	void inventoryView () {
 		Inventory inventory = GetComponent<ShootObjects>().inventory;
