@@ -8,6 +8,8 @@ public class Controls : MonoBehaviour {
 	public int numOfControls		 = 16;
 	
 	public KeyCode jump              = KeyCode.Space;
+	public KeyCode crouch            = KeyCode.LeftControl;
+	public KeyCode sprint            = KeyCode.LeftShift;
 	public KeyCode pause             = KeyCode.Escape;
 	public KeyCode objectiveDetails  = KeyCode.Tab;
 	public MouseButton aim           = MouseButton.RMB;
