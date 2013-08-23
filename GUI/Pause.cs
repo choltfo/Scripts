@@ -49,6 +49,7 @@ public class Pause : MonoBehaviour {
 	
 	
 	void Update () {
+		//Time.timeScale = 0.5f;
 		if (Input.GetKeyDown(controls.pause)) {
 			if (Time.timeScale != 0) {
 				Time.timeScale = 0f;

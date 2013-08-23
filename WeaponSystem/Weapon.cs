@@ -157,8 +157,6 @@ public class Weapon {
 	/// </summary>
 	public GameObject flash = null;
 	
-	public bool flashLightOn = false;
-	public GameObject flashLight = null;
 	//[HideInInspector]
 	/// <summary>
 	/// The animation clock. Not visible in Inspector.
@@ -407,15 +405,6 @@ public class Weapon {
 			//mainObject.transform.localPosition = ScopedPosition;
 			isAimed = true;
 		}
-	}
-	
-	public virtual bool ToggleFlashLight (){
-		if (flashLight == null || !IsValid || !Exists) {
-			return false;
-		}
-		flashLightOn = !flashLightOn;
-		flashLight.SetActive(flashLightOn);
-		return true;
 	}
 	
 	/// <summary>
@@ -673,10 +662,11 @@ public class Weapon {
 			//	Mathf.Lerp(mainObject.transform.localPosition.z, StowedPosition.z, (Time.time - lastHoldToggle)/switchSpeed));
 			
 			mainObject.transform.localPosition =
-				Vector3.Lerp(mainObject.transform.localPosition, StowedPosition, (Time.time - lastHoldToggle)/switchSpeed);
-			
+				//Vector3.Lerp(mainObject.transform.localPosition, StowedPosition, (Time.time - lastHoldToggle)/switchSpeed);
+				Vector3.Lerp(mainObject.transform.localPosition, StowedPosition, Time.timeScale/switchSpeed);
+				
 			mainObject.transform.localEulerAngles = 
-				Vector3.Slerp(new Vector3(0,0,0), mainObject.transform.localEulerAngles, (Time.time - lastHoldToggle)/switchSpeed);
+				Vector3.Slerp(new Vector3(0,0,0), mainObject.transform.localEulerAngles, Time.timeScale/switchSpeed);
 			
 			if (mainObject.transform.localPosition.Equals(StowedPosition)) curAnim = weaponAnimType.None;
 			break;
@@ -692,10 +682,10 @@ public class Weapon {
 				//Mathf.Lerp(mainObject.transform.localEulerAngles.y, 0, (Time.time - lastHoldToggle)/switchSpeed),
 				//Mathf.Lerp(mainObject.transform.localEulerAngles.z, 0, (Time.time - lastHoldToggle)/switchSpeed));
 			mainObject.transform.localEulerAngles = 
-				Vector3.Slerp(mainObject.transform.localEulerAngles, new Vector3(0,0,0), (Time.time - lastHoldToggle)/switchSpeed);
+				Vector3.Slerp(mainObject.transform.localEulerAngles, new Vector3(0,0,0), Time.timeScale/switchSpeed);
 			
 			mainObject.transform.localPosition =
-				Vector3.Lerp(mainObject.transform.localPosition, Position, (Time.time - lastHoldToggle)/switchSpeed);
+				Vector3.Lerp(mainObject.transform.localPosition, Position, Time.timeScale/switchSpeed);
 			
 			if (mainObject.transform.localPosition.Equals(Position)) {
 				curAnim = weaponAnimType.None;
