@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-// Written by WPennyPacker on the unity forums.
+// Written mostly by WPennyPacker on the unity forums.
 // Thanks a lot!
 public static class VectorF {
 	  public static Vector3 RotateX( this Vector3 v, float angle )
@@ -26,9 +26,7 @@ public static class VectorF {
 
     
 
-    public static Vector3 RotateY( this Vector3 v, float angle )
-
-    {
+    public static Vector3 RotateY( this Vector3 v, float angle ) {
 
         float sin = Mathf.Sin( angle );
 
@@ -86,4 +84,20 @@ public static class VectorF {
         return( Mathf.Atan2( v.x, v.z ) );
 
     }
+	
+	
+	public static Vector3 moveAlongX (this Vector3 v, float x) {
+		v.Set(v.x+x, v.y, v.z);
+		return v;
+	}
+	
+	public static Vector3 moveAlongY (this Vector3 v, float y) {
+		v.Set(v.x, v.y+y, v.z);
+		return v;
+	}
+	
+	public static Vector3 moveAlongZ (this Vector3 v, float z) {
+		v.Set(v.x, v.y, v.z+z);
+		return v;
+	}
 }
