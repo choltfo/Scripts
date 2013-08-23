@@ -26,6 +26,7 @@ public class GrenadeLauncher : Weapon {
 		GameObject pickup = (GameObject)MonoBehaviour.Instantiate(InstantiablePickup, mainObject.transform.position, mainObject.transform.rotation);
 		pickup.SetActive(true);
 		pickup.GetComponent<PickupGrenadeLauncher>().thisGun = this;
+		pickup.GetComponent<PickupGrenadeLauncher>().thisGun.IsValid = IsValid;
 		destroy();
 		IsValid = false;
 	}

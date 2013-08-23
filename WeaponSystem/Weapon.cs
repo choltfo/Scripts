@@ -601,11 +601,14 @@ public class Weapon {
 	/// </summary>
 	public virtual void Drop() {
 		if (!IsValid) {
+			Debug.Log("Attempting drop of invalid weapon.");
 			return;
 		}
+		Debug.Log("Attempting drop of weapon.");
 		GameObject pickup = (GameObject)MonoBehaviour.Instantiate(InstantiablePickup, mainObject.transform.position, mainObject.transform.rotation);
 		pickup.SetActive(true);
 		pickup.GetComponent<WeaponPickup>().thisGun = this;
+		pickup.GetComponent<WeaponPickup>().thisGun.IsValid = true;
 		destroy();
 		IsValid = false;
 	}
@@ -663,10 +666,10 @@ public class Weapon {
 			
 			mainObject.transform.localPosition =
 				//Vector3.Lerp(mainObject.transform.localPosition, StowedPosition, (Time.time - lastHoldToggle)/switchSpeed);
-				Vector3.Lerp(mainObject.transform.localPosition, StowedPosition, Time.timeScale/switchSpeed);
+				Vector3.Lerp(mainObject.transform.localPosition, StowedPosition, (Time.time - lastHoldToggle)/switchSpeed);
 				
 			mainObject.transform.localEulerAngles = 
-				Vector3.Slerp(new Vector3(0,0,0), mainObject.transform.localEulerAngles, Time.timeScale/switchSpeed);
+				Vector3.Slerp(new Vector3(0,0,0), mainObject.transform.localEulerAngles, (Time.time - lastHoldToggle)/switchSpeed);
 			
 			if (mainObject.transform.localPosition.Equals(StowedPosition)) curAnim = weaponAnimType.None;
 			break;
@@ -682,10 +685,10 @@ public class Weapon {
 				//Mathf.Lerp(mainObject.transform.localEulerAngles.y, 0, (Time.time - lastHoldToggle)/switchSpeed),
 				//Mathf.Lerp(mainObject.transform.localEulerAngles.z, 0, (Time.time - lastHoldToggle)/switchSpeed));
 			mainObject.transform.localEulerAngles = 
-				Vector3.Slerp(mainObject.transform.localEulerAngles, new Vector3(0,0,0), Time.timeScale/switchSpeed);
+				Vector3.Slerp(mainObject.transform.localEulerAngles, new Vector3(0,0,0), (Time.time - lastHoldToggle)/switchSpeed);
 			
 			mainObject.transform.localPosition =
-				Vector3.Lerp(mainObject.transform.localPosition, Position, Time.timeScale/switchSpeed);
+				Vector3.Lerp(mainObject.transform.localPosition, Position, (Time.time - lastHoldToggle)/switchSpeed);
 			
 			if (mainObject.transform.localPosition.Equals(Position)) {
 				curAnim = weaponAnimType.None;
@@ -720,6 +723,7 @@ public class Weapon {
 			}
 			break;
 		case weaponAnimType.Firing :
+			
 			//Debug.Log("AnimClock Reads " + AnimClock.ToString());
 			//Debug.Log("ShotDelay Reads " + ShotDelay.ToString());
 			//Debug.Log("Animating " + mainObject.name);

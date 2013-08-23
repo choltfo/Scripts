@@ -7,6 +7,6 @@ public class PickupGrenadeLauncher : Objective {
 	virtual public Weapon interact(){
 		Complete ();
 		gameObject.SetActive(false);
-		return (Weapon)thisGun;	
+		return (Weapon)thisGun;
 	}
 }

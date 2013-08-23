@@ -186,7 +186,7 @@ public class ShootObjects : MonoBehaviour {
 					} else if (inventory.weapons[currentWeapon].IsValid && !inventory.weapons[secondaryWeapon].IsValid) {
 						//Just current
 						inventory.weapons[secondaryWeapon].destroy();
-						inventory.weapons[secondaryWeapon].Drop();
+						//inventory.weapons[secondaryWeapon].Drop();
 						inventory.weapons[secondaryWeapon] = picked;
 						equip (secondaryWeapon);
 						return true;
