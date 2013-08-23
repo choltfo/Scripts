@@ -47,6 +47,7 @@ public class Pause : MonoBehaviour {
 	/// 
 	/// 	
 	
+	
 	void Update () {
 		if (Input.GetKeyDown(controls.pause)) {
 			if (Time.timeScale != 0) {

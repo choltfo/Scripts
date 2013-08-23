@@ -616,7 +616,7 @@ public class Weapon {
 		}
 		GameObject pickup = (GameObject)MonoBehaviour.Instantiate(InstantiablePickup, mainObject.transform.position, mainObject.transform.rotation);
 		pickup.SetActive(true);
-		//((WeaponPickup)pickup.GetComponent("WeaponPickup")).thisGun = this;
+		pickup.GetComponent<WeaponPickup>().thisGun = this;
 		destroy();
 		IsValid = false;
 	}

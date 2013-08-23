@@ -16,6 +16,20 @@ public class GrenadeLauncher : Weapon {
 		return Shoot (camera.gameObject, shooter);
 	}
 	
+	/// <summary>
+	/// Instantiate the weapon pickup for this gun, and let it go.
+	/// </summary>
+	public override void Drop() {
+		if (!IsValid) {
+			return;
+		}
+		GameObject pickup = (GameObject)MonoBehaviour.Instantiate(InstantiablePickup, mainObject.transform.position, mainObject.transform.rotation);
+		pickup.SetActive(true);
+		pickup.GetComponent<PickupGrenadeLauncher>().thisGun = this;
+		destroy();
+		IsValid = false;
+	}
+	
 	public bool Shoot (GameObject camera, Enemy shooter) {
 		if (!IsValid || CurAmmo == 0) return false;
 		GameObject newGrenade = MonoBehaviour.Instantiate(grenade.instantiableGrenade, camera.transform.position, camera.transform.rotation) as GameObject;
