@@ -309,8 +309,9 @@ public class Weapon {
 	/// <param name='player'>
 	/// The camera gameobject to put the gun in front of.
 	/// </param>
-	public virtual void create(GameObject player){
+	public virtual void create(GameObject player, bool isPlayerWeapon){
 		camera = player;
+		this.player = isPlayerWeapon;
 		GameObject Gun = (GameObject)MonoBehaviour.Instantiate(InstantiableObject, new Vector3 (0,0,0), player.transform.rotation);
 		Gun.transform.parent = player.transform;
 		Gun.transform.localPosition = Position;
@@ -645,6 +646,14 @@ public class Weapon {
 		flash = GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
 	}
 	
+	
+	float gunKickbackTime;
+	float gunReturnTime;
+	float slideKickbackTime;
+	float slideReturnTime;
+	
+	
+	
 	/// <summary>
 	/// Update animations.
 	/// </summary>
@@ -672,6 +681,7 @@ public class Weapon {
 			
 			if (mainObject.transform.localPosition.Equals(StowedPosition)) curAnim = weaponAnimType.None;
 			break;
+			
 		case weaponAnimType.Withdrawing :
 			mainObject.transform.parent = camera.transform;
 			//mainObject.transform.localPosition = new Vector3(
@@ -694,6 +704,7 @@ public class Weapon {
 				Debug.Log ("Done moving to hold position, setting curAnim to 'None'");
 			}
 			break;
+			
 		case weaponAnimType.None :
 			if (isOut) {
 				if(isAimed == true){
@@ -721,6 +732,7 @@ public class Weapon {
 				AnimClock--;
 			}
 			break;
+			
 		case weaponAnimType.Firing :
 			
 			//Debug.Log("AnimClock Reads " + AnimClock.ToString());
@@ -769,6 +781,7 @@ public class Weapon {
 				}
 				if (player)  ((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
+
 			}
 			if (AnimClock == (ShotDelay - 2)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
@@ -776,6 +789,7 @@ public class Weapon {
 				
 				if (player) ((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
+
 			}
 			if (AnimClock == (ShotDelay - 3)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
@@ -783,6 +797,7 @@ public class Weapon {
 				
 				if (player) ((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
 					-= CameraClimb/4;
+
 			}
 			if (AnimClock == (ShotDelay - 4)){
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
@@ -801,6 +816,7 @@ public class Weapon {
 				AnimClock--;
 			}
 			break;
+			
 		case weaponAnimType.Reloading :
 			if (AnimClock > 0){
 				AnimClock--;
@@ -810,6 +826,7 @@ public class Weapon {
 				curAnim = weaponAnimType.None;
 			}
 			break;
+			
 		default :
 			Debug.LogError("INVALID ANIMATIONTYPE? HOW THE F***?");
 			break;

@@ -223,7 +223,7 @@ public class ShootObjects : MonoBehaviour {
 		currentWeapon = weapon;
 		if (inventory.weapons[weapon].IsValid) {
 			inventory.weapons[original].stow();
-			inventory.weapons[weapon].create(gameObject);
+			inventory.weapons[weapon].create(gameObject, true);
 			inventory.weapons[weapon].withdraw();
 			return true;
 		}
@@ -267,11 +267,11 @@ public class ShootObjects : MonoBehaviour {
 	public void reset () {
 		if (inventory.weapons[0].IsValid) {
 			inventory.weapons[0].destroy();
-			inventory.weapons[0].create(gameObject);
+			inventory.weapons[0].create(gameObject, true);
 		}
 		if (inventory.weapons[1].IsValid) {
 			inventory.weapons[1].destroy();
-			inventory.weapons[1].create(gameObject);
+			inventory.weapons[1].create(gameObject, true);
 		}
 	}
 	

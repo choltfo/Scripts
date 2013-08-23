@@ -42,7 +42,7 @@ public class ShootingEnemy : PathfindingEnemy {
 		ammo[(int)ammoType] = startingReserveAmmo;
 		
 		head = transform.FindChild("head").gameObject;
-		weapon.create(head);
+		weapon.create(head, false);
 		weapon.withdraw();
 		
 		targets = listEnemies();
