@@ -607,8 +607,7 @@ public class Weapon {
 		Debug.Log("Attempting drop of weapon.");
 		GameObject pickup = (GameObject)MonoBehaviour.Instantiate(InstantiablePickup, mainObject.transform.position, mainObject.transform.rotation);
 		pickup.SetActive(true);
-		pickup.GetComponent<WeaponPickup>().thisGun = this;
-		pickup.GetComponent<WeaponPickup>().thisGun.IsValid = true;
+		pickup.GetComponent<WeaponPickup>().thisGun = this.duplicate();
 		destroy();
 		IsValid = false;
 	}
