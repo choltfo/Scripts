@@ -69,7 +69,9 @@ public class Mission {
 	public bool checkCompletion() {
 		foreach (Objective objective in objectives) {
 			if (!objective.complete) {
-				return false;
+				if (objective != null) {
+					return false;
+				}
 			}
 		}
 		return true;
