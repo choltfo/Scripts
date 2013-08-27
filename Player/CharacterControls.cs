@@ -22,6 +22,7 @@ public class CharacterControls : MonoBehaviour {
 	public AudioSource jumpSource;
 	
 	public bool sprinting			= false;
+	public bool crouching			= false;
 	
 	public Controls controls;
 	public Stats stats;
@@ -29,9 +30,12 @@ public class CharacterControls : MonoBehaviour {
 	public float sprintingDesatiationRate = 150;
 	public float jumpingDesatiationRate = 150;
  
+	CapsuleCollider cc;
+	
 	void Awake () {
 	    rigidbody.freezeRotation = true;
 	    rigidbody.useGravity = false;
+		cc = GetComponent<CapsuleCollider>();
 	}
  
 	void FixedUpdate () {
@@ -41,6 +45,7 @@ public class CharacterControls : MonoBehaviour {
 	    if (grounded) {
 			
 			sprinting = Input.GetKey(controls.sprint);
+			crouching = Input.GetKey(controls.crouch);
 			
 			
 			
@@ -57,7 +62,7 @@ public class CharacterControls : MonoBehaviour {
 	        velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
 	        velocityChange.y = 0;
 	        rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
- 
+ 			
 	        // Jump
 	        if (canJump && Input.GetButton("Jump")) {
 	            rigidbody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
@@ -75,8 +80,10 @@ public class CharacterControls : MonoBehaviour {
 			
 	}
  
-	void OnCollisionStay () {
-	    grounded = true;    
+	void OnCollisionStay (Collision C) {
+	    if (C.contacts[0].point.y < (transform.position.y - (cc.direction == 1 ? cc.height/2 : cc.height/2)) ) {
+			grounded = true;
+		}
 	}
  
 	float CalculateJumpVerticalSpeed () {
