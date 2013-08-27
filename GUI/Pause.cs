@@ -225,8 +225,13 @@ public class Pause : MonoBehaviour {
 					for (int o = 0; o < m.objectives.Length; o++) {
 						pos++; // Increment the position so later elements get aligned properly.
 						Objective ob = m.objectives[o];
-						GUI.Label(new Rect(Screen.width/2-220, 125+(25*(pos-(int)weaponSlider)), 455, 25), ob.name + (ob.complete ? " \u2713" : "") +  (ob.Active ? " \u2190" : ""));
-						
+						if (ob != null) {
+							GUI.Label(new Rect(Screen.width/2-220, 125+(25*(pos-(int)weaponSlider)),
+								455, 25), ob.name + (ob.complete ? " \u2713" : "") +  (ob.Active ? " \u2190" : ""));
+						} else {
+							GUI.Label(new Rect(Screen.width/2-220, 125+(25*(pos-(int)weaponSlider)),
+								455, 25), "TERMINATED" + " \u2713");
+						}
 						
 					}
 				}

@@ -32,7 +32,10 @@ public class Stats : MonoBehaviour {
 	public float actualHealRate;
 	
 	
-	public float idealSpeed;
+	public float actualSpeed;
+	public AnimationCurve curveSpeed;
+	public float actualSprintSpeed;
+	public AnimationCurve curveSprintSpeed;
 	public float generalResistance;
 	public float recoilFactor;
 	
@@ -40,6 +43,7 @@ public class Stats : MonoBehaviour {
 	
 	public CharacterControls CControls;
 	public Health health;
+	
 
     void Start() {
         //CControls = this.gameObject.GetComponent<CharacterControls>();
@@ -50,6 +54,8 @@ public class Stats : MonoBehaviour {
 		actualHealDelay = curveHealDelay.Evaluate((satiationFoodPercent + satiationDrinkPercent)/2);
 		actualHealRate = curveHealRate.Evaluate((satiationFoodPercent + satiationDrinkPercent)/2);
 		acualMaxHealth = curveMaxHealth.Evaluate((satiationFoodPercent + satiationDrinkPercent)/2);
+		actualSpeed = curveSpeed.Evaluate((satiationFoodPercent + satiationDrinkPercent)/2);
+		actualSprintSpeed = curveSprintSpeed.Evaluate((satiationFoodPercent + satiationDrinkPercent)/2);
 		
 		float sateDec = satiationDeclinePercentage/100;
 		
