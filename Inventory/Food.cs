@@ -35,7 +35,7 @@ public class FoodStuff {
 		name = Name;
 		foodSatiationPercent = foodSatiationPercent;
 		drinkSatiationPercent = drinkSatiationPercent;
-		DE = (DrugEffect)de.MemberwiseClone();
+		DE = de;	// MAY BE A PROBLEM!
 	}
 }
 
