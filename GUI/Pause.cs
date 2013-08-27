@@ -142,9 +142,6 @@ public class Pause : MonoBehaviour {
 				case "/Objective":
 					objectiveView ();
 					break;
-				case "/Dead":																					//MAYBE
-					GUI.Label(new Rect((Screen.width/2) - 200,(Screen.height/2) - 20, 400 ,40), "YOU ARE DEAD!", deathScreenStyle);
-					break;
 				case "/Pause/Controls":
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,350,itemWidth,itemHeight), "Back")) {
 						pane = "/Pause";
@@ -179,6 +176,9 @@ public class Pause : MonoBehaviour {
 					break;
 				default:
 					if (pane.StartsWith("/Store")) {
+						break;
+					}
+					if (pane.StartsWith("/Dead")) {
 						break;
 					}
 					if (pane.StartsWith("/Convo")) {
