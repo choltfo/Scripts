@@ -10,19 +10,26 @@ using System.Collections;
 /// </summary>
 public class CharacterControls : MonoBehaviour {
  
-	public float speed				= 10.0f;
-	public float sprintSpeed		= 10.0f;
-	public float gravity			= 10.0f;
-	public float maxVelocityChange	= 10.0f;
-	public bool canJump				= true;
-	public float jumpHeight			= 2.0f;
-	private bool grounded			= false;
+	public float speed					= 10.0f;
+	public float sprintSpeed			= 10.0f;
+	public float gravity				= 10.0f;
+	public float maxVelocityChange		= 10.0f;
+	public bool canJump					= true;
+	public float jumpHeight				= 2.0f;
+	private bool grounded				= false;
+	public float groundingSafetyMargin	= 0.1f;
 	
 	public AudioClip jumpNoise;
 	public AudioSource jumpSource;
 	
 	public bool sprinting			= false;
 	public bool crouching			= false;
+	public float ccHeight			= 1.25f;
+	public float ccRadius			= 0.25f;
+	public float crouchTime			= 1;
+	public Vector3 cameraCrouchPos;
+	public Vector3 cameraNormalPos;
+	float lastCrouchSwitch			= 0;
 	
 	public Controls controls;
 	public Stats stats;
@@ -36,6 +43,7 @@ public class CharacterControls : MonoBehaviour {
 	    rigidbody.freezeRotation = true;
 	    rigidbody.useGravity = false;
 		cc = GetComponent<CapsuleCollider>();
+		//Time.timeScale = 0.25f;
 	}
  
 	void FixedUpdate () {
@@ -44,9 +52,23 @@ public class CharacterControls : MonoBehaviour {
 		
 	    if (grounded) {
 			
-			sprinting = Input.GetKey(controls.sprint);
 			crouching = Input.GetKey(controls.crouch);
+			sprinting = crouching ? false : Input.GetKey(controls.sprint);
 			
+			if (Input.GetKeyDown(controls.crouch) || Input.GetKeyUp(controls.crouch)) {
+				lastCrouchSwitch = Time.time;
+				
+			}
+			
+			if (crouching) {
+				cc.height = Mathf.Lerp (ccHeight, ccRadius*2f, (Time.time-lastCrouchSwitch)/crouchTime);
+				//cc.radius = Mathf.Lerp (ccRadius, ccHeight/2, (Time.time-lastCrouchSwitch)/crouchTime);
+				//cc.direction = 2;	// Z axis
+			} else {
+				//cc.radius = Mathf.Lerp (ccHeight/2, ccRadius, (Time.time-lastCrouchSwitch)/crouchTime);
+				//cc.height = Mathf.Lerp (ccRadius*2f, ccHeight, (Time.time-lastCrouchSwitch)/crouchTime);
+				cc.direction = 1;	// Y axis
+			}
 			
 			
 	        // Calculate how fast we should be moving
@@ -81,7 +103,7 @@ public class CharacterControls : MonoBehaviour {
 	}
  
 	void OnCollisionStay (Collision C) {
-	    if (C.contacts[0].point.y < (transform.position.y - (cc.direction == 1 ? cc.height/2 : cc.height/2)) ) {
+	    if (C.contacts[0].point.y - groundingSafetyMargin < (transform.position.y - (cc.direction == 1 ? cc.height/2 : cc.radius)) ) {
 			grounded = true;
 		}
 	}
