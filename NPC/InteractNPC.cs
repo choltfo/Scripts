@@ -15,10 +15,11 @@ public class InteractNPC : InteractObject {
 	public SubtitleController STController;
 	public Pause PauseController;
 	
-	SpeechPlaybackState SPState = SpeechPlaybackState.Normal;
-	int currentSpeech = 0;
+	public SpeechPlaybackState SPState = SpeechPlaybackState.Normal;
+	public SpeechPlaybackState lastSPState = SpeechPlaybackState.Normal;
+	public int currentSpeech = 0;
 	
-	bool talking = false;
+	public bool talking = false;
 	GameObject interactee;
 	ShootObjects SO;
 	
@@ -44,9 +45,10 @@ public class InteractNPC : InteractObject {
 		if (talking) {
 			drawConvo ();
 			if (SPState == SpeechPlaybackState.Waiting) {
-				Time.timeScale = 0f;
+				if (pauseTime) Time.timeScale = 0f;
 				PauseController.pane = "/Convo";
 			}
+			lastSPState = SPState;
 		}
 	}
 	
@@ -69,11 +71,13 @@ public class InteractNPC : InteractObject {
 			SPState = SpeechPlaybackState.Showing;
 		}
 		if (SPState == SpeechPlaybackState.Waiting) {	// Waiting for input
+			
+			if (lastSPState != SPState) convo.currentOption.TEvent.Trigger(STController);
+			
 			for (int i = 0; i < convo.currentOption.options.Length; i++) {
 				if (GUI.Button(new Rect(Screen.width/2-200, (Screen.height/2)-(100+25*i), 100, 25),
 						convo.currentOption.options[i].name)) {
 					
-					convo.currentOption.options[i].TEvent.Trigger(STController);
 					currentSpeech = 0;
 					
 					switch (convo.currentOption.options[i].type) {
