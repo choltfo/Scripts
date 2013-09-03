@@ -28,6 +28,7 @@ public class Objective : MonoBehaviour {
 	/// Whether this is active.
 	/// </summary>
 	public bool Active = false;
+	public bool Reuseable = false;
 	/// <summary>
 	/// The position to draw this at in the objective list.
 	/// </summary>
@@ -50,13 +51,22 @@ public class Objective : MonoBehaviour {
 	/// </summary>
 	public bool Complete(){
 		if (!complete && Active) {
-			complete = true;
+			if (!Reuseable) complete = true;
 			foreach (TriggerableEvent TEvent in Events) {
 					TEvent.Trigger(subtitleController);
 			}
 			return true;
+			if (transform.FindChild("ObjectiveMarker") != null) {
+			transform.FindChild("ObjectiveMarker").gameObject.renderer.enabled = false;
+		}
 		}
 		return false;
+	}
+	
+	void Start () {
+		if (transform.FindChild("ObjectiveMarker") != null) {
+			transform.FindChild("ObjectiveMarker").gameObject.renderer.enabled = false;
+		}
 	}
 	
 	void OnGUI() {
@@ -78,6 +88,10 @@ public class Objective : MonoBehaviour {
 		//Debug.Log("STARTING OBJECTIVE " + objectiveName);
 		//textMesh.text = description;
 		Active = true;
+		
+		if (transform.FindChild("ObjectiveMarker") != null) {
+			transform.FindChild("ObjectiveMarker").gameObject.renderer.enabled = true;
+		}
 	}
 	
 	/// <summary>
@@ -86,5 +100,8 @@ public class Objective : MonoBehaviour {
 	public void Deactivate() {
 		//textMesh.text = "";
 		Active = false;
+		if (transform.FindChild("ObjectiveMarker") != null) {
+			transform.FindChild("ObjectiveMarker").gameObject.renderer.enabled = false;
+		}
 	}
 }
