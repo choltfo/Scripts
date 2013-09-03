@@ -22,6 +22,8 @@ public class ExplosiveDamage : MonoBehaviour {
 	/// </summary>
 	public bool blown		 = false;
 	
+	public TriggerableEvent TEvent;
+	
 	public AudioClip explosionNoise;
 	
 	/// <summary>
@@ -39,6 +41,7 @@ public class ExplosiveDamage : MonoBehaviour {
 		AUDIO.AddComponent<AudioSource>();
 		AUDIO.GetComponent<AudioSource>().PlayOneShot(explosionNoise);
 		AUDIO.GetComponent<AudioSource>().rolloffMode = AudioRolloffMode.Linear;
+		AUDIO.GetComponent<AudioSource>().maxDistance = GetComponent<AudioSource>().maxDistance;
 		AUDIO.AddComponent<TimedObjectDestructor>();
 		if (explosionNoise != null) AUDIO.GetComponent<TimedObjectDestructor>().secondsToDestroy = explosionNoise.length;
 		if (explosionNoise == null) AUDIO.GetComponent<TimedObjectDestructor>().secondsToDestroy = 5;
@@ -71,5 +74,10 @@ public class ExplosiveDamage : MonoBehaviour {
 		}
 		print ("BOOM");
 		//GetComponent<Detonator>().Explode();
+	}
+	
+	public void explode (SubtitleController STBL){
+		TEvent.Trigger(STBL);
+		explode();
 	}
 }
