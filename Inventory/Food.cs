@@ -1,25 +1,5 @@
 using UnityEngine;
-using UnityEditor;
-using System.IO;
-
-public class Food : ScriptableObject {
-	public string name = "Bread Slice";
-	
-	public float foodSatiationPercent = 10;
-	public float drinkSatiationPercent = 0;
-	
-	public DrugEffect DE;
-	
-	[MenuItem("Assets/Create/FoodStuff")]
-	public static void CreateAsset ()
-	{
-		ScriptableObjectUtility.CreateAsset<Food> ();
-	}
-	
-	public FoodStuff createFoodStuff () {
-		return new FoodStuff (foodSatiationPercent, drinkSatiationPercent, name, DE);
-	}
-}
+using System.Collections;
 
 public class FoodStuff {
 	public string name = "Bread Slice";
@@ -37,5 +17,21 @@ public class FoodStuff {
 		drinkSatiationPercent = drinkSatiationPercent;
 		DE = de;	// MAY BE A PROBLEM!
 	}
+	
+	public FoodStuff (Food f) {
+		name = f.name;
+		foodSatiationPercent = f.foodSatiationPercent;
+		drinkSatiationPercent = f.drinkSatiationPercent;
+		DE = f.DE;	// MAY BE A PROBLEM!
+	}
+}
+
+public class Food : ScriptableObject {
+	public string name = "Bread Slice";
+	
+	public float foodSatiationPercent = 10;
+	public float drinkSatiationPercent = 0;
+	
+	public DrugEffect DE;
 }
 
