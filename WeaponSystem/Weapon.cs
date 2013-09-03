@@ -239,6 +239,8 @@ public class Weapon {
 	
 	public bool player = true;
 	
+	public static int playerWeaponLayer = 9;
+	
 	//public UnderbarrelAttachment underbarrel;
 	
 	//TODO Add reloading animations.
@@ -351,6 +353,17 @@ public class Weapon {
 		if (!ZoomChanged) {
 			ScopeZoom = 60;
 			NormalZoom = 60;
+		}
+		
+		if (this.player) {
+			setLayerOfChildren(mainObject.transform);
+		}
+	}
+	
+	void setLayerOfChildren (Transform go) {
+		go.gameObject.layer = playerWeaponLayer;
+		foreach (Transform t in go) {
+			setLayerOfChildren (t);
 		}
 	}
 	
@@ -563,7 +576,7 @@ public class Weapon {
 			} else {
 				
 				
-			
+				MonoBehaviour.print("Shot " + hit.transform.name);
 				
 				
 				GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(BulletHole, hit.point, hitRotation);
