@@ -7,8 +7,12 @@ using System.Collections.Generic;
 
 public class TriggerableEvent {
 	
+	public string name;
+	
+	public Speech[] speechs;
+	
 	public TriggerableEvent[] events;
-	public Detonator[] explosions;
+	public ExplosiveDamage[] explosions;
 	public AudioSource soundSource;
 	public AudioClip sound;
 	public bool showText = false;
@@ -27,14 +31,18 @@ public class TriggerableEvent {
 	public bool radioState;
 	public editSettings radioWriteStyle;
 	
+	public List<DoorControl> doors;
+	
+	public ObjectManipulation[] OMs;
+	
 	
 	public void Trigger(SubtitleController TextDisplay) {
-		foreach (Detonator explosion in explosions) {
-			if (explosion != null) explosion.Explode();
+		foreach (ExplosiveDamage explosion in explosions) {
+			if (explosion != null) explosion.explode(TextDisplay);
+			if (explosion.GetComponent<Detonator>() != null) explosion.GetComponent<Detonator>().Explode();
 		}
-		foreach (TriggerableEvent TEvent in events) {
-			TEvent.Trigger(TextDisplay);
-		}
+		
+		
 		if (QTSEController != null) QTSEController.Queue(Spam);
 		if (sound != null && soundSource != null) {
 			soundSource.PlayOneShot(sound);
@@ -54,10 +62,71 @@ public class TriggerableEvent {
 		if (radioWriteStyle == editSettings.overwrite) {
 			radio.clips = RadioSounds;
 		}
+		foreach (DoorControl d in doors) d.d.setState(d.open);
+		foreach (ObjectManipulation OM in OMs) {
+			OM.use();
+		}
+		foreach (TriggerableEvent TEvent in events) {
+			TEvent.Trigger(TextDisplay);
+		}
 	}
 }
-
+[System.Serializable]
 public enum editSettings {
 	append,
 	overwrite
+}
+[System.Serializable]
+public class DoorControl {
+	public Door d;
+	public bool open;
+}
+[System.Serializable]
+public class ObjectManipulation {
+	public Behaviour[] GOs;
+	public ObjectManipulationType type;
+	public Vector3 vec;
+	
+	public void use () {
+		foreach (Component co in GOs) {
+			switch (type) {
+			case ObjectManipulationType.DeleteGO :
+				MonoBehaviour.Destroy((Object)co.gameObject);
+				break;
+			case ObjectManipulationType.RotateGO :
+				co.transform.Rotate(vec);
+				break;
+			case ObjectManipulationType.TranslateGO :
+				co.transform.Translate(vec);
+				break;
+			case ObjectManipulationType.RemoveCOMP :
+				MonoBehaviour.Destroy((Object)co);
+				break;
+			case ObjectManipulationType.DisableCOMP :
+				if (co is Behaviour) {
+					((Behaviour) co).enabled = false;
+				} else if (co is Rigidbody) {
+					((Rigidbody) co).WakeUp();
+				}
+				break;
+			case ObjectManipulationType.EnableCOMP :
+				if (co is Behaviour) {
+					((Behaviour) co).enabled = true;
+				} else if (co is Rigidbody) {
+					((Rigidbody) co).Sleep();
+				}
+				break;
+			}
+		}
+	}
+}
+
+[System.Serializable]
+public enum ObjectManipulationType {
+	DeleteGO,
+	RotateGO,
+	TranslateGO,
+	RemoveCOMP,
+	DisableCOMP,
+	EnableCOMP
 }
