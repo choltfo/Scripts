@@ -7,11 +7,13 @@ using System.Collections;
 /// <summary>
 /// Controls a character, specifically a player.
 /// Written on the Unity forums, I believe.
+/// Heavily modified to add crouching, add sprinting, and remove wall climbing.
 /// </summary>
 public class CharacterControls : MonoBehaviour {
  
 	public float speed					= 10.0f;
 	public float sprintSpeed			= 10.0f;
+	public float crouchSpeed			= 5f;
 	public float gravity				= 10.0f;
 	public float maxVelocityChange		= 10.0f;
 	public bool canJump					= true;
@@ -55,16 +57,16 @@ public class CharacterControls : MonoBehaviour {
 			crouching = Input.GetKey(controls.crouch);
 			sprinting = crouching ? false : Input.GetKey(controls.sprint);
 			
-			if (Input.GetKeyDown(controls.crouch) || Input.GetKeyUp(controls.crouch)) {
-				lastCrouchSwitch = Time.time;
-				
-			}
+			//if (Input.GetKeyDown(controls.crouch) || Input.GetKeyUp(controls.crouch)) {
+			//	lastCrouchSwitch = Time.time;
+			//}
 			
 			if (crouching) {
-				cc.height = Mathf.Lerp (ccHeight, ccRadius*2f, (Time.time-lastCrouchSwitch)/crouchTime);
+				//cc.height = Mathf.Lerp (ccHeight, ccRadius*2f, (Time.time-lastCrouchSwitch)/crouchTime);
 				//cc.radius = Mathf.Lerp (ccRadius, ccHeight/2, (Time.time-lastCrouchSwitch)/crouchTime);
-				//cc.direction = 2;	// Z axis
+				cc.direction = 2;	// Z axis
 			} else {
+				//cc.height = Mathf.Lerp (ccHeight, ccRadius*2f, (Time.time-lastCrouchSwitch)/crouchTime);
 				//cc.radius = Mathf.Lerp (ccHeight/2, ccRadius, (Time.time-lastCrouchSwitch)/crouchTime);
 				//cc.height = Mathf.Lerp (ccRadius*2f, ccHeight, (Time.time-lastCrouchSwitch)/crouchTime);
 				cc.direction = 1;	// Y axis
@@ -75,9 +77,9 @@ public class CharacterControls : MonoBehaviour {
 			Vector3 targetVelocity = new Vector3(0,0,0);
 	        targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 	        targetVelocity = transform.TransformDirection(targetVelocity);
-	        targetVelocity *= (sprinting ? sprintSpeed : speed);
- 
-	        // Apply a force that attempts to reach our target velocity
+	        targetVelocity *= (crouching ? crouchSpeed : (sprinting ? sprintSpeed : speed));
+			
+			// Apply a force that attempts to reach our target velocity
 	        Vector3 velocity = rigidbody.velocity;
 	        Vector3 velocityChange = (targetVelocity - velocity);
 	        velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
