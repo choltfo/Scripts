@@ -31,7 +31,7 @@ public class Vehicle : MonoBehaviour {
 		
 		isOccupied = true;
 		
-		VControls.isCarActive = true;
+		if (VControls != null) VControls.isCarActive = true;
 		controls = player.transform.FindChild("Camera").gameObject.GetComponent<Controls>();
 		isActive = true;
 		player.SetActive(false);
@@ -46,7 +46,7 @@ public class Vehicle : MonoBehaviour {
 	}
 	
 	public void deactivate () {
-		VControls.isCarActive = false;
+		if (VControls != null) VControls.isCarActive = false;
 		isActive = false;
 		player.SetActive(true);
 		
@@ -60,8 +60,8 @@ public class Vehicle : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		VControls = gameObject.GetComponent<VehicleControls>();
-		((Camera)gameObject.transform.Find("Camera").gameObject.GetComponent("Camera")).enabled = false;
-		((AudioListener)gameObject.transform.Find("Camera").gameObject.GetComponent("AudioListener")).enabled = false;
+		if (!isOccupied) ((Camera)gameObject.transform.Find("Camera").gameObject.GetComponent("Camera")).enabled = false;
+		if (!isOccupied) ((AudioListener)gameObject.transform.Find("Camera").gameObject.GetComponent("AudioListener")).enabled = false;
 	}
 	
 	void Update () {

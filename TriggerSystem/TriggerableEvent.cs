@@ -83,7 +83,7 @@ public class DoorControl {
 }
 [System.Serializable]
 public class ObjectManipulation {
-	public Behaviour[] GOs;
+	public Component[] GOs;
 	public ObjectManipulationType type;
 	public Vector3 vec;
 	
@@ -106,14 +106,15 @@ public class ObjectManipulation {
 				if (co is Behaviour) {
 					((Behaviour) co).enabled = false;
 				} else if (co is Rigidbody) {
-					((Rigidbody) co).WakeUp();
+					((Rigidbody) co).Sleep();
 				}
 				break;
 			case ObjectManipulationType.EnableCOMP :
 				if (co is Behaviour) {
 					((Behaviour) co).enabled = true;
-				} else if (co is Rigidbody) {
-					((Rigidbody) co).Sleep();
+				}
+				if (co is Rigidbody) {
+					((Rigidbody) co).WakeUp();
 				}
 				break;
 			}
