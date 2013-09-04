@@ -35,6 +35,7 @@ public class TriggerableEvent {
 	
 	public ObjectManipulation[] OMs;
 	
+	public List<UniqueEffect> UE;
 	
 	public void Trigger(SubtitleController TextDisplay) {
 		foreach (ExplosiveDamage explosion in explosions) {
@@ -65,6 +66,9 @@ public class TriggerableEvent {
 		foreach (DoorControl d in doors) d.d.setState(d.open);
 		foreach (ObjectManipulation OM in OMs) {
 			OM.use();
+		}
+		foreach (UniqueEffect ue in UE) {
+			ue.trigger();
 		}
 		foreach (TriggerableEvent TEvent in events) {
 			TEvent.Trigger(TextDisplay);
