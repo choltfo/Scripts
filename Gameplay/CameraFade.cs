@@ -5,7 +5,8 @@
 using UnityEngine;
  
 /// <summary>
-/// A camera fader written by someone on the unity forums.
+/// A camera fader.
+/// By: Kentyman
 /// </summary>
 public class CameraFade : MonoBehaviour
 {   
@@ -61,7 +62,7 @@ public class CameraFade : MonoBehaviour
  
  
 	// instantly set the current color of the screen-texture to "newScreenOverlayColor"
-	// can be usefull if you want to start a scene fully black and then fade to opague
+	// can be usefull if you want to start a scene fully black and then fade to opaque
 	public void SetScreenOverlayColor(Color newScreenOverlayColor)
 	{
 		m_CurrentScreenOverlayColor = newScreenOverlayColor;
