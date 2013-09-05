@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Timers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -40,7 +41,11 @@ public class TriggerableEvent {
 	public void Trigger(SubtitleController TextDisplay) {
 		foreach (ExplosiveDamage explosion in explosions) {
 			if (explosion != null) explosion.explode(TextDisplay);
-			if (explosion.GetComponent<Detonator>() != null) explosion.GetComponent<Detonator>().Explode();
+			try {
+				if (explosion.GetComponent<Detonator>() != null) explosion.GetComponent<Detonator>().Explode();
+			} catch (SystemException e) {
+				Debug.LogError ("Explosion Failed. DAMNIT IT!");
+			}
 		}
 		
 		
@@ -53,7 +58,7 @@ public class TriggerableEvent {
 		}
 		if (instantiableObject!=null){
 			for (int i = 0; i < number; i++) {
-				MonoBehaviour.Instantiate(instantiableObject, (Random.value * tolerance) + place, new Quaternion(0,0,0,1));
+				MonoBehaviour.Instantiate(instantiableObject, (UnityEngine.Random.value * tolerance) + place, new Quaternion(0,0,0,1));
 			}
 		}
 		
@@ -95,7 +100,7 @@ public class ObjectManipulation {
 		foreach (Component co in GOs) {
 			switch (type) {
 			case ObjectManipulationType.DeleteGO :
-				MonoBehaviour.Destroy((Object)co.gameObject);
+				MonoBehaviour.Destroy((UnityEngine.Object)co.gameObject);
 				break;
 			case ObjectManipulationType.RotateGO :
 				co.transform.Rotate(vec);
@@ -104,7 +109,7 @@ public class ObjectManipulation {
 				co.transform.Translate(vec);
 				break;
 			case ObjectManipulationType.RemoveCOMP :
-				MonoBehaviour.Destroy((Object)co);
+				MonoBehaviour.Destroy((UnityEngine.Object)co);
 				break;
 			case ObjectManipulationType.DisableCOMP :
 				if (co is Behaviour) {

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Detonator))]
@@ -64,7 +65,11 @@ public class ExplosiveDamage : MonoBehaviour {
 				hit.transform.gameObject.GetComponent<EnemyHealth>().damage(damage, DamageCause.Explosion);
 			}
 			if (hit.transform.gameObject.GetComponent<Detonator>() != null) {
-				hit.transform.gameObject.GetComponent<Detonator>().Explode();	
+				try {
+					hit.transform.gameObject.GetComponent<Detonator>().Explode();	
+				} catch (SystemException e) {
+					Debug.LogError ("Detonator failed from Explosive damage.");
+				}
 			}
 			if (hit.transform.gameObject.GetComponent<ExplosiveDamage>() != null) {
 				if (!hit.transform.gameObject.GetComponent<ExplosiveDamage>().blown) {

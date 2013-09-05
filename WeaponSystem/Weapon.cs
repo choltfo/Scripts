@@ -531,7 +531,11 @@ public class Weapon {
 			if (hit.transform.tag == "Explosive") {
 				if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
 					Detonator target = (Detonator)hit.transform.gameObject.GetComponent("Detonator");
-					target.Explode();
+					try {
+						target.Explode();
+					} catch (System.SystemException e) {
+						Debug.LogError("Detonator failed inside Weapon");
+					}
 				}
 				if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
 					AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
