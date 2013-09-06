@@ -587,6 +587,7 @@ public class Weapon {
 				newBulletHole.transform.parent = hit.transform;
 				newBulletHole.transform.Translate(0,(float)0.05,0);
 				hitRotation.x = hitRotation.x + 270;
+			
 				GameObject newDust = (GameObject)MonoBehaviour.Instantiate(DirtSpray, hit.point, hitRotation);
 				newDust.transform.parent = hit.transform;
 				newDust.transform.Translate(0,(float)0.05,0);
@@ -773,8 +774,8 @@ public class Weapon {
 				mainObject.transform.Translate(0,0,-gunDistance/4);
 				mainObject.transform.Rotate(-gunAngle*0.25f,0,0);
 				
-				Slide.Translate(0,0, SlideDistance);
-				Trigger.Translate(0,0, TriggerDistance);
+				if (Slide != null) Slide.Translate(0,0, SlideDistance);
+				if (Trigger != null) Trigger.Translate(0,0, TriggerDistance);
 				//flash.transform.localScale = new Vector3 (10,10,10);
 				if (flash) {
 					flash.SetActive(true);
@@ -820,10 +821,10 @@ public class Weapon {
 				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
 				mainObject.transform.Translate(0,0,gunDistance/4);
 				
-				Trigger.Translate(0,0, -TriggerDistance);
+				if (Trigger != null) Trigger.Translate(0,0, -TriggerDistance);
 			}		
 			if (AnimClock == (ShotDelay-SlideDelay)){
-				Slide.Translate(0,0, -SlideDistance);
+				if (Slide != null) Slide.Translate(0,0, -SlideDistance);
 			}
 			if (AnimClock == 0) {
 				isFiring = false;

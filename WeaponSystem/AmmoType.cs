@@ -5,13 +5,14 @@
 /// Add all of them that are not here yet as needed
 /// </summary>
 public enum AmmoType {
-	Parabellum9x19mm,		//Barretta M9, P220
-	NATO762x51mm,			//SCAR-H
-	NATO556,				//M4A1
-	FMJ762x39mm,			//AK47
-	FourtyCMBolt,			//Crossbow
-	Grenade40mm,			//Launching Grenade
-	BMG50					//Sniper Rifle, Machine gun
+	Parabellum9x19mm,		// Barretta M9, P220
+	NATO762x51mm,			// SCAR-H
+	NATO556,				// M4A1
+	FMJ762x39mm,			// AK47
+	FourtyCMBolt,			// Crossbow
+	Grenade40mm,			// Launching Grenade
+	BMG50,					// Sniper Rifle, Machine gun
+	ChargeCapsule			// Phaser
 }
 
 /// <summary>
@@ -33,6 +34,7 @@ public static class AmmoPrice {
 		case AmmoType.FourtyCMBolt:		return 4;
 		case AmmoType.Grenade40mm:		return 20;
 		case AmmoType.BMG50:			return 5;
+		case AmmoType.ChargeCapsule:	return 20;
 		default:						return 1;
 		}
 	}
