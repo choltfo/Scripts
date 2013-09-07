@@ -43,6 +43,10 @@ public class PathfindingEnemy : Enemy {
 	public float targetCheckDelay = 0.5f; // The amount of time you have to remain within view for the enemy to notice you.
 	
 	
+	public AlertingMethod AlertMethod = AlertingMethod.NONE;	// Determines the AI action immediately thereafter.
+	
+	
+	
 	// Use this for initialization
 	void Start () {
 		PFNC = GetComponent<PFNodeClient>();
@@ -58,11 +62,12 @@ public class PathfindingEnemy : Enemy {
 		targets = Es;
 	}
 	
-	public void setTarget (Enemy e) {
+	public void setTarget (Enemy e, AlertingMethod M) {
 		alerted = true;
 		target = e;
 		if (debug) print ("Shot by "+e.name+", retaliating.");
 	}
+	
 	
 	public void checkAnyVisible () {
 		foreach (Enemy e in targets) {
@@ -183,6 +188,7 @@ public class PathfindingEnemy : Enemy {
 	}
 
 	public static void hearNoise (Enemy e, float detectionRange) {
+		
 		foreach (Enemy r in listEnemies()) {
 			
 			if (r == e) break; 
@@ -193,9 +199,18 @@ public class PathfindingEnemy : Enemy {
 			
 			if (r.faction != e.faction) {
 				if (Vector3.Distance(r.transform.position, e.transform.position) < detectionRange) {
-					((PathfindingEnemy)r).setTarget(e);
+					((PathfindingEnemy)r).setTarget(e, AlertingMethod.Hear);
 				}
 			}
 		}
 	}
+}
+
+
+// Used to determine initial action upon being alerted. 
+public enum AlertingMethod {
+	NONE,
+	See,
+	Hear,
+	Shot
 }

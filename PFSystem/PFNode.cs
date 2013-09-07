@@ -14,6 +14,9 @@ public class PFNode : MonoBehaviour {
 	}
 }
 
+
+// UNECCESSARY!
+// I hope....
 [System.Serializable]
 public class PFNodePathPoint {
 	public PFNode node;

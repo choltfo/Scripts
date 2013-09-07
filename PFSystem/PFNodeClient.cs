@@ -11,6 +11,7 @@ public class PFNodeClient : MonoBehaviour {
 	
 	public PFNode currentNode;
 	
+	public LayerMask LinecastMask;
 	
 	public float TeammateBias	 = 1.2f;
 	public float EnemyBias		 = 1f;
@@ -33,6 +34,23 @@ public class PFNodeClient : MonoBehaviour {
 			i++;
 		}
 		return (index == -1) ? currentNode : currentNode.Nodes[index].node;
+	}
+	
+	
+	public PFNode getNodeNearestCover () {
+		float nearestDistance = float.maxValue;
+		PFNode nearestNode;
+		
+		if (currentnode.node.type == PFNodeType.Crouch || currentnode.node.type == PFNodeType.Stand) return currentNode;
+		
+		foreach (PFNodeEntry node in currentNode.Nodes) {
+			if (node.node.type = PFNodeType.Stand || node.node.type = PFNodeType.Crouch) {
+				// If node is cover
+				if (Physics.Linecast()) {
+					
+				}
+			}
+		}	
 	}
 	
 	/// <summary>
