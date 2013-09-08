@@ -66,6 +66,11 @@ public class PathfindingEnemy : Enemy {
 		alerted = true;
 		target = e;
 		if (debug) print ("Shot by "+e.name+", retaliating.");
+		
+		if (AlertMethod == AlertingMethod.Shot ||
+			AlertMethod == AlertingMethod.Hear) {
+			PFNC.currentNode = PFNC.getNodeNearestCover();
+		}
 	}
 	
 	
@@ -90,7 +95,7 @@ public class PathfindingEnemy : Enemy {
 							if (hit.transform == e.transform) {
 								// Can see the target.
 								
-								setTarget(e);
+								setTarget(e,AlertingMethod.See);
 								lastTargetCheck = Time.time;
 								
 								
@@ -123,7 +128,11 @@ public class PathfindingEnemy : Enemy {
 				// TODO: change to getSafest, once that works.
 				//PFNC.currentNode = PFNC.getNodeNearest();											// This should be the same for all
 																									// Enemies.
-				PFNC.currentNode = PFNC.getNodeClosestToEnemies(GameObject.FindGameObjectsWithTag("Combatant"), faction);
+				//PFNC.currentNode = PFNC.getNodeClosestToEnemies(GameObject.FindGameObjectsWithTag("Combatant"), faction);
+				
+				
+				
+				PFNC.currentNode = PFNC.getNodeNearestCover();
 				
 				ready = false;
 			}

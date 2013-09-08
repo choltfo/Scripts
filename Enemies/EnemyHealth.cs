@@ -29,7 +29,7 @@ public class EnemyHealth : Objective {
 	public float damageAsCombatant (float health, Enemy shooter, DamageCause COD = DamageCause.Shot) {
 		damage(health, COD);
 		if (GetComponent<PathfindingEnemy>()!=null){
-			GetComponent<PathfindingEnemy>().setTarget(shooter);
+			GetComponent<PathfindingEnemy>().setTarget(shooter, AlertingMethod.Shot);
 			print ("Alerted PathfindingEnemy");
 		} else {
 			print ("Failed to alert PathfindingEnemy");

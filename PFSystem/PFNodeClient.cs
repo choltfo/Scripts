@@ -38,19 +38,23 @@ public class PFNodeClient : MonoBehaviour {
 	
 	
 	public PFNode getNodeNearestCover () {
-		float nearestDistance = float.maxValue;
+		float nearestDistance = float.MaxValue;
 		PFNode nearestNode;
 		
-		if (currentnode.node.type == PFNodeType.Crouch || currentnode.node.type == PFNodeType.Stand) return currentNode;
+		if (currentNode.type == PFNodeType.Crouch || currentNode.type == PFNodeType.Stand) return currentNode;
 		
 		foreach (PFNodeEntry node in currentNode.Nodes) {
-			if (node.node.type = PFNodeType.Stand || node.node.type = PFNodeType.Crouch) {
+			if (node.node.type == PFNodeType.Stand || node.node.type == PFNodeType.Crouch) {
 				// If node is cover
-				if (Physics.Linecast()) {
-					
+				Vector3 startPos = transform.position;
+				Vector3.MoveTowards(startPos, node.node.transform.position, 1);
+				if (!Physics.Linecast(startPos, node.node.transform.position)) {
+					return node.node;
 				}
 			}
-		}	
+		}
+		
+		return currentNode; // Untill we can have recursive search systems.
 	}
 	
 	/// <summary>

@@ -78,6 +78,8 @@ public class ShootingEnemy : PathfindingEnemy {
 		
 		if (!alerted) checkAnyVisible();
 		
+		
+		// BEGIN weapon handling system.
 		if (ready && alerted && isAimed) {
 			//target = getNearestEnemy();
 			if (weapon.CurAmmo == 0 && weapon.AnimClock == 0) {
@@ -97,6 +99,8 @@ public class ShootingEnemy : PathfindingEnemy {
 			}
 			if (debug) print("Targeting "+target.name);
 		}
+		// END weapon handling system.
+		
 		
 		//Look towards predetermined target
 		if (target != null) {
