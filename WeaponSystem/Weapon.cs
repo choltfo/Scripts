@@ -745,7 +745,10 @@ public class Weapon {
 			mainObject.transform.localEulerAngles = 
 				Vector3.Slerp(new Vector3(0,0,0), mainObject.transform.localEulerAngles, (Time.time - lastHoldToggle)/switchSpeed);
 			
-			if (mainObject.transform.localPosition.Equals(StowedPosition)) curAnim = weaponAnimType.None;
+			if (mainObject.transform.localPosition.Equals(StowedPosition)) {
+				curAnim = weaponAnimType.None;
+				Debug.Log ("Done moving to Stow position, setting curAnim to 'None'");
+			}
 			break;
 			
 		case weaponAnimType.Withdrawing :
