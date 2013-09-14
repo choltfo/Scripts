@@ -258,6 +258,13 @@ public class Weapon {
 	public AnimationCurve AnimWeaponRY;
 	public AnimationCurve AnimWeaponRZ;
 	
+	public float maxRoundsPerSecond;
+	float lastShot = 0f;
+	public float shotDelay;
+	
+	public float reloadTime = 5f;
+	
+	
 	
 	//public UnderbarrelAttachment underbarrel;
 	
@@ -475,6 +482,7 @@ public class Weapon {
 					calculateDamage(hit, shooter);
 				}
 			}
+			lastShot = Time.time;
 			return true;
 		}
 		return false;
@@ -524,6 +532,7 @@ public class Weapon {
 					calculateDamage(hit, shooter);
 				}
 			}
+			lastShot = Time.time;
 			return true;
 		}
 		return false;
@@ -617,6 +626,7 @@ public class Weapon {
 			if (ammo[(int)ammoType] == 0) {
 				//Debug.Log ("Out of bullets!");
 			}
+			
 			ammo[(int)ammoType] += CurAmmo;
 			CurAmmo = 0;
 			if (ammo[(int)ammoType] >= MaxAmmo) {
@@ -685,7 +695,8 @@ public class Weapon {
 	float slideKickbackTime;
 	float slideReturnTime;
 	
-	
+	public bool animateTrigger;
+	public bool animateSlide;
 	
 	/// <summary>
 	/// Update animations.
@@ -695,6 +706,28 @@ public class Weapon {
 			return;
 		}
 		
+		if (isOut) {
+				if(isAimed == true){
+					if (player) camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
+						ScopeZoom,Time.deltaTime*zoomSmoothing);
+					mainObject.transform.localPosition = new Vector3(
+						Mathf.Lerp(mainObject.transform.localPosition.x, ScopedPosition.x, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.y, ScopedPosition.y, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.z, ScopedPosition.z, (Time.time-lastAim)*AimSpeed));
+				} else {
+					if (player) camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
+						NormalZoom,Time.deltaTime*zoomSmoothing);
+					mainObject.transform.localPosition = new Vector3(
+						Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time-lastAim)*AimSpeed));
+				}
+				mainObject.transform.parent = camera.transform;
+				mainObject.transform.localEulerAngles = new Vector3 (0,0,0);
+			} else {
+				mainObject.transform.parent = camera.transform.parent;
+				mainObject.transform.localPosition = StowedPosition;	
+			}
 
 		
 		switch (curAnim) {
@@ -739,114 +772,46 @@ public class Weapon {
 			break;
 			
 		case weaponAnimType.None :
-			if (isOut) {
-				if(isAimed == true){
-					if (player) camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
-						ScopeZoom,Time.deltaTime*zoomSmoothing);
-					mainObject.transform.localPosition = new Vector3(
-						Mathf.Lerp(mainObject.transform.localPosition.x, ScopedPosition.x, (Time.time-lastAim)*AimSpeed),
-						Mathf.Lerp(mainObject.transform.localPosition.y, ScopedPosition.y, (Time.time-lastAim)*AimSpeed),
-						Mathf.Lerp(mainObject.transform.localPosition.z, ScopedPosition.z, (Time.time-lastAim)*AimSpeed));
-				} else {
-					if (player) camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
-						NormalZoom,Time.deltaTime*zoomSmoothing);
-					mainObject.transform.localPosition = new Vector3(
-						Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time-lastAim)*AimSpeed),
-						Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time-lastAim)*AimSpeed),
-						Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time-lastAim)*AimSpeed));
-				}
-				mainObject.transform.parent = camera.transform;
-				mainObject.transform.localEulerAngles = new Vector3 (0,0,0);
-			} else {
-				mainObject.transform.parent = camera.transform.parent;
-				mainObject.transform.localPosition = StowedPosition;	
-			}
 			if (AnimClock > 0) {
 				AnimClock--;
 			}
+			if (Slide != null) Slide.localPosition.Set(AnimSlideTX.Evaluate(0),
+				AnimSlideTY.Evaluate(0), AnimSlideTZ.Evaluate(0));
+			
+			if (Trigger != null) Trigger.localPosition.Set(AnimTriggerTX.Evaluate(0),
+				AnimTriggerTY.Evaluate(0), AnimTriggerTZ.Evaluate(0));
 			break;
 			
 		case weaponAnimType.Firing :
 			
-			//Debug.Log("AnimClock Reads " + AnimClock.ToString());
-			//Debug.Log("ShotDelay Reads " + ShotDelay.ToString());
-			//Debug.Log("Animating " + mainObject.name);
+			if (player && animate) {
+				if (Slide == null) {
+					AnimIdentify();
+					if (Slide == null) {
+						animateSlide = false;
+					}
+				}
 			
-			if (Slide == null ||  Hammer == null || Trigger == null) {
-				AnimIdentify();
-			}
-			if (flash == null) {
-				findFlash();
-			}
-			if (AnimClock == ShotDelay){
-				
-				mainObject.transform.Translate(0,0,-gunDistance/4);
-				mainObject.transform.Rotate(-gunAngle*0.25f,0,0);
-				mainObject.transform.Translate(0,0,-gunDistance/4);
-				mainObject.transform.Rotate(-gunAngle*0.25f,0,0);
-				mainObject.transform.Translate(0,0,-gunDistance/4);
-				mainObject.transform.Rotate(-gunAngle*0.25f,0,0);
-				mainObject.transform.Translate(0,0,-gunDistance/4);
-				mainObject.transform.Rotate(-gunAngle*0.25f,0,0);
-				
-				if (Slide != null) Slide.Translate(0,0, SlideDistance);
-				if (Trigger != null) Trigger.Translate(0,0, TriggerDistance);
-				//flash.transform.localScale = new Vector3 (10,10,10);
-				if (flash) {
-					flash.SetActive(true);
+				if (Trigger == null) {
+					AnimIdentify();
+					if (Trigger == null) {
+						animateTrigger = false;
+					}
 				}
-				if (player) ((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).
-					rotationY += CameraClimb;
-				float x = mainObject.transform.parent.parent.localEulerAngles.x;
-				float y = mainObject.transform.parent.parent.localEulerAngles.y;
-				float z = mainObject.transform.parent.parent.localEulerAngles.z;
 				
-				mainObject.transform.parent.parent.localEulerAngles = new Vector3(x,y+Random.Range(-maxCameraSway, maxCameraSway),z);
-				//+= Random.Range(maxCameraSway, -maxCameraSway)
-			}
-			if (AnimClock == (ShotDelay - 1)){
-				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
-				mainObject.transform.Translate(0,0,gunDistance/4);
+				Slide.localPosition.Set(AnimSlideTX.Evaluate(Time.time - lastShot),
+					AnimSlideTY.Evaluate(Time.time - lastShot), AnimSlideTZ.Evaluate(Time.time - lastShot));
 				
-				//flash.transform.localScale = new Vector3 (0,0,0);
-				if (flash) {
-					flash.SetActive(false);
-				}
-				if (player)  ((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
-					-= CameraClimb/4;
-
+				Trigger.localPosition.Set(AnimTriggerTX.Evaluate(Time.time - lastShot),
+					AnimTriggerTZ.Evaluate(Time.time - lastShot), AnimTriggerTZ.Evaluate(Time.time - lastShot));
 			}
-			if (AnimClock == (ShotDelay - 2)){
-				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
-				mainObject.transform.Translate(0,0,gunDistance/4);
-				
-				if (player) ((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
-					-= CameraClimb/4;
-
-			}
-			if (AnimClock == (ShotDelay - 3)){
-				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
-				mainObject.transform.Translate(0,0,gunDistance/4);
-				
-				if (player) ((MouseLookModded)mainObject.transform.parent.gameObject.GetComponent("MouseLookModded")).rotationY 
-					-= CameraClimb/4;
-
-			}
-			if (AnimClock == (ShotDelay - 4)){
-				mainObject.transform.Rotate(gunAngle*0.25f,0,0);
-				mainObject.transform.Translate(0,0,gunDistance/4);
-				
-				if (Trigger != null) Trigger.Translate(0,0, -TriggerDistance);
-			}		
-			if (AnimClock == (ShotDelay-SlideDelay)){
-				if (Slide != null) Slide.Translate(0,0, -SlideDistance);
-			}
-			if (AnimClock == 0) {
-				isFiring = false;
-				curAnim = weaponAnimType.None;
-			}
+			
+			
 			if (AnimClock > 0){
 				AnimClock--;
+			}
+			if (AnimClock == 0) {
+				curAnim = weaponAnimType.None;
 			}
 			break;
 			

@@ -44,6 +44,10 @@ public class ShootObjects : MonoBehaviour {
 			aim();
 		}
 		
+		if (Input.GetMouseButtonUp((int)controls.aim)) {
+			aim();
+		}
+		
 		if (Input.GetKeyDown(controls.grenade)) {
 			throwTime = Time.time;
 		}
