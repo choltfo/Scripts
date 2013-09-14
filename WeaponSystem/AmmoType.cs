@@ -12,7 +12,8 @@ public enum AmmoType {
 	FourtyCMBolt,			// Crossbow
 	Grenade40mm,			// Launching Grenade
 	BMG50,					// Sniper Rifle, Machine gun
-	ChargeCapsule			// Phaser
+	ChargeCapsule,			// Phaser
+	Parabellum15x25			// 15 mm Manu Tormento
 }
 
 /// <summary>

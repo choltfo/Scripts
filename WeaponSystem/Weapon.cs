@@ -47,11 +47,8 @@ public class Weapon {
 	public float switchSpeed = 1f;
 	public float AimSpeed = 10f;
 	/// <summary>
-	/// Whether or not the player can look down the irons on this gun.
-	/// </summary>
-	public bool CanScope;
-	/// <summary>
 	/// The scope zoom.
+	/// Overwritten by 
 	/// </summary>
 	public float ScopeZoom;
 	/// <summary>
@@ -257,9 +254,6 @@ public class Weapon {
 	/// <param name='ScopedPosition'>
 	/// Scoped position.
 	/// </param>
-	/// <param name='CanScope'>
-	/// Can scope?
-	/// </param>
 	/// <param name='MaxAmmo'>
 	/// Max ammo in clip.
 	/// </param>
@@ -279,12 +273,11 @@ public class Weapon {
 	/// Automatic?
 	/// </param>
 	public Weapon(GameObject MainObject, Vector3 Position, Vector3 ScopedPosition,
-		bool CanScope, int MaxAmmo, string WeaponName, int Damage, string Path, float FireRate, bool Automatic) {
+		int MaxAmmo, string WeaponName, int Damage, string Path, float FireRate, bool Automatic) {
 		
 		this.InstantiableObject = MainObject;
 		this.Position           = Position;
 		this.ScopedPosition     = ScopedPosition;
-		this.CanScope           = CanScope;
 		this.MaxAmmo            = MaxAmmo;
 		CurAmmo                 = MaxAmmo;
 		this.WeaponName         = WeaponName;
@@ -352,8 +345,9 @@ public class Weapon {
 		}
 		if (!ZoomChanged) {
 			ScopeZoom = 60;
-			NormalZoom = 60;
 		}
+		NormalZoom = 60;
+
 		
 		if (this.player) {
 			setLayerOfChildren(mainObject.transform);
