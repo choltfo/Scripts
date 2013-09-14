@@ -619,7 +619,7 @@ public class Weapon {
 	}
 	
 	public virtual int[] Reload(int[] ammo) {
-		if (CurAmmo < MaxAmmo && !isFiring && curAnim == weaponAnimType.None){
+		if (CurAmmo < MaxAmmo && curAnim == weaponAnimType.None){
 			AnimClock = 15;
 			curAnim = weaponAnimType.Reloading;
 			
