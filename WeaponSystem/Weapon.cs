@@ -238,6 +238,27 @@ public class Weapon {
 	
 	public static int playerWeaponLayer = 9;
 	
+	public AnimationCurve AnimSlideTX;
+	public AnimationCurve AnimSlideTY;
+	public AnimationCurve AnimSlideTZ;
+	public AnimationCurve AnimTriggerTX;
+	public AnimationCurve AnimTriggerTY;
+	public AnimationCurve AnimTriggerTZ;
+	public AnimationCurve AnimWeaponTX;
+	public AnimationCurve AnimWeaponTY;
+	public AnimationCurve AnimWeaponTZ;
+	
+	public AnimationCurve AnimSlideRX;
+	public AnimationCurve AnimSlideRY;
+	public AnimationCurve AnimSlideRZ;
+	public AnimationCurve AnimTriggerRX;
+	public AnimationCurve AnimTriggerRY;
+	public AnimationCurve AnimTriggerRZ;
+	public AnimationCurve AnimWeaponRX;
+	public AnimationCurve AnimWeaponRY;
+	public AnimationCurve AnimWeaponRZ;
+	
+	
 	//public UnderbarrelAttachment underbarrel;
 	
 	//TODO Add reloading animations.
