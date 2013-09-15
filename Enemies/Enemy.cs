@@ -14,5 +14,5 @@ public class Enemy : MonoBehaviour {
 /// </summary>
 public enum Faction {
 	Friendly,			// He is with the player.
-	Evil				// He is ont with the player.
+	Evil				// He is not with the player.
 }

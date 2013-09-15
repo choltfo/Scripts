@@ -73,39 +73,54 @@ public class PathfindingEnemy : Enemy {
 		}
 	}
 	
+	bool checkEnemyVisible (Enemy e) {
+		if (e.faction != faction) {
+			if (debug) print ("Checking to see if alerted by " +  e.name);
+			var rayDirection = e.transform.position - transform.position;
+			if (Vector3.Angle(rayDirection, transform.forward) < fieldOfViewRadiusInDegrees) {
+				if (debug) print ("Angle satisfied.");
+				if (Vector3.Distance(transform.position, e.transform.position) < visionRange) {
+					if (debug) print ("Distance satisfied, performing raycast.");
+					Vector3 relAng =
+						transform.InverseTransformDirection(e.transform.position - transform.position);
+					relAng.Normalize();
+					Ray ray = new Ray(transform.position, relAng);
+					Debug.DrawRay(transform.position, relAng, new Color(255,0,0));
+					RaycastHit hit;
+					Physics.Raycast(ray, out hit, visionRange);
+					if (hit.collider != null) {
+						if (debug) print ("Hit something, namely " + hit.collider.name);
+						if (hit.transform == e.transform) {
+							// Can see the target.
+							
+							return true;
+							
+							
+							
+							
+						} else {
+							if (debug) print ("Hit " + hit.collider.name);
+						}
+					} else {
+						if (debug) print ("Did not hit anything, let alone the target.");
+					}
+				}
+			}
+		}
+		return false;
+	}
 	
 	public void checkAnyVisible () {
 		foreach (Enemy e in targets) {
-			if (e.faction != faction) {
-				if (debug) print ("Checking to see if alerted by " +  e.name);
-				var rayDirection = e.transform.position - transform.position;
-				if (Vector3.Angle(rayDirection, transform.forward) < fieldOfViewRadiusInDegrees) {
-					if (debug) print ("Angle satisfied.");
-					if (Vector3.Distance(transform.position, e.transform.position) < visionRange) {
-						if (debug) print ("Distance satisfied, performing raycast.");
-						Vector3 relAng =
-							transform.InverseTransformDirection(e.transform.position - transform.position);
-						relAng.Normalize();
-						Ray ray = new Ray(transform.position, relAng);
-						Debug.DrawRay(transform.position, relAng, new Color(255,0,0));
-						RaycastHit hit;
-						Physics.Raycast(ray, out hit, visionRange);
-						if (hit.collider != null) {
-							if (debug) print ("Hit something, namely " + hit.collider.name);
-							if (hit.transform == e.transform) {
-								// Can see the target.
-								
-								setTarget(e,AlertingMethod.See);
-								lastTargetCheck = Time.time;
-								
-								
-							} else {
-								if (debug) print ("Hit " + hit.collider.name);
-							}
-						} else {
-							if (debug) print ("Did not hit anything, let alone the target.");
-						}
-					}
+			if (e is VehicleEnemyPlaceholder) {
+				if (checkEnemyVisible(e)) {
+					setTarget((e as VehicleEnemyPlaceholder).enemy, AlertingMethod.See);
+					lastTargetCheck = Time.time;
+				}
+			} else {
+				if (checkEnemyVisible(e)) {
+					setTarget(e,AlertingMethod.See);
+					lastTargetCheck = Time.time;
 				}
 			}
 		}
@@ -168,6 +183,12 @@ public class PathfindingEnemy : Enemy {
 		return relativePosition;
 	}
 	
+	public void checkTarget() {
+		if (!targets.Contains(target)) {
+			alerted = false;
+		}
+	}
+	
 	public Vector3 getZXPosition (Vector3 pos) {
 		pos.Set (pos.x, transform.position.y, pos.z);
 		return pos;
@@ -179,11 +200,18 @@ public class PathfindingEnemy : Enemy {
 	public static List<Enemy> listEnemies() {
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Combatant");
 		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+		Object[] vehicles = Object.FindObjectsOfType(typeof(VehicleEnemyPlaceholder));
 		List<Enemy> targets = new List<Enemy>();
 		int i = 0;
 		foreach (GameObject go in enemies) {
 			targets.Add(go.GetComponent<Enemy>());
 			i++;
+		}
+		
+		foreach (Object v in vehicles) {
+			if (((VehicleEnemyPlaceholder)v).enemy != null) {
+				targets.Add((v as VehicleEnemyPlaceholder).gameObject.GetComponent<VehicleEnemyPlaceholder>());
+			}
 		}
 		
 		i = 0;
@@ -200,7 +228,7 @@ public class PathfindingEnemy : Enemy {
 		
 		foreach (Enemy r in listEnemies()) {
 			
-			if (r == e) break; 
+			if (r == e) break;
 			
 			if (!(r is PathfindingEnemy)) break;
 			

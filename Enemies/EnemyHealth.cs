@@ -67,6 +67,12 @@ public class EnemyHealth : Objective {
 		List<Enemy> es = PathfindingEnemy.listEnemies();
 		es.Remove(thisEnemy);
 		PathfindingEnemy.setTargets(PathfindingEnemy.listEnemies());
+		foreach (Enemy e in PathfindingEnemy.targets) {
+			if (e is PathfindingEnemy || e is ShootingEnemy) {
+				(e as PathfindingEnemy).checkTarget();
+				print ("Calling checkTarget on " + e.name);
+			}
+		}
 		Complete();
 		gameObject.SetActive(false);
 	}
