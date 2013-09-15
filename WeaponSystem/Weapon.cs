@@ -241,9 +241,6 @@ public class Weapon {
 	public AnimationCurve AnimSlideTX;
 	public AnimationCurve AnimSlideTY;
 	public AnimationCurve AnimSlideTZ;
-	public AnimationCurve AnimTriggerTX;
-	public AnimationCurve AnimTriggerTY;
-	public AnimationCurve AnimTriggerTZ;
 	public AnimationCurve AnimWeaponTX;
 	public AnimationCurve AnimWeaponTY;
 	public AnimationCurve AnimWeaponTZ;
@@ -251,9 +248,6 @@ public class Weapon {
 	public AnimationCurve AnimSlideRX;
 	public AnimationCurve AnimSlideRY;
 	public AnimationCurve AnimSlideRZ;
-	public AnimationCurve AnimTriggerRX;
-	public AnimationCurve AnimTriggerRY;
-	public AnimationCurve AnimTriggerRZ;
 	public AnimationCurve AnimWeaponRX;
 	public AnimationCurve AnimWeaponRY;
 	public AnimationCurve AnimWeaponRZ;
@@ -760,9 +754,6 @@ public class Weapon {
 			if (Slide != null) Slide.localPosition.Set(AnimSlideTX.Evaluate(0),
 				AnimSlideTY.Evaluate(0), AnimSlideTZ.Evaluate(0));
 			
-			if (Trigger != null) Trigger.localPosition.Set(AnimTriggerTX.Evaluate(0),
-				AnimTriggerTY.Evaluate(0), AnimTriggerTZ.Evaluate(0));
-			
 			if (isOut) {
 				if(isAimed == true){
 					if (player) camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
@@ -808,9 +799,6 @@ public class Weapon {
 				
 				Slide.localPosition = new Vector3 (AnimSlideTX.Evaluate(Time.time - lastShot),
 					AnimSlideTY.Evaluate(Time.time - lastShot), AnimSlideTZ.Evaluate(Time.time - lastShot));
-				
-				Trigger.localPosition = new Vector3 (AnimTriggerTX.Evaluate(Time.time - lastShot),
-					AnimTriggerTZ.Evaluate(Time.time - lastShot), AnimTriggerTZ.Evaluate(Time.time - lastShot));
 				
 				mainObject.transform.localPosition = new Vector3 (AnimWeaponTX.Evaluate(Time.time - lastShot),
 					AnimWeaponTY.Evaluate(Time.time - lastShot), AnimWeaponTZ.Evaluate(Time.time - lastShot)) +
