@@ -787,7 +787,8 @@ public class Weapon {
 			
 		case weaponAnimType.Firing :
 			
-			if (player && animate) {
+			if (player) {
+				
 				if (Slide == null) {
 					AnimIdentify();
 					if (Slide == null) {
@@ -802,10 +803,10 @@ public class Weapon {
 					}
 				}
 				
-				Slide.localPosition.Set(AnimSlideTX.Evaluate(Time.time - lastShot),
+				Slide.position.Set(AnimSlideTX.Evaluate(Time.time - lastShot),
 					AnimSlideTY.Evaluate(Time.time - lastShot), AnimSlideTZ.Evaluate(Time.time - lastShot));
 				
-				Trigger.localPosition.Set(AnimTriggerTX.Evaluate(Time.time - lastShot),
+				Trigger.position.Set(AnimTriggerTX.Evaluate(Time.time - lastShot),
 					AnimTriggerTZ.Evaluate(Time.time - lastShot), AnimTriggerTZ.Evaluate(Time.time - lastShot));
 			}
 			
