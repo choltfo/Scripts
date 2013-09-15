@@ -23,7 +23,8 @@ public class ShootingEnemy : PathfindingEnemy {
 	public bool isAimed = false;
 	
 	
-	public float rotSpd = 5;
+	public float rotSpd = 5f;
+	public float scopedRotSpd = 1f;
 	public float satisfactoryAimInDegrees = 5;
 		
 	
@@ -109,6 +110,7 @@ public class ShootingEnemy : PathfindingEnemy {
 			Vector3 relativePos = targetPos - currentPos ;
 			rotation = Quaternion.LookRotation(relativePos);
 			if (!isAimed) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
+			else  head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * scopedRotSpd);
 		}
 																	// Satisfactory aiming criteria. In degrees.
 		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < satisfactoryAimInDegrees ;//&&
