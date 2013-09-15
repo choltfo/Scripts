@@ -706,28 +706,7 @@ public class Weapon {
 			return;
 		}
 		
-		if (isOut) {
-				if(isAimed == true){
-					if (player) camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
-						ScopeZoom,Time.deltaTime*zoomSmoothing);
-					mainObject.transform.localPosition = new Vector3(
-						Mathf.Lerp(mainObject.transform.localPosition.x, ScopedPosition.x, (Time.time-lastAim)*AimSpeed),
-						Mathf.Lerp(mainObject.transform.localPosition.y, ScopedPosition.y, (Time.time-lastAim)*AimSpeed),
-						Mathf.Lerp(mainObject.transform.localPosition.z, ScopedPosition.z, (Time.time-lastAim)*AimSpeed));
-				} else {
-					if (player) camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
-						NormalZoom,Time.deltaTime*zoomSmoothing);
-					mainObject.transform.localPosition = new Vector3(
-						Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time-lastAim)*AimSpeed),
-						Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time-lastAim)*AimSpeed),
-						Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time-lastAim)*AimSpeed));
-				}
-				mainObject.transform.parent = camera.transform;
-				mainObject.transform.localEulerAngles = new Vector3 (0,0,0);
-			} else {
-				mainObject.transform.parent = camera.transform.parent;
-				mainObject.transform.localPosition = StowedPosition;	
-			}
+		
 
 		
 		switch (curAnim) {
@@ -783,6 +762,30 @@ public class Weapon {
 			
 			if (Trigger != null) Trigger.localPosition.Set(AnimTriggerTX.Evaluate(0),
 				AnimTriggerTY.Evaluate(0), AnimTriggerTZ.Evaluate(0));
+			
+			if (isOut) {
+				if(isAimed == true){
+					if (player) camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
+						ScopeZoom,Time.deltaTime*zoomSmoothing);
+					mainObject.transform.localPosition = new Vector3(
+						Mathf.Lerp(mainObject.transform.localPosition.x, ScopedPosition.x, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.y, ScopedPosition.y, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.z, ScopedPosition.z, (Time.time-lastAim)*AimSpeed));
+				} else {
+					if (player) camera.GetComponent<Camera>().fieldOfView = Mathf.Lerp(camera.GetComponent<Camera>().fieldOfView,
+						NormalZoom,Time.deltaTime*zoomSmoothing);
+					mainObject.transform.localPosition = new Vector3(
+						Mathf.Lerp(mainObject.transform.localPosition.x, Position.x, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.y, Position.y, (Time.time-lastAim)*AimSpeed),
+						Mathf.Lerp(mainObject.transform.localPosition.z, Position.z, (Time.time-lastAim)*AimSpeed));
+				}
+				mainObject.transform.parent = camera.transform;
+				mainObject.transform.localEulerAngles = new Vector3 (0,0,0);
+			} else {
+				mainObject.transform.parent = camera.transform.parent;
+				mainObject.transform.localPosition = StowedPosition;	
+			}
+			
 			break;
 			
 		case weaponAnimType.Firing :
@@ -803,11 +806,18 @@ public class Weapon {
 					}
 				}
 				
-				Slide.position.Set(AnimSlideTX.Evaluate(Time.time - lastShot),
+				Slide.localPosition = new Vector3 (AnimSlideTX.Evaluate(Time.time - lastShot),
 					AnimSlideTY.Evaluate(Time.time - lastShot), AnimSlideTZ.Evaluate(Time.time - lastShot));
 				
-				Trigger.position.Set(AnimTriggerTX.Evaluate(Time.time - lastShot),
+				Trigger.localPosition = new Vector3 (AnimTriggerTX.Evaluate(Time.time - lastShot),
 					AnimTriggerTZ.Evaluate(Time.time - lastShot), AnimTriggerTZ.Evaluate(Time.time - lastShot));
+				
+				mainObject.transform.localPosition = new Vector3 (AnimWeaponTX.Evaluate(Time.time - lastShot),
+					AnimWeaponTY.Evaluate(Time.time - lastShot), AnimWeaponTZ.Evaluate(Time.time - lastShot)) +
+					(isAimed ? ScopedPosition : Position);
+				
+				mainObject.transform.localEulerAngles = new Vector3 (AnimWeaponRX.Evaluate(Time.time - lastShot),
+					AnimWeaponRY.Evaluate(Time.time - lastShot), AnimWeaponRZ.Evaluate(Time.time - lastShot));
 			}
 			
 			
