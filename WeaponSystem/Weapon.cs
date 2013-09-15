@@ -163,49 +163,9 @@ public class Weapon {
 	
 	[HideInInspector]
 	/// <summary>
-	/// The hammer transform. Not visible in Inspector.
-	/// </summary>
-	public Transform Hammer;
-	[HideInInspector]
-	/// <summary>
 	/// The Slide transform. Not visible in Inspector.
 	/// </summary>
 	public Transform Slide;
-	[HideInInspector]
-	/// <summary>
-	/// The Trigger transform. Not visible in Inspector.
-	/// </summary>
-	public Transform Trigger;
-	/// <summary>
-	/// The angle, in degrees, that the camera moves up after each shot.
-	/// </summary>
-	public float CameraClimb = 2f;
-	/// <summary>
-	/// The angle, in degrees, that the camera moves left
-	/// and right after each shot.
-	/// </summary>
-	public float maxCameraSway = 2f;
-	/// <summary>
-	/// The angle, in degrees, that the gun pitches up.
-	/// Still slightly broken.
-	/// </summary>
-	public float gunAngle = 5f;
-	/// <summary>
-	/// The distance the gun moves backwards.
-	/// </summary>
-	public float gunDistance = 0.05f;
-	/// <summary>
-	/// The hammer rotation, in degrees.
-	/// </summary>
-	public float HammerRotation = 2f;
-	/// <summary>
-	/// The slide kickback distance.
-	/// </summary>
-	public float SlideDistance = 0.05f;
-	/// <summary>
-	/// The trigger slide distance.
-	/// </summary>
-	public float TriggerDistance = 0.05f;
 	/// <summary>
 	/// The slide's delay before moving backwards.
 	/// </summary>
