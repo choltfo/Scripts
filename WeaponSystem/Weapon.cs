@@ -252,6 +252,8 @@ public class Weapon {
 	public AnimationCurve AnimWeaponRY;
 	public AnimationCurve AnimWeaponRZ;
 	
+	public AnimationCurve AnimVerticalRecoil;
+	
 	public float maxRoundsPerSecond;
 	float lastShot = 0f;
 	public float shotDelay;
@@ -656,7 +658,6 @@ public class Weapon {
 	public virtual void AnimIdentify() {
 		if (animate) {
 			Slide = GameObject.Find(mainObject.name + "/" + Path + "Slide").transform;
-			Trigger = GameObject.Find(mainObject.name + "/" + Path + "Trigger").transform;
 		}
 		/* 						DEBUG
 		if (Hammer != null) {
@@ -689,7 +690,6 @@ public class Weapon {
 	float slideKickbackTime;
 	float slideReturnTime;
 	
-	public bool animateTrigger;
 	public bool animateSlide;
 	
 	/// <summary>
@@ -787,17 +787,10 @@ public class Weapon {
 					AnimIdentify();
 					if (Slide == null) {
 						animateSlide = false;
-					}
-				}
-			
-				if (Trigger == null) {
-					AnimIdentify();
-					if (Trigger == null) {
-						animateTrigger = false;
-					}
-				}
+					} else animateSlide = true;
+				} else animateSlide = true;
 				
-				Slide.localPosition = new Vector3 (AnimSlideTX.Evaluate(Time.time - lastShot),
+				if (animateSlide) Slide.localPosition = new Vector3 (AnimSlideTX.Evaluate(Time.time - lastShot),
 					AnimSlideTY.Evaluate(Time.time - lastShot), AnimSlideTZ.Evaluate(Time.time - lastShot));
 				
 				mainObject.transform.localPosition = new Vector3 (AnimWeaponTX.Evaluate(Time.time - lastShot),
@@ -806,6 +799,15 @@ public class Weapon {
 				
 				mainObject.transform.localEulerAngles = new Vector3 (AnimWeaponRX.Evaluate(Time.time - lastShot),
 					AnimWeaponRY.Evaluate(Time.time - lastShot), AnimWeaponRZ.Evaluate(Time.time - lastShot));
+				
+				if (player) {
+					mainObject.transform.parent.gameObject.GetComponent<MouseLookModded>().rotationY +=
+						(AnimVerticalRecoil.Evaluate(Time.time - lastShot) -
+					AnimVerticalRecoil.Evaluate(Time.time - lastShot - Time.deltaTime));
+				} else {
+					mainObject.transform.parent.Rotate(AnimVerticalRecoil.Evaluate(Time.time - lastShot) -
+					AnimVerticalRecoil.Evaluate(Time.time - lastShot - Time.deltaTime),0,0);
+				}
 			}
 			
 			
