@@ -129,6 +129,8 @@ public class PathfindingEnemy : Enemy {
 	// Update is called once per frame
 	void FixedUpdate () {
 		
+		checkTarget();
+		
 		ready = ((int)transform.position.z == (int)getZXPosition(PFNC.currentNode.transform.position).z &&
 			(int)transform.position.x == (int)getZXPosition(PFNC.currentNode.transform.position).x);
 			
@@ -184,8 +186,13 @@ public class PathfindingEnemy : Enemy {
 	}
 	
 	public void checkTarget() {
-		if (!targets.Contains(target)) {
+		if (target	 == null) {
+			return;
+		}
+			
+		if (!target.gameObject.activeInHierarchy) {
 			alerted = false;
+			return;
 		}
 	}
 	

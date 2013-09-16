@@ -77,6 +77,28 @@ public class ShootingEnemy : PathfindingEnemy {
 	public override void childFixedUpdate () {
 		weapon.AnimUpdate();
 		
+		//Look towards predetermined target
+		if (target != null) {
+			Vector3 targetPos = target.transform.position;
+			Vector3 currentPos = head.transform.position;
+			Vector3 relativePos = targetPos - currentPos ;
+			rotation = Quaternion.LookRotation(relativePos);
+			if (!isAimed){
+				head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
+				if (weapon.isAimed) {
+					weapon.aim();
+				}
+			} else {
+				head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * scopedRotSpd);
+				if (!weapon.isAimed) {
+					weapon.aim();
+				}
+			}
+			
+		}
+		
+		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < satisfactoryAimInDegrees;
+		
 		if (!alerted) checkAnyVisible();
 		
 		
@@ -103,21 +125,9 @@ public class ShootingEnemy : PathfindingEnemy {
 		// END weapon handling system.
 		
 		
-		//Look towards predetermined target
-		if (target != null) {
-			Vector3 targetPos = target.transform.position;
-			Vector3 currentPos = head.transform.position;
-			Vector3 relativePos = targetPos - currentPos ;
-			rotation = Quaternion.LookRotation(relativePos);
-			if (!isAimed){
-				head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
-			} else {
-				head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * scopedRotSpd);
-			}
-			
-		}
+		
 																	// Satisfactory aiming criteria. In degrees.
-		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < satisfactoryAimInDegrees ;//&&
+		//&&
 			//!Physics.Linecast (head.transform.position, target.transform.position);
 	}
 	
