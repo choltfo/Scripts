@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
 
 public class SaveStateManager : MonoBehaviour {
 	
@@ -12,9 +15,11 @@ public class SaveStateManager : MonoBehaviour {
 		savePaths = System.IO.File.ReadAllLines(savePathsPath);
 	}
 	
-	public void load (int index, out object obj) {
+	public object load (int index, object obj) {
 		obj = DeSerialize(System.IO.File.ReadAllText(savePathsPath) +
-			GetGameObjectPath(((Component)obj).gameObject) + obj.GetType().ToString;
+			GetGameObjectPath(((Component)obj).gameObject) + obj.GetType().ToString(), obj.GetType());
+		
+		return obj;
 	}
 	
 	public void save (string path) {
@@ -22,12 +27,14 @@ public class SaveStateManager : MonoBehaviour {
 		XmlDocument doc = new XmlDocument();
 		foreach (Object obj in objects) {
 			if (obj is GameObject) {
-				GameObject go = (GO)obj;
+				GameObject go = (GameObject)obj;
 				if (!go.isStatic) {
 					Component[] comps =  go.GetComponents<Component>();
 					
 					foreach (Component comp in comps) {
-						
+						System.IO.StreamWriter file = new System.IO.StreamWriter(System.IO.File.ReadAllText(savePathsPath) +
+			GetGameObjectPath(((Component)obj).gameObject) + obj.GetType().ToString());
+						file.WriteLine(lines);
 					}
 					
 				}
@@ -35,6 +42,7 @@ public class SaveStateManager : MonoBehaviour {
 		}
 	}
 	
+	// duck on unity answers
 	
 	public static string GetGameObjectPath(GameObject obj) {
 		string path = "/" + obj.name;
@@ -68,7 +76,7 @@ public class SaveStateManager : MonoBehaviour {
 }
  
 
-public static object DeSerialize (string xml, Type type)
+public static object DeSerialize (string xml, System.Type type)
 {
     object obj;
     XmlSerializer deserializer = new XmlSerializer(type);
@@ -78,16 +86,5 @@ public static object DeSerialize (string xml, Type type)
     }
 		return obj;
 }
-		// duck on unity answers
-		public static string GetGameObjectPath(GameObject obj)
-{
-    string path = "/" + obj.name;
-    while (obj.transform.parent != null)
-    {
-        obj = obj.transform.parent.gameObject;
-        path = "/" + obj.name + path;
-    }
-    return path;
-}
-	
+		
 }
