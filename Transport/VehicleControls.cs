@@ -3,6 +3,7 @@ using System.Collections;
  
 [RequireComponent (typeof (Rigidbody))]
 [RequireComponent (typeof (ConstantForce))]
+[RequireComponent (typeof (AudioSource))]
 
 /// <summary>
 /// Vehicle controls.
@@ -36,6 +37,7 @@ public class VehicleControls : MonoBehaviour {
 	public float maxHealth = 100f;
 	
 	public vehicleType type;
+	
 	
 	void OnCollisionStay(Collision C) {
 		
