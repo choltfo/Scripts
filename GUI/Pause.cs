@@ -47,6 +47,7 @@ public class Pause : MonoBehaviour {
 	/// 
 	/// 	
 	
+	public SaveStateManager SSM;
 	
 	void Update () {
 		
@@ -130,6 +131,16 @@ public class Pause : MonoBehaviour {
 					}
 					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,200,itemWidth,itemHeight), "Controls")) {
 						pane = "/Pause/Controls";
+					}
+					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,275,itemWidth,itemHeight), "Save")) {
+						Debug.Log("Saving... Please wait....");
+						SSM.save(System.IO.File.ReadAllText("Assets/Resources/SaveGames/"+SSM.savePathsPath));
+						Debug.Log("Done saving!");
+					}
+					if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,350,itemWidth,itemHeight), "Load")) {
+						Debug.Log("Loading... Please wait....");
+						SSM.load(0, this);
+						Debug.Log("Done loading!");
 					}
 					//if (GUI.Button(new Rect((Screen.width/2)-itemWidth/2,275,itemWidth,itemHeight), "Reload")) {
 					//	Time.timeScale = 1f;

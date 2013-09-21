@@ -9,7 +9,7 @@ public class SaveStateManager : MonoBehaviour {
 	
 	public string[] savePaths;
 	
-	public string savePathsPath = @"SaveGames\Index.txt";
+	public string savePathsPath = @"Index.txt";
 	
 	public void findFiles () {
 		savePaths = System.IO.File.ReadAllLines(savePathsPath);
@@ -26,20 +26,25 @@ public class SaveStateManager : MonoBehaviour {
 		Object[] objects = Object.FindObjectsOfType(typeof(GameObject));
 		XmlDocument doc = new XmlDocument();
 		foreach (Object obj in objects) {
-			if (obj is GameObject) {
+			if (obj is Component) {
 				GameObject go = (GameObject)obj;
 				if (!go.isStatic) {
 					Component[] comps =  go.GetComponents<Component>();
 					
 					foreach (Component comp in comps) {
-						System.IO.StreamWriter file = new System.IO.StreamWriter(System.IO.File.ReadAllText(savePathsPath) +
+						System.IO.StreamWriter file = new System.IO.StreamWriter("Assets/Resources/SaveGames/"+System.IO.File.ReadAllText("Assets/Resources/SaveGames/"+savePathsPath) +
 			GetGameObjectPath(((Component)obj).gameObject) + obj.GetType().ToString());
-						file.WriteLine(lines);
+						file.WriteLine(Serialize(comp) );
 					}
 					
 				}
 			}
 		}
+		
+		System.IO.StreamWriter fileL = new System.IO.StreamWriter("Assets/Resources/SaveGames/"+System.IO.File.ReadAllText("Assets/Resources/SaveGames/"+savePathsPath) +
+				GetGameObjectPath(gameObject) + @"\" +gameObject.transform.GetType().ToString());
+		fileL.WriteLine(Serialize(gameObject.transform));
+		
 	}
 	
 	// duck on unity answers
