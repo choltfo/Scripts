@@ -94,7 +94,9 @@ public class SaveStateManager : MonoBehaviour {
 					
 					// ADD NEW CASES HERE!
 					
-					
+					//case "Health" :
+						
+					//break;
 				}
 				
 				
@@ -104,5 +106,55 @@ public class SaveStateManager : MonoBehaviour {
 		
 		return;	// Why not?
 	
+	}
+
+	public void save () {
+		// Write the string to a file.
+		System.IO.StreamWriter file = new System.IO.StreamWriter(savePath);
+		
+		
+		object[] allObjects = FindObjectsOfTypeAll(typeof(GameObject));
+		foreach(object thisObject in allObjects) {
+			if (((GameObject) thisObject).activeInHierarchy && !((GameObject) thisObject).isStatic) {
+				print(thisObject+" is an active object") ;
+				file.WriteLine(savePerGO((GameObject)thisObject));
+			}
+		}
+		file.Close();
+	}
+	
+	public String savePerGO (GameObject go) {
+		String output = GetGameObjectPath(go);
+		foreach (Component c in go.GetComponents<Component>()) {
+			String CompOut = "";
+			if (c is Transform) {
+				Transform t = (Transform)c;
+				CompOut += "Transform:"+
+					t.localPosition.x+","+
+					t.localPosition.y+","+
+					t.localPosition.z+":"+
+						
+					t.localEulerAngles.x+","+
+					t.localEulerAngles.y+","+
+					t.localEulerAngles.z+":"+
+						
+					t.localPosition.x+","+
+					t.localPosition.y+","+
+					t.localPosition.z;
+				output += "$" + CompOut;
+			}
+		}
+		return output;
+	}
+	
+	
+	// Thanks to 'duck' on unity answers!
+	public static string GetGameObjectPath(GameObject obj) {
+		string path = "/" + obj.name;
+		while (obj.transform.parent != null) {
+			obj = obj.transform.parent.gameObject;
+			path = "/" + obj.name + path;
+		}
+		return path;
 	}
 }
