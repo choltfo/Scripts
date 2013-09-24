@@ -78,7 +78,7 @@ public class SaveStateManager : MonoBehaviour {
 						float yrot = float.Parse(rotStrings[1]);
 						float zrot = float.Parse(rotStrings[2]);
 					
-						go.transform.Rotate(xrot, yrot, zrot);
+						go.transform.localEulerAngles = new Vector3(xrot, yrot, zrot);
 						
 						
 						string[] scaleString = scale.Split(',');
@@ -94,9 +94,9 @@ public class SaveStateManager : MonoBehaviour {
 					
 					// ADD NEW CASES HERE!
 					
-					//case "Health" :
-						
-					//break;
+					case "ShootObjects" :
+						((ShootObjects)go.GetComponent(type)).inventory.load(vals);
+					break;
 				}
 				
 				
@@ -126,9 +126,9 @@ public class SaveStateManager : MonoBehaviour {
 	public String savePerGO (GameObject go) {
 		String output = GetGameObjectPath(go);
 		foreach (Component c in go.GetComponents<Component>()) {
-			String CompOut = "";
 			if (c is Transform) {
 				Transform t = (Transform)c;
+				String CompOut = "";
 				CompOut += "Transform:"+
 					t.localPosition.x+","+
 					t.localPosition.y+","+
@@ -138,10 +138,16 @@ public class SaveStateManager : MonoBehaviour {
 					t.localEulerAngles.y+","+
 					t.localEulerAngles.z+":"+
 						
-					t.localPosition.x+","+
-					t.localPosition.y+","+
-					t.localPosition.z;
+					t.localScale.x+","+
+					t.localScale.y+","+
+					t.localScale.z;
 				output += "$" + CompOut;
+			}
+			if (c is ShootObjects) {
+				
+				// For SO, the only thing that changes is the inventory. So, save that. 
+				
+				output += "$" + ((ShootObjects)c).inventory.save();
 			}
 		}
 		return output;
