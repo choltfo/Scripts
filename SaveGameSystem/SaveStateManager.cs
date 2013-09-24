@@ -20,8 +20,8 @@ public class SaveStateManager : MonoBehaviour {
 			//Continue to read until you reach end of file
 			while (line != null) {
 				//write the lie to console window
-				Debug.log("LOAD: " + line);
-				loadPerGO (line);
+				Debug.Log("LOAD: " + line);
+				if (!line.StartsWith("//")) loadPerGO (line);
 				//Read the next line
 				line = sr.ReadLine();
 			}
@@ -29,55 +29,75 @@ public class SaveStateManager : MonoBehaviour {
 			sr.Close();
 		}
 		catch(Exception e) {
-			Console.WriteLine("Exception: " + e.Message);
+			Debug.Log("Exception: " + e.Message);
 		}
    		finally {
-			Console.WriteLine("Executing finally block.");
+			Debug.Log("Executing finally block.");
 		}
 	}
 	
 	public void loadPerGO (string S) {
 		
-		string[] parts = S.Split("$");		// Seperates path and each data block.
+		string[] parts = S.Split('$');		// Seperates path and each data block.
 											// Each type of compoenent must have a specific code section programmed below.
 		string path = parts[0];
-		string[] objs = new string[parts.Length-1];
-		Array.copy(parts, 1, objs, 0, parts.Length-2);	// Copy each part of the string that isn't the path to an array.
+		//string[] objs = new string[parts.Length-1];
+		//Array.Copy(parts, 1, objs, 0, parts.Length-2);	// Copy each part of the string that isn't the path to an array.
 		
 		GameObject go = GameObject.Find(path);
 		
+		print("Found GameObject, attempting variable changes....");
+		
 		if (go != null) {
-			foreach (String s in objs) {	// For each component declaration in the string...
-				string[] vals = val.Split(":");	// Get each relevant set of values...
+			print ("GameObject at '"+path+"' was not null, continuing...");
+			for (int i = 1; i < parts.Length; i++) {		// For each component declaration in the string...
+				string[] vals = parts[i].Split(':');	// Get each relevant set of values...
 				string type = vals[0];			// And the type.
 				
-				Component c = go.GetComponent(type);
-				
-				switch (typeof(c)) {
-					case typeof(Transform) :
+				//Component c = go.GetComponent(type);
+				print (type);
+				switch (type) {
+					case "Transform" :
+						print ("Tweaking transform....");
 						string position = vals[1];
 						string rotation = vals[2];
 						string scale    = vals[3];
 						
-						string[] posStrings = position.Split(",");
+						string[] posStrings = position.Split(',');
 						
 						float xpos = float.Parse(posStrings[0]);
 						float ypos = float.Parse(posStrings[1]);
 						float zpos = float.Parse(posStrings[2]);
 					
-						gameObject.transform.localPosition = new Vector3(xpos, ypos, zpos);
+						go.transform.localPosition = new Vector3(xpos, ypos, zpos);
+					
 						// IMPORTANT: THIS MUST BE LocalEulerAngles!
-						string[] rotStrings = rotation.Split(",");
+						string[] rotStrings = rotation.Split(',');
 						
 						float xrot = float.Parse(rotStrings[0]);
 						float yrot = float.Parse(rotStrings[1]);
 						float zrot = float.Parse(rotStrings[2]);
 					
-						gameObject.transform.Rotate(xrot, yrot, zrot);
+						go.transform.Rotate(xrot, yrot, zrot);
+						
+						
+						string[] scaleString = scale.Split(',');
+						
+						float xsca = float.Parse(scaleString[0]);
+						float ysca = float.Parse(scaleString[1]);
+						float zsca = float.Parse(scaleString[2]);
+					
+						go.transform.localScale = new Vector3(xsca, ysca, zsca);
 						
 						
 					break;
+					
+					// ADD NEW CASES HERE!
+					
+					
 				}
+				
+				
 				
 			}
 		}
