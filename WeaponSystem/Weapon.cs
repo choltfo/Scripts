@@ -96,7 +96,7 @@ public class Weapon {
 	/// <summary>
 	/// The path to the animated objects, e.g muzzle flare and slide.
 	/// </summary>
-	public string Path = ".../";
+	public string path = ".../";
 	//[HideInInspector]
 	/// <summary>
 	/// Whether or not the gun is valid. Not visible in Inspector.
@@ -247,8 +247,8 @@ public class Weapon {
 	/// <param name='Damage'>
 	/// Damage.
 	/// </param>
-	/// <param name='Path'>
-	/// Path to animated components.
+	/// <param name='path'>
+	/// path to animated components.
 	/// </param>
 	/// <param name='FireRate'>
 	/// Fire rate in rounds per 30 updates.
@@ -257,7 +257,7 @@ public class Weapon {
 	/// Automatic?
 	/// </param>
 	public Weapon(GameObject MainObject, Vector3 Position, Vector3 ScopedPosition,
-		int MaxAmmo, string WeaponName, int Damage, string Path, float FireRate, bool Automatic) {
+		int MaxAmmo, string WeaponName, int Damage, string path, float FireRate, bool Automatic) {
 		
 		this.InstantiableObject = MainObject;
 		this.Position           = Position;
@@ -267,7 +267,7 @@ public class Weapon {
 		this.WeaponName         = WeaponName;
 		this.IsValid            = true;
 		this.Damage             = Damage;
-		this.Path               = Path;
+		this.path               = path;
 		this.fireRate           = FireRate;
 		this.Automatic          = Automatic;
 	}
@@ -295,8 +295,8 @@ public class Weapon {
 		Gun.transform.parent = player.transform;
 		Gun.transform.localPosition = Position;
 		mainObject = Gun;
-		if (mainObject.transform.FindChild(Path + "Flash") != null) {
-			flash = mainObject.transform.FindChild(Path + "Flash").gameObject;
+		if (mainObject.transform.FindChild(path + "Flash") != null) {
+			flash = mainObject.transform.FindChild(path + "Flash").gameObject;
 			flash.SetActive(false);
 		}
 		
@@ -617,7 +617,7 @@ public class Weapon {
 	/// </summary>
 	public virtual void AnimIdentify() {
 		if (animate) {
-			Slide = GameObject.Find(mainObject.name + "/" + Path + "Slide").transform;
+			Slide = GameObject.Find(mainObject.name + "/" + path + "Slide").transform;
 		}
 		/* 						DEBUG
 		if (Hammer != null) {
@@ -641,7 +641,7 @@ public class Weapon {
 	/// Finds the flash.
 	/// </summary>
 	void findFlash() {
-		flash = GameObject.Find(mainObject.transform.name + "/" + Path + "Flash");
+		flash = GameObject.Find(mainObject.transform.name + "/" + path + "Flash");
 	}
 	
 	
@@ -796,7 +796,7 @@ public class Weapon {
 	}
 	
 	public void foldFrontSight() {
-		Transform sightPost = mainObject.transform.FindChild(Path + "FrontSight");
+		Transform sightPost = mainObject.transform.FindChild(path + "FrontSight");
 		if (sightPost) {
 			sightPost.Rotate(90,0,0);
 		}

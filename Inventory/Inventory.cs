@@ -11,7 +11,7 @@ public class Inventory {
 	public List<Grenade> grenades = new List<Grenade>();
 	public Items[] items;
 	public List<WeaponAttachment> attachments;
-	public List<FoodStuff> foods;
+	//public List<FoodStuff> foods;
 	
 	
 	// Receives all the data sections after 'Shootobjects:'

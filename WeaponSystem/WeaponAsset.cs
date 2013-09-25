@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
-
+using System.IO;
+using System.Reflection;
+using System.Linq.Expressions.MemberExpression;
 
 [System.Serializable]
 public class WeaponAsset : ScriptableObject {
@@ -30,7 +33,7 @@ public class WeaponAsset : ScriptableObject {
 	public int CurAmmo;
 	public string WeaponName;
 	public string DisplayName;
-	public string Path = ".../";
+	public string path = ".../";
 	public bool IsValid = false;
 	public bool Automatic;
 	public float Range = 300f;
@@ -98,5 +101,46 @@ public class WeaponAsset : ScriptableObject {
 	public float shotDelay;
 	
 	public float reloadTime = 5f;
+	
+	[MenuItem("Assets/Create/New Weapon")]
+	public static void CreateAsset ()
+	{
+		CreateAsset<WeaponAsset> ();
+		
+		Weapon w = new Weapon();
+		
+		Type t = this.getType();
+		
+		foreach (FieldInfo f in typeof(t).GetFields()) {
+			string name = ((MemberExpression)memberAccess.Body).Member.Name;
+			typeof(w).GetProperty(name).SetValue(w, typeof(t).GetProperty(name).GetValue(this));
+		}
+	}
+	
+	/// <summary>
+	//	This makes it easy to create, name and place unique new ScriptableObject asset files.
+	/// </summary>
+	public static void CreateAsset<T> () where T : ScriptableObject
+	{
+		T asset = ScriptableObject.CreateInstance<T> ();
+ 
+		string filePath = AssetDatabase.GetAssetPath (Selection.activeObject);
+		if (filePath == "") 
+		{
+			filePath = "Assets";
+		} 
+		else if (Path.GetExtension (filePath) != "") 
+		{
+			filePath = filePath.Replace (Path.GetFileName (AssetDatabase.GetAssetPath (Selection.activeObject)), "");
+		}
+ 
+		string assetfilePathAndName = AssetDatabase.GenerateUniqueAssetPath (filePath + "/New " + typeof(T).ToString() + ".asset");
+ 
+		AssetDatabase.CreateAsset (asset, assetfilePathAndName);
+ 
+		AssetDatabase.SaveAssets ();
+		EditorUtility.FocusProjectWindow ();
+		Selection.activeObject = asset;
+	}
 	
 }
