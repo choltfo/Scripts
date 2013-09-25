@@ -650,7 +650,7 @@ public class Weapon {
 	float slideKickbackTime;
 	float slideReturnTime;
 	
-	public bool animateSlide;
+	bool animateSlide;
 	
 	/// <summary>
 	/// Update animations.
