@@ -3,7 +3,8 @@ using UnityEditor;
 using System.Collections;
 using System.IO;
 using System.Reflection;
-using System.Linq.Expressions.MemberExpression;
+using System.Linq.Expressions;
+using System;
 
 [System.Serializable]
 public class WeaponAsset : ScriptableObject {
@@ -102,19 +103,12 @@ public class WeaponAsset : ScriptableObject {
 	
 	public float reloadTime = 5f;
 	
+	public bool animateSlide;
+	
 	[MenuItem("Assets/Create/New Weapon")]
 	public static void CreateAsset ()
 	{
 		CreateAsset<WeaponAsset> ();
-		
-		Weapon w = new Weapon();
-		
-		Type t = this.getType();
-		
-		foreach (FieldInfo f in typeof(t).GetFields()) {
-			string name = ((MemberExpression)memberAccess.Body).Member.Name;
-			typeof(w).GetProperty(name).SetValue(w, typeof(t).GetProperty(name).GetValue(this));
-		}
 	}
 	
 	/// <summary>

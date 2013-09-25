@@ -15,7 +15,7 @@ public class Inventory {
 	
 	
 	// Receives all the data sections after 'Shootobjects:'
-	public void load (string[] data) {
+	public void load (string[] data) { 
 		int dataPoint = 0;
 		for (int i = 0; i < ammo.Length; i++) {	// Pull all the ammo data, and continue.
 			ammo[i] = int.Parse(data[i]);
