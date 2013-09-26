@@ -31,7 +31,15 @@ public class WeaponCreationHandler : EditorWindow {
 		WP = (WeaponPickup)EditorGUILayout.ObjectField(WP, typeof(WeaponPickup));
 		WA = (WeaponAsset)EditorGUILayout.ObjectField(WA, typeof(WeaponAsset));
 		if (GUILayout.Button("Save data!")) {
+			WP.thisGun.UID = UID;
 			weaponTranScript();
+		}
+		if (GUILayout.Button("Get # of weapons")) {
+			UnityEngine.Object[] GUNS = Resources.FindObjectsOfTypeAll(typeof(WeaponAsset));
+			Debug.Log(GUNS.Length);
+			foreach (UnityEngine.Object g in GUNS) {
+				Debug.Log(((WeaponAsset)g).DisplayName, g);
+			}
 		}
 	}
 	

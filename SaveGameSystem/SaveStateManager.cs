@@ -48,6 +48,8 @@ public class SaveStateManager : MonoBehaviour {
 		
 		//print("Found GameObject, attempting variable changes....");
 		
+		//if (go.layer == LayerMask.NameToLayer("PlayerWeapon")) return;
+		
 		if (go != null) {
 			//print ("GameObject at '"+path+"' was not null, continuing...");
 			for (int i = 1; i < parts.Length; i++) {		// For each component declaration in the string...
@@ -98,6 +100,14 @@ public class SaveStateManager : MonoBehaviour {
 						((ShootObjects)go.GetComponent(type)).inventory.load(vals);
 						((ShootObjects)go.GetComponent(type)).refresh();
 					break;
+					case "ShootingEnemy" :
+						String CompOut = "ShootingEnemy:";
+						
+						go.SetActive(bool.Parse(vals[1]));
+						go.GetComponent<ShootingEnemy>().weapon = WeaponHandler.getWeapon(int.Parse(vals[2]));
+						go.GetComponent<ShootingEnemy>().target = (vals[3] == "null") ? null : 
+								GameObject.Find(vals[3]).GetComponent<Enemy>();
+					break;
 				}
 			}
 		}
@@ -143,6 +153,21 @@ public class SaveStateManager : MonoBehaviour {
 				// For SO, the only thing that changes is the inventory. So, save that. 
 				
 				output += "$" + ((ShootObjects)c).inventory.save();
+			}
+			if (c is ShootingEnemy) {
+				String CompOut = "ShootingEnemy:";
+				
+				CompOut += c.gameObject.activeInHierarchy.ToString();
+				CompOut += ((ShootingEnemy)c).weapon.UID;
+				
+				if (((ShootingEnemy)c).target != null) {
+					GameObject enemy = ((ShootingEnemy)c).target.gameObject;
+					CompOut += GetGameObjectPath(((ShootingEnemy)c).target.gameObject);
+				} else {
+					CompOut += "null";
+				}
+				
+				output += "$" + CompOut;
 			}
 		}
 		return output;

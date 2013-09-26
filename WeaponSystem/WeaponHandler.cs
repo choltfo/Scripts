@@ -10,6 +10,7 @@ public static class WeaponHandler {
 	public static Weapon getWeapon (int UID) {
 		WeaponAsset[] weapons = getWeapons();
 		foreach (WeaponAsset WA in weapons) {
+			Debug.Log("Checking weapon " + WA.DisplayName + " for UID " + UID);
 			if (WA.UID == UID) {
 				return convertAsset(WA);
 			}
