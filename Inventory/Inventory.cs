@@ -16,13 +16,21 @@ public class Inventory {
 	
 	// Receives all the data sections after 'Shootobjects:'
 	public void load (string[] data) { 
-		int dataPoint = 0;
+		int dataPoint = 2;	// So that it skips over the 'ShootObjects' declarator, and the 'AMMO' declarator.
+		string[] newAmmo = (data[dataPoint]).Split(',');
 		for (int i = 0; i < ammo.Length; i++) {	// Pull all the ammo data, and continue.
-			ammo[i] = int.Parse(data[i]);
-			dataPoint ++;
+			Debug.Log("Ammo type " + i.ToString() + " = " + newAmmo[i]);
+			ammo[i] = int.Parse(newAmmo[i]);
 		}
+		dataPoint ++;
 		
-		loadWeapons(data[dataPoint+1], data[dataPoint+2]);
+		foreach(var item in data)
+  		  Debug.Log(item.ToString());
+		
+		string[] weapons = data[dataPoint].Split('#');
+		
+		Debug.Log("Weapon UIDs: " + weapons[1] + " and " + weapons[2]);
+		loadWeapons(weapons[1], weapons[2]);
 		
 		dataPoint+=2;
 		
@@ -71,4 +79,6 @@ public class Inventory {
 	public void loadGrenades (string input) {
 		
 	}
+
+	
 }

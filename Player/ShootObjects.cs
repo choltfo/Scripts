@@ -117,6 +117,15 @@ public class ShootObjects : MonoBehaviour {
 		}
 	}
 	
+	public void refresh () {
+		inventory.weapons[0].destroy();
+		inventory.weapons[1].destroy();
+		inventory.weapons[0].create(gameObject, true);
+		inventory.weapons[0].stow();
+		inventory.weapons[1].create(gameObject, true);
+		inventory.weapons[1].withdraw();
+	}
+	
 	public void toggleFlashLights() {
 		if (!inventory.weapons[currentWeapon].IsValid) return;
 		foreach (HardPoint hp in inventory.weapons[currentWeapon].attachments) {

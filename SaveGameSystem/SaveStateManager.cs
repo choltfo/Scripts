@@ -20,7 +20,7 @@ public class SaveStateManager : MonoBehaviour {
 			//Continue to read until you reach end of file
 			while (line != null) {
 				//write the lie to console window
-				Debug.Log("LOAD: " + line);
+				//Debug.Log("LOAD: " + line);
 				if (!line.StartsWith("//")) loadPerGO (line);
 				//Read the next line
 				line = sr.ReadLine();
@@ -29,7 +29,7 @@ public class SaveStateManager : MonoBehaviour {
 			sr.Close();
 		}
 		catch(Exception e) {
-			Debug.Log("Exception: " + e.Message);
+			Debug.Log("Exception: " + e.Message + " : " + e.StackTrace);
 		}
    		finally {
 			Debug.Log("Executing finally block.");
@@ -55,10 +55,10 @@ public class SaveStateManager : MonoBehaviour {
 				string type = vals[0];			// And the type.
 				
 				//Component c = go.GetComponent(type);
-				print (type);
+				//print (type);
 				switch (type) {
 					case "Transform" :
-						print ("Tweaking transform....");
+						//print ("Tweaking transform....");
 						string position = vals[1];
 						string rotation = vals[2];
 						string scale    = vals[3];
@@ -96,16 +96,11 @@ public class SaveStateManager : MonoBehaviour {
 					
 					case "ShootObjects" :
 						((ShootObjects)go.GetComponent(type)).inventory.load(vals);
+						((ShootObjects)go.GetComponent(type)).refresh();
 					break;
 				}
-				
-				
-				
 			}
 		}
-		
-		return;	// Why not?
-	
 	}
 
 	public void save () {

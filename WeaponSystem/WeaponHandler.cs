@@ -21,6 +21,7 @@ public static class WeaponHandler {
 	public static Weapon getWeapon (string name) {
 		WeaponAsset[] weapons = getWeapons();
 		foreach (WeaponAsset WA in weapons) {
+			Debug.Log(WA.WeaponName + ": " + WA.UID);
 			if (WA.WeaponName == name || WA.DisplayName == name) {
 				return convertAsset(WA);
 			}
@@ -45,6 +46,6 @@ public static class WeaponHandler {
 			typeof(Weapon).GetField(name).SetValue(W, obj);
 		}
 		
-		return new Weapon();
+		return W;
 	}
 }
