@@ -7,6 +7,9 @@ using System.Collections;
 /// Represents a weapon that can be fired by <see cref="Shootobjects"/>.
 /// </summary>
 public class Weapon {
+	
+	public float UID;
+	
 	/// <summary>
 	/// The prefab that should
 	/// Be created when this gun
@@ -220,7 +223,7 @@ public class Weapon {
 	
 	public float reloadTime = 5f;
 	
-	
+	public bool animateSlide;
 	
 	//public UnderbarrelAttachment underbarrel;
 	
@@ -650,7 +653,7 @@ public class Weapon {
 	float slideKickbackTime;
 	float slideReturnTime;
 	
-	bool animateSlide;
+	
 	
 	/// <summary>
 	/// Update animations.

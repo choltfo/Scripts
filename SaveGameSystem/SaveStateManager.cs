@@ -46,10 +46,10 @@ public class SaveStateManager : MonoBehaviour {
 		
 		GameObject go = GameObject.Find(path);
 		
-		print("Found GameObject, attempting variable changes....");
+		//print("Found GameObject, attempting variable changes....");
 		
 		if (go != null) {
-			print ("GameObject at '"+path+"' was not null, continuing...");
+			//print ("GameObject at '"+path+"' was not null, continuing...");
 			for (int i = 1; i < parts.Length; i++) {		// For each component declaration in the string...
 				string[] vals = parts[i].Split(':');	// Get each relevant set of values...
 				string type = vals[0];			// And the type.

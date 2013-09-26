@@ -8,7 +8,9 @@ using System;
 
 [System.Serializable]
 public class WeaponAsset : ScriptableObject {
-
+	
+	public float UID;
+	
 	public GameObject InstantiableObject;
 	public GameObject InstantiablePickup;
 	public float price;

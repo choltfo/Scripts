@@ -48,28 +48,16 @@ public class Inventory {
 	}
 	
 	public string saveWeapons () {
-		string weaponZero = weapons[0].SerializeXml();
-		string[] weaponZeroAsArray = weaponZero.Split('\n');
-		weaponZero = String.Join("",weaponZeroAsArray);
-		weaponZeroAsArray = weaponZero.Split('\r');
-		weaponZero = String.Join("",weaponZeroAsArray);
-		
-		string weaponOne = weapons[0].SerializeXml();
-		string[] weaponOneAsArray = weaponZero.Split('\n');
-		weaponOne = String.Join("",weaponZeroAsArray);
-		weaponOneAsArray = weaponZero.Split('\r');
-		weaponOne = String.Join("",weaponZeroAsArray);
-		
-		return "WEAPONS#"+weaponZero+"#"+weaponOne;
+		return "WEAPONS#"+weapons[0].UID+"#"+weapons[1].UID;
 	}
 	
 	public void loadWeapons (string W1, string W0) {
-		loadWeapon(W0, 0);
-		loadWeapon(W1, 1);
+		loadWeapon(int.Parse(W0), 0);
+		loadWeapon(int.Parse(W1), 1);
 	}
 	
-	public void loadWeapon (string xml, int index) {
-		weapons[index] = XmlSupport.DeserializeXml<Weapon>(xml);
+	public void loadWeapon (int UID, int index) {
+		weapons[index] = WeaponHandler.getWeapon(UID);
 	}
 	
 	public string saveGrenades () {
