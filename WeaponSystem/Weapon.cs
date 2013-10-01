@@ -230,52 +230,6 @@ public class Weapon {
 	//TODO Add reloading animations.
 	
 	/// <summary>
-	/// Initializes a new instance of the <see cref="Weapon"/> class with the specified attrtibutes.
-	/// </summary>
-	/// <param name='MainObject'>
-	/// Main object to instantiate.
-	/// </param>
-	/// <param name='Position'>
-	/// Position when holding at hip.
-	/// </param>
-	/// <param name='ScopedPosition'>
-	/// Scoped position.
-	/// </param>
-	/// <param name='MaxAmmo'>
-	/// Max ammo in clip.
-	/// </param>
-	/// <param name='WeaponName'>
-	/// Weapon name.
-	/// </param>
-	/// <param name='Damage'>
-	/// Damage.
-	/// </param>
-	/// <param name='path'>
-	/// path to animated components.
-	/// </param>
-	/// <param name='FireRate'>
-	/// Fire rate in rounds per 30 updates.
-	/// </param>
-	/// <param name='Automatic'>
-	/// Automatic?
-	/// </param>
-	public Weapon(GameObject MainObject, Vector3 Position, Vector3 ScopedPosition,
-		int MaxAmmo, string WeaponName, int Damage, string path, float FireRate, bool Automatic) {
-		
-		this.InstantiableObject = MainObject;
-		this.Position           = Position;
-		this.ScopedPosition     = ScopedPosition;
-		this.MaxAmmo            = MaxAmmo;
-		CurAmmo                 = MaxAmmo;
-		this.WeaponName         = WeaponName;
-		this.IsValid            = true;
-		this.Damage             = Damage;
-		this.path               = path;
-		this.fireRate           = FireRate;
-		this.Automatic          = Automatic;
-	}
-	
-	/// <summary>
 	/// Initializes a blank instance of the <see cref="Weapon"/> class.
 	/// </summary>
 	public Weapon() {
@@ -359,6 +313,32 @@ public class Weapon {
 		}
 	}
 	
+	/// <summary>
+	/// generates a new BulletHit that can be used for calculating reflections and shots.
+	/// </summary>
+	/// <returns>
+	/// The bullet hit generated.
+	/// </returns>
+	/// <param name='Hit'>
+	/// The raycastHit to use.
+	/// </param>
+	/// <param name='shooter'>
+	/// The Enemy that shot the gun.
+	/// </param>
+	public BulletHit generateHit(RaycastHit Hit, Enemy shooter) {
+		BulletHit bh = new BulletHit();
+		bh.BloodSpray = BloodSpray;
+		bh.BulletHole = BulletHole;
+		bh.caliber = ammoType;
+		bh.Damage = Damage;
+		bh.DirtSpray = DirtSpray;
+		bh.hit = Hit;
+		bh.HitStrength = HitStrength;
+		bh.maxRange = Range;
+		bh.origin = camera.transform.position;
+		bh.shooter = shooter;
+		return bh;
+	}
 	
 	
 	public virtual void withdraw() {
@@ -413,7 +393,7 @@ public class Weapon {
 		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && AnimClock == 0 && curAnim == weaponAnimType.None){
 			CurAmmo -= 1;
 			mainObject.GetComponent<AudioSource>().Play();
-			
+			PathfindingEnemy.hearNoise(shooter, actualDetectionDistance);
 			//Debug.Log("Setting anim clock to " + ((int)(30/(7.5*FireRateAsPercent / 100))) + 
 			//	", or " + (30/(7.5*FireRateAsPercent / 100)));
 			//Debug.Log("Acheived via (30/(7.5*(" + FireRateAsPercent + "/100)))" );
@@ -438,7 +418,7 @@ public class Weapon {
 				Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width/2+x,Screen.height/2+y,0));
 				RaycastHit hit;
 				if (Physics.Raycast(ray, out hit, Range)){
-					calculateDamage(hit, shooter);
+					generateHit(hit, shooter).calculateDamage();
 				}
 			}
 			lastShot = Time.time;
@@ -480,7 +460,7 @@ public class Weapon {
 				Thing.transform.localPosition = SmokePuffPosition;
 				//Thing.transform.Rotate(rot, Space.Self);
 			}
-			
+			PathfindingEnemy.hearNoise(shooter, actualDetectionDistance);
 			for (int i = 0; i<numOfShots; i++) {
 				
 				Vector3 aim = camera.transform.forward;
@@ -488,7 +468,7 @@ public class Weapon {
 				
 				RaycastHit hit;
 				if (Physics.Raycast(camera.transform.position, aim, out hit, Range)){
-					calculateDamage(hit, shooter);
+					generateHit(hit, shooter).calculateDamage();
 				}
 			}
 			lastShot = Time.time;
@@ -497,85 +477,7 @@ public class Weapon {
 		return false;
 	}
 	
-	public void calculateDamage (RaycastHit hit, Enemy shooter) {
-		
-		
-		PathfindingEnemy.hearNoise(shooter, actualDetectionDistance);
-		
-		
-		//Debug.Log("Hit " + hit.collider.gameObject.name);
-		
-		if (hit.collider.gameObject.Equals(shooter.gameObject)) return;
-		
-		Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);	
-			if (hit.transform.gameObject.GetComponent<Rigidbody>() != null) {
-				hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(hit.normal * -HitStrength);
-			}					 
-			if (hit.transform.tag == "Explosive") {
-				if ((Detonator)hit.transform.gameObject.GetComponent("Detonator") != null) {
-					Detonator target = (Detonator)hit.transform.gameObject.GetComponent("Detonator");
-					try {
-						target.Explode();
-					} catch (System.SystemException e) {
-						Debug.LogError("Detonator failed inside Weapon");
-					}
-				}
-				if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
-					AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
-					targetSound.Play();
-				}
-				if (hit.transform.gameObject.GetComponent<ExplosiveDamage>() != null) {
-					hit.transform.gameObject.GetComponent<ExplosiveDamage>().explode();	
-				}
-			} else if (hit.transform.tag == "Combatant") {
-				if (hit.transform.gameObject.GetComponent("AudioSource") != null) {
-					AudioSource targetSound = (AudioSource)hit.transform.gameObject.GetComponent("AudioSource");
-					targetSound.Play();
-				}
-				if (hit.transform.gameObject.GetComponent("EnemyHealth") != null) {
-					EnemyHealth enemyHealth = (EnemyHealth)hit.transform.gameObject.GetComponent("EnemyHealth");
-					enemyHealth.damageAsCombatant(Damage, shooter, DamageCause.Shot);
-					MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
-				}
-				if (hit.transform.gameObject.GetComponent<Health>() != null) {
-					Health enemyHealth = hit.transform.gameObject.GetComponent<Health>();
-					enemyHealth.Damage(Damage, DamageCause.Shot);
-					MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
-				}
-				if (hit.transform.FindChild("Camera") != null) {
-					if (hit.transform.FindChild("Camera").gameObject.GetComponent<Health>() != null) {
-						Health enemyHealth = hit.transform.FindChild("Camera").gameObject.GetComponent<Health>();
-						enemyHealth.Damage(Damage, DamageCause.Shot);
-						MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
-					}
-				}
-				GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(BloodSpray, hit.point, hitRotation);
-				newBlood.transform.parent = hit.transform;
-				newBlood.transform.Translate(0,(float)0.05,0);
-			} else if (hit.transform.gameObject.GetComponent<ShatterableGlass>() != null) {
-				ShatterableGlass pane = hit.transform.gameObject.GetComponent<ShatterableGlass>();
-				pane.shoot(hit, HitStrength);
-				MonoBehaviour.print("Shot glass pane " + pane.name);
-			} else if (hit.transform.gameObject.GetComponent<SplashingWater>() != null) {
-				SplashingWater pane = hit.transform.gameObject.GetComponent<SplashingWater>();
-				pane.Splash(hit.point);
-				MonoBehaviour.print("Shot Water " + pane.name);
-			} else {
-				
-				
-				MonoBehaviour.print("Shot " + hit.transform.name);
-				
-				
-				GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(BulletHole, hit.point, hitRotation);
-				newBulletHole.transform.parent = hit.transform;
-				newBulletHole.transform.Translate(0,(float)0.05,0);
-				hitRotation.x = hitRotation.x + 270;
-			
-				GameObject newDust = (GameObject)MonoBehaviour.Instantiate(DirtSpray, hit.point, hitRotation);
-				newDust.transform.parent = hit.transform;
-				newDust.transform.Translate(0,(float)0.05,0);
-			}
-	}
+	
 	
 	public virtual int[] Reload(int[] ammo) {
 		if (CurAmmo < MaxAmmo && curAnim == weaponAnimType.None){
