@@ -89,6 +89,11 @@ public class BulletHit {
 				SplashingWater pane = hit.transform.gameObject.GetComponent<SplashingWater>();
 				pane.Splash(hit.point);
 				MonoBehaviour.print("Shot Water " + pane.name);
+			} else if (hit.transform.gameObject.GetComponent<PenetrableCover>() != null) {
+				MonoBehaviour.print("Shot penetrable target " + hit.transform.gameObject.name);
+				BulletHit b = hit.transform.gameObject.GetComponent<PenetrableCover>().catchBullet(this);
+				//this = hit.transform.gameObject.GetComponent<PenetrableCover>().catchBullet(this);
+				
 			} else {
 				
 				

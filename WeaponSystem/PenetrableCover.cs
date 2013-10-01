@@ -17,7 +17,11 @@ public class PenetrableCover : MonoBehaviour {
 		}
 	}
 	
-	public void catchBullet () {
-		
+	public BulletHit catchBullet (BulletHit hit) {				// This is so that the object doesn;t hit itself....
+		Physics.Raycast(hit.hit.normal, hit.hit.point + (hit.hit.normal*2), out hit.hit, hit.maxRange - ((impermeability/100)*hit.maxRange));
+		hit.Damage = hit.Damage - ((impermeability/100)*hit.Damage);
+		hit.maxRange = hit.maxRange - ((impermeability/100)*hit.maxRange);
+		hit.calculateDamage();
+		return hit;
 	}
 }
