@@ -100,7 +100,7 @@ public class WeaponAsset : ScriptableObject {
 	public AnimationCurve AnimVerticalRecoil;
 	
 	public float maxRoundsPerSecond;
-	float lastShot = 0f;
+	//float lastShot = 0f;
 	public float shotDelay;
 	
 	public float reloadTime = 5f;

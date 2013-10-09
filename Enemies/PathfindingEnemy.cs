@@ -129,7 +129,10 @@ public class PathfindingEnemy : Enemy {
 	// Update is called once per frame
 	void FixedUpdate () {
 		
-		checkTarget();
+		if (Time.time - lastTargetCheck > targetCheckDelay) {
+			checkTarget();
+			lastTargetCheck = Time.time;
+		}
 		
 		ready = ((int)transform.position.z == (int)getZXPosition(PFNC.currentNode.transform.position).z &&
 			(int)transform.position.x == (int)getZXPosition(PFNC.currentNode.transform.position).x);

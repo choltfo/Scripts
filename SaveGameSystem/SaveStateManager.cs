@@ -101,7 +101,6 @@ public class SaveStateManager : MonoBehaviour {
 						((ShootObjects)go.GetComponent(type)).refresh();
 					break;
 					case "ShootingEnemy" :
-						String CompOut = "ShootingEnemy:";
 						
 						go.SetActive(bool.Parse(vals[1]));
 						go.GetComponent<ShootingEnemy>().weapon = WeaponHandler.getWeapon(int.Parse(vals[2]));
@@ -161,7 +160,7 @@ public class SaveStateManager : MonoBehaviour {
 				CompOut += ((ShootingEnemy)c).weapon.UID;
 				
 				if (((ShootingEnemy)c).target != null) {
-					GameObject enemy = ((ShootingEnemy)c).target.gameObject;
+					//GameObject enemy = ((ShootingEnemy)c).target.gameObject;
 					CompOut += GetGameObjectPath(((ShootingEnemy)c).target.gameObject);
 				} else {
 					CompOut += "null";

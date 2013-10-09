@@ -47,6 +47,7 @@ public class BulletHit {
 						target.Explode();
 					} catch (System.SystemException e) {
 						Debug.LogError("Detonator failed inside Weapon");
+						Debug.LogError (e.ToString());
 					}
 				}
 				if (hit.transform.gameObject.GetComponent("AudioSource") != null) {

@@ -55,10 +55,10 @@ public class Objective : MonoBehaviour {
 			foreach (TriggerableEvent TEvent in Events) {
 					TEvent.Trigger(subtitleController);
 			}
-			return true;
 			if (transform.FindChild("ObjectiveMarker") != null) {
-			transform.FindChild("ObjectiveMarker").gameObject.renderer.enabled = false;
-		}
+				transform.FindChild("ObjectiveMarker").gameObject.renderer.enabled = false;
+			}
+			return true;
 		}
 		return false;
 	}

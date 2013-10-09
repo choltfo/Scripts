@@ -10,11 +10,6 @@ public class WeaponCreationHandler : EditorWindow {
 	public WeaponPickup WP = null;
 	public WeaponAsset WA = null;
 	
-	string myString = "Hello World";
-	bool groupEnabled;
-	bool myBool = true;
-	float myFloat = 1.23f;
-	
 	int UID = 0;
 
 	// Add menu item named "My Window" to the Window menu

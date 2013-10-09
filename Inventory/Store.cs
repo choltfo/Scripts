@@ -27,22 +27,29 @@ public class Store : MonoBehaviour {
 	public int ItemElements = 0;
 	public int topItemElement = 0;
 	
+	public AudioClip openingSound;
+	public AudioSource AS;
+	
 	
 	public void Interact (ShootObjects l_player) {
 		if (GetComponent<InteractNPC>() != null) return;
+		AS.PlayOneShot(openingSound);
+		playerInv = l_player.inventory;
 		Open (l_player);
+		
 	}
 	
 	public void Open (ShootObjects l_player) {
 		playerInv = l_player.inventory;
 		player = l_player;
-		Time.timeScale = 0;
 		pauseController.pane = "/Store/"+UID.ToString();
+		Time.timeScale = 0;
 	}
 	
 	void OnGUI () {
+		
 		if (Time.timeScale == 0) {
-			if (pauseController.pane == "/Store/"+UID.ToString()) {
+			if (pauseController.pane.Equals("/Store/"+UID.ToString()) ) {
 				
 				player.inventory = playerInv;
 				

@@ -69,6 +69,7 @@ public class ExplosiveDamage : MonoBehaviour {
 					hit.transform.gameObject.GetComponent<Detonator>().Explode();	
 				} catch (SystemException e) {
 					Debug.LogError ("Detonator failed from Explosive damage.");
+					Debug.LogError(e.ToString());
 				}
 			}
 			if (hit.transform.gameObject.GetComponent<ExplosiveDamage>() != null) {

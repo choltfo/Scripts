@@ -58,9 +58,9 @@ public class Pause : MonoBehaviour {
 				Time.timeScale = 1f;
 				if (pane == "/Inventory") {
 					GetComponent<ShootObjects>().reset();
-					Weapon SelectedWeapon = null;
-					HardPoint SelectedModSlot = null;
-					WeaponAttachment SelectedAttachment = null;
+					//Weapon SelectedWeapon = null;
+					//HardPoint SelectedModSlot = null;
+					//WeaponAttachment SelectedAttachment = null;
 				}
 			}
 			pane = "/Pause";
@@ -73,9 +73,9 @@ public class Pause : MonoBehaviour {
 			} else {
 				Time.timeScale = 1f;
 				GetComponent<ShootObjects>().reset();
-				Weapon SelectedWeapon = null;
-				HardPoint SelectedModSlot = null;
-				WeaponAttachment SelectedAttachment = null;
+				//Weapon SelectedWeapon = null;
+				//HardPoint SelectedModSlot = null;
+				//WeaponAttachment SelectedAttachment = null;
 			}
 		}
 		
@@ -264,8 +264,6 @@ public class Pause : MonoBehaviour {
 		GUI.Box(new Rect(Screen.width/2, 125, 215, 200), "");
 		
 		int i = 0;
-		Weapon transferredWeapon= new Weapon();
-		int soldWeaponSlot = -1;
 		GUI.Label(new Rect(Screen.width/2-250, 100, 200, 25), "Weapons");
 		GUI.Label(new Rect(Screen.width/2, 100, 150, 25), "Grenades, Attachments");
 		foreach (Weapon weapon in inventory.weapons) {

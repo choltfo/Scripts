@@ -38,8 +38,8 @@ public class PFNodeClient : MonoBehaviour {
 	
 	
 	public PFNode getNodeNearestCover () {
-		float nearestDistance = float.MaxValue;
-		PFNode nearestNode;
+		//float nearestDistance = float.MaxValue;
+		//PFNode nearestNode;
 		
 		if (currentNode.type == PFNodeType.Crouch || currentNode.type == PFNodeType.Stand) return currentNode;
 		
@@ -126,7 +126,7 @@ public class PFNodeClient : MonoBehaviour {
 				
 				
 				if (e.GetComponent<Enemy>() is ShootingEnemy) {
-					float thisCombatantsRisk;
+					//float thisCombatantsRisk;
 					if (e != gameObject.GetComponent<Enemy>()) {
 						
 						if (e.GetComponent<Enemy>().faction != allegiance) riskFactor +=

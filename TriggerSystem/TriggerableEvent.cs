@@ -45,6 +45,7 @@ public class TriggerableEvent {
 				if (explosion.GetComponent<Detonator>() != null) explosion.GetComponent<Detonator>().Explode();
 			} catch (SystemException e) {
 				Debug.LogError ("Explosion Failed. DAMNIT IT!");
+				Debug.LogError (e.ToString());
 			}
 		}
 		
