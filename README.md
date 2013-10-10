@@ -31,7 +31,6 @@ What does it need to work?
 - The UnitySerializer.
 - Perseverance.
 
-Where is the name from?
+What does "TTP" stand for?
 -------
 http://dilbert.com/strips/comic/1994-05-18/
-Right there. Dilbert.
