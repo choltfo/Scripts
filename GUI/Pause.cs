@@ -56,12 +56,7 @@ public class Pause : MonoBehaviour {
 				Time.timeScale = 0f;
 			} else {
 				Time.timeScale = 1f;
-				if (pane == "/Inventory") {
-					GetComponent<ShootObjects>().reset();
-					//Weapon SelectedWeapon = null;
-					//HardPoint SelectedModSlot = null;
-					//WeaponAttachment SelectedAttachment = null;
-				}
+				GetComponent<ShootObjects>().reset();
 			}
 			pane = "/Pause";
 		}
