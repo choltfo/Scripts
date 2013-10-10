@@ -77,8 +77,23 @@ public class ShootingEnemy : PathfindingEnemy {
 	public override void childFixedUpdate () {
 		weapon.AnimUpdate();
 		
-		//Look towards predetermined target
+		
+		
+		//Look towards predetermined target, and handle crouching
 		if (target != null) {
+			print("Prepping to considering crouching....");
+			if (PFNC.currentNode.type == PFNodeType.Crouch && ready) {
+			print("Considering crouching....");
+				// GET DOWN!
+				if (weapon.CurAmmo == 0) {	// If my gun is empty, duck while reloading.
+					print("Crouching....");
+					transform.localScale.Set(1f,0.5f,1f);
+				} else {
+					print("Not crouching");
+					transform.localScale.Set(1f,1f,1f);
+				}
+			}
+			
 			Vector3 targetPos = target.transform.position;
 			Vector3 currentPos = head.transform.position;
 			Vector3 relativePos = targetPos - currentPos ;
@@ -137,7 +152,8 @@ public class ShootingEnemy : PathfindingEnemy {
 		
 		int i = 0;
 		
-		// So, warning, this will make your enemy shoot himself after killing all other enemies. 
+		// So, warning, this will make your enemy shoot himself after killing all other enemies. But don't worry, the player
+		// doesn't actually die.
 		
 		foreach (Enemy e in targets) {
 			if (Vector3.Distance(gameObject.transform.position, targets[i].transform.position) < closest &&

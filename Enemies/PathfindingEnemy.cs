@@ -134,14 +134,6 @@ public class PathfindingEnemy : Enemy {
 			lastTargetCheck = Time.time;
 		}
 		
-		if (PFNC.currentNode.type == PFNodeType.Crouch && ready) {
-			// GET DOWN!
-			
-			transform.lossyScale.Set(1.0f,1.0f,0.75f);
-		} else {
-			transform.lossyScale.Set(1.0f,1.0f,1.0f);
-		}
-		
 		// IF in position, we are ready.
 		
 		ready = ((int)transform.position.z == (int)getZXPosition(PFNC.currentNode.transform.position).z &&

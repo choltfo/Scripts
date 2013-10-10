@@ -225,6 +225,8 @@ public class Weapon {
 	
 	public bool animateSlide;
 	
+	float lastReloadStart;
+	
 	//public UnderbarrelAttachment underbarrel;
 	
 	//TODO Add reloading animations.
@@ -481,7 +483,8 @@ public class Weapon {
 	
 	public virtual int[] Reload(int[] ammo) {
 		if (CurAmmo < MaxAmmo && curAnim == weaponAnimType.None){
-			AnimClock = 15;
+			//AnimClock = 15;
+			lastReloadStart = Time.time;
 			curAnim = weaponAnimType.Reloading;
 			
 			if (ammo[(int)ammoType] == 0) {
@@ -685,10 +688,7 @@ public class Weapon {
 			break;
 			
 		case weaponAnimType.Reloading :
-			if (AnimClock > 0){
-				AnimClock--;
-			}
-			if (AnimClock == 0) {
+			if (lastReloadStart + reloadTime < Time.time){
 				isFiring = false;
 				curAnim = weaponAnimType.None;
 			}
