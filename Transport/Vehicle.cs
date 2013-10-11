@@ -14,6 +14,7 @@ public class Vehicle : MonoBehaviour {
 	public Vector3 ExitLocation;
 	public VehicleControls VControls;
 	public Controls controls;
+	public GameObject[] Headlights;
 	
 	public bool erectOnEnter = false;
 	
@@ -38,6 +39,10 @@ public class Vehicle : MonoBehaviour {
 		((Camera)gameObject.transform.Find("Camera").gameObject.GetComponent("Camera")).enabled = true;
 		((AudioListener)gameObject.transform.Find("Camera").gameObject.GetComponent("AudioListener")).enabled = true;
 		
+		foreach (GameObject go in Headlights) {
+			go.SetActive(true);
+		}
+		
 		if (erectOnEnter && isActive) {
 			float z = transform.eulerAngles.z;
 			float x = transform.eulerAngles.x;
@@ -55,6 +60,9 @@ public class Vehicle : MonoBehaviour {
 		player.transform.position = transform.position + ExitLocation;
 		((Camera)gameObject.transform.Find("Camera").gameObject.GetComponent("Camera")).enabled = false;
 		((AudioListener)gameObject.transform.Find("Camera").gameObject.GetComponent("AudioListener")).enabled = false;
+		foreach (GameObject go in Headlights) {
+			go.SetActive(false);
+		}
 	}
 	
 	// Use this for initialization
