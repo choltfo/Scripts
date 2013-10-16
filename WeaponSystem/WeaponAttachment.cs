@@ -41,7 +41,12 @@ public class WeaponAttachment {
 		Thing.transform.Rotate(rot, Space.Self);
 		//Thing.transform.Translate(relPos);
 		if (isToggleable(type)) {
+			try {
 			toggleableObject = Thing.transform.FindChild(toggleableObjectPath).gameObject;
+			} catch (System.NullReferenceException E) {
+				Debug.LogError(E.StackTrace, Thing);
+				Debug.LogError("Could not find "+toggleableObjectPath);
+			}
 			toggle();
 		}
 		if (type == AttachmentType.Laser) {
