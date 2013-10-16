@@ -247,24 +247,25 @@ public class Weapon {
 	/// <param name='player'>
 	/// The camera gameobject to put the gun in front of.
 	/// </param>
-	public virtual void create(GameObject player, bool isPlayerWeapon){
-		camera = player;
+	public virtual void create(GameObject Player, bool isPlayerWeapon){
+		camera = Player;
 		this.player = isPlayerWeapon;
-		GameObject Gun = (GameObject)MonoBehaviour.Instantiate(InstantiableObject, new Vector3 (0,0,0), player.transform.rotation);
-		Gun.transform.parent = player.transform;
+		GameObject Gun = (GameObject)MonoBehaviour.Instantiate(InstantiableObject, new Vector3 (0,0,0), Player.transform.rotation);
+		Gun.transform.parent = Player.transform;
 		Gun.transform.localPosition = Position;
 		mainObject = Gun;
 		if (mainObject.transform.FindChild(path + "Flash") != null) {
 			flash = mainObject.transform.FindChild(path + "Flash").gameObject;
 			flash.SetActive(false);
 		}
-		
-		foreach (HardPoint hp in attachments) {
-			hp.attachment.deploy(mainObject, hp.position);
-			if (hp.attachment.type == AttachmentType.Silencer) {
+		if (this.player) {
+			foreach (HardPoint hp in attachments) {
+				hp.attachment.deploy(mainObject, hp.position);
+				if (hp.attachment.type == AttachmentType.Silencer) {
 				mainObject.audio.clip = hp.attachment.silencerNoise;
+				}
+				if(hp.attachment.type == AttachmentType.Scope) foldFrontSight();
 			}
-			if(hp.attachment.type == AttachmentType.Scope) foldFrontSight();
 		}
 
 		//MonoBehaviour.print("Added " + WeaponName);
@@ -276,14 +277,16 @@ public class Weapon {
 		// Attachment specific methods.
 		bool ZoomChanged = false;
 		actualDetectionDistance = detectionDistance;
-		for (int i = 0; i < attachments.Length; i++) {
-			if (attachments[i].attachment.type == AttachmentType.Silencer && attachments[i].attachment.isValid) {
-				mainObject.GetComponent<AudioSource>().clip = attachments[i].attachment.silencerNoise;
-				actualDetectionDistance -= Mathf.Abs (attachments[i].attachment.detectionReduction);
-			}
-			if (attachments[i].attachment.type == AttachmentType.Scope && attachments[i].attachment.isValid) {
-				ScopeZoom = attachments[i].attachment.overrideZoom;
-				ZoomChanged = true;
+		if (this.player) {
+			for (int i = 0; i < attachments.Length; i++) {
+				if (attachments[i].attachment.type == AttachmentType.Silencer && attachments[i].attachment.isValid) {
+					mainObject.GetComponent<AudioSource>().clip = attachments[i].attachment.silencerNoise;
+					actualDetectionDistance -= Mathf.Abs (attachments[i].attachment.detectionReduction);
+				}
+				if (attachments[i].attachment.type == AttachmentType.Scope && attachments[i].attachment.isValid) {
+					ScopeZoom = attachments[i].attachment.overrideZoom;
+					ZoomChanged = true;
+				}
 			}
 		}
 		if (!ZoomChanged) {
@@ -484,21 +487,20 @@ public class Weapon {
 	public virtual int[] Reload(int[] ammo) {
 		if (CurAmmo < MaxAmmo && curAnim == weaponAnimType.None){
 			//AnimClock = 15;
-			lastReloadStart = Time.time;
-			curAnim = weaponAnimType.Reloading;
+			if (ammo[(int)ammoType] != 0) {
+				lastReloadStart = Time.time;
+				curAnim = weaponAnimType.Reloading;
 			
-			if (ammo[(int)ammoType] == 0) {
 				//Debug.Log ("Out of bullets!");
-			}
-			
-			ammo[(int)ammoType] += CurAmmo;
-			CurAmmo = 0;
-			if (ammo[(int)ammoType] >= MaxAmmo) {
-				CurAmmo = MaxAmmo;
-				ammo[(int)ammoType] -= MaxAmmo;
-			} else {
-				CurAmmo = ammo[(int)ammoType];
-				ammo[(int)ammoType] = 0;
+				ammo[(int)ammoType] += CurAmmo;
+				CurAmmo = 0;
+				if (ammo[(int)ammoType] >= MaxAmmo) {
+					CurAmmo = MaxAmmo;
+					ammo[(int)ammoType] -= MaxAmmo;
+				} else {
+					CurAmmo = ammo[(int)ammoType];
+					ammo[(int)ammoType] = 0;
+				}
 			}
 		}
 		return ammo; //~!~!~!~!~!~!~!
