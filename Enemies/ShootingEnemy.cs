@@ -73,7 +73,6 @@ public class ShootingEnemy : PathfindingEnemy {
 		}
 	}*/
 	
-	
 	public override void childFixedUpdate () {
 		weapon.AnimUpdate();
 		
@@ -114,7 +113,9 @@ public class ShootingEnemy : PathfindingEnemy {
 		
 		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < satisfactoryAimInDegrees;
 		
-		if (!alerted) checkAnyVisible();
+		// THIS IS THE SOURCE OF ALL LAG!
+		
+		// MOVED TO PathfindingEnemy.cs:134		if (!alerted) checkAnyVisible();
 		
 		
 		// BEGIN weapon handling system.

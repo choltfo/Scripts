@@ -131,6 +131,11 @@ public class PathfindingEnemy : Enemy {
 		
 		if (Time.time - lastTargetCheck > targetCheckDelay) {
 			checkTarget();
+			if (!alerted) {
+				checkAnyVisible();
+			} else {
+				PFNC.currentNode = PFNC.getNodeNearestCover();
+			}
 			lastTargetCheck = Time.time;
 		}
 		
@@ -144,6 +149,7 @@ public class PathfindingEnemy : Enemy {
 		
 		if (alerted) {
 			if (Time.time > lastUpdate + updateInterval && Vector3.Distance(transform.position, PFNC.currentNode.transform.position) < 1) {
+				
 				lastUpdate = Time.time;
 				
 				// Change this to whatever the best method is.
@@ -151,10 +157,6 @@ public class PathfindingEnemy : Enemy {
 				//PFNC.currentNode = PFNC.getNodeNearest();											// This should be the same for all
 																									// Enemies.
 				//PFNC.currentNode = PFNC.getNodeClosestToEnemies(GameObject.FindGameObjectsWithTag("Combatant"), faction);
-				
-				
-				
-				PFNC.currentNode = PFNC.getNodeNearestCover();
 				
 				ready = false;
 			}

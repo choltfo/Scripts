@@ -27,15 +27,14 @@ public class PFNodeClient : MonoBehaviour {
 		int index = -1;
 		int i = 0;
 		foreach (PFNodeEntry E in currentNode.Nodes) {
-			if (Vector3.Distance (E.node.transform.position, currentNode.transform.position) < distance) {
-				distance = Vector3.Distance (E.node.transform.position, currentNode.transform.position);
+			if (E.distance < distance) {
+				distance = E.distance;
 				index = i;
 			}
 			i++;
 		}
 		return (index == -1) ? currentNode : currentNode.Nodes[index].node;
 	}
-	
 	
 	public PFNode getNodeNearestCover () {
 		//float nearestDistance = float.MaxValue;
