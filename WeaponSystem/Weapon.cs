@@ -373,13 +373,7 @@ public class Weapon {
 			return;
 		}
 		lastAim = Time.time;
-		if (isAimed) {
-			//mainObject.transform.localPosition = Position;
-			isAimed = false;
-		} else {
-			//mainObject.transform.localPosition = ScopedPosition;
-			isAimed = true;
-		}
+		isAimed = !isAimed
 	}
 	
 	/// <summary>
