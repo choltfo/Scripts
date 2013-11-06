@@ -71,7 +71,7 @@ public class Weapon {
 	/// </summary>
 	public float HitStrength = 50;
 	/// <summary>
-	/// The fire rate as a percentage. The maximum (100%) is 7.5 shots per second.
+	/// The fire rate as a percentage. The maximum (100%) should be one shot per physics frame.
 	/// </summary>
 	public int FireRateAsPercent;
 	[HideInInspector]
@@ -157,11 +157,6 @@ public class Weapon {
 	/// </summary>
 	public GameObject flash = null;
 	
-	//[HideInInspector]
-	/// <summary>
-	/// The animation clock. Not visible in Inspector.
-	/// </summary>
-	public int AnimClock = 0;
 	public weaponAnimType curAnim = weaponAnimType.None;
 	
 	[HideInInspector]
@@ -393,9 +388,9 @@ public class Weapon {
 	/// <param name='camera'>
 	/// Camera to aim from.
 	/// </param>
-	public virtual bool Shoot(Camera camera, Enemy shooter) {
+	public virtual bool Shoot(Camera cCamera, Enemy shooter) {
 		
-		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && AnimClock == 0 && curAnim == weaponAnimType.None){
+		if (CurAmmo > 0/*TODO Modify:  && !vehicle.riding*/ && actionHasReset() && curAnim == weaponAnimType.None){
 			CurAmmo -= 1;
 			mainObject.GetComponent<AudioSource>().Play();
 			PathfindingEnemy.hearNoise(shooter, actualDetectionDistance);
@@ -404,8 +399,6 @@ public class Weapon {
 			//Debug.Log("Acheived via (30/(7.5*(" + FireRateAsPercent + "/100)))" );
 			//Debug.Log("Acheived via " + 30/(7.5*FireRateAsPercent/100));
 			
-			AnimClock = (int)(30/(7.5 * FireRateAsPercent / 100));
-			ShotDelay = (int)(30/(7.5 * FireRateAsPercent / 100));
 			isFiring = true;
 			curAnim = weaponAnimType.Firing;
 			
@@ -418,9 +411,11 @@ public class Weapon {
 			
 			for (int i = 0; i<numOfShots; i++) {
 				Vector2 position = Random.insideUnitCircle;
-  				int x = (int)(position.x * xSpread);
-  				int y = (int)(position.y * yspread);
-				Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width/2+x,Screen.height/2+y,0));
+  				float x = position.x * xSpread;
+  				float y = position.y * yspread;
+								// This defines a point half a meter in front of the shooter, bypassing all sorts of detection issues.
+				Ray ray = new Ray(camera.transform.TransformPoint(Vector3.fwd * 0.26f),
+					camera.transform.forward.RotateX(x*Mathf.Deg2Rad).RotateY(y*Mathf.Deg2Rad));
 				RaycastHit hit;
 				if (Physics.Raycast(ray, out hit, Range)){
 					generateHit(hit, shooter).calculateDamage();
@@ -443,7 +438,7 @@ public class Weapon {
 	/// </param>
 	public virtual bool AIShoot(GameObject camera, Enemy shooter) {
 		//Debug.Log("Attempting firing");
-		if (CurAmmo > 0 && AnimClock == 0 && curAnim == weaponAnimType.None){
+		if (CurAmmo > 0 && actionHasReset () && curAnim == weaponAnimType.None){
 			//Debug.Log("Firing by AI");
 			CurAmmo -= 1;
 			((AudioSource)mainObject.GetComponent<AudioSource>()).Play();
@@ -452,9 +447,6 @@ public class Weapon {
 			//	", or " + (30/(7.5*FireRateAsPercent / 100)));
 			//Debug.Log("Acheived via (30/(7.5*(" + FireRateAsPercent + "/100)))" );
 			//Debug.Log("Acheived via " + 30/(7.5*FireRateAsPercent/100));
-			
-			AnimClock = (int)(30/(7.5 * FireRateAsPercent / 100));
-			ShotDelay = (int)(30/(7.5 * FireRateAsPercent / 100));
 			isFiring = true;
 			curAnim = weaponAnimType.Firing;
 			
@@ -486,7 +478,6 @@ public class Weapon {
 	
 	public virtual int[] Reload(int[] ammo) {
 		if (CurAmmo < MaxAmmo && curAnim == weaponAnimType.None){
-			//AnimClock = 15;
 			if (ammo[(int)ammoType] != 0) {
 				lastReloadStart = Time.time;
 				curAnim = weaponAnimType.Reloading;
@@ -618,9 +609,6 @@ public class Weapon {
 			break;
 			
 		case weaponAnimType.None :
-			if (AnimClock > 0) {
-				AnimClock--;
-			}
 			if (Slide != null) Slide.localPosition.Set(AnimSlideTX.Evaluate(0),
 				AnimSlideTY.Evaluate(0), AnimSlideTZ.Evaluate(0));
 			
@@ -681,10 +669,7 @@ public class Weapon {
 			}
 			
 			
-			if (AnimClock > 0){
-				AnimClock--;
-			}
-			if (AnimClock == 0) {
+			if (actionHasReset()) {
 				curAnim = weaponAnimType.None;
 			}
 			break;
@@ -711,6 +696,16 @@ public class Weapon {
 
 	public Weapon duplicate() {
 		return (Weapon)this.MemberwiseClone();
+	}
+	
+	/// <summary>
+	/// Has the weapon's action reset alredy?
+	/// </summary>
+	/// <returns>
+	/// Whether the action has reset.
+	/// </returns>
+	public bool actionHasReset () {
+		return ((lastShot + shotDelay) - Time.time) < 0;
 	}
 }
 

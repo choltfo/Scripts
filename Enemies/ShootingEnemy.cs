@@ -121,7 +121,7 @@ public class ShootingEnemy : PathfindingEnemy {
 		// BEGIN weapon handling system.
 		if (ready && alerted && isAimed) {
 			//target = getNearestEnemy();
-			if (weapon.CurAmmo == 0 && weapon.AnimClock == 0) {
+			if (weapon.CurAmmo == 0 && weapon.actionHasReset()) {
 				weapon.Reload(ammo);
 				if (debug) print ("Reloading");
 			}
