@@ -26,7 +26,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	public float rotSpd = 5f;
 	public float scopedRotSpd = 1f;
 	public float satisfactoryAimInDegrees = 5;
-		
+	
 	
 	
 	Quaternion rotation;
@@ -47,7 +47,7 @@ public class ShootingEnemy : PathfindingEnemy {
 		weapon.withdraw();
 		
 		targets = listEnemies();
-		print("Targets: " + targets.Count);
+		if (debug) print("Targets: " + targets.Count);
 	}
 	
 	/*public virtual void checkAnyVisible () {
@@ -80,15 +80,15 @@ public class ShootingEnemy : PathfindingEnemy {
 		
 		//Look towards predetermined target, and handle crouching
 		if (target != null) {
-			print("Prepping to considering crouching....");
+			if (debug) print("Prepping to considering crouching....");
 			if (PFNC.currentNode.type == PFNodeType.Crouch && ready) {
-			print("Considering crouching....");
+			if (debug) print("Considering crouching....");
 				// GET DOWN!
 				if (weapon.CurAmmo == 0) {	// If my gun is empty, duck while reloading.
-					print("Crouching....");
+					if (debug) print("Crouching....");
 					transform.localScale.Set(1f,0.5f,1f);
 				} else {
-					print("Not crouching");
+					if (debug) print("Not crouching");
 					transform.localScale.Set(1f,1f,1f);
 				}
 			}

@@ -80,7 +80,7 @@ public class Store : MonoBehaviour {
 					int soldWeaponSlot = -1;
 					foreach (Weapon weapon in inventory.weapons) {
 						if (weapon.IsValid && i < 8 + (int)weaponSlider && i >= (int)weaponSlider) {
-							GUI.Box(new Rect(Screen.width/2-65, 125+(25*(i-(int)weaponSlider)), 50, 25), "$"+weapon.price.ToString());
+							GUI.Box(new Rect(Screen.width/2-65, 125+(25*(i-(int)weaponSlider)), 50, 25), "$"+(weapon.price*saleMarkup).ToString());
 							if (GUI.Button(new Rect(Screen.width/2-215, 125+(25*(i-(int)weaponSlider)), 150, 25), weapon.DisplayName)) {
 								if (checkForEmptyWeaponSlot(inventory.weapons)) {
 									transferredWeapon = weapon;
@@ -98,7 +98,7 @@ public class Store : MonoBehaviour {
 					AmmoType transferredAmmo = AmmoType.Parabellum9x19mm;
 					foreach (int ammo in inventory.ammo) {
 						if (ammo > 0 && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
-							GUI.Box(new Rect(Screen.width/2+150, 125+(25*i), 50, 25),  "$"+AmmoPrice.Get((AmmoType)a).ToString());
+							GUI.Box(new Rect(Screen.width/2+150, 125+(25*i), 50, 25),  "$"+(AmmoPrice.Get((AmmoType)a)*saleMarkup).ToString());
 							if (GUI.RepeatButton(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), ((AmmoType)a).ToString())) {
 								transferredAnyAmmo = true;
 								transferredAmmo = (AmmoType)a;
@@ -111,10 +111,10 @@ public class Store : MonoBehaviour {
 					Grenade transferredGrenade = null;
 					foreach (Grenade grenade in inventory.grenades) {
 						if (i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
-							GUI.Box(new Rect(Screen.width/2+150, 125+(25*(i-(int)ammoItemSlider)), 50, 25), "$"+grenade.price.ToString());
+							GUI.Box(new Rect(Screen.width/2+150, 125+(25*(i-(int)ammoItemSlider)), 50, 25), "$"+(grenade.price*saleMarkup).ToString());
 							if (GUI.Button(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), grenade.name)) {
 								transferredGrenade = grenade;
-								player.inventory.cash -= grenade.price*saleMarkup;
+								player.inventory.cash -= (grenade.price*saleMarkup);
 							}
 						}
 						i++;
@@ -157,11 +157,11 @@ public class Store : MonoBehaviour {
 					int soldWeaponSlot = -1;
 					foreach (Weapon weapon in player.inventory.weapons) {
 						if (weapon.IsValid && i < 8 + (int)weaponSlider && i >= (int)weaponSlider) {
-							GUI.Box(new Rect(Screen.width/2-65, 125+(25*(i-(int)weaponSlider)), 50, 25), "$"+weapon.price.ToString());
+							GUI.Box(new Rect(Screen.width/2-65, 125+(25*(i-(int)weaponSlider)), 50, 25), "$"+(weapon.price*buyMarkup).ToString());
 							if (GUI.Button(new Rect(Screen.width/2-215, 125+(25*(i-(int)weaponSlider)), 150, 25), weapon.DisplayName)) {
 								if (checkForEmptyWeaponSlot(inventory.weapons)) {
 									transferredWeapon = weapon;
-									player.inventory.cash += weapon.price*buyMarkup;
+									player.inventory.cash += (weapon.price*buyMarkup);
 									soldWeaponSlot = i;
 								}
 							}
@@ -175,11 +175,11 @@ public class Store : MonoBehaviour {
 					AmmoType transferredAmmo = AmmoType.Parabellum9x19mm;
 					foreach (int ammo in player.inventory.ammo) {
 						if (ammo > 0 && i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
-							GUI.Box(new Rect(Screen.width/2+150, 125+(25*i), 50, 25),  "$"+AmmoPrice.Get((AmmoType)a).ToString());
+							GUI.Box(new Rect(Screen.width/2+150, 125+(25*i), 50, 25),  "$"+(AmmoPrice.Get((AmmoType)a)*buyMarkup).ToString());
 							if (GUI.RepeatButton(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), ((AmmoType)a).ToString())) {
 								transferredAnyAmmo = true;
 								transferredAmmo = (AmmoType)a;
-								player.inventory.cash += AmmoPrice.Get((AmmoType)a)*buyMarkup;
+								player.inventory.cash += (AmmoPrice.Get((AmmoType)a)*buyMarkup);
 							}
 							i++;
 						}
@@ -188,10 +188,10 @@ public class Store : MonoBehaviour {
 					Grenade transferredGrenade = null;
 					foreach (Grenade grenade in player.inventory.grenades) {
 						if (i < 8 + (int)ammoItemSlider && i >= (int)ammoItemSlider) {
-							GUI.Box(new Rect(Screen.width/2+150, 125+(25*(i-(int)ammoItemSlider)), 50, 25), "$"+grenade.price.ToString());
+							GUI.Box(new Rect(Screen.width/2+150, 125+(25*(i-(int)ammoItemSlider)), 50, 25), "$"+(grenade.price*buyMarkup).ToString());
 							if (GUI.Button(new Rect(Screen.width/2, 125+(25*(i-(int)ammoItemSlider)), 150, 25), grenade.name)) {
 								transferredGrenade = grenade;
-								player.inventory.cash += grenade.price*buyMarkup;
+								player.inventory.cash += (grenade.price*buyMarkup);
 							}
 						}
 						i++;

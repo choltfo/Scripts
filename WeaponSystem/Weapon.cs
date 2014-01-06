@@ -212,7 +212,6 @@ public class Weapon {
 	
 	public AnimationCurve AnimVerticalRecoil;
 	
-	public float maxRoundsPerSecond;
 	float lastShot = 0f;
 	public float shotDelay;
 	

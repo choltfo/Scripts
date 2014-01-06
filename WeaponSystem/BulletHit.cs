@@ -16,6 +16,9 @@ public class BulletHit {
 	
 	public float HitStrength;
 	
+	
+	public static bool debug = false; 
+	
 	/// <summary>
 	/// Calculates the collision of a bullet and a penetrable object, e.g. cover.
 	/// </summary>
@@ -65,18 +68,18 @@ public class BulletHit {
 				if (hit.transform.gameObject.GetComponent("EnemyHealth") != null) {
 					EnemyHealth enemyHealth = (EnemyHealth)hit.transform.gameObject.GetComponent("EnemyHealth");
 					enemyHealth.damageAsCombatant(Damage, shooter, DamageCause.Shot);
-					MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
+					if (debug) MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
 				}
 				if (hit.transform.gameObject.GetComponent<Health>() != null) {
 					Health enemyHealth = hit.transform.gameObject.GetComponent<Health>();
 					enemyHealth.Damage(Damage, DamageCause.Shot);
-					MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
+					if (debug) MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
 				}
 				if (hit.transform.FindChild("Camera") != null) {
 					if (hit.transform.FindChild("Camera").gameObject.GetComponent<Health>() != null) {
 						Health enemyHealth = hit.transform.FindChild("Camera").gameObject.GetComponent<Health>();
 						enemyHealth.Damage(Damage, DamageCause.Shot);
-						MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
+						if (debug) MonoBehaviour.print("Dealt " + Damage.ToString() + " Damage to " + hit.transform.gameObject.name);
 					}
 				}
 				GameObject newBlood = (GameObject)MonoBehaviour.Instantiate(BloodSpray, hit.point, hitRotation);
@@ -85,20 +88,20 @@ public class BulletHit {
 			} else if (hit.transform.gameObject.GetComponent<ShatterableGlass>() != null) {
 				ShatterableGlass pane = hit.transform.gameObject.GetComponent<ShatterableGlass>();
 				pane.shoot(hit, HitStrength);
-				MonoBehaviour.print("Shot glass pane " + pane.name);
+				if (debug) MonoBehaviour.print("Shot glass pane " + pane.name);
 			} else if (hit.transform.gameObject.GetComponent<SplashingWater>() != null) {
 				SplashingWater pane = hit.transform.gameObject.GetComponent<SplashingWater>();
 				pane.Splash(hit.point);
-				MonoBehaviour.print("Shot Water " + pane.name);
+				if (debug) MonoBehaviour.print("Shot Water " + pane.name);
 			} else if (hit.transform.gameObject.GetComponent<PenetrableCover>() != null) {
-				MonoBehaviour.print("Shot penetrable target " + hit.transform.gameObject.name);
+				if (debug) MonoBehaviour.print("Shot penetrable target " + hit.transform.gameObject.name);
 				BulletHit b = hit.transform.gameObject.GetComponent<PenetrableCover>().catchBullet(this);
 				//this = hit.transform.gameObject.GetComponent<PenetrableCover>().catchBullet(this);
 				
 			} else {
 				
 				
-				MonoBehaviour.print("Shot " + hit.transform.name);
+				if (debug) MonoBehaviour.print("Shot " + hit.transform.name);
 				
 				
 				GameObject newBulletHole = (GameObject)MonoBehaviour.Instantiate(BulletHole, hit.point, hitRotation);

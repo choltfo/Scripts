@@ -6,6 +6,11 @@ using System.Collections.Generic;
 [RequireComponent(typeof(CharacterController))]
 
 public class PathfindingEnemy : Enemy {
+	/// <summary>
+	/// Whether this AI should bother using NodePF.
+	/// Disable for stationary enemies.
+	/// </summary>
+	public bool USEPF = true;
 	
 	public float updateInterval = 1f;
 	
@@ -67,6 +72,7 @@ public class PathfindingEnemy : Enemy {
 		target = e;
 		if (debug) print ("Shot by "+e.name+", retaliating.");
 		
+		if (!USEPF) return;
 		if (AlertMethod == AlertingMethod.Shot ||
 			AlertMethod == AlertingMethod.Hear) {
 			PFNC.currentNode = PFNC.getNodeNearestCover();
@@ -129,47 +135,62 @@ public class PathfindingEnemy : Enemy {
 	// Update is called once per frame
 	void FixedUpdate () {
 		
+	//	if (!USEPF) {
+	//		ready = true;
+	//		childFixedUpdate();
+	//		return;
+	//	}
+		
 		if (Time.time - lastTargetCheck > targetCheckDelay) {
 			checkTarget();
 			if (!alerted) {
 				checkAnyVisible();
 			} else {
-				PFNC.currentNode = PFNC.getNodeNearestCover();
+				if (USEPF) PFNC.currentNode = PFNC.getNodeNearestCover();
 			}
 			lastTargetCheck = Time.time;
 		}
 		
 		// IF in position, we are ready.
 		
-		ready = ((int)transform.position.z == (int)getZXPosition(PFNC.currentNode.transform.position).z &&
-			(int)transform.position.x == (int)getZXPosition(PFNC.currentNode.transform.position).x);
+		if (USEPF) {
+			ready = ((int)transform.position.z == (int)getZXPosition(PFNC.currentNode.transform.position).z &&
+				(int)transform.position.x == (int)getZXPosition(PFNC.currentNode.transform.position).x);
+		} else {
+			ready = true;
+		}
 			
 		
 		// DEBUG: print (transform.position.ToString() + " : " + getZXPosition(PFNC.currentNode.transform.position));
 		
 		if (alerted) {
-			if (Time.time > lastUpdate + updateInterval && Vector3.Distance(transform.position, PFNC.currentNode.transform.position) < 1) {
-				
-				lastUpdate = Time.time;
-				
-				// Change this to whatever the best method is.
-				// TODO: change to getSafest, once that works.
-				//PFNC.currentNode = PFNC.getNodeNearest();											// This should be the same for all
-																									// Enemies.
-				//PFNC.currentNode = PFNC.getNodeClosestToEnemies(GameObject.FindGameObjectsWithTag("Combatant"), faction);
-				
-				ready = false;
+			// If alerted, and time has passed, and we are near the target node
+			if (USEPF) {
+				if (Time.time > lastUpdate + updateInterval && Vector3.Distance(transform.position, PFNC.currentNode.transform.position) < 1) {
+					
+					lastUpdate = Time.time;
+					
+					// Change this to whatever the best method is.
+					// TODO: change to getSafest, once that works.
+					//PFNC.currentNode = PFNC.getNodeNearest();											// This should be the same for all
+																										// Enemies.
+					//if (USEPF) PFNC.currentNode = PFNC.getNodeClosestToEnemies(GameObject.FindGameObjectsWithTag("Combatant"), faction);
+					
+					ready = false;
+				}
 			}
 		} else {
-			// If not alerted....
+			// If not alerted and on a patrol
 			if (patrol.Length != 0) {
 				if (ready) patrolIndex = (patrolIndex+1) % patrol.Length;
 				PFNC.currentNode = patrol[patrolIndex];
 			}
 		}
 		
-		Vector3 target = getRelativePosition(transform, PFNC.currentNode.transform.position);
-		CC.SimpleMove (target * speed);
+		if (USEPF) {
+			Vector3 target = getRelativePosition(transform, PFNC.currentNode.transform.position);
+			CC.SimpleMove (target * speed);
+		}
 		
 		childFixedUpdate();
 	}
