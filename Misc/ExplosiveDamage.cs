@@ -53,9 +53,18 @@ public class ExplosiveDamage : MonoBehaviour {
 			
 			if (hit.transform.FindChild("Camera") != null) {
 				if (hit.transform.FindChild("Camera").gameObject.GetComponent<Health>() != null) {
-					hit.transform.FindChild("Camera").gameObject.GetComponent<Health>().Damage(damage, DamageCause.Explosion);	
+
+					RaycastHit RH = new RaycastHit();
+					Vector3 Dir = (transform.position - hit.transform.position);
+					Dir.Normalize();
+					Physics.Raycast(transform.position, Dir, out RH, range);
+
+					if (RH.transform.gameObject == hit.gameObject) {
+						hit.transform.FindChild("Camera").gameObject.GetComponent<Health>().Damage(damage, DamageCause.Explosion);
+					}
 				}
 			}
+
 			if (hit.gameObject.name == "RaycastLayer") {
 				if (hit.transform.parent.gameObject.GetComponent<EnemyHealth>() != null) {
 					hit.transform.gameObject.GetComponent<EnemyHealth>().damage(damage, DamageCause.Explosion);

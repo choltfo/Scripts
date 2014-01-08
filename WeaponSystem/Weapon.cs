@@ -372,7 +372,7 @@ public class Weapon {
 			return;
 		}
 		lastAim = Time.time;
-		isAimed = !isAimed
+		isAimed = !isAimed;
 	}
 	
 	/// <summary>
@@ -510,7 +510,7 @@ public class Weapon {
 	/// Identify the animatable parts.
 	/// </summary>
 	public virtual void AnimIdentify() {
-		if (animate) {
+		if (animateSlide) {
 			Slide = GameObject.Find(mainObject.name + "/" + path + "Slide").transform;
 		}
 		/* 						DEBUG
