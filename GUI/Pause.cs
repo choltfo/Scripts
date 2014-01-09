@@ -309,8 +309,8 @@ public class Pause : MonoBehaviour {
 			if (i < 8 + (int)attachmentSlider && i >= (int)attachmentSlider) {
 				//GUI.Box(new Rect(Screen.width/2+150, 125+(25*i), 50, 25),  "$"+AmmoPrice.Get((AmmoType)a).ToString());
 				if (GUI.Button(new Rect(Screen.width/2, 125+(25*(a-(int)attachmentSlider)), 200, 25),
-					att.railType.ToString()+" "+att.type.ToString())) {
-					
+					att.name)) {
+
 					if (SelectedModSlot != null) {
 						if (SelectedModSlot.connectionType == att.railType) {
 							
@@ -323,6 +323,8 @@ public class Pause : MonoBehaviour {
 						}
 					}
 				}
+				a++;
+				GUI.Label(new Rect(Screen.width/2, 125+(25*(a-(int)attachmentSlider)), 200, 25), att.railType.ToString()+" "+att.type.ToString());
 			}
 			a++;
 		}

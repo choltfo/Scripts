@@ -30,11 +30,6 @@ public class BulletHit {
 	}
 	
 	public void calculateDamage () {
-		
-		
-		
-		
-		
 		//Debug.Log("Hit " + hit.collider.gameObject.name);
 		
 		if (hit.collider.gameObject.Equals(shooter.gameObject)) return;
