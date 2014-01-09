@@ -30,7 +30,8 @@ public class Store : MonoBehaviour {
 	public AudioClip openingSound;
 	public AudioSource AS;
 	
-	
+	Weapon transferredWeapon = new Weapon();
+
 	public void Interact (ShootObjects l_player) {
 		if (GetComponent<InteractNPC>() != null) return;
 		AS.PlayOneShot(openingSound);
@@ -66,7 +67,7 @@ public class Store : MonoBehaviour {
 					storeMode = StoreMode.Sell;
 				}
 					
-				if (storeMode == StoreMode.Buy) {
+				if (storeMode == StoreMode.Buy) {	// Moving items from store to player
 					weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 200),
 						weaponSlider, 8.0F, 0.0F, ((inventory.weapons.Length < 8) ? 8 : inventory.weapons.Length));
 					GUI.Box(new Rect(Screen.width/2-215, 125, 215, 200), "");
@@ -76,17 +77,21 @@ public class Store : MonoBehaviour {
 					GUI.Box(new Rect(Screen.width/2, 125, 215, 200), "");
 					
 					int i = 0;
-					Weapon transferredWeapon= new Weapon();
-					int soldWeaponSlot = -1;
+					transferredWeapon.IsValid = false;
 					foreach (Weapon weapon in inventory.weapons) {
 						if (weapon.IsValid && i < 8 + (int)weaponSlider && i >= (int)weaponSlider) {
 							GUI.Box(new Rect(Screen.width/2-65, 125+(25*(i-(int)weaponSlider)), 50, 25), "$"+(weapon.price*saleMarkup).ToString());
 							if (GUI.Button(new Rect(Screen.width/2-215, 125+(25*(i-(int)weaponSlider)), 150, 25), weapon.DisplayName)) {
-								if (checkForEmptyWeaponSlot(inventory.weapons)) {
-									transferredWeapon = weapon;
-									player.inventory.cash -= weapon.price*saleMarkup;
-									soldWeaponSlot = i;
-								}
+								if (checkForEmptyWeaponSlot(player.inventory.weapons)) {
+									player.inventory.cash -= weapon.price*buyMarkup;
+
+									weapon.destroy();	// Removes the gameobject from existence, if possible. 
+									weapon.IsValid = true;
+									player.inventory.weapons[findWeaponSlot(player.inventory.weapons)] = weapon;
+									inventory.weapons[i] = new Weapon();
+									player.ensuredSwitch();
+
+								} else print ("No slot found in player inventory for weapon " + weapon.WeaponName + ". Cancelling transaction.");
 							}
 							i++;
 						}
@@ -126,13 +131,6 @@ public class Store : MonoBehaviour {
 						inventory.grenades.Remove(transferredGrenade);
 						player.inventory.grenades.Add(transferredGrenade);
 					}
-					if (transferredWeapon.IsValid) {
-						//print (findWeaponSlot(inventory.weapons));
-						transferredWeapon.destroy();
-						player.inventory.weapons[findWeaponSlot(player.inventory.weapons)] = transferredWeapon;
-						inventory.weapons[soldWeaponSlot] = new Weapon();
-						player.ensuredSwitch();
-					}
 					
 					ItemElements = i;
 				}
@@ -143,7 +141,7 @@ public class Store : MonoBehaviour {
 				////////////////////////////////////////////////////////////
 				////////////////////////////////////////////////////////////
 				////////////////////////////////////////////////////////////
-				if (storeMode == StoreMode.Sell) {
+				if (storeMode == StoreMode.Sell) {	// Moving items for player to store.
 					weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 200),
 						weaponSlider, 8.0F, 0.0F, ((player.inventory.weapons.Length < 8) ? 8 : player.inventory.weapons.Length));
 					GUI.Box(new Rect(Screen.width/2-215, 125, 215, 200), "");
@@ -153,16 +151,21 @@ public class Store : MonoBehaviour {
 					GUI.Box(new Rect(Screen.width/2, 125, 215, 200), "");
 					
 					int i = 0;
-					Weapon transferredWeapon= new Weapon();
+					Weapon transferredWeapon = new Weapon();
 					int soldWeaponSlot = -1;
 					foreach (Weapon weapon in player.inventory.weapons) {
 						if (weapon.IsValid && i < 8 + (int)weaponSlider && i >= (int)weaponSlider) {
 							GUI.Box(new Rect(Screen.width/2-65, 125+(25*(i-(int)weaponSlider)), 50, 25), "$"+(weapon.price*buyMarkup).ToString());
 							if (GUI.Button(new Rect(Screen.width/2-215, 125+(25*(i-(int)weaponSlider)), 150, 25), weapon.DisplayName)) {
 								if (checkForEmptyWeaponSlot(inventory.weapons)) {
-									transferredWeapon = weapon;
-									player.inventory.cash += (weapon.price*buyMarkup);
-									soldWeaponSlot = i;
+									player.inventory.cash += weapon.price*saleMarkup;
+									
+									weapon.destroy();
+
+									weapon.IsValid = true;
+									inventory.weapons[findWeaponSlot(inventory.weapons)] = weapon;
+									player.inventory.weapons[i] = new Weapon();
+									player.ensuredSwitch();
 								}
 							}
 							i++;
@@ -203,13 +206,7 @@ public class Store : MonoBehaviour {
 						inventory.grenades.Add(transferredGrenade);
 						player.inventory.grenades.Remove(transferredGrenade);
 					}
-					if (transferredWeapon.IsValid) {
-						print (findWeaponSlot(inventory.weapons));
-						transferredWeapon.destroy();
-						inventory.weapons[findWeaponSlot(inventory.weapons)] = transferredWeapon;
-						player.inventory.weapons[soldWeaponSlot] = new Weapon();
-						player.ensuredSwitch();
-					}
+
 					
 					ItemElements = i;
 				}
@@ -227,12 +224,10 @@ public class Store : MonoBehaviour {
 	}
 	
 	public static int findWeaponSlot (Weapon[] weapons) {
-		int i = 0;
-		foreach (Weapon weapon in weapons) {
-			if (!weapon.IsValid) {
+		for (int i = 0; i < weapons.Length; i++) {
+			if (weapons[i].IsValid == false) {
 				return i;
 			}
-			i ++;
 		}
 		return -1;
 	}
