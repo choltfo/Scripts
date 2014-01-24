@@ -27,14 +27,21 @@ public class ShootingEnemy : PathfindingEnemy {
 	public float scopedRotSpd = 1f;
 	public float satisfactoryAimInDegrees = 5;
 	
-	
+	public float lastVisCheck = 0f;
+	public float betweenVisCheck = 0.5f;
+
+
 	
 	Quaternion rotation;
+
+	bool aimedAtWall = false;
 	
 	
 	
 	public override void childStart () {
-		
+
+
+
 		if (startingWeaponGL == null) weapon = startingWeapon.thisGun.duplicate();
 		if (startingWeaponGL != null) weapon = startingWeaponGL.thisGun.duplicate(); 
 		
@@ -42,7 +49,7 @@ public class ShootingEnemy : PathfindingEnemy {
 		ammo = new int[Enum.GetValues(typeof(AmmoType)).Length];
 		ammo[(int)ammoType] = startingReserveAmmo;
 		
-		head = transform.FindChild("head").gameObject;
+		//head = transform.FindChild("head").gameObject;
 		weapon.create(head, false);
 		weapon.withdraw();
 		
@@ -76,7 +83,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	public override void childFixedUpdate () {
 		weapon.AnimUpdate();
 		
-		
+		float angle = Quaternion.Angle(head.transform.rotation, rotation);
 		
 		//Look towards predetermined target, and handle crouching
 		if (target != null) {
@@ -103,15 +110,28 @@ public class ShootingEnemy : PathfindingEnemy {
 					weapon.aim();
 				}
 			} else {
+				if (debug) print (gameObject.name + " is aimed and ready.");
 				head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * scopedRotSpd);
+				if (angle < 0.5) head.transform.rotation = rotation;
 				if (!weapon.isAimed) {
 					weapon.aim();
 				}
 			}
-			
+
+			if (lastVisCheck + betweenVisCheck < Time.time) {
+				RaycastHit hit;
+				print ("Checking if aimed at wall.");
+				lastVisCheck = Time.time;
+				if (Physics.Raycast(head.transform.position, head.transform.forward, out hit, visionRange)) {
+					aimedAtWall = hit.collider.gameObject != target.gameObject;
+					print ("Might be aimed at wall.....");
+				}
+			}
+
+
 		}
 		
-		isAimed = Quaternion.Angle(head.transform.rotation, rotation) < satisfactoryAimInDegrees;
+		isAimed = angle < satisfactoryAimInDegrees;
 		
 		// THIS IS THE SOURCE OF ALL LAG!
 		
@@ -119,7 +139,7 @@ public class ShootingEnemy : PathfindingEnemy {
 		
 		
 		// BEGIN weapon handling system.
-		if (ready && alerted && isAimed) {
+		if (ready && alerted && isAimed && !aimedAtWall) {
 			//target = getNearestEnemy();
 			if (weapon.CurAmmo == 0 && weapon.actionHasReset()) {
 				weapon.Reload(ammo);

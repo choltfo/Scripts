@@ -36,8 +36,8 @@ public class PathfindingEnemy : Enemy {
 	
 	public float visionRange = 10;
 	
-	public static bool debug = false;
-	
+	public static bool debug = true;
+
 	public static List<Enemy> targets;
 	
 	int patrolIndex = 0;
@@ -255,7 +255,7 @@ public class PathfindingEnemy : Enemy {
 			i++;
 		}
 		
-		if (debug) print(enemies.Length);
+		//if (debug) print(enemies.Length);
 		return targets;
 	}
 
