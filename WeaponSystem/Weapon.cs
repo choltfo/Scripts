@@ -218,7 +218,9 @@ public class Weapon {
 	public float reloadTime = 5f;
 	
 	public bool animateSlide;
-	
+
+	public float maxRecoilSway = 2;
+
 	float lastReloadStart;
 	
 	//public UnderbarrelAttachment underbarrel;
@@ -414,6 +416,9 @@ public class Weapon {
 					generateHit(hit, shooter).calculateDamage();
 				}
 			}
+
+			camera.transform.Rotate(0,Random.Range(-maxRecoilSway, maxRecoilSway),0);
+
 			lastShot = Time.time;
 			return true;
 		}
@@ -452,7 +457,7 @@ public class Weapon {
 			}
 			PathfindingEnemy.hearNoise(shooter, actualDetectionDistance);
 			for (int i = 0; i<numOfShots; i++) {
-				
+				/*
 				Vector3 aim = camera.transform.forward;
 				//aim.Set (aim.x+Random.Range(-xSpread/10,xSpread/10), aim.y+Random.Range(-yspread/10,yspread/10), 0);
 				
@@ -460,6 +465,13 @@ public class Weapon {
 				if (Physics.Raycast(camera.transform.position, aim, out hit, Range)){
 					generateHit(hit, shooter).calculateDamage();
 				}
+				*/
+				Vector2 position = Random.insideUnitCircle;
+				float x = position.x * xSpread;
+				float y = position.y * yspread;
+				// This defines a point half a meter in front of the shooter, bypassing all sorts of detection issues.
+				Ray ray = new Ray(camera.transform.TransformPoint(Vector3.fwd * 0.26f),
+				                  camera.transform.forward.RotateX(x*Mathf.Deg2Rad).RotateY(y*Mathf.Deg2Rad));
 			}
 			lastShot = Time.time;
 			return true;
