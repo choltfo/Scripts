@@ -5,6 +5,9 @@ using System.Collections.Generic;
 public class ShootingEnemy : PathfindingEnemy {
 	
 	public Weapon weapon;
+
+	public ThoughtProcess TP;
+
 	public float semiAutoFireDelay = 0.25f;
 	
 	float lastShot = -10f;
@@ -112,7 +115,7 @@ public class ShootingEnemy : PathfindingEnemy {
 			} else {
 				if (debug) print (gameObject.name + " is aimed and ready.");
 				head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * scopedRotSpd);
-				if (angle < 0.5) head.transform.rotation = rotation;
+				//if (angle < 0.5) head.transform.rotation = rotation;
 				if (!weapon.isAimed) {
 					weapon.aim();
 				}

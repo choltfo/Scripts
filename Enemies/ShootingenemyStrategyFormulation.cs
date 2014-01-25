@@ -1,47 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShootingenemyStrategyFormulation : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-}
-
+[System.Serializable]
 public class ThoughtProcess {
-
-
-
+	public StateActionTrain Shot;
+	public StateActionTrain Heard;
+	public StateActionTrain Viewed;
+	public StateActionTrain WhileAlerted;
 }
 
+[System.Serializable]
 public class StateActionTrain {
-	public State S = State.Heard;
-	public Action[] A = {Action.Burst, Action.Cover};
+	public Action[] ActionsToTake;
 }
 
-public enum State {
-	Shot,
-	Heard,
-	Viewed
+[System.Serializable]
+public class Action	{
+	public int fireNShots = 0;
+	public NodeSelection Goto = NodeSelection.None;
+	public ActionOrder order = ActionOrder.FireFirst;
 }
 
-public enum Action {
-	OpenFire,
-	Burst,
-	Cover
+[System.Serializable]
+public enum ActionOrder {
+	FireFirst,
+	MoveFirst,
+	JustMove,
+	JustFire
 }
 
-public enum PreCoverShot {
-	ButstToCover
-}
-
+[System.Serializable]
 public enum NodeSelection {
+	None,
 	Closest,
 	ClosestCover,
 	ClosestStanding,
@@ -50,5 +40,4 @@ public enum NodeSelection {
 	StandingNeatestEnemy,
 	CrouchingFurthestEnemy,
 	StandingFurthestEnemy
-
 }
