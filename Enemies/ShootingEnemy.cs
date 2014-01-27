@@ -162,9 +162,7 @@ public class ShootingEnemy : PathfindingEnemy {
 			if (debug) print("Targeting "+target.name);
 		}
 		// END weapon handling system.
-		
-		
-		
+
 																	// Satisfactory aiming criteria. In degrees.
 		//&&
 			//!Physics.Linecast (head.transform.position, target.transform.position);

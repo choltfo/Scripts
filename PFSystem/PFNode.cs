@@ -55,6 +55,7 @@ public class PFNodeEntry {
 	}
 }
 
+[System.Serializable]
 public enum PFNodeType {
 	Transit,
 	Stand,
