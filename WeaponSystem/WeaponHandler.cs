@@ -7,46 +7,30 @@ using System.Linq.Expressions;
 using System;
 
 public static class WeaponHandler {
-	public static Weapon getWeapon (int UID) {
-		WeaponAsset[] weapons = getWeapons();
-		foreach (WeaponAsset WA in weapons) {
-			Debug.Log("Checking weapon " + WA.DisplayName + " for UID " + UID);
-			if (WA.UID == UID) {
-				return convertAsset(WA);
-			}
+
+	public static string WeaponAssetPath = @"";
+
+	public static int saveWeapon (Weapon weapon) {
+		WeaponAsset WA = getWeapons()[0];
+
+		if (WA.weapons.Contains(weapon)) {
+			return weapon.UID = WA.weapons.IndexOf(weapon);
+		} else {
+			weapon.UID = WA.weapons.Count;
+			WA.weapons.Add(weapon);
+			return WA.weapons.Count-1;
 		}
-		Debug.LogError("Invalid getWeapon call! No UID #" + UID + " found!");
-		return new Weapon();
 	}
-	
-	public static Weapon getWeapon (string name) {
-		WeaponAsset[] weapons = getWeapons();
-		foreach (WeaponAsset WA in weapons) {
-			Debug.Log(WA.WeaponName + ": " + WA.UID);
-			if (WA.WeaponName == name || WA.DisplayName == name) {
-				return convertAsset(WA);
-			}
-		}
-		Debug.LogError("Invalid getWeapon call! No weapon " + name + " found!");
-		return new Weapon();
+
+	public static Weapon getWeapon (int index) {
+		WeaponAsset WA = getWeapons()[0]; // This is the hard part...
+
+		return WA.weapons[(index >= WA.weapons.Count ? 0 : index)];
 	}
-	
+
 	public static WeaponAsset[] getWeapons () {
-		return (WeaponAsset[])Resources.FindObjectsOfTypeAll(typeof(WeaponAsset));
-	}
-	
-	public static Weapon convertAsset (WeaponAsset WA) {
-		
-		Weapon W = new Weapon();
-		
-		foreach (FieldInfo f in typeof(Weapon).GetFields()) {
-			string name = f.Name;
-			
-			object obj = typeof(WeaponAsset).GetField(name).GetValue(WA);
-			
-			typeof(Weapon).GetField(name).SetValue(W, obj);
-		}
-		
-		return W;
+		UnityEngine.Object[] OBJS = Resources.FindObjectsOfTypeAll(typeof(WeaponAsset));
+		Debug.Log("Object found, "+OBJS[0].name);
+		return (WeaponAsset[])OBJS;
 	}
 }

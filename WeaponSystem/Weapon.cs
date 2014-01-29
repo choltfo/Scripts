@@ -8,7 +8,7 @@ using System.Collections;
 /// </summary>
 public class Weapon {
 	
-	public float UID;
+	public int UID;
 	
 	/// <summary>
 	/// The prefab that should
