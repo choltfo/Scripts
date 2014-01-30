@@ -35,7 +35,7 @@ public static class WeaponHandler {
 		return (WeaponAsset[])Resources.FindObjectsOfTypeAll(typeof(WeaponAsset));
 	}
 	
-	public static Weapon convertAsset (WeaponAsset WA) {
+	/*public static Weapon convertAsset (WeaponAsset WA) {
 		
 		Weapon W = new Weapon();
 		
@@ -48,5 +48,5 @@ public static class WeaponHandler {
 		}
 		
 		return W;
-	}
+	}*/
 }
