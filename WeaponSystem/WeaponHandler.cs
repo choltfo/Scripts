@@ -29,9 +29,6 @@ public static class WeaponHandler {
 	}
 
 	public static WeaponAsset[] getWeapons () {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 		return (WeaponAsset[])Resources.FindObjectsOfTypeAll(typeof(WeaponAsset));
 	}
 	
@@ -48,15 +45,11 @@ public static class WeaponHandler {
 		}
 		
 		return W;
-	}*/
-=======
-=======
->>>>>>> 5de83f1f12b1c4cc04d07e95aceb02f51de6a5b5
-=======
->>>>>>> 5de83f1f12b1c4cc04d07e95aceb02f51de6a5b5
+	}
+
+	public static void WHATTHEFUCKISTHIS() {
 		UnityEngine.Object[] OBJS = Resources.FindObjectsOfTypeAll(typeof(WeaponAsset));
 		Debug.Log("Object found, "+OBJS[0].name);
 		return (WeaponAsset[])OBJS;
-	}
->>>>>>> 5de83f1f12b1c4cc04d07e95aceb02f51de6a5b5
+	}*/
 }
