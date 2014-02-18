@@ -77,7 +77,7 @@ public class InteractNPC : InteractObject {
 			for (int i = 0; i < convo.currentOption.options.Length; i++) {
 				if (GUI.Button(new Rect(Screen.width/2-200, (Screen.height/2)-(100+25*i), 100, 25),
 						convo.currentOption.options[i].name)) {
-					
+					 
 					currentSpeech = 0;
 					
 					switch (convo.currentOption.options[i].type) {
