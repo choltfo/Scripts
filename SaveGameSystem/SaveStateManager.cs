@@ -117,7 +117,7 @@ public class SaveStateManager : MonoBehaviour {
 		System.IO.StreamWriter file = new System.IO.StreamWriter(savePath);
 		
 		
-		object[] allObjects = FindObjectsOfTypeAll(typeof(GameObject));
+		object[] allObjects = Resources.FindObjectsOfTypeAll(typeof(GameObject));
 		foreach(object thisObject in allObjects) {
 			if (((GameObject) thisObject).activeInHierarchy && !((GameObject) thisObject).isStatic) {
 				print(thisObject+" is an active object") ;

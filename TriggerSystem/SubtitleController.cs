@@ -7,14 +7,12 @@ public class SubtitleController : MonoBehaviour {
 	public List<SubtitleLine> lines;
 	public GUIStyle textStyle;
 	public int lineNumber = 0;
-	float setStartTime;
 	float lastStartTime;
 	
 	public void setLines(List<SubtitleLine> l_lines) {
 		lines = l_lines;
 		lineNumber = 0;
 		lastStartTime = Time.time;
-		setStartTime = Time.time;
 	}
 	
 	public void setLine(SubtitleLine line) {
@@ -22,7 +20,6 @@ public class SubtitleController : MonoBehaviour {
 		lines.Add(line);
 		lineNumber = 0;
 		lastStartTime = Time.time;
-		setStartTime = Time.time;
 	}
 	
 	void OnGUI () {

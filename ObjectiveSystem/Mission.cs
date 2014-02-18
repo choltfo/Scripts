@@ -9,7 +9,7 @@ public class Mission {
 	/// <summary>
 	/// The name of the mission.
 	/// </summary>
-	public string missionName;
+	public string missionName = "New Mission";
 	/// <summary>
 	/// The current objecive.
 	/// </summary>
@@ -31,12 +31,18 @@ public class Mission {
 	/// </summary>
 	public int activeObjectives;
 	//public Vector3 displayCoords;
-	
+
+	public Mission () {
+		objectives = new Objective[0];
+		headingStyle = new GUIStyle();
+		activeObjectives = 0;
+	}
+
 	/// <summary>
 	/// Updates the objectives.
 	/// </summary>
 	/// <returns>
-	/// Whether the objectioves are complete.
+	/// Whether the objectives, and subsequently the mission, are/is complete.
 	/// </returns>
 	public bool updateObjectives() {
 		complete = true; //Probably not a good idea
@@ -110,5 +116,9 @@ public class Mission {
 	public void draw() {
 		GUI.Label(new Rect(50,10,300,30),missionName,headingStyle);
 		GUI.Box(new Rect(50,10,300, 25+(20*activeObjectives)), "");
+	}
+
+	public string toString() {
+		return "A mission with " + objectives.Length + " objectives.";
 	}
 }

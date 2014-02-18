@@ -93,6 +93,7 @@ public class BulletHit {
 				BulletHit b = hit.transform.gameObject.GetComponent<PenetrableCover>().catchBullet(this);
 				//this = hit.transform.gameObject.GetComponent<PenetrableCover>().catchBullet(this);
 				
+				b.calcHit(); //This is what ccauses the refracted/reflected bullet to actualy start moving.
 			} else {
 				
 				

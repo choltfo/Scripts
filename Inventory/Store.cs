@@ -151,8 +151,6 @@ public class Store : MonoBehaviour {
 					GUI.Box(new Rect(Screen.width/2, 125, 215, 200), "");
 					
 					int i = 0;
-					Weapon transferredWeapon = new Weapon();
-					int soldWeaponSlot = -1;
 					foreach (Weapon weapon in player.inventory.weapons) {
 						if (weapon.IsValid && i < 8 + (int)weaponSlider && i >= (int)weaponSlider) {
 							GUI.Box(new Rect(Screen.width/2-65, 125+(25*(i-(int)weaponSlider)), 50, 25), "$"+(weapon.price*buyMarkup).ToString());

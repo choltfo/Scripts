@@ -62,11 +62,17 @@ public enum OptionAction {
 	JustTrigger,
 	
 	/// <summary>
-	/// Open the NPC's store.
-	/// Does not worrk yet.
+	/// Open the NPC's store. Will have to have an override built into the store.
+	/// Does not work yet.
 	/// </summary>
 	OpenStore,
-	
+
+	/// <summary>
+	/// Gives the interactee a weapon.
+	/// Does not work yet.
+	/// </summary>
+	GiveWeapon,
+
 	/// <summary>
 	/// Trigger T Event, modify convo, and fsinish this conversation.
 	/// </summary>

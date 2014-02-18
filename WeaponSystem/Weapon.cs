@@ -409,7 +409,7 @@ public class Weapon {
   				float x = position.x * xSpread;
   				float y = position.y * yspread;
 								// This defines a point half a meter in front of the shooter, bypassing all sorts of detection issues.
-				Ray ray = new Ray(camera.transform.TransformPoint(Vector3.fwd * 0.26f),
+				Ray ray = new Ray(camera.transform.TransformPoint(Vector3.forward * 0.26f),
 					camera.transform.forward.RotateX(x*Mathf.Deg2Rad).RotateY(y*Mathf.Deg2Rad));
 				RaycastHit hit;
 				if (Physics.Raycast(ray, out hit, Range)){
@@ -465,7 +465,7 @@ public class Weapon {
 				float x = position.x * xSpread;
 				float y = position.y * yspread;
 				// This defines a point half a meter in front of the shooter, bypassing all sorts of detection issues.
-				Ray ray = new Ray(camera.transform.TransformPoint(Vector3.fwd * 0.26f),
+				Ray ray = new Ray(camera.transform.TransformPoint(Vector3.forward * 0.26f),
 				                  camera.transform.forward.RotateX(x*Mathf.Deg2Rad).RotateY(y*Mathf.Deg2Rad));
 				
 				RaycastHit hit;

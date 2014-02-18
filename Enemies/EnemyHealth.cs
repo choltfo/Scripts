@@ -13,9 +13,12 @@ public class EnemyHealth : Objective {
 	public float Health = 100;
 	
 	public float crashThreshhold = 50;
-	
+
+	public bool playSounds = true;
+	public AudioClip[] painSounds;
+
 	Enemy thisEnemy;
-	
+
 	void Start() {
 		thisEnemy = GetComponent<Enemy>();
 	}
@@ -47,6 +50,7 @@ public class EnemyHealth : Objective {
 			Health = 0;
 			kill (COD);
 		}
+		if (playSounds) audio.PlayOneShot(painSounds[(int)(Random.value * (painSounds.Length-1))]);
 		return damage;
 	}
 	

@@ -31,7 +31,7 @@ public class CharacterControls : MonoBehaviour {
 	public float crouchTime			= 1;
 	public Vector3 cameraCrouchPos;
 	public Vector3 cameraNormalPos;
-	float lastCrouchSwitch			= 0;
+	//float lastCrouchSwitch			= 0;
 	
 	public Controls controls;
 	public Stats stats;

@@ -24,8 +24,8 @@ public class WeaponCreationHandler : EditorWindow {
 	void OnGUI() {
 		GUILayout.Label ("Select pickup and DB", EditorStyles.boldLabel);
 		UID = EditorGUILayout.IntField("UID: ",UID);
-		WP = (WeaponPickup)EditorGUILayout.ObjectField("Pickup:",WP, typeof(WeaponPickup));
-		WA = (WeaponAsset)EditorGUILayout.ObjectField("Asset List:",WA, typeof(WeaponAsset));
+		WP = (WeaponPickup)EditorGUILayout.ObjectField("Pickup:",WP, typeof(WeaponPickup), true);
+		WA = (WeaponAsset)EditorGUILayout.ObjectField("Asset List:",WA, typeof(WeaponAsset), true);
 
 		if (GUILayout.Button("Add weapon to DB")) {
 			UID = WeaponHandler.saveWeapon(WP.thisGun);
