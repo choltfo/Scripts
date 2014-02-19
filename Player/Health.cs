@@ -44,7 +44,7 @@ public class Health : MonoBehaviour {
 			} else {
 				HealthLevel += statistics.actualHealRate * Time.deltaTime;
 			}
-		} 
+		}
 	}
 	
 	/// <summary>3
