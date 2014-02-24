@@ -20,10 +20,12 @@ public class CharacterControls : MonoBehaviour {
 	public float jumpHeight				= 2.0f;
 	private bool grounded				= false;
 	public float groundingSafetyMargin	= 0.1f;
-	
+
+	public AudioClip walkNoise;
 	public AudioClip jumpNoise;
-	public AudioSource jumpSource;
-	
+	public AudioSource audioSource;
+
+
 	public bool sprinting			= false;
 	public bool crouching			= false;
 	public float ccHeight			= 1.25f;
@@ -86,11 +88,17 @@ public class CharacterControls : MonoBehaviour {
 	        velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
 	        velocityChange.y = 0;
 	        rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
- 			
+
+			//audioSource.loop = true;
+			audioSource.clip = walkNoise;
+			if (!audioSource.isPlaying && targetVelocity != Vector3.zero) {
+				audioSource.Play();
+			}
+
 	        // Jump
 	        if (canJump && Input.GetButton("Jump")) {
 	            rigidbody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
-				jumpSource.PlayOneShot(jumpNoise);
+				audioSource.PlayOneShot(jumpNoise);
 	        }
 	    } else {
 			// If not on the ground, we are clearly not sprinting.
