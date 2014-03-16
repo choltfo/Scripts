@@ -22,6 +22,7 @@ public class CharacterControls : MonoBehaviour {
 	public float groundingSafetyMargin	= 0.1f;
 
 	public AudioClip walkNoise;
+	public AudioClip sprintNoise;
 	public AudioClip jumpNoise;
 	public AudioSource audioSource;
 
@@ -91,8 +92,17 @@ public class CharacterControls : MonoBehaviour {
 
 			//audioSource.loop = true;
 			audioSource.clip = walkNoise;
-			if (!audioSource.isPlaying && targetVelocity != Vector3.zero) {
-				audioSource.Play();
+			if ((!audioSource.isPlaying) && targetVelocity != Vector3.zero && grounded) {
+				if (sprinting) {
+					// Play a sprinting noise.
+					audioSource.clip = sprintNoise;
+					if (sprintNoise) audioSource.Play();
+				} else {
+					audioSource.clip = walkNoise;
+					if (walkNoise) audioSource.Play();
+				}
+			} else {
+				if (!grounded) audioSource.Stop();
 			}
 
 	        // Jump
