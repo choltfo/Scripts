@@ -180,6 +180,9 @@ public class PFNodeClient : MonoBehaviour {
 	 * Bear in mind, this will still return the current node if none are found, meaning that the enemy will just stand there,
 	 * 	spamming through every option until hell freezes over, or it gets shot. This situation will need to be planned for.
 	 * 
+	 * 
+	 * So far, as of 16/03/2014, the lag from idling enemies seems to be gone, but once their firing AI starts, things get hairy.
+	 * 
 	 */
 
 	int GNNCi = 0;
