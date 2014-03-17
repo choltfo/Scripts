@@ -136,12 +136,7 @@ public class ShootingEnemy : PathfindingEnemy {
 		
 		isAimed = angle < satisfactoryAimInDegrees;
 		
-		// THIS IS THE SOURCE OF ALL LAG!
-		
-		// MOVED TO PathfindingEnemy.cs:134		if (!alerted) checkAnyVisible();
-		
-		
-		// BEGIN weapon handling system.
+			// Weapon handling.
 		if (ready && alerted && isAimed && !aimedAtWall) {
 			//target = getNearestEnemy();
 			if (weapon.CurAmmo == 0 && weapon.actionHasReset()) {
@@ -161,21 +156,16 @@ public class ShootingEnemy : PathfindingEnemy {
 			}
 			if (debug) print("Targeting "+target.name);
 		}
-		// END weapon handling system.
-
-																	// Satisfactory aiming criteria. In degrees.
-		//&&
-			//!Physics.Linecast (head.transform.position, target.transform.position);
 	}
-	
-	Enemy getNearestEnemy() {
+
+	public Enemy getNearestEnemy() {
 		int nearest = 0;
 		float closest = 1000;
 		
 		int i = 0;
 		
-		// So, warning, this will make your enemy shoot himself after killing all other enemies. But don't worry, the player
-		// doesn't actually die.
+		// Change plan:
+		// The enemies should calculate every iteration of the loop in a different frame to reduce lag, and create realistically slow enemies.
 		
 		foreach (Enemy e in targets) {
 			if (Vector3.Distance(gameObject.transform.position, targets[i].transform.position) < closest &&

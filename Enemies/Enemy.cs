@@ -5,7 +5,6 @@ using System.Collections;
 /// A wrapper class for enemies.
 /// </summary>
 public class Enemy : MonoBehaviour {
-	
 	public Faction faction = Faction.Evil;
 }
 

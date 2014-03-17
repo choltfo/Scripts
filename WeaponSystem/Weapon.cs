@@ -417,7 +417,7 @@ public class Weapon {
 				}
 			}
 
-			camera.transform.Rotate(0,Random.Range(-maxRecoilSway, maxRecoilSway),0);
+			camera.transform.parent.Rotate(0,Random.Range(-maxRecoilSway, maxRecoilSway),0);
 
 			lastShot = Time.time;
 			return true;

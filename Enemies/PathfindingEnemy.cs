@@ -17,7 +17,7 @@ public class PathfindingEnemy : Enemy {
 	float lastUpdate = -1f;
 	public float speed = 5;
 	
-	//[HideInInspector]
+	//[HideInInspector] 
 	public PFNodeClient PFNC;
 	//[HideInInspector]
 	public CharacterController CC;
@@ -28,8 +28,7 @@ public class PathfindingEnemy : Enemy {
 	
 	
 	public PFNode[] patrol;
-	
-	
+
 	public bool alerted = false;
 	
 	public float fieldOfViewRadiusInDegrees = 30;
@@ -71,11 +70,10 @@ public class PathfindingEnemy : Enemy {
 		alerted = true;
 		target = e;
 		if (debug) print ("Shot by "+e.name+", retaliating.");
-		
-		if (!USEPF) return;
+
 		if (AlertMethod == AlertingMethod.Shot ||
-			AlertMethod == AlertingMethod.Hear) {
-			PFNC.currentNode = PFNC.getNodeNearestCover();
+			AlertMethod == AlertingMethod.Hear && USEPF) {
+			PFNC.currentNode = PFNC.GNNCReturn();
 		}
 	}
 	
@@ -134,26 +132,25 @@ public class PathfindingEnemy : Enemy {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		
-	//	if (!USEPF) {
-	//		ready = true;
-	//		childFixedUpdate();
-	//		return;
-	//	}
-		
+
+		if (!PFNC.GNNCFinished()) PFNC.GNNCProgress();
+		PFNC.currentNode = PFNC.GNNCReturn(); 	// NOTE: This may screw things up further down the line.
+
 		if (Time.time - lastTargetCheck > targetCheckDelay) {
 			checkTarget();
+
 			if (!alerted) {
 				checkAnyVisible();
 			} else {
-				if (USEPF) PFNC.currentNode = PFNC.getNodeNearestCover();
+				if (USEPF && PFNC.GNNCFinished()) PFNC.currentNode = PFNC.getNodeNearestCover();
 			}
+
 			lastTargetCheck = Time.time;
 		}
 		
 		// IF in position, we are ready.
 		
-		if (USEPF) {
+		if (USEPF && PFNC.GNNCFinished()) {
 			ready = ((int)transform.position.z == (int)getZXPosition(PFNC.currentNode.transform.position).z &&
 				(int)transform.position.x == (int)getZXPosition(PFNC.currentNode.transform.position).x);
 		} else {
@@ -165,7 +162,7 @@ public class PathfindingEnemy : Enemy {
 		
 		if (alerted) {
 			// If alerted, and time has passed, and we are near the target node
-			if (USEPF) {
+			if (USEPF && PFNC.GNNCFinished()) {
 				if (Time.time > lastUpdate + updateInterval && Vector3.Distance(transform.position, PFNC.currentNode.transform.position) < 1) {
 					
 					lastUpdate = Time.time;
@@ -187,7 +184,7 @@ public class PathfindingEnemy : Enemy {
 			}
 		}
 		
-		if (USEPF) {
+		if (USEPF && PFNC.GNNCFinished()) {
 			Vector3 target = getRelativePosition(transform, PFNC.currentNode.transform.position);
 			CC.SimpleMove (target * speed);
 		}

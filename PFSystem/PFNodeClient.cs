@@ -15,7 +15,11 @@ public class PFNodeClient : MonoBehaviour {
 	
 	public float TeammateBias	 = 1.2f;
 	public float EnemyBias		 = 1f;
-	
+
+	public bool decided = false;
+
+	public PFNode choice = null;
+
 	/// <summary>
 	/// Gets the nearest node to the current node.
 	/// </summary>
@@ -33,9 +37,11 @@ public class PFNodeClient : MonoBehaviour {
 			}
 			i++;
 		}
+		choice=(index == -1) ? currentNode : currentNode.Nodes[index].node;
 		return (index == -1) ? currentNode : currentNode.Nodes[index].node;
 	}
-	
+
+	// This is heftily fucked up. Seriously needs fixing.
 	public PFNode getNodeNearestCover () {
 		//float nearestDistance = float.MaxValue;
 		//PFNode nearestNode;
@@ -48,6 +54,7 @@ public class PFNodeClient : MonoBehaviour {
 				Vector3 startPos = transform.position;
 				Vector3.MoveTowards(startPos, node.node.transform.position, 1);
 				if (!Physics.Linecast(startPos, node.node.transform.position)) {
+					choice=node.node;
 					return node.node;
 				}
 			}
@@ -92,7 +99,7 @@ public class PFNodeClient : MonoBehaviour {
 			}
 			i++;
 		}
-		
+		choice=(index == -1) ? currentNode : currentNode.Nodes[index].node;
 		return (index == -1) ? currentNode : currentNode.Nodes[index].node;
 	}
 	
@@ -154,7 +161,83 @@ public class PFNodeClient : MonoBehaviour {
 			}
 			i++;
 		}
-		
+
+		choice=(index == -1) ? currentNode : currentNode.Nodes[index].node;
 		return (index == -1) ? currentNode : currentNode.Nodes[index].node;
 	}
+
+	/*
+	 * 
+	 * Here's some insight as to how this is supposed to work.
+	 * So, the GNNC system is updated every frame from the pathfinding enemy in question.
+	 * It then contemplates one more node in the PFNC's current-node's connections list.
+	 * When it has finished, the Pathfinding Enemy can then pull the new node data, and get moving.
+	 * The reset function whould then be called to prevent things from going shit-sideways.
+	 * 
+	 * This system improves over the previous system in that we needn't worry about it causing lag in large nodes,
+	 * 	only that our enemies will pause for an apprecciable fraction of a second while contemplating their next move.
+	 * 
+	 * Bear in mind, this will still return the current node if none are found, meaning that the enemy will just stand there,
+	 * 	spamming through every option until hell freezes over, or it gets shot. This situation will need to be planned for.
+	 * 
+	 */
+
+	int GNNCi = 0;
+	float GNNCSqDistNearest = float.MaxValue;
+	int GNNCIndNearest = -1;
+	int GNNCDec = -1;
+
+	// Progress get node
+
+	/// <summary>
+	/// Progresses the Get Node Nearest Cover system.
+	/// Should be called once a frame, maybe less is deltaTime gets high.
+	/// </summary>
+	public void GNNCProgress () {
+		if (GNNCi < currentNode.Nodes.Length) {
+			// Actual search stuff goes here.
+			if (currentNode.Nodes[GNNCi].node.type != PFNodeType.Transit) {
+				float sqDist = (currentNode.Nodes[GNNCi].node.transform.position- currentNode.transform.position).sqrMagnitude;
+				if (sqDist < GNNCSqDistNearest) {
+					GNNCSqDistNearest = sqDist;
+					GNNCIndNearest = GNNCi;
+				}
+			}
+		} else {
+			GNNCDec = GNNCIndNearest;
+		}
+		GNNCi ++;
+	}
+
+	/// <summary>
+	/// Resets the Get Node Nearest Cover system.
+	/// Should be called upon moving of the character in question.
+	/// </summary>
+	public void GNNCReset () {
+		GNNCi = 0;
+		GNNCSqDistNearest = float.MaxValue;
+		GNNCIndNearest = -1;
+		GNNCDec = -1;
+	}
+
+	/// <summary>
+	/// The result of the Node Nearest Cover system.
+	/// </summary>
+	/// <returns>The Node nearest cover, or the current node if the best option is yet unknown.</returns>
+	public PFNode GNNCReturn () {
+		return (GNNCDec == -1) ? currentNode : currentNode.Nodes[GNNCDec].node;
+	}
+
+	/// <summary>
+	/// Returns wether a result has been reached through the Get Node Nearest Cover system.
+	/// </summary>
+	/// <returns><c>true</c>, if the Get Node Nearest Cover system has determined the best option, <c>false</c> otherwise.</returns>
+	public bool GNNCFinished () {
+		return GNNCi == currentNode.Nodes.Length;
+	}
 }
+
+
+
+
+
