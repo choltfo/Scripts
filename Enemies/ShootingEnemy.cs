@@ -92,16 +92,16 @@ public class ShootingEnemy : PathfindingEnemy {
 		if (target != null) {
 			if (debug) print("Prepping to considering crouching....");
 			if (PFNC.currentNode.type == PFNodeType.Crouch && ready) {
-			if (debug) print("Considering crouching....");
-				// GET DOWN!
-				if (weapon.CurAmmo == 0) {	// If my gun is empty, duck while reloading.
-					if (debug) print("Crouching....");
-					transform.localScale.Set(1f,0.5f,1f);
-				} else {
-					if (debug) print("Not crouching");
-					transform.localScale.Set(1f,1f,1f);
+				if (debug) print("Considering crouching....");
+					// GET DOWN!
+					if (weapon.CurAmmo == 0) {	// If my gun is empty, duck while reloading.
+						if (debug) print("Crouching....");
+						transform.lossyScale.Set(1f,0.5f,1f);	// THIS CROUCHES IN THEORY!
+					} else {
+						if (debug) print("Not crouching");
+						transform.lossyScale.Set(1f,1f,1f);
+					}
 				}
-			}
 			
 			Vector3 targetPos = target.transform.position;
 			Vector3 currentPos = head.transform.position;
@@ -123,14 +123,13 @@ public class ShootingEnemy : PathfindingEnemy {
 
 			if (lastVisCheck + betweenVisCheck < Time.time) {
 				RaycastHit hit;
-				print ("Checking if aimed at wall.");
+				if (debug) print ("Checking if aimed at wall.");
 				lastVisCheck = Time.time;
 				if (Physics.Raycast(head.transform.position, head.transform.forward, out hit, visionRange)) {
 					aimedAtWall = hit.collider.gameObject != target.gameObject;
-					print ("Might be aimed at wall.....");
+					if (debug) print ("Might be aimed at wall.....");
 				}
 			}
-
 
 		}
 		

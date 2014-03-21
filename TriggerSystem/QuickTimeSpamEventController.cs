@@ -16,7 +16,7 @@ public class QuickTimeSpamEventController : MonoBehaviour {
 	
 	public void Queue(QuickTimeSpamEvent le) {
 		// THIS IS BROKEN, FIX IT!
-		Debug.Log("                      Queing QTE E");
+		// Debug.Log("                      Queing QTE E");
 		e = le;
 		startTime = Time.time;
 		isOn = true;
@@ -26,15 +26,15 @@ public class QuickTimeSpamEventController : MonoBehaviour {
 	void Update() {
 		if (isOn & (Time.time < startTime + e.time)) {
 			if (Input.GetKeyDown(controls.interact)) numOfPresses++;
-			Debug.Log(numOfPresses);
+			// Debug.Log(numOfPresses);
 		}
 		if (isOn & (Time.time > e.time + startTime)) {
-			Debug.Log("Did not receive needed presses.");
+			// Debug.Log("Did not receive needed presses.");
 			e.failureResult.Trigger(subtitleController);
 			isOn = false;
 		}
 		if (isOn & numOfPresses > e.requiredPresses) {
-			Debug.Log("Got needed presses.");
+			// Debug.Log("Got needed presses.");
 			e.successResult.Trigger(subtitleController);
 			isOn = false;
 		}

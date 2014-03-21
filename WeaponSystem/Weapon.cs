@@ -7,7 +7,9 @@ using System.Collections;
 /// Represents a weapon that can be fired by <see cref="Shootobjects"/>.
 /// </summary>
 public class Weapon {
-	
+
+	public static bool debug = false;
+
 	public int UID;
 	
 	/// <summary>
@@ -609,7 +611,7 @@ public class Weapon {
 			
 			if (mainObject.transform.localPosition.Equals(Position)) {
 				curAnim = weaponAnimType.None;
-				Debug.Log ("Done moving to hold position, setting curAnim to 'None'");
+				if (debug) Debug.Log ("Done moving to hold position, setting curAnim to 'None'");
 			}
 			break;
 			

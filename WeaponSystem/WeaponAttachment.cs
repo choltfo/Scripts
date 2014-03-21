@@ -14,7 +14,9 @@ public class WeaponAttachment {
 	public Material laserMat;
 	public float overrideZoom;
 	public float detectionReduction;
-	
+
+	public static bool debug = false;
+
 	GameObject Thing;
 	bool on = true;
 	GameObject toggleableObject;
@@ -32,9 +34,9 @@ public class WeaponAttachment {
 	}
 	
 	public bool deploy (GameObject parent, Vector3 relPos) {
-		Debug.Log("Activating an Attachment");
+		if (debug) Debug.Log("Activating an Attachment");
 		if (!isValid) return false;
-		Debug.Log("Activating an Attachment successfully");
+		if (debug) Debug.Log("Activating an Attachment successfully");
 		Thing = (GameObject)MonoBehaviour.Instantiate(instantiableThing, new Vector3 (0,0,0), parent.transform.rotation);
 		Thing.transform.parent = parent.transform;
 		Thing.transform.localPosition = relPos;

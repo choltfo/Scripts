@@ -16,8 +16,10 @@ public class ShootObjects : MonoBehaviour {
 	public float pickupDistance = 5;
 	public int currentWeapon = 0;
 
+	public static bool debug = false;
+
 	public void Start () {
-		print("inventory.ammo types: " + Enum.GetNames(typeof(AmmoType)).Length);
+		if (debug) print("inventory.ammo types: " + Enum.GetNames(typeof(AmmoType)).Length);
 	}
 	
 	public void Update () {

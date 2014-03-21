@@ -34,11 +34,16 @@ public class PathfindingEnemy : Enemy {
 	public float fieldOfViewRadiusInDegrees = 30;
 	
 	public float visionRange = 10;
-	
-	public static bool debug = true;
+
+
+
+	public static bool debug = false;
+	public static bool timing = false;
 
 	public static List<Enemy> targets;
-	
+
+
+
 	int patrolIndex = 0;
 	
 	
