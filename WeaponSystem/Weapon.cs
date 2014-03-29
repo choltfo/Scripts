@@ -225,6 +225,8 @@ public class Weapon {
 	public float maxRecoilSway = 2;
 
 	float lastReloadStart;
+
+	public float SensitivityDrop = 0;
 	
 	//public UnderbarrelAttachment underbarrel;
 	
@@ -286,6 +288,7 @@ public class Weapon {
 					ScopeZoom = attachments[i].attachment.overrideZoom;
 					ZoomChanged = true;
 				}
+				SensitivityDrop += attachments[i].attachment.SensitivityDecrease;
 			}
 		}
 		if (!ZoomChanged) {

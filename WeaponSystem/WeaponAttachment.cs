@@ -15,6 +15,8 @@ public class WeaponAttachment {
 	public float overrideZoom;
 	public float detectionReduction;
 
+	public float SensitivityDecrease;
+
 	public static bool debug = false;
 
 	GameObject Thing;

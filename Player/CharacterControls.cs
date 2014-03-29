@@ -41,7 +41,10 @@ public class CharacterControls : MonoBehaviour {
 	
 	public float sprintingDesatiationRate = 150;
 	public float jumpingDesatiationRate = 150;
- 
+ 	
+	public AnimationCurve sprintYRot;
+	public AnimationCurve sprintXRot;
+
 	CapsuleCollider cc;
 	
 	void Awake () {
@@ -97,9 +100,11 @@ public class CharacterControls : MonoBehaviour {
 					// Play a sprinting noise.
 					audioSource.clip = sprintNoise;
 					if (sprintNoise) audioSource.Play();
+					transform.localEulerAngles.Set(transform.localEulerAngles.x,0,transform.localEulerAngles.z);
 				} else {
 					audioSource.clip = walkNoise;
 					if (walkNoise) audioSource.Play();
+					transform.localEulerAngles.Set (sprintXRot.Evaluate(Time.time),sprintYRot.Evaluate(Time.time),transform.localEulerAngles.y);
 				}
 			} else {
 				if (!grounded) audioSource.Stop();

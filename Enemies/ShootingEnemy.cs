@@ -33,7 +33,7 @@ public class ShootingEnemy : PathfindingEnemy {
 	public float lastVisCheck = 0f;
 	public float betweenVisCheck = 0.5f;
 
-	// Okay, so, for snipers, this shoudl eb really high, since this should be a factor of weapon recoil.
+	// Okay, so, for snipers, this shoudl be really high, since this should be a factor of weapon recoil.
 	public float timeBeforeRecenter = 0.25f;
 
 

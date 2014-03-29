@@ -16,6 +16,12 @@ public class ShootObjects : MonoBehaviour {
 	public float pickupDistance = 5;
 	public int currentWeapon = 0;
 
+	public float sensitivityX = 2;
+	public float sensitivityY = 2;
+
+	public MouseLookModded MLMX;
+	public MouseLookModded MLMY;
+
 	public static bool debug = false;
 
 	public void Start () {
@@ -26,6 +32,14 @@ public class ShootObjects : MonoBehaviour {
 		
 		if (Time.timeScale == 0) {
 			return;
+		}
+
+		if (inventory.weapons[currentWeapon].isAimed) {
+			MLMX.sensitivityX = (float)(sensitivityX - inventory.weapons[currentWeapon].SensitivityDrop < 0.5? 0.5 : sensitivityX - inventory.weapons[currentWeapon].SensitivityDrop);
+			MLMY.sensitivityY = (float)(sensitivityY - inventory.weapons[currentWeapon].SensitivityDrop < 0.5? 0.5 : sensitivityY - inventory.weapons[currentWeapon].SensitivityDrop);
+		} else {
+			MLMX.sensitivityX = sensitivityX;
+			MLMY.sensitivityY = sensitivityY;
 		}
 		
 		inventory.weapons[0].AnimUpdate();
