@@ -213,8 +213,9 @@ public class Weapon {
 	public AnimationCurve AnimWeaponRZ;
 	
 	public AnimationCurve AnimVerticalRecoil;
-	
-	float lastShot = 0f;
+
+	[HideInInspector]
+	public float lastShot = 0f;
 	public float shotDelay;
 	
 	public float reloadTime = 5f;
@@ -450,7 +451,9 @@ public class Weapon {
 			isFiring = true;
 			curAnim = weaponAnimType.Firing;
 			
-			
+
+			camera.transform.parent.Rotate(0,Random.Range(-maxRecoilSway, maxRecoilSway),0);
+
 			if (SmokePuff) {
 				GameObject Thing = (GameObject)MonoBehaviour.Instantiate(SmokePuff, new Vector3 (0,0,0), mainObject.transform.rotation);
 				Thing.transform.parent = mainObject.transform;

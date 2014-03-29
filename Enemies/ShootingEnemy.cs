@@ -28,10 +28,13 @@ public class ShootingEnemy : PathfindingEnemy {
 	
 	public float rotSpd = 5f;
 	public float scopedRotSpd = 1f;
-	public float satisfactoryAimInDegrees = 5;
+	public float satisfactoryAimInDegrees = 10;
 	
 	public float lastVisCheck = 0f;
 	public float betweenVisCheck = 0.5f;
+
+	// Okay, so, for snipers, this shoudl eb really high, since this should be a factor of weapon recoil.
+	public float timeBeforeRecenter = 0.25f;
 
 
 	
@@ -87,6 +90,7 @@ public class ShootingEnemy : PathfindingEnemy {
 		weapon.AnimUpdate();
 		
 		float angle = Quaternion.Angle(head.transform.rotation, rotation);
+		isAimed = angle < satisfactoryAimInDegrees;
 		
 		//Look towards predetermined target, and handle crouching
 		if (target != null) {
@@ -108,13 +112,14 @@ public class ShootingEnemy : PathfindingEnemy {
 			Vector3 relativePos = targetPos - currentPos ;
 			rotation = Quaternion.LookRotation(relativePos);
 			if (!isAimed){
-				head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
+				if (weapon.lastShot + timeBeforeRecenter < Time.time) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
 				if (weapon.isAimed) {
 					weapon.aim();
 				}
 			} else {
 				if (debug) print (gameObject.name + " is aimed and ready.");
-				head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * scopedRotSpd);
+				//head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * scopedRotSpd);
+				head.transform.rotation = rotation;
 				//if (angle < 0.5) head.transform.rotation = rotation;
 				if (!weapon.isAimed) {
 					weapon.aim();
@@ -132,8 +137,8 @@ public class ShootingEnemy : PathfindingEnemy {
 			}
 
 		}
-		
-		isAimed = angle < satisfactoryAimInDegrees;
+
+
 		
 			// Weapon handling.
 		if (ready && alerted && isAimed && !aimedAtWall) {
