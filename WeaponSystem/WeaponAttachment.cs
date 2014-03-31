@@ -14,6 +14,7 @@ public class WeaponAttachment {
 	public Material laserMat;
 	public float overrideZoom;
 	public float detectionReduction;
+	public float recoilReduction;
 
 	public float SensitivityDecrease;
 
@@ -31,6 +32,7 @@ public class WeaponAttachment {
 		case AttachmentType.Scope: 		return false;
 		case AttachmentType.IronSight: 	return false;
 		case AttachmentType.Silencer: 	return false;
+		case AttachmentType.Grip: 		return false;
 		}
 		return false;
 	}
@@ -95,5 +97,11 @@ public enum AttachmentType {
 	Foregrip,
 	Scope,
 	IronSight,
-	Silencer
+	Silencer,
+	Grip,
+	Misc
 }
+
+
+
+

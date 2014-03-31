@@ -227,6 +227,7 @@ public class Weapon {
 	float lastReloadStart;
 
 	public float SensitivityDrop = 0;
+	public float RecoilMult = 1;
 	
 	//public UnderbarrelAttachment underbarrel;
 	
@@ -289,6 +290,8 @@ public class Weapon {
 					ZoomChanged = true;
 				}
 				SensitivityDrop += attachments[i].attachment.SensitivityDecrease;
+				RecoilMult = (RecoilMult - attachments[i].attachment.recoilReduction < 0 ? 0 : attachments[i].attachment.recoilReduction + RecoilMult);
+
 			}
 		}
 		if (!ZoomChanged) {
@@ -661,20 +664,20 @@ public class Weapon {
 					} else animateSlide = true;
 				} else animateSlide = true;
 				
-				if (animateSlide) Slide.localPosition = new Vector3 (AnimSlideTX.Evaluate(Time.time - lastShot),
-					AnimSlideTY.Evaluate(Time.time - lastShot), AnimSlideTZ.Evaluate(Time.time - lastShot));
+				if (animateSlide) Slide.localPosition = new Vector3 (AnimSlideTX.Evaluate(Time.time - lastShot)*RecoilMult,
+					AnimSlideTY.Evaluate(Time.time - lastShot)*RecoilMult, AnimSlideTZ.Evaluate(Time.time - lastShot)*RecoilMult);
 				
-				mainObject.transform.localPosition = new Vector3 (AnimWeaponTX.Evaluate(Time.time - lastShot),
-					AnimWeaponTY.Evaluate(Time.time - lastShot), AnimWeaponTZ.Evaluate(Time.time - lastShot)) +
+				mainObject.transform.localPosition = new Vector3 (AnimWeaponTX.Evaluate(Time.time - lastShot)*RecoilMult,
+					AnimWeaponTY.Evaluate(Time.time - lastShot)*RecoilMult, AnimWeaponTZ.Evaluate(Time.time - lastShot)*RecoilMult) +
 					(isAimed ? ScopedPosition : Position);
 				
-				mainObject.transform.localEulerAngles = new Vector3 (AnimWeaponRX.Evaluate(Time.time - lastShot),
-					AnimWeaponRY.Evaluate(Time.time - lastShot), AnimWeaponRZ.Evaluate(Time.time - lastShot));
+				mainObject.transform.localEulerAngles = new Vector3 (AnimWeaponRX.Evaluate(Time.time - lastShot)*RecoilMult,
+					AnimWeaponRY.Evaluate(Time.time - lastShot)*RecoilMult, AnimWeaponRZ.Evaluate(Time.time - lastShot)*RecoilMult);
 				
 				if (player) {
 					mainObject.transform.parent.gameObject.GetComponent<MouseLookModded>().rotationY +=
-						(AnimVerticalRecoil.Evaluate(Time.time - lastShot) -
-					AnimVerticalRecoil.Evaluate(Time.time - lastShot - Time.deltaTime));
+						(AnimVerticalRecoil.Evaluate(Time.time - lastShot)*RecoilMult -
+						 AnimVerticalRecoil.Evaluate(Time.time - lastShot - Time.deltaTime)*RecoilMult);
 				} else {
 					mainObject.transform.parent.Rotate(AnimVerticalRecoil.Evaluate(Time.time - lastShot) -
 					AnimVerticalRecoil.Evaluate(Time.time - lastShot - Time.deltaTime),0,0);
