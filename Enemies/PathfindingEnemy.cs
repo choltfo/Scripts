@@ -190,8 +190,11 @@ public class PathfindingEnemy : Enemy {
 		}
 		
 		if (USEPF && PFNC.GNNCFinished()) {
+
 			Vector3 target = getRelativePosition(transform, PFNC.currentNode.transform.position);
+			target.Normalize();
 			CC.SimpleMove (target * speed);
+
 		}
 		
 		childFixedUpdate();
