@@ -38,9 +38,11 @@ public class Vehicle : MonoBehaviour {
 		player.SetActive(false);
 		((Camera)gameObject.transform.Find("Camera").gameObject.GetComponent("Camera")).enabled = true;
 		((AudioListener)gameObject.transform.Find("Camera").gameObject.GetComponent("AudioListener")).enabled = true;
-		
-		foreach (GameObject go in Headlights) {
-			go.SetActive(true);
+
+		if (!Sleep.Day) {
+			foreach (GameObject go in Headlights) {
+				go.SetActive(true);
+			}
 		}
 		
 		if (erectOnEnter && isActive) {

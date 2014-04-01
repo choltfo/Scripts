@@ -252,11 +252,11 @@ public class Pause : MonoBehaviour {
 		
 		weaponSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2-15, 125, 15, 200),
 			weaponSlider, 8.0F, 0.0F, ((inventory.weapons.Length < 8) ? 8 : inventory.weapons.Length));
-		GUI.Box(new Rect(Screen.width/2-215, 125, 215, 200), "");
+		GUI.Box(new Rect(Screen.width/2-265, 125, 250, 200), "");	// Weapon box
 		
 		attachmentSlider = GUI.VerticalScrollbar(new Rect(Screen.width/2+200, 125, 15, 200),
 		attachmentSlider, 8.0F, 0.0F, ((ItemElements < 8) ? 8 : ItemElements));
-		GUI.Box(new Rect(Screen.width/2, 125, 215, 200), "");
+		GUI.Box(new Rect(Screen.width/2, 125, 215, 200), "");		// Attachment box
 		
 		int i = 0;
 		GUI.Label(new Rect(Screen.width/2-250, 100, 200, 25), "Weapons");
@@ -308,8 +308,7 @@ public class Pause : MonoBehaviour {
 		foreach (WeaponAttachment att in inventory.attachments) {
 			if (i < 8 + (int)attachmentSlider && i >= (int)attachmentSlider) {
 				//GUI.Box(new Rect(Screen.width/2+150, 125+(25*i), 50, 25),  "$"+AmmoPrice.Get((AmmoType)a).ToString());
-				if (GUI.Button(new Rect(Screen.width/2, 125+(25*(a-(int)attachmentSlider)), 200, 25),
-					att.name)) {
+				if (GUI.Button(new Rect(Screen.width/2, 125+(25*(a-(int)attachmentSlider)), 200, 25), att.name)) {
 
 					if (SelectedModSlot != null) {
 						if (SelectedModSlot.connectionType == att.railType) {
