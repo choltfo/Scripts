@@ -112,14 +112,16 @@ public class ShootingEnemy : PathfindingEnemy {
 			Vector3 relativePos = targetPos - currentPos ;
 			rotation = Quaternion.LookRotation(relativePos);
 			if (!isAimed){
-				if (weapon.lastShot + timeBeforeRecenter < Time.time) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
+
+				if (Time.time > weapon.lastShot + timeBeforeRecenter) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);
+
 				if (weapon.isAimed) {
 					weapon.aim();
 				}
 			} else {
 				if (debug) print (gameObject.name + " is aimed and ready.");
-				//head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * scopedRotSpd);
-				head.transform.rotation = rotation;
+				if (Time.time > weapon.lastShot + timeBeforeRecenter) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * scopedRotSpd);
+				// head.transform.rotation = rotation;
 				//if (angle < 0.5) head.transform.rotation = rotation;
 				if (!weapon.isAimed) {
 					weapon.aim();

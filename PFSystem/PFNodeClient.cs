@@ -236,6 +236,7 @@ public class PFNodeClient : MonoBehaviour {
 	/// </summary>
 	/// <returns><c>true</c>, if the Get Node Nearest Cover system has determined the best option, <c>false</c> otherwise.</returns>
 	public bool GNNCFinished () {
+		if (currentNode.Nodes.Length == null || GNNCi == null) return false;
 		return GNNCi == currentNode.Nodes.Length;
 	}
 }

@@ -214,7 +214,7 @@ public class Weapon {
 	
 	public AnimationCurve AnimVerticalRecoil;
 
-	[HideInInspector]
+	//[HideInInspector]
 	public float lastShot = 0f;
 	public float shotDelay;
 	
@@ -484,7 +484,9 @@ public class Weapon {
 					generateHit(hit, shooter).calculateDamage();
 				}
 			}
+
 			lastShot = Time.time;
+
 			return true;
 		}
 		return false;
