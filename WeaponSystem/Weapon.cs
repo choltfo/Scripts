@@ -530,6 +530,22 @@ public class Weapon {
 		destroy();
 		IsValid = false;
 	}
+
+	/// <summary>
+	/// Instantiate the weapon pickup for this gun, and put it somewhere.
+	/// </summary>
+	public virtual void Drop(Vector3 place) {
+		if (!IsValid) {
+			Debug.Log("Attempting drop of invalid weapon.");
+			return;
+		}
+		Debug.Log("Attempting drop of weapon.");
+		GameObject pickup = (GameObject)MonoBehaviour.Instantiate(InstantiablePickup, place, mainObject.transform.rotation);
+		pickup.SetActive(true);
+		pickup.GetComponent<WeaponPickup>().thisGun = this.duplicate();
+		destroy();
+		IsValid = false;
+	}
 	
 	/// <summary>
 	/// Identify the animatable parts.

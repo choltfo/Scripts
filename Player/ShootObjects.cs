@@ -201,14 +201,14 @@ public class ShootObjects : MonoBehaviour {
 					if (inventory.weapons[currentWeapon].IsValid && inventory.weapons[secondaryWeapon].IsValid) {
 						//Both slots full
 						inventory.weapons[currentWeapon].destroy();
-						inventory.weapons[currentWeapon].Drop();
+						inventory.weapons[currentWeapon].Drop(hit.transform.position);
 						inventory.weapons[currentWeapon] = picked;
 						equip (currentWeapon);
 						return true;
 					} else if (!inventory.weapons[currentWeapon].IsValid && !inventory.weapons[secondaryWeapon].IsValid) {
 						//Neither slot full
 						inventory.weapons[currentWeapon].destroy();
-						inventory.weapons[currentWeapon].Drop();
+						inventory.weapons[currentWeapon].Drop(hit.transform.position);
 						inventory.weapons[currentWeapon] = picked;
 						equip (currentWeapon);
 						return true;
@@ -222,7 +222,7 @@ public class ShootObjects : MonoBehaviour {
 					} else if (!inventory.weapons[currentWeapon].IsValid && inventory.weapons[secondaryWeapon].IsValid) {
 						//Just other
 						inventory.weapons[currentWeapon].destroy();
-						inventory.weapons[currentWeapon].Drop();
+						inventory.weapons[currentWeapon].Drop(hit.transform.position);
 						inventory.weapons[currentWeapon] = picked;
 						equip (currentWeapon);
 						return true;
