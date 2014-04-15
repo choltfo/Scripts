@@ -186,6 +186,8 @@ public class PathfindingEnemy : Enemy {
 			if (patrol.Length != 0) {
 				if (ready) patrolIndex = (patrolIndex+1) % patrol.Length;
 				PFNC.currentNode = patrol[patrolIndex];
+				float heading  = (CC.velocity.sqrMagnitude > 0 ? Quaternion.LookRotation(CC.velocity, Vector3.up).eulerAngles.y : 0);
+				transform.eulerAngles.Set(transform.eulerAngles.x,heading,transform.eulerAngles.z);
 			}
 		}
 		
@@ -193,7 +195,7 @@ public class PathfindingEnemy : Enemy {
 
 			Vector3 target = getRelativePosition(transform, PFNC.currentNode.transform.position);
 			target.Normalize();
-			CC.SimpleMove (target * speed);
+			CC.SimpleMove (transform.InverseTransformDirection(target) * speed);
 
 		}
 		
@@ -219,7 +221,7 @@ public class PathfindingEnemy : Enemy {
 	}
 	
 	public void checkTarget() {
-		if (target	 == null) {
+		if (target == null) {
 			return;
 		}
 			

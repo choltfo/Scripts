@@ -21,9 +21,10 @@ public class TimeObjective : Objective {
 		}
 		
 		if (Active) {
-			if (delay + activationTime > Time.time) {
+			if (delay + activationTime < Time.time) {
 				Complete();
 			}
 		}
+
 	}
 }
