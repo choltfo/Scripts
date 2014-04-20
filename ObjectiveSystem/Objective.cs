@@ -98,9 +98,11 @@ public class Objective : MonoBehaviour {
 	/// Deactivate this instance.
 	/// </summary>
 	public void Deactivate() {
+		if (this == null) return; 
 		//textMesh.text = "";
 		Active = false;
 		if (transform.FindChild("ObjectiveMarker") != null) {
+
 			transform.FindChild("ObjectiveMarker").gameObject.renderer.enabled = false;
 		}
 	}

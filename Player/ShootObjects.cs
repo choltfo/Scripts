@@ -24,6 +24,8 @@ public class ShootObjects : MonoBehaviour {
 
 	public static bool debug = false;
 
+	public GUIStyle WeaponGUIStyle;
+
 	public void Start () {
 		if (debug) print("inventory.ammo types: " + Enum.GetNames(typeof(AmmoType)).Length);
 	}
@@ -343,13 +345,16 @@ public class ShootObjects : MonoBehaviour {
 
 	public void OnGUI () {
 		if (inventory.weapons[currentWeapon].IsValid) {
-			GUI.Box(new Rect(Screen.width-175,Screen.height-100,150,50),"");
-			GUI.Label(new Rect(Screen.width-150, Screen.height-100, 150, 40), inventory.weapons[currentWeapon].WeaponName);
-			GUI.Label(new Rect(Screen.width-150, Screen.height-75, 150, 40),
-				inventory.weapons[currentWeapon].CurAmmo + "/" + inventory.weapons[currentWeapon].MaxAmmo + "/" + inventory.ammo[(int)inventory.weapons[currentWeapon].ammoType]);
+			//GUI.Box(new Rect(Screen.width-175,Screen.height-100,150,50),"");
+			GUI.Label(new Rect(Screen.width-200, Screen.height-100, 150, 40), inventory.weapons[currentWeapon].DisplayName,WeaponGUIStyle);
+			GUI.Label(new Rect(Screen.width-200, Screen.height-75, 150, 40),
+			          inventory.weapons[currentWeapon].CurAmmo + "/" + inventory.weapons[currentWeapon].MaxAmmo + "/" + inventory.ammo[(int)inventory.weapons[currentWeapon].ammoType],WeaponGUIStyle);
+
 			if (!inventory.weapons[currentWeapon].isAimed) {
 				GUI.Box(new Rect(Screen.width/2-2,Screen.height/2-2,4,4),"");
 			}
+
 		}
 	}
 }
+
