@@ -138,7 +138,8 @@ public class PathfindingEnemy : Enemy {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-		if (!PFNC.GNNCFinished()) PFNC.GNNCProgress();
+		if (!PFNC.GNNCFinished() && USEPF) PFNC.GNNCProgress();
+
 		PFNC.currentNode = PFNC.GNNCReturn(); 	// NOTE: This may screw things up further down the line.
 
 		if (Time.time - lastTargetCheck > targetCheckDelay) {

@@ -199,7 +199,7 @@ public class PFNodeClient : MonoBehaviour {
 	public void GNNCProgress () {
 		if (GNNCi < currentNode.Nodes.Length) {
 			// Actual search stuff goes here.
-			if (currentNode.Nodes[GNNCi].node.type != PFNodeType.Transit) {
+			if (currentNode.Nodes[GNNCi].node.type == PFNodeType.Crouch) {
 				float sqDist = (currentNode.Nodes[GNNCi].node.transform.position- currentNode.transform.position).sqrMagnitude;
 				if (sqDist < GNNCSqDistNearest) {
 					GNNCSqDistNearest = sqDist;
