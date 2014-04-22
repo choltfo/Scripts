@@ -48,7 +48,8 @@ public class VehicleControls : MonoBehaviour {
 		if (type == vehicleType.Land && C.gameObject.layer == LayerMask.NameToLayer("Water")) {
 			return;
 		}
-		float locVelZ = transform.InverseTransformDirection(rigidbody.velocity).z;
+
+		/*float locVelZ = transform.InverseTransformDirection(rigidbody.velocity).z;
 		if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75 &&
 			locVelZ < maxSpeed) {
 			constantForce.relativeForce = new Vector3(0,0,speed);
@@ -56,12 +57,13 @@ public class VehicleControls : MonoBehaviour {
 		} else {
 			constantForce.relativeForce = new Vector3(0,0,0);
 			constantForce.relativeTorque = new Vector3(0,0,0);
-		}
+		}*/
 		
-		/*rigidbody.AddForce(0f,-gravity*rigidbody.mass,0f);
+		rigidbody.AddForce(0f,-gravity*rigidbody.mass,0f);
+		rigidbody.AddRelativeForce(0,0,accelerator*maxSpeed,ForceMode.Acceleration);
+		rigidbody.AddRelativeTorque(0,steering*accelerator*handling,0,ForceMode.Force);
 		
-		
-		if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75 && damage >0) {
+		/*if (Vector3.Dot(transform.up, new Vector3(0,1,0)) > 0.75 && damage >0) {
 			if (accelerator >= 0) {
 				transform.Rotate(0,turning*(rigidbody.velocity.magnitude/20)*(handling/100),0);
 			} else {
@@ -72,15 +74,15 @@ public class VehicleControls : MonoBehaviour {
 	}
 	
 	void OnCollisionExit (Collision C) {
-		constantForce.relativeForce = new Vector3(0,0,0);
-		constantForce.relativeTorque = new Vector3(0,0,0);
+		//constantForce.relativeForce = new Vector3(0,0,0);
+		//constantForce.relativeTorque = new Vector3(0,0,0);
 	}
 	
 	void FixedUpdate() {
 		
 		
 		
-		if ((rigidbody.velocity.magnitude - previousVelocity) * 10 > Mathf.Abs(crashMagnitude) || 
+		/*if ((rigidbody.velocity.magnitude - previousVelocity) * 10 > Mathf.Abs(crashMagnitude) || 
 			(rigidbody.velocity.magnitude - previousVelocity) * 10 < -(Mathf.Abs(crashMagnitude))) {
 			if (gameObject.GetComponent<Vehicle>().isActive && type != vehicleType.Water) {
 				gameObject.GetComponent<Vehicle>().player.transform.FindChild("Camera").gameObject.
@@ -88,7 +90,7 @@ public class VehicleControls : MonoBehaviour {
 					DamageCause.VehicularMisadventure);
 				damage -= previousVelocity - rigidbody.velocity.magnitude;
 			}
-		}
+		}*/
 		previousVelocity = rigidbody.velocity.magnitude;
 		
 		
@@ -96,7 +98,7 @@ public class VehicleControls : MonoBehaviour {
 		accelerator = 0;
 		steering = 0;
 		turning = 0;
-		if (isCarActive && damage > 0) {
+		if (isCarActive) {
 			steering = Input.GetAxis("Horizontal");
 			accelerator = Input.GetAxis("Vertical");
 			if (accelerator > 0) {

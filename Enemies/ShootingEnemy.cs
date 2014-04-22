@@ -111,6 +111,7 @@ public class ShootingEnemy : PathfindingEnemy {
 			Vector3 currentPos = head.transform.position;
 			Vector3 relativePos = targetPos - currentPos ;
 			rotation = Quaternion.LookRotation(relativePos);
+
 			if (!isAimed){
 
 				if (Time.time > weapon.lastShot + timeBeforeRecenter) head.transform.rotation = Quaternion.Slerp(head.transform.rotation, rotation, Time.deltaTime * rotSpd);

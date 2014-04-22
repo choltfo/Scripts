@@ -42,6 +42,8 @@ public class CharacterControls : MonoBehaviour {
 	public float sprintingDesatiationRate = 150;
 	public float jumpingDesatiationRate = 150;
  	
+	public GameObject XRot;
+	public MouseLookModded YRot;
 	public AnimationCurve sprintYRot;
 	public AnimationCurve sprintXRot;
 
@@ -100,11 +102,12 @@ public class CharacterControls : MonoBehaviour {
 					// Play a sprinting noise.
 					audioSource.clip = sprintNoise;
 					if (sprintNoise) audioSource.Play();
-					transform.localEulerAngles.Set(transform.localEulerAngles.x,0,transform.localEulerAngles.z);
+
+					XRot.transform.Rotate(sprintXRot.Evaluate(Time.time) - sprintXRot.Evaluate(Time.time-Time.fixedDeltaTime),0,0,Space.Self);
+					YRot.rotationY += sprintYRot.Evaluate(Time.time) - sprintYRot.Evaluate(Time.time-Time.fixedDeltaTime);
 				} else {
 					audioSource.clip = walkNoise;
 					if (walkNoise) audioSource.Play();
-					transform.localEulerAngles.Set (sprintXRot.Evaluate(Time.time),sprintYRot.Evaluate(Time.time),transform.localEulerAngles.y);
 				}
 			} else {
 				if (!grounded) audioSource.Stop();
@@ -130,6 +133,14 @@ public class CharacterControls : MonoBehaviour {
 	void OnCollisionStay (Collision C) {
 	    if (C.contacts[0].point.y - groundingSafetyMargin < (transform.position.y - (cc.direction == 1 ? cc.height/2 : cc.radius)) ) {
 			grounded = true;
+		}
+		Ladder l = C.gameObject.GetComponent<Ladder>();
+		if (l != null) {
+			print ("Hey, a ladder!");
+			//rigidbody.AddForce(0,l.acsentSpeed*Input.GetAxis("Vertical")*rigidbody.mass,0, ForceMode.Acceleration);
+			//rigidbody.velocity = new Vector3(rigidbody.velocity.x, l.acsentSpeed*Input.GetAxis("Vertical"), rigidbody.velocity.z);
+			transform.Translate(0,(l.acsentSpeed/Time.deltaTime)*Input.GetAxis("Vertical"),0);
+			rigidbody.velocity = Vector3.zero;
 		}
 	}
  
