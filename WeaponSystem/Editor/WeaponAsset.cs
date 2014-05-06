@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System.Collections;
 using System.IO;
 using System.Reflection;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 public class WeaponAsset : ScriptableObject {
 	public List<Weapon> weapons = new List<Weapon>();
 
-	[MenuItem("Assets/Create/New Weapon")]
+	/*//[MenuItem("Assets/Create/New Weapon")]
 	public static void CreateAsset ()
 	{
 		CreateAsset<WeaponAsset> ();
@@ -22,7 +22,7 @@ public class WeaponAsset : ScriptableObject {
 	/// </summary>
 	public static void CreateAsset<T> () where T : ScriptableObject
 	{
-		T asset = ScriptableObject.CreateInstance<T> ();
+		/*T asset = ScriptableObject.CreateInstance<T> ();
  
 		string filePath = AssetDatabase.GetAssetPath (Selection.activeObject);
 		if (filePath == "") 
@@ -41,6 +41,7 @@ public class WeaponAsset : ScriptableObject {
 		AssetDatabase.SaveAssets ();
 		EditorUtility.FocusProjectWindow ();
 		Selection.activeObject = asset;
-	}
+		return null;
+	}*/
 	
 }

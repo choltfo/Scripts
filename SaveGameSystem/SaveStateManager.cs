@@ -103,9 +103,9 @@ public class SaveStateManager : MonoBehaviour {
 					case "ShootingEnemy" :
 						
 						go.SetActive(bool.Parse(vals[1]));
-						go.GetComponent<ShootingEnemy>().weapon = WeaponHandler.getWeapon(int.Parse(vals[2]));
-						go.GetComponent<ShootingEnemy>().target = (vals[3] == "null") ? null : 
-								GameObject.Find(vals[3]).GetComponent<Enemy>();
+						//go.GetComponent<ShootingEnemy>().weapon = WeaponHandler.getWeapon(int.Parse(vals[2]));
+						//go.GetComponent<ShootingEnemy>().target = (vals[3] == "null") ? null : 
+						//		GameObject.Find(vals[3]).GetComponent<Enemy>();
 					break;
 				}
 			}

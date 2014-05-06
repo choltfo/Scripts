@@ -93,39 +93,30 @@ public class DoorControl {
 }
 [System.Serializable]
 public class ObjectManipulation {
-	public Component[] GOs;
+	public GameObject[] GOs;
 	public ObjectManipulationType type;
 	public Vector3 vec;
 	
 	public void use () {
-		foreach (Component co in GOs) {
+		foreach (GameObject go in GOs) {
 			switch (type) {
 			case ObjectManipulationType.DeleteGO :
-				MonoBehaviour.Destroy((UnityEngine.Object)co.gameObject);
+				MonoBehaviour.Destroy(go);
 				break;
 			case ObjectManipulationType.RotateGO :
-				co.transform.Rotate(vec);
+				go.transform.Rotate(vec);
 				break;
 			case ObjectManipulationType.TranslateGO :
-				co.transform.Translate(vec);
+				go.transform.Translate(vec);
 				break;
 			case ObjectManipulationType.RemoveCOMP :
-				MonoBehaviour.Destroy((UnityEngine.Object)co);
+				MonoBehaviour.Destroy(go);
 				break;
 			case ObjectManipulationType.DisableCOMP :
-				if (co is Behaviour) {
-					((Behaviour) co).enabled = false;
-				} else if (co is Rigidbody) {
-					((Rigidbody) co).Sleep();
-				}
+				go.SetActive(false);
 				break;
 			case ObjectManipulationType.EnableCOMP :
-				if (co is Behaviour) {
-					((Behaviour) co).enabled = true;
-				}
-				if (co is Rigidbody) {
-					((Rigidbody) co).WakeUp();
-				}
+				go.SetActive(true);
 				break;
 			}
 		}

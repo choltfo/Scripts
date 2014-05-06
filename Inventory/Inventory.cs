@@ -65,7 +65,7 @@ public class Inventory {
 	}
 	
 	public void loadWeapon (int UID, int index) {
-		weapons[index] = WeaponHandler.getWeapon(UID);
+		//weapons[index] = WeaponHandler.getWeapon(UID);
 	}
 	
 	public string saveGrenades () {
